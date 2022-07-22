@@ -28,7 +28,7 @@ public class DispatcherWebsocket implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    private final Map<String, HandlerMeta> handlerContainer = new ConcurrentHashMap<>();
+    private final Map<Long, HandlerMeta> handlerContainer = new ConcurrentHashMap<>();
 
     private final BindParam bindParam = new BindParam();
 
@@ -41,7 +41,7 @@ public class DispatcherWebsocket implements ApplicationContextAware {
             for (Method method : methods) {
                 WebsocketHandlerMapping websocketHandlerMappingAnnotation = method.getDeclaredAnnotation(WebsocketHandlerMapping.class);
                 if (websocketHandlerMappingAnnotation != null) {
-                    String mapping = websocketHandlerMappingAnnotation.value();
+                    long mapping = websocketHandlerMappingAnnotation.value();
                     if (handlerContainer.get(mapping) != null) {
                         throw new WebsocketHandlerMappingException("mapping:" + mapping + " 重复定义");
                     }

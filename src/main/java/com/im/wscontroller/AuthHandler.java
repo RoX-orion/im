@@ -18,7 +18,7 @@ public class AuthHandler {
     @Resource
     private AuthService authService;
 
-    @WebsocketHandlerMapping("dh")
+//    @WebsocketHandlerMapping("dh")
     public WsApiResult getAuthKey(Api.DH dh, Channel channel) {
         BigInteger gbp = authService.getAuthKey(dh, channel);
         Response.DH dhResponse = new Response.DH();
@@ -26,14 +26,14 @@ public class AuthHandler {
         return WsApiResult.ok("dh", dhResponse);
     }
 
-    @WebsocketHandlerMapping("login")
+//    @WebsocketHandlerMapping("login")
     public WsApiResult sendCheckCode(@WebsocketRequestParam String email) {
         authService.sendCheckCode(email);
 
         return WsApiResult.ok("login", null);
     }
 
-    @WebsocketHandlerMapping("authentication")
+//    @WebsocketHandlerMapping("authentication")
     public WsApiResult authentication(@WebsocketRequestParam String code,
                                       @WebsocketRequestParam String email) {
         return authService.authentication(code, email);

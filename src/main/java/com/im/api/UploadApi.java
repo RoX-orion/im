@@ -1,7 +1,6 @@
 package com.im.api;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.math.BigInteger;
 
@@ -14,7 +13,7 @@ public class UploadApi {
 	@Data
 	public static class File {
 		private final Long constructorId = 157948117L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 1822152488L;
 		private final Boolean isFunction = false;
 
 		private byte bytes;
@@ -25,7 +24,7 @@ public class UploadApi {
 	@Data
 	public static class FileCdnRedirect {
 		private final Long constructorId = 4052539972L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 1822152488L;
 		private final Boolean isFunction = false;
 
 		private byte fileToken;
@@ -38,7 +37,7 @@ public class UploadApi {
 	@Data
 	public static class WebFile {
 		private final Long constructorId = 568808380L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 1760657233L;
 		private final Boolean isFunction = false;
 
 		private int size;
@@ -51,7 +50,7 @@ public class UploadApi {
 	@Data
 	public static class CdnFileReuploadNeeded {
 		private final Long constructorId = 4004045934L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 4123851048L;
 		private final Boolean isFunction = false;
 
 		private byte requestToken;
@@ -60,7 +59,7 @@ public class UploadApi {
 	@Data
 	public static class CdnFile {
 		private final Long constructorId = 2845821519L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 4123851048L;
 		private final Boolean isFunction = false;
 
 		private byte bytes;
@@ -69,7 +68,7 @@ public class UploadApi {
 	@Data
 	public static class SaveFilePart {
 		private final Long constructorId = 3003426337L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 4122188204L;
 		private final Boolean isFunction = true;
 
 		private byte bytes;
@@ -80,7 +79,7 @@ public class UploadApi {
 	@Data
 	public static class GetFile {
 		private final Long constructorId = 3193124286L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 1822152488L;
 		private final Boolean isFunction = true;
 
 		private BigInteger offset;
@@ -93,7 +92,7 @@ public class UploadApi {
 	@Data
 	public static class SaveBigFilePart {
 		private final Long constructorId = 3732629309L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 4122188204L;
 		private final Boolean isFunction = true;
 
 		private byte bytes;
@@ -105,7 +104,7 @@ public class UploadApi {
 	@Data
 	public static class GetWebFile {
 		private final Long constructorId = 619086221L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 1760657233L;
 		private final Boolean isFunction = true;
 
 		private int offset;
@@ -116,7 +115,7 @@ public class UploadApi {
 	@Data
 	public static class GetCdnFile {
 		private final Long constructorId = 962554330L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 4123851048L;
 		private final Boolean isFunction = true;
 
 		private byte fileToken;
@@ -127,7 +126,7 @@ public class UploadApi {
 	@Data
 	public static class ReuploadCdnFile {
 		private final Long constructorId = 2603046056L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2777941798L;
 		private final Boolean isFunction = true;
 
 		private byte fileToken;
@@ -137,7 +136,7 @@ public class UploadApi {
 	@Data
 	public static class GetCdnFileHashes {
 		private final Long constructorId = 2447130417L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2777941798L;
 		private final Boolean isFunction = true;
 
 		private byte fileToken;
@@ -147,7 +146,7 @@ public class UploadApi {
 	@Data
 	public static class GetFileHashes {
 		private final Long constructorId = 2438371370L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2777941798L;
 		private final Boolean isFunction = true;
 
 		private BigInteger offset;

@@ -3,8 +3,6 @@ package com.im.api;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.math.BigInteger;
-
 public class StickersApi {
 
 	public static class TypeSuggestedShortName {}
@@ -12,7 +10,7 @@ public class StickersApi {
 	@Data
 	public static class SuggestedShortName {
 		private final Long constructorId = 2248056895L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 3293203233L;
 		private final Boolean isFunction = false;
 
 		private String shortName;
@@ -22,7 +20,7 @@ public class StickersApi {
 	@EqualsAndHashCode(callSuper=true)
 	public static class CreateStickerSet extends Api.TypeStickerSet {
 		private final Long constructorId = 2418125671L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2607827546L;
 		private final Boolean isFunction = true;
 
 		private String software;
@@ -40,7 +38,7 @@ public class StickersApi {
 	@EqualsAndHashCode(callSuper=true)
 	public static class RemoveStickerFromSet extends Api.TypeStickerSet {
 		private final Long constructorId = 4151709521L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2607827546L;
 		private final Boolean isFunction = true;
 
 		private Api.TypeInputDocument sticker;
@@ -50,7 +48,7 @@ public class StickersApi {
 	@EqualsAndHashCode(callSuper=true)
 	public static class ChangeStickerPosition extends Api.TypeStickerSet {
 		private final Long constructorId = 4290172106L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2607827546L;
 		private final Boolean isFunction = true;
 
 		private Api.TypeInputDocument sticker;
@@ -61,7 +59,7 @@ public class StickersApi {
 	@EqualsAndHashCode(callSuper=true)
 	public static class AddStickerToSet extends Api.TypeStickerSet {
 		private final Long constructorId = 2253651646L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2607827546L;
 		private final Boolean isFunction = true;
 
 		private Api.TypeInputStickerSetItem sticker;
@@ -72,7 +70,7 @@ public class StickersApi {
 	@EqualsAndHashCode(callSuper=true)
 	public static class SetStickerSetThumb extends Api.TypeStickerSet {
 		private final Long constructorId = 2587250224L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2607827546L;
 		private final Boolean isFunction = true;
 
 		private Api.TypeInputDocument thumb;
@@ -82,7 +80,7 @@ public class StickersApi {
 	@Data
 	public static class CheckShortName {
 		private final Long constructorId = 676017721L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 4122188204L;
 		private final Boolean isFunction = true;
 
 		private String shortName;
@@ -91,7 +89,7 @@ public class StickersApi {
 	@Data
 	public static class SuggestShortName {
 		private final Long constructorId = 1303364867L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 3293203233L;
 		private final Boolean isFunction = true;
 
 		private String title;

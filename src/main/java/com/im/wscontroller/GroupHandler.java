@@ -23,14 +23,14 @@ public class GroupHandler {
     @Resource
     private GroupService groupService;
 
-    @WebsocketHandlerMapping("sendGroupMessage")
+//    @WebsocketHandlerMapping("sendGroupMessage")
     public WsApiResult sendGroupMessage(GroupMessage groupMessage, ChannelId channelId) {
         groupService.sendGroupMessage(groupMessage, channelId);
 
         return WsApiResult.ok("sendGroupMessage", null);
     }
 
-    @WebsocketHandlerMapping("getGroupInfo")
+//    @WebsocketHandlerMapping("getGroupInfo")
     public WsApiResult getGroupInfo(@WebsocketRequestParam Integer groupId,
                                     @WebsocketRequestParam Integer uid,
                                     @WebsocketRequestParam String type) {

@@ -1,9 +1,6 @@
 package com.im.api;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.math.BigInteger;
 
 public class UpdatesApi {
 
@@ -14,7 +11,7 @@ public class UpdatesApi {
 	@Data
 	public static class State {
 		private final Long constructorId = 2775329342L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 601823745L;
 		private final Boolean isFunction = false;
 
 		private int date;
@@ -27,7 +24,7 @@ public class UpdatesApi {
 	@Data
 	public static class DifferenceEmpty {
 		private final Long constructorId = 1567990072L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 541599860L;
 		private final Boolean isFunction = false;
 
 		private int date;
@@ -37,7 +34,7 @@ public class UpdatesApi {
 	@Data
 	public static class Difference {
 		private final Long constructorId = 16030880L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 541599860L;
 		private final Boolean isFunction = false;
 
 		private Api.TypeMessage[] newMessages;
@@ -51,7 +48,7 @@ public class UpdatesApi {
 	@Data
 	public static class DifferenceSlice {
 		private final Long constructorId = 2835028353L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 541599860L;
 		private final Boolean isFunction = false;
 
 		private Api.TypeMessage[] newMessages;
@@ -65,7 +62,7 @@ public class UpdatesApi {
 	@Data
 	public static class DifferenceTooLong {
 		private final Long constructorId = 1258196845L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 541599860L;
 		private final Boolean isFunction = false;
 
 		private int pts;
@@ -74,7 +71,7 @@ public class UpdatesApi {
 	@Data
 	public static class ChannelDifferenceEmpty {
 		private final Long constructorId = 1041346555L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 696872797L;
 		private final Boolean isFunction = false;
 
 		private Boolean finalSuffix;
@@ -85,7 +82,7 @@ public class UpdatesApi {
 	@Data
 	public static class ChannelDifferenceTooLong {
 		private final Long constructorId = 2763835134L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 696872797L;
 		private final Boolean isFunction = false;
 
 		private Api.TypeDialog dialog;
@@ -99,7 +96,7 @@ public class UpdatesApi {
 	@Data
 	public static class ChannelDifference {
 		private final Long constructorId = 543450958L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 696872797L;
 		private final Boolean isFunction = false;
 
 		private Api.TypeMessage[] newMessages;
@@ -114,7 +111,7 @@ public class UpdatesApi {
 	@Data
 	public static class GetState {
 		private final Long constructorId = 3990128682L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 601823745L;
 		private final Boolean isFunction = true;
 
 	}
@@ -122,7 +119,7 @@ public class UpdatesApi {
 	@Data
 	public static class GetDifference {
 		private final Long constructorId = 630429265L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 541599860L;
 		private final Boolean isFunction = true;
 
 		private int date;
@@ -134,7 +131,7 @@ public class UpdatesApi {
 	@Data
 	public static class GetChannelDifference {
 		private final Long constructorId = 51854712L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 696872797L;
 		private final Boolean isFunction = true;
 
 		private Api.TypeChannelMessagesFilter filter;

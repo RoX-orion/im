@@ -8,7 +8,7 @@ import com.im.lib.annotation.WebsocketHandlerMapping;
 @WebsocketHandler
 public class ApplicationHandler {
 
-    @WebsocketHandlerMapping("initConnection")
+//    @WebsocketHandlerMapping("initConnection")
     public WsApiResult initConnection(InitConnection initConnection) {
         System.out.println(initConnection);
 

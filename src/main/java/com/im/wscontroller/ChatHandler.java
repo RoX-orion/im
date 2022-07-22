@@ -25,7 +25,7 @@ public class ChatHandler {
     private ChatService chatService;
 
 
-    @WebsocketHandlerMapping("online")
+//    @WebsocketHandlerMapping("online")
     public WsApiResult online(@WebsocketRequestParam String token, ChannelId channelId) {
         chatService.online(token, channelId);
 
@@ -33,19 +33,19 @@ public class ChatHandler {
     }
 
 
-    @WebsocketHandlerMapping("ping")
+//    @WebsocketHandlerMapping("ping")
     public WsApiResult ping(@WebsocketRequestParam Long pingId,
                             @WebsocketRequestParam Integer disconnectDelay) {
         return WsApiResult.ok("ping", null);
     }
 
-    @WebsocketHandlerMapping("getChatList")
+//    @WebsocketHandlerMapping("getChatList")
     public WsApiResult getChatList(ChannelId channelId) {
         PageUtil page = chatService.getChatList(channelId);
         return WsApiResult.ok("getChatList", page);
     }
 
-    @WebsocketHandlerMapping("getGroupMessage")
+//    @WebsocketHandlerMapping("getGroupMessage")
     public WsApiResult getGroupMessage(@WebsocketRequestParam Integer groupId,
                                        ChannelId channelId) {
         List<GroupMessage> list = chatService.getGroupMessage(groupId, channelId);
@@ -58,21 +58,21 @@ public class ChatHandler {
         return WsApiResult.ok("getGroupMessage", groupMessageVo);
     }
 
-    @WebsocketHandlerMapping("searchGroupVaguely")
+//    @WebsocketHandlerMapping("searchGroupVaguely")
     public WsApiResult searchGroup(@WebsocketRequestParam String groupName) {
         List<Group> group = chatService.searchGroupVaguely(groupName);
 
         return WsApiResult.ok("searchGroup", group);
     }
 
-    @WebsocketHandlerMapping("searchUser")
+//    @WebsocketHandlerMapping("searchUser")
     public WsApiResult searchChat(@WebsocketRequestParam String email) {
         User user = chatService.searchChat(email);
 
         return WsApiResult.ok("searchUser", user);
     }
 
-    @WebsocketHandlerMapping("sendChatMessage")
+//    @WebsocketHandlerMapping("sendChatMessage")
     public WsApiResult sendChatMessage(PrivateChatMessage privateChatMessage) {
         chatService.sendChatMessage(privateChatMessage);
 

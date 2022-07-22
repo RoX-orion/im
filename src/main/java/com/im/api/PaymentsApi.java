@@ -18,7 +18,7 @@ public class PaymentsApi {
 	@Data
 	public static class PaymentForm {
 		private final Long constructorId = 2954050359L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2689089305L;
 		private final Boolean isFunction = false;
 
 		private BigInteger formId;
@@ -41,7 +41,7 @@ public class PaymentsApi {
 	@Data
 	public static class ValidatedRequestedInfo {
 		private final Long constructorId = 3510966403L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2407548087L;
 		private final Boolean isFunction = false;
 
 		private String id;
@@ -51,7 +51,7 @@ public class PaymentsApi {
 	@Data
 	public static class PaymentResult {
 		private final Long constructorId = 1314881805L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2330028701L;
 		private final Boolean isFunction = false;
 
 		private Api.TypeUpdates updates;
@@ -60,7 +60,7 @@ public class PaymentsApi {
 	@Data
 	public static class PaymentVerificationNeeded {
 		private final Long constructorId = 3628142905L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2330028701L;
 		private final Boolean isFunction = false;
 
 		private String url;
@@ -69,7 +69,7 @@ public class PaymentsApi {
 	@Data
 	public static class PaymentReceipt {
 		private final Long constructorId = 1891958275L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 1493210057L;
 		private final Boolean isFunction = false;
 
 		private int date;
@@ -91,7 +91,7 @@ public class PaymentsApi {
 	@Data
 	public static class SavedInfo {
 		private final Long constructorId = 4220511292L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2906452294L;
 		private final Boolean isFunction = false;
 
 		private Boolean hasSavedCredentials;
@@ -101,7 +101,7 @@ public class PaymentsApi {
 	@Data
 	public static class BankCardData {
 		private final Long constructorId = 1042605427L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2356008587L;
 		private final Boolean isFunction = false;
 
 		private Api.TypeBankCardOpenUrl[] openUrls;
@@ -111,7 +111,7 @@ public class PaymentsApi {
 	@Data
 	public static class ExportedInvoice {
 		private final Long constructorId = 2932919257L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 907039794L;
 		private final Boolean isFunction = false;
 
 		private String url;
@@ -120,7 +120,7 @@ public class PaymentsApi {
 	@Data
 	public static class GetPaymentForm {
 		private final Long constructorId = 924093883L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2689089305L;
 		private final Boolean isFunction = true;
 
 		private Api.TypeDataJSON themeParams;
@@ -130,7 +130,7 @@ public class PaymentsApi {
 	@Data
 	public static class GetPaymentReceipt {
 		private final Long constructorId = 611897804L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 1493210057L;
 		private final Boolean isFunction = true;
 
 		private Api.TypeInputPeer peer;
@@ -140,7 +140,7 @@ public class PaymentsApi {
 	@Data
 	public static class ValidateRequestedInfo {
 		private final Long constructorId = 3066622251L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2407548087L;
 		private final Boolean isFunction = true;
 
 		private Boolean save;
@@ -151,7 +151,7 @@ public class PaymentsApi {
 	@Data
 	public static class SendPaymentForm {
 		private final Long constructorId = 755192367L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2330028701L;
 		private final Boolean isFunction = true;
 
 		private BigInteger formId;
@@ -165,7 +165,7 @@ public class PaymentsApi {
 	@Data
 	public static class GetSavedInfo {
 		private final Long constructorId = 578650699L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2906452294L;
 		private final Boolean isFunction = true;
 
 	}
@@ -173,7 +173,7 @@ public class PaymentsApi {
 	@Data
 	public static class ClearSavedInfo {
 		private final Long constructorId = 3627905217L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 4122188204L;
 		private final Boolean isFunction = true;
 
 		private Boolean credentials;
@@ -183,7 +183,7 @@ public class PaymentsApi {
 	@Data
 	public static class GetBankCardData {
 		private final Long constructorId = 779736953L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2356008587L;
 		private final Boolean isFunction = true;
 
 		private String number;
@@ -192,7 +192,7 @@ public class PaymentsApi {
 	@Data
 	public static class ExportInvoice {
 		private final Long constructorId = 261206117L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 907039794L;
 		private final Boolean isFunction = true;
 
 		private Api.TypeInputMedia invoiceMedia;
@@ -202,7 +202,7 @@ public class PaymentsApi {
 	@EqualsAndHashCode(callSuper=true)
 	public static class AssignAppStoreTransaction extends Api.TypeUpdates {
 		private final Long constructorId = 267129798L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2331323052L;
 		private final Boolean isFunction = true;
 
 		private Boolean restore;
@@ -214,7 +214,7 @@ public class PaymentsApi {
 	@EqualsAndHashCode(callSuper=true)
 	public static class AssignPlayMarketTransaction extends Api.TypeUpdates {
 		private final Long constructorId = 1336560365L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2331323052L;
 		private final Boolean isFunction = true;
 
 		private String purchaseToken;
@@ -224,7 +224,7 @@ public class PaymentsApi {
 	@EqualsAndHashCode(callSuper=true)
 	public static class RestorePlayMarketReceipt extends Api.TypeUpdates {
 		private final Long constructorId = 3513049962L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2331323052L;
 		private final Boolean isFunction = true;
 
 		private byte receipt;
@@ -233,7 +233,7 @@ public class PaymentsApi {
 	@Data
 	public static class CanPurchasePremium {
 		private final Long constructorId = 2859110600L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 4122188204L;
 		private final Boolean isFunction = true;
 
 	}
@@ -242,7 +242,7 @@ public class PaymentsApi {
 	@EqualsAndHashCode(callSuper=true)
 	public static class RequestRecurringPayment extends Api.TypeUpdates {
 		private final Long constructorId = 342791565L;
-		private final long subclassOfId = 1;
+		private final long subclassOfId = 2331323052L;
 		private final Boolean isFunction = true;
 
 		private Api.TypeInputMedia invoiceMedia;

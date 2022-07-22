@@ -7,7 +7,7 @@ target/
 !**/src/main/resources/application.yml
 
 # test
-!**/src/main/test/
+!**/src/test/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

@@ -13,9 +13,12 @@ import java.util.regex.Pattern;
 public class TLParser {
 
     public static int count = 0;
+    // 存储父类型
     public static Map<String, Boolean> map = new HashMap<>();
     public static Set<String> superClass = new HashSet<>();
     public static Map<String, StringBuilder> np = new HashMap<>();
+
+    public static Map<String, String> position = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         List<NodeConfig> c1 = parseTL("schema.tl");
@@ -78,6 +81,7 @@ public class TLParser {
                 if (!map.get(result) && map.containsKey(result)) {
                     builder.append("\n\t");
                     builder.append("public static class ").append("Type").append(result).append(" {}");
+                    position.put("Type" + result, "Api");
                 }
             } else {
                 if (!map.get(result) && map.containsKey(result)) {
@@ -93,6 +97,7 @@ public class TLParser {
                         b.append("\n\tpublic static class ").append("Type").append(result).append(" {}");
                         np.put(namespace, b);
                     }
+                    position.put("Type" + result, namespace.substring(0, 1).toUpperCase() + namespace.substring(1));
                 }
             }
             map.put(r, true);
@@ -100,18 +105,24 @@ public class TLParser {
         builder.append("\n\n");
         for (NodeConfig constructor : constructors) {
             String namespace = constructor.getNamespace();
+            String name = constructor.getName();
             StringBuilder b = np.get(namespace);
+            String s = name.substring(0, 1).toUpperCase() + name.substring(1);
             if (namespace == null) {
                 b = addClass(builder, constructor);
+                position.put(s, "Api");
             } else {
                 b = addClass(b, constructor);
+                position.put(
+                        s,
+                        namespace.substring(0, 1).toUpperCase() + namespace.substring(1)
+                );
             }
             np.put(namespace, b);
         }
 
         //=======================构建方法======================
         for (NodeConfig function : functions) {
-//            System.out.println(function);
             String namespace = function.getNamespace();
             if (namespace == null) {
                 addClass(builder, function);
@@ -121,7 +132,6 @@ public class TLParser {
                     b = new StringBuilder(header + "\n\n" + "public class " + namespace.substring(0, 1).toUpperCase() + namespace.substring(1) + "Api {\n");
                     np.put(namespace, b);
                 }
-//                System.out.println(function + "\n" + np.keySet() + "\n");
                 addClass(b, function);
             }
         }
@@ -162,6 +172,149 @@ public class TLParser {
                 e.printStackTrace();
             }
         }
+
+        // ===========================构建API控制器=============================
+        Map<String, StringBuilder> controller = new HashMap<>();
+        String controllerPrefix = """
+                package com.im.controller;
+                                
+                import com.im.api.*;
+                import com.im.lib.annotation.WebsocketHandlerMapping;
+                import org.springframework.stereotype.Controller;
+                
+                @Controller
+                public class\040""";
+        StringBuilder apiBuilder = new StringBuilder(controllerPrefix + "ApiController {\n");
+        controller.put("Api", apiBuilder);
+
+        for (NodeConfig function : functions) {
+            String namespace = function.getNamespace();
+            if (namespace == null) {
+                apiBuilder = addFunction(apiBuilder, function, "Api");
+                controller.put("Api", apiBuilder);
+            } else {
+                StringBuilder b = controller.get(namespace);
+                if (b == null) {
+                    b = new StringBuilder(controllerPrefix + namespace.substring(0, 1).toUpperCase() + namespace.substring(1) + "Controller {\n");
+                }
+                b = addFunction(b, function, namespace);
+                controller.put(namespace, b);
+            }
+        }
+
+        for (String key : controller.keySet()) {
+            StringBuilder b = controller.get(key);
+            b.append("}");
+        }
+
+        String controllerPath = System.getProperty("user.dir") + "/src/main/java/com/im/controller/";
+        // ===================将控制器写入文件======================
+        for (String key : controller.keySet()) {
+            StringBuilder b = controller.get(key);
+            File file = new File(controllerPath + key.substring(0, 1).toUpperCase() + key.substring(1) + "Controller.java");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+                fileOutputStream.write(b.toString().getBytes());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (String key : position.keySet()) {
+            System.out.print(key + " ");
+        }
+
+        System.out.println("================");
+    }
+
+    private static StringBuilder addFunction(StringBuilder b, NodeConfig function, String namespace) {
+        b.append("\n\t");
+        String arg;
+        boolean resultIsVector = false;
+        boolean hasNamespace = false;
+        Long constructorId = function.getConstructorId();
+        String name = function.getName();
+        if (name.contains(".")) {
+            String[] split = name.split("\\.");
+            name = split[1];
+        }
+        String result = function.getResult();
+        if (result.startsWith("Vector")) {
+            resultIsVector = true;
+            result = result.substring(7, result.length() - 1);
+        }
+
+        if (result.contains(".")) {
+            String[] split = result.split("\\.");
+//            namespace = split[0];
+            result = split[1];
+            hasNamespace = true;
+        }
+        if (!TLHelpers.BASE_TYPE.contains(result)) {
+            if (hasNamespace) {
+                if (position.containsKey(result)) {
+                    result = position.get(result).equals("Api") ?
+                            "Api." + result : position.get(result) + "Api." + result;
+                } else if (position.containsKey("Type" + result)) {
+                    System.out.println(result);
+                    result = namespace.substring(0, 1).toUpperCase()
+                            + namespace.substring(1)
+                            + "Api." + "Type" + result;
+                } else {
+//                    System.out.println(function);
+                }
+            } else {
+                if (position.containsKey(result)) {
+                    result = position.get(result).equals("Api") ?
+                            "Api." + result : position.get(result) + "Api." + result;
+                } else if(position.containsKey("Type" + result)) {
+                    result = position.get("Type" + result).equals("Api") ?
+                            "Api.Type" + result : position.get("Type" + result) + ".Type" + result;
+                } else if (result.equals("X")) {
+                    result = "Api.X";
+                } else {
+                    System.out.println(function);
+                }
+            }
+
+        }
+
+        String prefix = namespace.substring(0, 1).toUpperCase() + namespace.substring(1);
+        if (!namespace.equals("Api")) {
+            arg = prefix + "Api." + name.substring(0, 1).toUpperCase() + name.substring(1);
+        } else {
+            arg = prefix + "." + name.substring(0, 1).toUpperCase() + name.substring(1);
+        }
+
+        if (resultIsVector) {
+            result = result + "[]";
+        }
+
+        //            case "string" -> result = "String";
+        //            case "bytes" -> result = "byte";
+        if ("Bool".equals(result)) {
+            result = "Boolean";
+        }
+        String functionName = name.substring(0, 1).toLowerCase() + name.substring(1);
+        b.append("@WebsocketHandlerMapping(value = ")
+                .append(constructorId)
+                .append("L")
+                .append(", name = \"")
+                .append(name).append("\")\n\t")// WebsocketRequestMapping
+                .append("public ")
+                .append(result)// 返回值
+                .append(" ")
+                .append(functionName)// 方法名
+                .append("(")
+                .append(arg)// 参数类型
+                .append(" ")
+                .append(functionName)// 参数
+                .append(") {\n\t\t")
+                .append("return null;\n\t")
+                .append("}\n");
+        return b;
     }
 
     /**
@@ -179,6 +332,7 @@ public class TLParser {
             builder.append("\n\n\t@Data\n").append("\t" + "public static class ").append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).append(" {").append("\n\t\t");
             setArgs(builder, constructor, name);
         }
+
         return builder;
     }
 
@@ -189,7 +343,7 @@ public class TLParser {
         HashMap<String, ArgsConfig> argsConfig = nodeConfig.getArgsConfig();
 
         builder.append("private final Long constructorId = ").append(constructorId).append("L;\n\t\t");
-        builder.append("private final long subclassOfId = ").append(subclassOfId).append(";\n\t\t");
+        builder.append("private final long subclassOfId = ").append(subclassOfId).append("L;\n\t\t");
         builder.append("private final Boolean isFunction = ").append(isFunction).append(";\n\n");
         for (String key : argsConfig.keySet()) {
             ArgsConfig a = argsConfig.get(key);
@@ -291,7 +445,7 @@ public class TLParser {
             if (constructorId != null) {
                 currentConfig.setConstructorId(Long.parseLong(constructorId, 16));
             }
-            currentConfig.setSubclassOfId(1/*TLHelpers.crc32(m.group(3))*/);
+            currentConfig.setSubclassOfId(TLHelpers.crc32(m.group(3)));
             currentConfig.setResult(m.group(3));
             currentConfig.setIsFunction(isFunction);
         } else {
