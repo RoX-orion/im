@@ -1,0 +1,119 @@
+server:
+  port: 8888
+  netty:
+    port: 9999
+spring:
+  application:
+    name: im-server
+
+  datasource:
+    username: root
+    password: 587989ht
+    url: jdbc:mysql://81.70.4.209:3306/im?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&socketTimeout=60000&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 初始化时建立物理连接的个数。初始化发生在显示调用 init 方法，或者第一次 getConnection 时
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 5
+      # 最大连接池数量
+      maxActive: 10
+      # 获取连接时最大等待时间，单位毫秒。配置了 maxWait 之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置 useUnfairLock 属性为 true 使用非公平锁。
+      maxWait: 60000
+      # Destroy 线程会检测连接的间隔时间，如果连接空闲时间大于等于 minEvictableIdleTimeMillis 则关闭物理连接。
+      timeBetweenEvictionRunsMillis: 60000
+      # 连接保持空闲而不被驱逐的最小时间
+      minEvictableIdleTimeMillis: 300000
+      # 用来检测连接是否有效的 sql 因数据库方言而差, 例如 oracle 应该写成 SELECT 1 FROM DUAL
+      validationQuery: SELECT 1
+      # 建议配置为 true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于 timeBetweenEvictionRunsMillis，执行 validationQuery 检测连接是否有效。
+      testWhileIdle: true
+      # 申请连接时执行 validationQuery 检测连接是否有效，做了这个配置会降低性能。
+      testOnBorrow: true
+      # 归还连接时执行 validationQuery 检测连接是否有效，做了这个配置会降低性能。
+      testOnReturn: true
+      # 是否自动回收超时连接
+      removeAbandoned: true
+      # 超时时间 (以秒数为单位)
+      remove-abandoned-timeout: 600
+      # druid 监控的配置 如果不使用 druid 的监控功能的话 以下配置就不是必须的
+      # 本项目监控台访问地址: http://localhost:8080/druid/login.html
+      # WebStatFilter 用于采集 web-jdbc 关联监控的数据。
+      # 更多配置可参见: https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE_%E9%85%8D%E7%BD%AEWebStatFilter
+      filter:
+        stat:
+          enabled: true
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 2000
+      web-stat-filter:
+        # 是否开启 WebStatFilter 默认是 true
+        enabled: true
+        # 需要拦截的 url
+        url-pattern: /*
+        # 排除静态资源的请求
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        session-stat-enable: true
+      # Druid 内置提供了一个 StatViewServlet 用于展示 Druid 的统计信息。
+      # 更多配置可参见:https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE_StatViewServlet%E9%85%8D%E7%BD%AE
+      stat-view-servlet:
+        #是否启用 StatViewServlet 默认值 true
+        enabled: true
+        # 需要拦截的 url
+        url-pattern: /druid/*
+        # 允许清空统计数据
+        reset-enable: true
+      filters: stat,wall,log4j2
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  servlet:
+    multipart:
+      #单个文件最大值
+      max-request-size: 100GB
+      #总文件最大值
+      max-file-size: 100GB
+
+  redis:
+    host: 81.70.4.209          #81.70.4.209         #redis服务器地址
+    port: 6379                #redis服务器端口
+    password: 521@sha256      #redis服务器密码，没有不用写
+    database: 1               #redis数据库(0-15),默认为0
+    lettuce:
+      pool:
+        max-active: 8   #连接池最大连接数(负值表示没有限制)
+        max-wait: 10000 #连接池最大等待时间，负值表示，没有限制
+        max-idle: 8     #连接池最大空闲连接
+        min-idle: 0     #连接池最小空闲连接
+      shutdown-timeout: 100   #关闭超时时间
+  #发送邮件,以qq邮箱为例
+  mail:
+    protocol: smtp
+    host: smtp.qq.com
+    port: 587
+    username: 528289176@qq.com
+    password: gdsixmavjrldbghh
+    default-encoding: UTF-8
+    properties:
+      mail:
+        stmp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            port: 587
+          auth: true
+          starttls:
+            enable: true
+            required: true
+mybatis-plus:
+  mapper-locations: classpath*:/mappers/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+      #全局逻辑删除规则
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+  type-aliases-package: com.im.entity.*

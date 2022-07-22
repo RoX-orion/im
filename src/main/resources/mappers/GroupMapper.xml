@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.im.mapper.GroupMapper">
+
+    <select id="getChat" resultType="com.im.entity.Group">
+        select g.* from `user_group` u
+        left join `group` g on u.group_id = g.group_id
+        where u.uid = #{uid}
+    </select>
+</mapper>

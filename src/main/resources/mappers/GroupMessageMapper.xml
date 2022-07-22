@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.im.mapper.GroupMessageMapper">
+    <select id="selectId" resultType="java.lang.Integer">
+        SELECT
+        group_message_id
+        FROM
+        group_message
+        WHERE
+        group_message_id >= (
+        SELECT
+        group_message_id
+        FROM
+        user_group
+        WHERE
+        uid = #{uid} and group_id = #{group_id})
+    </select>
+    <select id="getGroupMessage" resultType="com.im.entity.GroupMessage">
+        select gm.*, u.username from group_message as gm
+            inner join `group` g on gm.group_id = g.group_id
+            inner join user u on gm.uid = u.uid
+        where gm.group_id = #{groupId} and gm.group_message_id > #{offset}
+    </select>
+</mapper>
+
