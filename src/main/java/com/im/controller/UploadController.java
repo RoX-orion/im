@@ -7,42 +7,42 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class UploadController {
 
-	@WebsocketHandlerMapping(value = 3003426337L, name = "SaveFilePart")
+	@WebsocketHandlerMapping(value = -1291540959, name = "SaveFilePart")
 	public Boolean saveFilePart(UploadApi.SaveFilePart saveFilePart) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3193124286L, name = "GetFile")
+	@WebsocketHandlerMapping(value = -1101843010, name = "GetFile")
 	public UploadApi.File getFile(UploadApi.GetFile getFile) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3732629309L, name = "SaveBigFilePart")
+	@WebsocketHandlerMapping(value = -562337987, name = "SaveBigFilePart")
 	public Boolean saveBigFilePart(UploadApi.SaveBigFilePart saveBigFilePart) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 619086221L, name = "GetWebFile")
+	@WebsocketHandlerMapping(value = 619086221, name = "GetWebFile")
 	public UploadApi.WebFile getWebFile(UploadApi.GetWebFile getWebFile) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 962554330L, name = "GetCdnFile")
+	@WebsocketHandlerMapping(value = 962554330, name = "GetCdnFile")
 	public UploadApi.CdnFile getCdnFile(UploadApi.GetCdnFile getCdnFile) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2603046056L, name = "ReuploadCdnFile")
+	@WebsocketHandlerMapping(value = -1691921240, name = "ReuploadCdnFile")
 	public Api.FileHash[] reuploadCdnFile(UploadApi.ReuploadCdnFile reuploadCdnFile) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2447130417L, name = "GetCdnFileHashes")
+	@WebsocketHandlerMapping(value = -1847836879, name = "GetCdnFileHashes")
 	public Api.FileHash[] getCdnFileHashes(UploadApi.GetCdnFileHashes getCdnFileHashes) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2438371370L, name = "GetFileHashes")
+	@WebsocketHandlerMapping(value = -1856595926, name = "GetFileHashes")
 	public Api.FileHash[] getFileHashes(UploadApi.GetFileHashes getFileHashes) {
 		return null;
 	}

@@ -234,7 +234,7 @@ public class TLParser {
         String arg;
         boolean resultIsVector = false;
         boolean hasNamespace = false;
-        Long constructorId = function.getConstructorId();
+        Integer constructorId = function.getConstructorId();
         String name = function.getName();
         if (name.contains(".")) {
             String[] split = name.split("\\.");
@@ -300,7 +300,6 @@ public class TLParser {
         String functionName = name.substring(0, 1).toLowerCase() + name.substring(1);
         b.append("@WebsocketHandlerMapping(value = ")
                 .append(constructorId)
-                .append("L")
                 .append(", name = \"")
                 .append(name).append("\")\n\t")// WebsocketRequestMapping
                 .append("public ")
@@ -326,10 +325,10 @@ public class TLParser {
         String result = s1[s1.length - 1];
         // result在类型列表中，需要继承
         if (map.containsKey(result)/* && !result.equals(name)*/) {
-            builder.append("\n\n\t@Data\n\t@EqualsAndHashCode(callSuper=true)\n").append("\t" + "public static class ").append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).append(" extends ").append("Api.Type").append(result).append(" {").append("\n\t\t");
+            builder.append("\n\n\t@Data\n\t@EqualsAndHashCode(callSuper=false)\n").append("\t" + "public static class ").append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).append(" extends ").append("Api.Type").append(result).append(" {").append("\n");
             setArgs(builder, constructor, name);
         } else {
-            builder.append("\n\n\t@Data\n").append("\t" + "public static class ").append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).append(" {").append("\n\t\t");
+            builder.append("\n\n\t@Data\n").append("\t" + "public static class ").append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).append(" {").append("\n");
             setArgs(builder, constructor, name);
         }
 
@@ -337,14 +336,14 @@ public class TLParser {
     }
 
     private static void setArgs(StringBuilder builder, NodeConfig nodeConfig, String name) {
-        Long constructorId = nodeConfig.getConstructorId();
-        Boolean isFunction = nodeConfig.getIsFunction();
-        long subclassOfId = nodeConfig.getSubclassOfId();
+//        Integer constructorId = nodeConfig.getConstructorId();
+//        Boolean isFunction = nodeConfig.getIsFunction();
+//        long subclassOfId = nodeConfig.getSubclassOfId();
         HashMap<String, ArgsConfig> argsConfig = nodeConfig.getArgsConfig();
 
-        builder.append("private final Long constructorId = ").append(constructorId).append("L;\n\t\t");
-        builder.append("private final long subclassOfId = ").append(subclassOfId).append("L;\n\t\t");
-        builder.append("private final Boolean isFunction = ").append(isFunction).append(";\n\n");
+//        builder.append("private final long constructorId = ").append(constructorId).append("L;\n\t\t");
+//        builder.append("private final long subclassOfId = ").append(subclassOfId).append("L;\n\t\t");
+//        builder.append("private final Boolean isFunction = ").append(isFunction).append(";\n\n");
         for (String key : argsConfig.keySet()) {
             ArgsConfig a = argsConfig.get(key);
             String type = a.getType();
@@ -443,7 +442,7 @@ public class TLParser {
             currentConfig.setName(m.group(1));
             String constructorId = m.group(2);
             if (constructorId != null) {
-                currentConfig.setConstructorId(Long.parseLong(constructorId, 16));
+                currentConfig.setConstructorId(Integer.parseUnsignedInt(constructorId, 16));
             }
             currentConfig.setSubclassOfId(TLHelpers.crc32(m.group(3)));
             currentConfig.setResult(m.group(3));
@@ -532,7 +531,7 @@ public class TLParser {
 //                        + matcher.group(2) + "\n" + matcher.group(3));
 //                System.out.println("\n\n");
                 currentConfig.setFlag(true);
-                currentConfig.setFlagIndex(Integer.parseInt(matcher.group(2)));
+                currentConfig.setFlagIndex(Integer.parseUnsignedInt(matcher.group(2)));
                 // Update the type to match the exact type, not the "flagged" one
                 currentConfig.setType(matcher.group(3));
             }

@@ -7,157 +7,157 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class PhoneController {
 
-	@WebsocketHandlerMapping(value = 1430593449L, name = "GetCallConfig")
+	@WebsocketHandlerMapping(value = 1430593449, name = "GetCallConfig")
 	public Api.DataJSON getCallConfig(PhoneApi.GetCallConfig getCallConfig) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1124046573L, name = "RequestCall")
+	@WebsocketHandlerMapping(value = 1124046573, name = "RequestCall")
 	public PhoneApi.PhoneCall requestCall(PhoneApi.RequestCall requestCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1003664544L, name = "AcceptCall")
+	@WebsocketHandlerMapping(value = 1003664544, name = "AcceptCall")
 	public PhoneApi.PhoneCall acceptCall(PhoneApi.AcceptCall acceptCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 788404002L, name = "ConfirmCall")
+	@WebsocketHandlerMapping(value = 788404002, name = "ConfirmCall")
 	public PhoneApi.PhoneCall confirmCall(PhoneApi.ConfirmCall confirmCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 399855457L, name = "ReceivedCall")
+	@WebsocketHandlerMapping(value = 399855457, name = "ReceivedCall")
 	public Boolean receivedCall(PhoneApi.ReceivedCall receivedCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2999697856L, name = "DiscardCall")
+	@WebsocketHandlerMapping(value = -1295269440, name = "DiscardCall")
 	public Api.Updates discardCall(PhoneApi.DiscardCall discardCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1508562471L, name = "SetCallRating")
+	@WebsocketHandlerMapping(value = 1508562471, name = "SetCallRating")
 	public Api.Updates setCallRating(PhoneApi.SetCallRating setCallRating) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 662363518L, name = "SaveCallDebug")
+	@WebsocketHandlerMapping(value = 662363518, name = "SaveCallDebug")
 	public Boolean saveCallDebug(PhoneApi.SaveCallDebug saveCallDebug) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 4286223235L, name = "SendSignalingData")
+	@WebsocketHandlerMapping(value = -8744061, name = "SendSignalingData")
 	public Boolean sendSignalingData(PhoneApi.SendSignalingData sendSignalingData) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1221445336L, name = "CreateGroupCall")
+	@WebsocketHandlerMapping(value = 1221445336, name = "CreateGroupCall")
 	public Api.Updates createGroupCall(PhoneApi.CreateGroupCall createGroupCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2972909435L, name = "JoinGroupCall")
+	@WebsocketHandlerMapping(value = -1322057861, name = "JoinGroupCall")
 	public Api.Updates joinGroupCall(PhoneApi.JoinGroupCall joinGroupCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1342404601L, name = "LeaveGroupCall")
+	@WebsocketHandlerMapping(value = 1342404601, name = "LeaveGroupCall")
 	public Api.Updates leaveGroupCall(PhoneApi.LeaveGroupCall leaveGroupCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2067345760L, name = "InviteToGroupCall")
+	@WebsocketHandlerMapping(value = 2067345760, name = "InviteToGroupCall")
 	public Api.Updates inviteToGroupCall(PhoneApi.InviteToGroupCall inviteToGroupCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2054648117L, name = "DiscardGroupCall")
+	@WebsocketHandlerMapping(value = 2054648117, name = "DiscardGroupCall")
 	public Api.Updates discardGroupCall(PhoneApi.DiscardGroupCall discardGroupCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1958458429L, name = "ToggleGroupCallSettings")
+	@WebsocketHandlerMapping(value = 1958458429, name = "ToggleGroupCallSettings")
 	public Api.Updates toggleGroupCallSettings(PhoneApi.ToggleGroupCallSettings toggleGroupCallSettings) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 68699611L, name = "GetGroupCall")
+	@WebsocketHandlerMapping(value = 68699611, name = "GetGroupCall")
 	public PhoneApi.GroupCall getGroupCall(PhoneApi.GetGroupCall getGroupCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3310934187L, name = "GetGroupParticipants")
+	@WebsocketHandlerMapping(value = -984033109, name = "GetGroupParticipants")
 	public PhoneApi.GroupParticipants getGroupParticipants(PhoneApi.GetGroupParticipants getGroupParticipants) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3046963575L, name = "CheckGroupCall")
+	@WebsocketHandlerMapping(value = -1248003721, name = "CheckGroupCall")
 	public int[] checkGroupCall(PhoneApi.CheckGroupCall checkGroupCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 4045981448L, name = "ToggleGroupCallRecord")
+	@WebsocketHandlerMapping(value = -248985848, name = "ToggleGroupCallRecord")
 	public Api.Updates toggleGroupCallRecord(PhoneApi.ToggleGroupCallRecord toggleGroupCallRecord) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2770811583L, name = "EditGroupCallParticipant")
+	@WebsocketHandlerMapping(value = -1524155713, name = "EditGroupCallParticipant")
 	public Api.Updates editGroupCallParticipant(PhoneApi.EditGroupCallParticipant editGroupCallParticipant) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 480685066L, name = "EditGroupCallTitle")
+	@WebsocketHandlerMapping(value = 480685066, name = "EditGroupCallTitle")
 	public Api.Updates editGroupCallTitle(PhoneApi.EditGroupCallTitle editGroupCallTitle) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 4017889594L, name = "GetGroupCallJoinAs")
+	@WebsocketHandlerMapping(value = -277077702, name = "GetGroupCallJoinAs")
 	public PhoneApi.JoinAsPeers getGroupCallJoinAs(PhoneApi.GetGroupCallJoinAs getGroupCallJoinAs) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3869926527L, name = "ExportGroupCallInvite")
+	@WebsocketHandlerMapping(value = -425040769, name = "ExportGroupCallInvite")
 	public PhoneApi.ExportedGroupCallInvite exportGroupCallInvite(PhoneApi.ExportGroupCallInvite exportGroupCallInvite) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 563885286L, name = "ToggleGroupCallStartSubscription")
+	@WebsocketHandlerMapping(value = 563885286, name = "ToggleGroupCallStartSubscription")
 	public Api.Updates toggleGroupCallStartSubscription(PhoneApi.ToggleGroupCallStartSubscription toggleGroupCallStartSubscription) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1451287362L, name = "StartScheduledGroupCall")
+	@WebsocketHandlerMapping(value = 1451287362, name = "StartScheduledGroupCall")
 	public Api.Updates startScheduledGroupCall(PhoneApi.StartScheduledGroupCall startScheduledGroupCall) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1465786252L, name = "SaveDefaultGroupCallJoinAs")
+	@WebsocketHandlerMapping(value = 1465786252, name = "SaveDefaultGroupCallJoinAs")
 	public Boolean saveDefaultGroupCallJoinAs(PhoneApi.SaveDefaultGroupCallJoinAs saveDefaultGroupCallJoinAs) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3421137860L, name = "JoinGroupCallPresentation")
+	@WebsocketHandlerMapping(value = -873829436, name = "JoinGroupCallPresentation")
 	public Api.Updates joinGroupCallPresentation(PhoneApi.JoinGroupCallPresentation joinGroupCallPresentation) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 475058500L, name = "LeaveGroupCallPresentation")
+	@WebsocketHandlerMapping(value = 475058500, name = "LeaveGroupCallPresentation")
 	public Api.Updates leaveGroupCallPresentation(PhoneApi.LeaveGroupCallPresentation leaveGroupCallPresentation) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 447879488L, name = "GetGroupCallStreamChannels")
+	@WebsocketHandlerMapping(value = 447879488, name = "GetGroupCallStreamChannels")
 	public PhoneApi.GroupCallStreamChannels getGroupCallStreamChannels(PhoneApi.GetGroupCallStreamChannels getGroupCallStreamChannels) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3736316863L, name = "GetGroupCallStreamRtmpUrl")
+	@WebsocketHandlerMapping(value = -558650433, name = "GetGroupCallStreamRtmpUrl")
 	public PhoneApi.GroupCallStreamRtmpUrl getGroupCallStreamRtmpUrl(PhoneApi.GetGroupCallStreamRtmpUrl getGroupCallStreamRtmpUrl) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1092913030L, name = "SaveCallLog")
+	@WebsocketHandlerMapping(value = 1092913030, name = "SaveCallLog")
 	public Boolean saveCallLog(PhoneApi.SaveCallLog saveCallLog) {
 		return null;
 	}

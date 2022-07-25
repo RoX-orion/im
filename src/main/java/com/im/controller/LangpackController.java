@@ -7,27 +7,27 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class LangpackController {
 
-	@WebsocketHandlerMapping(value = 4075959050L, name = "GetLangPack")
+	@WebsocketHandlerMapping(value = -219008246, name = "GetLangPack")
 	public Api.LangPackDifference getLangPack(LangpackApi.GetLangPack getLangPack) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 4025104387L, name = "GetStrings")
+	@WebsocketHandlerMapping(value = -269862909, name = "GetStrings")
 	public Api.LangPackString[] getStrings(LangpackApi.GetStrings getStrings) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3449309861L, name = "GetDifference")
+	@WebsocketHandlerMapping(value = -845657435, name = "GetDifference")
 	public Api.LangPackDifference getDifference(LangpackApi.GetDifference getDifference) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1120311183L, name = "GetLanguages")
+	@WebsocketHandlerMapping(value = 1120311183, name = "GetLanguages")
 	public Api.LangPackLanguage[] getLanguages(LangpackApi.GetLanguages getLanguages) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1784243458L, name = "GetLanguage")
+	@WebsocketHandlerMapping(value = 1784243458, name = "GetLanguage")
 	public Api.LangPackLanguage getLanguage(LangpackApi.GetLanguage getLanguage) {
 		return null;
 	}

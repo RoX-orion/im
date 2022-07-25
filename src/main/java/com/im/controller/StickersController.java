@@ -7,37 +7,37 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class StickersController {
 
-	@WebsocketHandlerMapping(value = 2418125671L, name = "CreateStickerSet")
+	@WebsocketHandlerMapping(value = -1876841625, name = "CreateStickerSet")
 	public MessagesApi.StickerSet createStickerSet(StickersApi.CreateStickerSet createStickerSet) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 4151709521L, name = "RemoveStickerFromSet")
+	@WebsocketHandlerMapping(value = -143257775, name = "RemoveStickerFromSet")
 	public MessagesApi.StickerSet removeStickerFromSet(StickersApi.RemoveStickerFromSet removeStickerFromSet) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 4290172106L, name = "ChangeStickerPosition")
+	@WebsocketHandlerMapping(value = -4795190, name = "ChangeStickerPosition")
 	public MessagesApi.StickerSet changeStickerPosition(StickersApi.ChangeStickerPosition changeStickerPosition) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2253651646L, name = "AddStickerToSet")
+	@WebsocketHandlerMapping(value = -2041315650, name = "AddStickerToSet")
 	public MessagesApi.StickerSet addStickerToSet(StickersApi.AddStickerToSet addStickerToSet) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2587250224L, name = "SetStickerSetThumb")
+	@WebsocketHandlerMapping(value = -1707717072, name = "SetStickerSetThumb")
 	public MessagesApi.StickerSet setStickerSetThumb(StickersApi.SetStickerSetThumb setStickerSetThumb) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 676017721L, name = "CheckShortName")
+	@WebsocketHandlerMapping(value = 676017721, name = "CheckShortName")
 	public Boolean checkShortName(StickersApi.CheckShortName checkShortName) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1303364867L, name = "SuggestShortName")
+	@WebsocketHandlerMapping(value = 1303364867, name = "SuggestShortName")
 	public StickersApi.SuggestedShortName suggestShortName(StickersApi.SuggestShortName suggestShortName) {
 		return null;
 	}

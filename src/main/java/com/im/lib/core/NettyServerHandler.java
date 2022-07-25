@@ -3,7 +3,7 @@ package com.im.lib.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.im.lib.net.DispatcherWebsocket;
-import com.im.lib.net.ParseParameter;
+import com.im.lib.net.MTProto;
 import com.im.service.ChatService;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
@@ -44,7 +44,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocke
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Resource
-    private ParseParameter parseParameter;
+    private MTProto MTProto;
     @Resource
     private ChatService chatService;
     @Resource

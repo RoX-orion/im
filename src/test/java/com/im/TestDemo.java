@@ -7,17 +7,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.lib.Helpers;
 import com.im.lib.crypto.AES;
 import com.im.lib.crypto.DH;
-import com.im.lib.core.BinaryReader;
-import com.im.lib.tl.TLHelpers;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
 import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.regex.Pattern;
 
+@Slf4j
 public class TestDemo {
     @Test
     public void testDH() {
@@ -207,9 +208,6 @@ public class TestDemo {
 //        for (int i = 0; i < array.length; i++) {
 //            buffer[i] = array[i] & 0xff;
 //        }
-        BinaryReader binaryReader = new BinaryReader(array);
-        int data = binaryReader.readInt32();
-        System.out.println(data);
 
 
 //        BigInteger result = new BigInteger("0");
@@ -247,13 +245,113 @@ public class TestDemo {
     }
 
     @Test
-    public void testTL() {
+    public void testTL() throws NoSuchAlgorithmException, InvalidKeySpecException, FileNotFoundException {
 //        int a = 2936858557;
 //        System.out.println(Long.parseLong("83C95aEc", 16));
 //        System.out.println(TLHelpers.hexToLong("05162463"));// 85337187
 //        System.out.println(TLHelpers.hexToLong("83C95aEc"));// 2211011308
         // 4  1byte = 2hex
-        String a = "a";
-//        System.out.println(Arrays.toString(a.split("\\.")));
+//        String a = "a";
+//        TCPAbridged tcpAbridged = new TCPAbridged();
+//        byte[] bytes = new byte[]{
+//                2, 3, 2
+//        };
+//        System.out.println(tcpAbridged.readLengthLE(bytes));
+//        int b = 0xb55aba82;
+//        int c = b;
+//        BigInteger bigInteger = new BigInteger("2937959817066933702298617714945612856538843112005886376816255642404751219133084745514657634448776440866"
+//                + "1701890505066208632169112269581063774293102577308490531282748465986139880977280302242772832972539403531"
+//                + "3160108704012876427630091361567343395380424193887227773571344877461690935390938502512438971889287359033"
+//                + "8945177273024525306296338410881284207988753897636046529094613963869149149606209957083647645485599631919"
+//                + "2747663615955633778034897140982517446405334423701359108810182097749467210509584293428076654573384828809"
+//                + "574217079944388301239431309115013843331317877374435868468779972014486325557807783825502498215169806323");
+//        byte[] bytes = Helpers.SHA1(bigInteger.toString().getBytes());
+//        System.out.println(Arrays.toString(bytes));
+//        byte[] b = new byte[8];
+//        for (int i = 19; i > 11; i--) {
+//            b[19 - i] = bytes[i];
+//        }
+
+
+//        System.out.println(Helpers.readBigIntegerFromBytes(b, true));
+//        RSA.PublicKeyNE publicKeyNE = RSA.SERVER_KEYS.get("-3414540481677951611");
+//        PublicKey RsaKey = RSA.getPublicKey(publicKeyNE.getN(), publicKeyNE.getE());
+//        byte[] encoded = RsaKey.getEncoded();
+//        byte[] sha1 = Helpers.SHA1(encoded);
+//        byte[] bytes = new byte[8];
+//        byte[] b = new byte[8];
+//        for (int i = 12; i < 20; i++) {
+//            bytes[i - 12] = sha1[i];
+//        }
+//        for (int i = 19; i > 11; i--) {
+//            b[19 - i] = sha1[i];
+//        }
+//        /*
+//         * -3414540481677951611
+//         * -5595554452916591101
+//         *
+//         */
+//        System.out.println(RsaKey.getAlgorithm());
+//        System.out.println(Helpers.readBigIntegerFromBytes(bytes, false));
+//        System.out.println(Helpers.readBigIntegerFromBytes(b, false));
+//        byte[] decode = Base64.getDecoder().decode("MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnhaoXj7nQDo0Q6bVZHGB" +
+//                "2lYYCoeK2McTYJkFoKgnppkoSFdDqGWT7sSbMzZPHJwXP/88+uu0E1zcBELyUjto" +
+//                "mZnJJUns8HhzfMrcjB2ZgwIvYxMjdRqYiQj+SjN4bYH2J/6dTp9zXToc6R48mxBK" +
+//                "x1sETREJ8z62AF3/UCYq/UqOIWBvcbQkP9LL7pnelvZF2ao1G5slBb8g7D4rl+/t" +
+//                "Nvl9A0l0tExN12GC/gVPXuxkh8k/i4VjScdLJK1gKAoNUoZL23OrwLIyrfnzuLCz" +
+//                "G1/Klfzesn05CAMDpGg8SR1bqMd4prKFIrEHJLhXRlwK537cuuO8VoquPBN9BHGI" +
+//                "EwIDAQAB");
+//        System.out.println(Helpers.byteArrayToHexString(Helpers.slice(decode, 0, 112)));
+//        System.out.println(Helpers.byteArrayToHexString(decode));
+
+//        String publicKey;
+//        try {
+//            publicKey = Objects.requireNonNull(RSA.class.getClassLoader().getResource("rsa/RsaKey")).getFile();
+//        } catch (Exception e) {
+//            throw new Error("Can load RSA file, you must config it!");
+//        }
+//
+//        try(FileInputStream publicKeyInputStream = new FileInputStream(publicKey)) {
+//            byte[] bytes = publicKeyInputStream.readAllBytes();
+//            String s = new String(bytes);
+//            String[] split = s.split(RSA.PRIVATE_KEY_END);
+//            for (String s1 : split) {
+//                StringBuilder builder = new StringBuilder();
+//                String[] lines = s1.split("\n");
+//                for (String line : lines) {
+//                    builder.append(line.trim());
+//                }
+//                String source = builder.toString();
+//                if (StringUtils.hasLength(source)) {
+//                    String publicKeyBase64 = source.substring(
+//                            source.indexOf(RSA.PUBLIC_KEY_BEGIN) + RSA.PUBLIC_KEY_BEGIN.length(),
+//                            source.indexOf(RSA.PUBLIC_KEY_END)
+//                    ).trim();
+//                    byte[] decode = Base64.getDecoder().decode(publicKeyBase64);
+//                    String n = Helpers.readBigIntegerFromBytes(
+//                            Helpers.slice(decode, 112, 291),
+//                            false
+//                    ).toString();
+//
+//                    String e = Helpers.readBigIntegerFromBytes(
+//                            Helpers.slice(decode, 291, 294),
+//                            false
+//                    ).toString();
+//
+//                    RSA.PublicKeyNE publicKeyNE = new RSA.PublicKeyNE(n, e);
+//                    log.info("RSA info:\n fingerprint = {}\n n = {}\n e = {}",
+//                            Helpers.readBigIntegerFromBytes(Helpers.slice(Helpers.SHA1(decode), 12, 20), false),
+//                            publicKeyNE.getN(),
+//                            publicKeyNE.getE()
+//                    );
+//                    String privateKeyBase64 = source.substring(
+//                            source.indexOf(RSA.PRIVATE_KEY_BEGIN) + RSA.PRIVATE_KEY_BEGIN.length()
+//                    ).trim();
+//                }
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
+
 }

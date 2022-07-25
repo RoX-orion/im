@@ -33,4 +33,8 @@ public class Constant {
     public static final String CHECK_CODE_PREFIX = "check_code:";
 
     public static final String MTPROTO_STATE = "mtproto-state:";
+
+    public static final String CREATE_AUTH_KEY_STATE = "create-authKey-state:";
+
+    public static final String EMPTY_VALUE = "empty";
 }

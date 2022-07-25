@@ -7,17 +7,17 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class UsersController {
 
-	@WebsocketHandlerMapping(value = 227648840L, name = "GetUsers")
+	@WebsocketHandlerMapping(value = 227648840, name = "GetUsers")
 	public Api.User[] getUsers(UsersApi.GetUsers getUsers) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3054459160L, name = "GetFullUser")
+	@WebsocketHandlerMapping(value = -1240508136, name = "GetFullUser")
 	public UsersApi.UserFull getFullUser(UsersApi.GetFullUser getFullUser) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2429064373L, name = "SetSecureValueErrors")
+	@WebsocketHandlerMapping(value = -1865902923, name = "SetSecureValueErrors")
 	public Boolean setSecureValueErrors(UsersApi.SetSecureValueErrors setSecureValueErrors) {
 		return null;
 	}

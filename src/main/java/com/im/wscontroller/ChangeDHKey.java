@@ -17,12 +17,12 @@ public class ChangeDHKey {
 //            privateKey.append(random.nextInt(10));
 //        }
 //
-//        BigInteger publicKey = Helpers.fastMod(Constant.DH_G, new BigInteger(privateKey.toString()), Constant.DH_P);
-//        System.out.println(publicKey);
+//        BigInteger RsaKey = Helpers.fastMod(Constant.DH_G, new BigInteger(privateKey.toString()), Constant.DH_P);
+//        System.out.println(RsaKey);
 //    }
 //
-//    public void createSecretKey(String publicKey, Long uid) {
-//        BigInteger pk = new BigInteger(publicKey);
+//    public void createSecretKey(String RsaKey, Long uid) {
+//        BigInteger pk = new BigInteger(RsaKey);
 //        BigInteger result = pk.multiply(privateKeyMap.get(uid));
 //        String secretKey = EncryptionUtil.SHA256(result.toString());
 //    }

@@ -72,13 +72,12 @@ public class Helpers {
      * @return BigInteger表示的二进制字符串
      */
 
-    public static BigInteger getRandomBinary(int length) {
-        StringBuilder binaryString = new StringBuilder("1");
-        for (int i = 1; i < length; i++) {
-            binaryString.append(getRandomInt(0, 1));
+    public static byte[] getRandomBytes(int length) {
+        byte[] result = new byte[length];
+        for (int i = 0; i < length; i++) {
+            result[i] = (byte) getRandomInt(0, 127);
         }
-
-        return binaryStringToBigInteger(binaryString.toString());
+        return result;
     }
 
     public static BigInteger binaryStringToBigInteger(String binaryString) {
@@ -175,6 +174,7 @@ public class Helpers {
      */
     public static BigInteger readBigIntegerFromBytes(byte[] bytes, boolean little) {
         int length = bytes.length;
+//        byte[] buffer = bytes;
         int[] buffer = new int[length];
         for (int i = 0; i < length; i++) {
             buffer[i] = bytes[i] & 0xff;

@@ -1,8 +1,6 @@
 package com.im.lib.tl;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class TLHelpers {
     public static Set<Long> CORE_TYPES = new HashSet<>(Arrays.asList(
@@ -31,6 +29,13 @@ public class TLHelpers {
             "Integer", "Long", "long", "BigInteger",
             "double", "byte", "Bool"
     ));
+
+    public static Map<Integer, String> CORE_TYPE = new HashMap<>();
+    static {
+        CORE_TYPE.put(0xf35c6d01, "RPCResult");
+        CORE_TYPE.put(0x3072cfa1, "GZIPPacked");
+        CORE_TYPE.put(0x73f1f8dc, "MessageContainer");
+    }
 
     public static Set<String> CONFLICTING_FIELD = new HashSet<>(Arrays.asList(
             "long", "default", "static", "public", "final", "private"
@@ -70,7 +75,7 @@ public class TLHelpers {
         return crcTable;
     }
 
-    public static long crc32(String buf) {
+    public static int crc32(String buf) {
         if (crcTable == null) {
             crcTable = makeCRCTable();
         }
@@ -80,6 +85,6 @@ public class TLHelpers {
         for (byte b : buffer) {
             crc = crcTable[(crc ^ b) & 0xff] ^ crc >>> 8;
         }
-        return (~crc) & 0xffffffffL;
+        return ~crc;
     }
 }

@@ -18,15 +18,14 @@ public class MTProtoStateService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    public byte[] decryptData(byte[] bytes, Channel channel) {
+    public byte[] decryptData(byte[] msgKey, byte[] bytes, Channel channel) {
         String channelId = channel.id().asShortText();
-        byte[] msg_key = Helpers.slice(bytes, 8, 24);
         String strAuthKey = stringRedisTemplate.opsForValue().get(Constant.CHANNEL_ID_AUTH_KEY + channelId);
         byte[] authKey = Helpers.hexStringToByteArray(Objects.requireNonNull(strAuthKey));
         System.out.println("AuthKey:" + Arrays.toString(Helpers.toUnsignedInt(authKey)) + "\n"
-                + Arrays.toString(Helpers.byteArrayToUnsignedArray(msg_key)));
+                + Arrays.toString(Helpers.byteArrayToUnsignedArray(msgKey)));
 
-        AesParams aesParams = this.calcKey(authKey, msg_key, true);
+        AesParams aesParams = this.calcKey(authKey, msgKey, true);
         byte[] data = Helpers.slice(bytes, 24);
         return AES.decrypt(aesParams.getKey(), data, aesParams.getIv());
     }
@@ -79,6 +78,8 @@ public class MTProtoStateService {
         );
         return new AesParams(key, iv);
     }
+
+
 
 //    public long getNewMsgId() {
 //        BigInteger bigInteger = new BigInteger("0");

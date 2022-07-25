@@ -7,27 +7,27 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class StatsController {
 
-	@WebsocketHandlerMapping(value = 2873246746L, name = "GetBroadcastStats")
+	@WebsocketHandlerMapping(value = -1421720550, name = "GetBroadcastStats")
 	public StatsApi.BroadcastStats getBroadcastStats(StatsApi.GetBroadcastStats getBroadcastStats) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1646092192L, name = "LoadAsyncGraph")
+	@WebsocketHandlerMapping(value = 1646092192, name = "LoadAsyncGraph")
 	public Api.StatsGraph loadAsyncGraph(StatsApi.LoadAsyncGraph loadAsyncGraph) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3705636359L, name = "GetMegagroupStats")
+	@WebsocketHandlerMapping(value = -589330937, name = "GetMegagroupStats")
 	public StatsApi.MegagroupStats getMegagroupStats(StatsApi.GetMegagroupStats getMegagroupStats) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1445996571L, name = "GetMessagePublicForwards")
+	@WebsocketHandlerMapping(value = 1445996571, name = "GetMessagePublicForwards")
 	public MessagesApi.Messages getMessagePublicForwards(StatsApi.GetMessagePublicForwards getMessagePublicForwards) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3068175349L, name = "GetMessageStats")
+	@WebsocketHandlerMapping(value = -1226791947, name = "GetMessageStats")
 	public StatsApi.MessageStats getMessageStats(StatsApi.GetMessageStats getMessageStats) {
 		return null;
 	}

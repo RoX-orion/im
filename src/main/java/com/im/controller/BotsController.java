@@ -7,47 +7,47 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class BotsController {
 
-	@WebsocketHandlerMapping(value = 2854709741L, name = "SendCustomRequest")
+	@WebsocketHandlerMapping(value = -1440257555, name = "SendCustomRequest")
 	public Api.DataJSON sendCustomRequest(BotsApi.SendCustomRequest sendCustomRequest) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3860938573L, name = "AnswerWebhookJSONQuery")
+	@WebsocketHandlerMapping(value = -434028723, name = "AnswerWebhookJSONQuery")
 	public Boolean answerWebhookJSONQuery(BotsApi.AnswerWebhookJSONQuery answerWebhookJSONQuery) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 85399130L, name = "SetBotCommands")
+	@WebsocketHandlerMapping(value = 85399130, name = "SetBotCommands")
 	public Boolean setBotCommands(BotsApi.SetBotCommands setBotCommands) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1032708345L, name = "ResetBotCommands")
+	@WebsocketHandlerMapping(value = 1032708345, name = "ResetBotCommands")
 	public Boolean resetBotCommands(BotsApi.ResetBotCommands resetBotCommands) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 3813412310L, name = "GetBotCommands")
+	@WebsocketHandlerMapping(value = -481554986, name = "GetBotCommands")
 	public Api.BotCommand[] getBotCommands(BotsApi.GetBotCommands getBotCommands) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1157944655L, name = "SetBotMenuButton")
+	@WebsocketHandlerMapping(value = 1157944655, name = "SetBotMenuButton")
 	public Boolean setBotMenuButton(BotsApi.SetBotMenuButton setBotMenuButton) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2623597352L, name = "GetBotMenuButton")
+	@WebsocketHandlerMapping(value = -1671369944, name = "GetBotMenuButton")
 	public Api.BotMenuButton getBotMenuButton(BotsApi.GetBotMenuButton getBotMenuButton) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2021942497L, name = "SetBotBroadcastDefaultAdminRights")
+	@WebsocketHandlerMapping(value = 2021942497, name = "SetBotBroadcastDefaultAdminRights")
 	public Boolean setBotBroadcastDefaultAdminRights(BotsApi.SetBotBroadcastDefaultAdminRights setBotBroadcastDefaultAdminRights) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 2455685610L, name = "SetBotGroupDefaultAdminRights")
+	@WebsocketHandlerMapping(value = -1839281686, name = "SetBotGroupDefaultAdminRights")
 	public Boolean setBotGroupDefaultAdminRights(BotsApi.SetBotGroupDefaultAdminRights setBotGroupDefaultAdminRights) {
 		return null;
 	}

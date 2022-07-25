@@ -1,7 +1,5 @@
 package com.im.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.config.Constant;
 import com.im.entity.User;
 import com.im.lib.Helpers;
@@ -101,7 +99,8 @@ public class AuthService {
 
     public BigInteger getAuthKey(Api.DH dh, Channel channel) {
         // 获取256位指数
-        BigInteger index = Helpers.getRandomBinary(256);
+        byte[] randomBytes = Helpers.getRandomBytes(32);
+        BigInteger index = Helpers.readBigIntegerFromBytes(randomBytes, false);
         DHResult result1 = DH.getResult(Constant.DH_BASE, index, Constant.DH_PRIME);
         BigInteger gbp = result1.getResult();
 

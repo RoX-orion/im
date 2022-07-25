@@ -7,7 +7,7 @@ import com.im.lib.Helpers;
 import com.im.lib.entity.RequestData;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.net.DispatcherWebsocket;
-import com.im.lib.net.ParseParameter;
+import com.im.lib.net.MTProto;
 import com.im.lib.net.WriteData;
 import com.im.service.ChatService;
 import io.netty.buffer.ByteBuf;
@@ -53,7 +53,7 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     private DispatcherWebsocket dispatcherWebsocket;
 
     @Resource
-    private ParseParameter parseParameter;
+    private MTProto MTProto;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -67,15 +67,18 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
         ByteBuf byteBuf = binaryWebSocketFrame.content();
         int length = byteBuf.capacity();
         byte[] bytes = new byte[length];
+        int[] unsignedInt8Array = new int[length];
         for (int i = 0; i < length; i++) {
             byte b = byteBuf.readByte();
             bytes[i] = b;
+            unsignedInt8Array[i] = b & 0xFF;
         }
-        System.out.println("接收到的字节数组: " + bytes.length + Arrays.toString(bytes));
+        System.out.println("接收到的字节数组: " + length + Arrays.toString(unsignedInt8Array));
 
         Object response = null;
         try {
-            RequestData requestData = parseParameter.getRequestData(bytes, channel);
+            byteBuf.resetReaderIndex();
+            RequestData requestData = MTProto.getRequestData(byteBuf, channel);
 
             response = dispatcherWebsocket.dispatcherRequest(requestData, channel);
 

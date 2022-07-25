@@ -26,7 +26,7 @@ public class DH {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    // 生成本地KeyPair(publicKey + privateKey)
+    // 生成本地KeyPair(RsaKey + privateKey)
     public synchronized static KeyPair generateKeyPair() {
         try {
             KeyPairGenerator kpGen = KeyPairGenerator.getInstance("DH");
