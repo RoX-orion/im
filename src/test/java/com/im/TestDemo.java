@@ -7,12 +7,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.lib.Helpers;
 import com.im.lib.crypto.AES;
 import com.im.lib.crypto.DH;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.util.internal.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Field;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
@@ -37,9 +43,7 @@ public class TestDemo {
 //        byte b = (byte) 10;
 //        System.out.println(b);
 //        System.out.println(b & 0xff);
-        char c = 'F';
-        int i = c - 'A' + 10;
-        System.out.println(String.valueOf(i));
+
     }
 
     @Test
@@ -101,15 +105,13 @@ public class TestDemo {
     }
 
     @Test
-    public void testBinary() throws JsonProcessingException {
+    public void testBinary() throws JsonProcessingException, IllegalAccessException {
         String str = "{\"type\":\"dh\",\"gap\":\"256\"}";
         new ObjectMapper();
 //        HashMap<String, String> map = new HashMap<>();
 //        map.put("age", "10");
 //        map.put("name", "Jack");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(objectMapper.readValue(str, HashMap.class));
+        System.out.println(-15 & 0xff);
     }
 
     @Test
@@ -353,5 +355,6 @@ public class TestDemo {
 //            throw new RuntimeException(e);
 //        }
     }
+
 
 }

@@ -76,7 +76,7 @@ public class PhoneApi {
 		private byte gAHash;
 		private int randomId;
 		private Api.TypePhoneCallProtocol protocol;
-		private Boolean video;
+		private Api.True video;
 		private Api.TypeInputUser userId;
 	}
 
@@ -110,7 +110,7 @@ public class PhoneApi {
 		private Api.TypePhoneCallDiscardReason reason;
 		private Api.TypeInputPhoneCall peer;
 		private BigInteger connectionId;
-		private Boolean video;
+		private Api.True video;
 	}
 
 	@Data
@@ -119,7 +119,7 @@ public class PhoneApi {
 		private Api.TypeInputPhoneCall peer;
 		private int rating;
 		private String comment;
-		private Boolean userInitiative;
+		private Api.True userInitiative;
 	}
 
 	@Data
@@ -143,7 +143,7 @@ public class PhoneApi {
 		private Api.TypeInputPeer peer;
 		private int scheduleDate;
 		private String title;
-		private Boolean rtmpStream;
+		private Api.True rtmpStream;
 	}
 
 	@Data
@@ -152,9 +152,9 @@ public class PhoneApi {
 		private Api.TypeInputGroupCall call;
 		private Api.TypeInputPeer joinAs;
 		private String inviteHash;
-		private Boolean videoStopped;
+		private Api.True videoStopped;
 		private Api.TypeDataJSON params;
-		private Boolean muted;
+		private Api.True muted;
 	}
 
 	@Data
@@ -181,7 +181,7 @@ public class PhoneApi {
 	@EqualsAndHashCode(callSuper=false)
 	public static class ToggleGroupCallSettings extends Api.TypeUpdates {
 		private Api.TypeInputGroupCall call;
-		private Boolean resetInviteHash;
+		private Api.True resetInviteHash;
 		private Boolean joinMuted;
 	}
 
@@ -211,9 +211,9 @@ public class PhoneApi {
 	@EqualsAndHashCode(callSuper=false)
 	public static class ToggleGroupCallRecord extends Api.TypeUpdates {
 		private Api.TypeInputGroupCall call;
-		private Boolean start;
+		private Api.True start;
 		private Boolean videoPortrait;
-		private Boolean video;
+		private Api.True video;
 		private String title;
 	}
 
@@ -245,7 +245,7 @@ public class PhoneApi {
 	@Data
 	public static class ExportGroupCallInvite {
 		private Api.TypeInputGroupCall call;
-		private Boolean canSelfUnmute;
+		private Api.True canSelfUnmute;
 	}
 
 	@Data

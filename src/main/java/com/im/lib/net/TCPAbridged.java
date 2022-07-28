@@ -1,6 +1,8 @@
 package com.im.lib.net;
 
+import com.im.lib.Helpers;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.buffer.Unpooled;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +12,19 @@ public class TCPAbridged {
     public final int header = 0x7f;
 
     public ByteBuf encodePacket(ByteBuf byteBuf) {
-        return null;
+        int length = byteBuf.readableBytes() >> 2;
+        ByteBuf buffer;
+        if (length < 127) {
+            buffer = PooledByteBufAllocator.DEFAULT.buffer(length + 1);
+            buffer.writeByte(length);
+            buffer.writeBytes(byteBuf);
+        } else {
+            buffer = PooledByteBufAllocator.DEFAULT.buffer(length + 4);
+            buffer.writeByte(0x7f);
+            byte[] bytes = Helpers.readBufferFromInt(length, 3, null, null);
+            buffer.writeBytes(bytes);
+        }
+        return buffer;
     }
 
     public ByteBuf readPacket(ByteBuf byteBuf) {

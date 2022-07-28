@@ -14,29 +14,16 @@ import java.util.LinkedList;
 @Slf4j
 public class BindParam {
 
-    public Object[] bind(Parameter[] parameters, HashMap<String, Object> params, Channel channel) {
+    public Object[] bind(Parameter[] parameters, Object param, Channel channel) {
         Object[] methodParams = new Object[parameters.length];
         for (int i = 0; i < parameters.length; i++) {
-            String name = parameters[i].getName();
             Class<?> type = parameters[i].getType();
             if (type.isAssignableFrom(Channel.class)) {
                 methodParams[i] = channel;
                 continue;
             }
-            Object param = params.get(name);
-            WebsocketRequestParam websocketRequestParam = parameters[i].getDeclaredAnnotation(WebsocketRequestParam.class);
-            if (websocketRequestParam != null) {
-                try {
-                    methodParams[i] = castObject(type, param);
-                } catch (Exception e){
-                    throw new ClassCastException();
-                }
-            }
-            if (param == null) {
-                throw new ParamBindException("没有名为 " + name + " 的参数");
-            }
+            methodParams[i] = castObject(type, param);
         }
-
         return methodParams;
     }
 

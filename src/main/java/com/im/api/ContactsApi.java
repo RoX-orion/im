@@ -140,16 +140,16 @@ public class ContactsApi {
 
 	@Data
 	public static class GetTopPeers {
-		private Boolean phoneCalls;
-		private Boolean botsPm;
-		private Boolean channels;
+		private Api.True phoneCalls;
+		private Api.True botsPm;
+		private Api.True channels;
 		private int offset;
-		private Boolean botsInline;
-		private Boolean forwardChats;
-		private Boolean forwardUsers;
+		private Api.True botsInline;
+		private Api.True forwardChats;
+		private Api.True forwardUsers;
 		private int limit;
-		private Boolean groups;
-		private Boolean correspondents;
+		private Api.True groups;
+		private Api.True correspondents;
 		private BigInteger hash;
 	}
 
@@ -178,7 +178,7 @@ public class ContactsApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class AddContact extends Api.TypeUpdates {
-		private Boolean addPhonePrivacyException;
+		private Api.True addPhonePrivacyException;
 		private String firstName;
 		private String lastName;
 		private String phone;
@@ -195,17 +195,17 @@ public class ContactsApi {
 	@EqualsAndHashCode(callSuper=false)
 	public static class GetLocated extends Api.TypeUpdates {
 		private int selfExpires;
-		private Boolean background;
+		private Api.True background;
 		private Api.TypeInputGeoPoint geoPoint;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BlockFromReplies extends Api.TypeUpdates {
-		private Boolean deleteHistory;
-		private Boolean reportSpam;
+		private Api.True deleteHistory;
+		private Api.True reportSpam;
 		private int msgId;
-		private Boolean deleteMessage;
+		private Api.True deleteMessage;
 	}
 
 	@Data

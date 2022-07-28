@@ -44,14 +44,14 @@ public class AccountApi {
 		private Api.TypePasswordKdfAlgo currentAlgo;
 		private BigInteger srpId;
 		private byte srpB;
-		private Boolean hasPassword;
+		private Api.True hasPassword;
 		private Api.TypeSecurePasswordKdfAlgo newSecureAlgo;
 		private int pendingResetDate;
 		private String emailUnconfirmedPattern;
 		private byte secureRandom;
 		private String hint;
-		private Boolean hasRecovery;
-		private Boolean hasSecureValues;
+		private Api.True hasRecovery;
+		private Api.True hasSecureValues;
 	}
 
 	@Data
@@ -131,8 +131,8 @@ public class AccountApi {
 
 	@Data
 	public static class ContentSettings {
-		private Boolean sensitiveEnabled;
-		private Boolean sensitiveCanChange;
+		private Api.True sensitiveEnabled;
+		private Api.True sensitiveCanChange;
 	}
 
 	@Data
@@ -171,7 +171,7 @@ public class AccountApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class RegisterDevice extends Api.TypeBool {
-		private Boolean noMuted;
+		private Api.True noMuted;
 		private Boolean appSandbox;
 		private BigInteger[] otherUids;
 		private byte secret;
@@ -419,19 +419,19 @@ public class AccountApi {
 
 	@Data
 	public static class InitTakeoutSession {
-		private Boolean messageChats;
+		private Api.True messageChats;
 		private BigInteger fileMaxSize;
-		private Boolean files;
-		private Boolean messageUsers;
-		private Boolean messageMegagroups;
-		private Boolean contacts;
-		private Boolean messageChannels;
+		private Api.True files;
+		private Api.True messageUsers;
+		private Api.True messageMegagroups;
+		private Api.True contacts;
+		private Api.True messageChannels;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class FinishTakeoutSession extends Api.TypeBool {
-		private Boolean success;
+		private Api.True success;
 	}
 
 	@Data
@@ -464,7 +464,7 @@ public class AccountApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class GetNotifyExceptions extends Api.TypeUpdates {
-		private Boolean compareSound;
+		private Api.True compareSound;
 		private Api.TypeInputNotifyPeer peer;
 	}
 
@@ -511,8 +511,8 @@ public class AccountApi {
 	@EqualsAndHashCode(callSuper=false)
 	public static class SaveAutoDownloadSettings extends Api.TypeBool {
 		private Api.TypeAutoDownloadSettings settings;
-		private Boolean high;
-		private Boolean low;
+		private Api.True high;
+		private Api.True low;
 	}
 
 	@Data
@@ -555,7 +555,7 @@ public class AccountApi {
 	@EqualsAndHashCode(callSuper=false)
 	public static class InstallTheme extends Api.TypeBool {
 		private Api.TypeBaseTheme baseTheme;
-		private Boolean dark;
+		private Api.True dark;
 		private String format;
 		private Api.TypeInputTheme theme;
 	}
@@ -577,7 +577,7 @@ public class AccountApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SetContentSettings extends Api.TypeBool {
-		private Boolean sensitiveEnabled;
+		private Api.True sensitiveEnabled;
 	}
 
 	@Data

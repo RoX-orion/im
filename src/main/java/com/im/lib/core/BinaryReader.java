@@ -1,5 +1,6 @@
 package com.im.lib.core;
 
+import com.im.lib.exception.ParamBindException;
 import com.im.lib.tl.ArgsConfig;
 import com.im.lib.tl.NodeConfig;
 import com.im.lib.tl.TLObject;
@@ -7,9 +8,11 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class BinaryReader {
 
@@ -55,18 +58,18 @@ public class BinaryReader {
         return buf.readIntLE();
     }
 
-//    public boolean tgReadBool() {
-//        int i = this.readInt32();
-//        if (i == ApiTL.True) {
-//            // boolTrue
-//            return true;
-//        } else if (i == ApiTL.False) {
-//            // boolFalse
-//            return false;
-//        } else {
-//            throw new RuntimeException("Invalid boolean code " + i);
-//        }
-//    }
+    public boolean tgReadBool() {
+        long value = buf.readUnsignedIntLE();
+        if (value == 0x997275b5) {
+            // boolTrue
+            return true;
+        } else if (value == 0xbc799737) {
+            // boolFalse
+            return false;
+        } else {
+            throw new RuntimeException("Invalid boolean");
+        }
+    }
 
     /**
      * 读取length长度字节的字符串
@@ -86,34 +89,18 @@ public class BinaryReader {
 //        return new String(buffer);
 //    }
 
-    public Object readObject(int length/*, Class<T> clazz*/) {
-//        byte[] buffer = new byte[length];
-//        for (int i = 0; i < length; i++) {
-//            buffer[i] = this.buf[offset++];
-//        }
-//
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        try {
-////            return objectMapper.readValue(buffer, clazz);
-//            return objectMapper.readValue(buffer, Object.class);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-        return null;
-    }
-
     public byte[] read(int length) {
-//        byte[] result = new byte[length];
-//        for (int i = 0; i < length; i++) {
-//            result[i] = buf[offset++];
-//        }
-//        return result;
-        return null;
+        if (length == -1) {
+            length = buf.readableBytes();
+        }
+        byte[] result = new byte[length];
+        buf.readBytes(result);
+//        this._last = result;
+        return result;
     }
 
-    public byte readByte() {
-//        return buf[offset++] & 0xFF;
-        return buf.readByte();
+    public int readByte() {
+        return buf.readByte() & 0xff;
     }
 
     public byte[] readBytes(int length) {
@@ -134,35 +121,39 @@ public class BinaryReader {
     }
 
     public byte[] tgReadBytes() {
-//        int firstByte = this.readByte();
-//        int padding;
-//        int length;
-//        if (firstByte == 254) {
-//            length = this.readByte() | (this.readByte() << 8) | (this.readByte() << 16);
-//            padding = length % 4;
-//        } else {
-//            length = firstByte;
-//            padding = (length + 1) % 4;
-//        }
-//        byte[] data = this.read(length);
-//
-//        if (padding > 0) {
-//            padding = 4 - padding;
-//            this.read(padding);
-//        }
-//
-//        return data;
-        return null;
+        int firstByte = this.readByte();
+        int padding;
+        int length;
+        if (firstByte == 254) {
+            length = this.readByte() | (this.readByte() << 8) | (this.readByte() << 16);
+            padding = length % 4;
+        } else {
+            length = firstByte;
+            padding = (length + 1) % 4;
+        }
+        byte[] data = this.read(length);
+
+        if (padding > 0) {
+            padding = 4 - padding;
+            this.read(padding);
+        }
+
+        return data;
     }
 
     public String tgReadString() {
         return new String(tgReadBytes(), StandardCharsets.UTF_8);
     }
 
-    Object tgReadObject() {
-        int constructorId = readInt32();
-        NodeConfig clazz = tlObject.getTLObject(constructorId);
-        if (clazz == null) {
+    public Date tgReadDate() {
+        int value = buf.readIntLE();
+        return new Date(value * 1000L);
+    }
+
+    public Object tgReadObject(int constructorId) {
+        // 当前方法的参数
+        NodeConfig paramsConfig = TLObject.getTLObject(constructorId);
+        if (paramsConfig == null) {
             /*
              * The class was None, but there's still a
              * chance of it being a manually parsed value like bool!
@@ -182,7 +173,7 @@ public class BinaryReader {
 //                }
 //                return temp;
             }
-
+            throw new RuntimeException();
 //            clazz = TLObject.[constructorId];
 //
 //            if (clazz == null) {
@@ -190,18 +181,113 @@ public class BinaryReader {
 //                throw new RuntimeException("Can read the Object of constructorId is " + constructorId);
 //            }
         }
-        HashMap<String, ArgsConfig> argsConfigs = Objects.requireNonNull(clazz).getArgsConfig();
+        HashMap<String, ArgsConfig> argsConfigs = paramsConfig.getArgsConfig();
+        HashMap<String, Object> args = new HashMap<>();
         for (String argName : argsConfigs.keySet()) {
             ArgsConfig arg = argsConfigs.get(argName);
             if (arg.isFlag()) {
-                arg.getFlagIndex() > 30 ? arg.get
-
+                int flagValue = arg.getFlagIndex() > 30 ?
+                        (int) args.get("flags2") & (1 << arg.getFlagIndex() - 31)
+                        : (int) args.get("flags") & (1 << arg.getFlagIndex());
+                if (arg.getType().equals("True")) {
+                    args.put(argName, flagValue != 0);
+                    continue;
+                }
+                if (flagValue != 0) {
+                    args.put(argName, getArgFromReader(buf, arg));
+                } else {
+                    args.put(argName, null);
+                }
             } else {
                 if (arg.isFlagIndicator()) {
-
+                    args.put("name", "flags");
                 }
+                args.put(argName, getArgFromReader(buf, arg));
             }
         }
-        return null;
+        System.out.println(args);
+        String clazzName = paramsConfig.getName();
+        // 当前参数实体类的class
+        Class<?> clazz = TLObject.getClazz(clazzName);
+        if (clazz == null) {
+            throw new ParamBindException("can't find the request param '" + clazzName + "'");
+        }
+        Object buildObject;
+        try {
+            buildObject = clazz.getConstructor().newInstance();
+        } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        for (Field declaredField : clazz.getDeclaredFields()) {
+            declaredField.setAccessible(true);
+            String name = declaredField.getName();
+            Object paramObject = args.get(name);
+            if (paramObject == null) {
+                throw new ParamBindException("there isn't a param which name is '" + name + "' in request");
+            }
+            try {
+                declaredField.set(buildObject, paramObject);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return buildObject;
+    }
+
+    private Object getArgFromReader(ByteBuf buf, ArgsConfig arg) {
+        if (arg.isVector()) {
+            if (arg.getUseVectorId()) {
+                buf.readInt();
+            }
+        List<Object> temp = new ArrayList<>();
+        int len = buf.readInt();
+        arg.setVector(false);
+            for (int i = 0; i < len; i++) {
+                temp.add(getArgFromReader(buf, arg));
+            }
+            arg.setVector(true);
+            return temp;
+        } else if (arg.isFlagIndicator()) {
+            return buf.readInt();
+        } else {
+            switch (arg.getType()) {
+                case "int":
+                    return buf.readInt();
+                case "long":
+                    return buf.readLong();
+                case "int128":
+                    return readBigInteger(buf, 16);
+                case "int256":
+                    return readBigInteger(buf, 32);
+                case "double":
+                    return buf.readDouble();
+                case "string":
+                    return this.tgReadString();
+                case "Bool":
+                    return this.tgReadBool();
+                case "true":
+                    return true;
+                case "bytes":
+                    return this.tgReadBytes();
+                case "date":
+                    return this.tgReadDate();
+                default:
+                    if (!arg.isSkipConstructorId()) {
+                        int constructorId = this.readInt32();
+                        return this.tgReadObject(constructorId);
+                    } else {
+                        throw new RuntimeException("Unknown type");
+                    }
+            }
+        }
+    }
+
+    public BigInteger readBigInteger(ByteBuf buf, int length) {
+        BigInteger result = BigInteger.ZERO;
+        for (int i = 0; i < length; i++) {
+            result = result.shiftLeft(8).or(BigInteger.valueOf(buf.readByte() & 0xff));
+        }
+        return result;
     }
 }

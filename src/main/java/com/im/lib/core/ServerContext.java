@@ -1,5 +1,6 @@
 package com.im.lib.core;
 
+import com.im.lib.tl.TLObject;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Component;
 

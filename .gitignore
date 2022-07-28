@@ -6,6 +6,8 @@ target/
 # Configuration files
 !**/src/main/resources/application.yml
 
+!**/src/main/resources/rsa/RsaKey
+
 # test
 !**/src/test/
 

@@ -24,6 +24,7 @@ public class TLParser {
         List<NodeConfig> c1 = parseTL("schema.tl");
         List<NodeConfig> c2 = parseTL("api.tl");
         c1.addAll(c2);
+        System.out.println(c1);
         List<NodeConfig> constructors = new LinkedList<>();
         List<NodeConfig> functions = new LinkedList<>();
         for (NodeConfig nodeConfig : c1) {
@@ -59,6 +60,10 @@ public class TLParser {
                     @Data
                 	public static class X {
                 		private HashMap<String, Object> data;
+                    }
+                    @Data
+                    public static class True {
+                        private boolean value = true;
                     }""";
         StringBuilder builder = new StringBuilder(prefix);
 
@@ -106,6 +111,9 @@ public class TLParser {
         for (NodeConfig constructor : constructors) {
             String namespace = constructor.getNamespace();
             String name = constructor.getName();
+            if (name.equals("True")) {
+                continue;
+            }
             StringBuilder b = np.get(namespace);
             String s = name.substring(0, 1).toUpperCase() + name.substring(1);
             if (namespace == null) {
@@ -120,8 +128,9 @@ public class TLParser {
             }
             np.put(namespace, b);
         }
-
+        System.out.println("类型构建完成！");
         //=======================构建方法======================
+        System.out.println("开始构建方法！");
         for (NodeConfig function : functions) {
             String namespace = function.getNamespace();
             if (namespace == null) {
@@ -172,18 +181,25 @@ public class TLParser {
                 e.printStackTrace();
             }
         }
-
+        System.out.println("方法构建完成！");
         // ===========================构建API控制器=============================
-        Map<String, StringBuilder> controller = new HashMap<>();
+        Scanner input = new Scanner(System.in);
+        System.out.println("接下来的操作将会创建控制器，如果你已经对相关文件进行了更改，那么执行此操作将会覆盖掉你的更改，请谨慎操作！\n同意继续请输入[I know the result]，否则将结束执行:");
+        String agree = input.nextLine();
+        if (!agree.equals("I know the result")) {
+            System.out.println("未构建控制器，程序结束...");
+            return;
+        }
         String controllerPrefix = """
                 package com.im.controller;
                                 
                 import com.im.api.*;
+                import com.im.lib.annotation.WebsocketHandler;
                 import com.im.lib.annotation.WebsocketHandlerMapping;
-                import org.springframework.stereotype.Controller;
                 
-                @Controller
+                @WebsocketHandler
                 public class\040""";
+        Map<String, StringBuilder> controller = new HashMap<>();
         StringBuilder apiBuilder = new StringBuilder(controllerPrefix + "ApiController {\n");
         controller.put("Api", apiBuilder);
 
@@ -225,8 +241,7 @@ public class TLParser {
         for (String key : position.keySet()) {
             System.out.print(key + " ");
         }
-
-        System.out.println("================");
+        System.out.println("控制器构建完成！");
     }
 
     private static StringBuilder addFunction(StringBuilder b, NodeConfig function, String namespace) {
@@ -355,7 +370,8 @@ public class TLParser {
                 switch (type) {
                     case "string" -> type = "String";
                     case "bytes" -> type = "byte";
-                    case "Bool", "true" -> type = "Boolean";
+                    case "Bool" -> type = "Boolean";
+                    case "true" -> type = "True";
                     case "long", "int128", "int256" -> type = "BigInteger";
                     default -> {
                     }
@@ -363,7 +379,7 @@ public class TLParser {
                 if (type.contains(".")) {
                     String[] split = type.split("\\.");
                     type = split[0].substring(0, 1).toUpperCase() + split[0].substring(1) + "Api.Type" + split[1].substring(0, 1).toUpperCase() + split[1].substring(1);
-                } else if (superClass.contains(type)) {
+                } else if (superClass.contains(type) && !type.equals("True")) {
                     type = "Api.Type" + type;
                 } else if (!TLHelpers.BASE_TYPE.contains(type)) {
                     type = "Api." + type;

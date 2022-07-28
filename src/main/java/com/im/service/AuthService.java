@@ -1,10 +1,10 @@
 package com.im.service;
 
+import com.im.api.Api;
 import com.im.config.Constant;
 import com.im.entity.User;
 import com.im.lib.Helpers;
 import com.im.lib.crypto.DH;
-import com.im.lib.entity.Api;
 import com.im.lib.entity.DHResult;
 import com.im.lib.entity.WsApiResult;
 import com.im.utils.CommonUtil;
@@ -60,11 +60,11 @@ public class AuthService {
         String code = stringRedisTemplate.opsForValue().get(Constant.CHECK_CODE_PREFIX + email);
         // 验证码过期
         if (!StringUtils.hasLength(code)) {
-            return WsApiResult.fail("authentication", "验证码过期");
+//            return WsApiResult.fail("authentication", "验证码过期");
         }
         // 验证码错误
         if (!checkCode.equals(code)) {
-            return WsApiResult.fail("authentication", "验证码错误");
+//            return WsApiResult.fail("authentication", "验证码错误");
         }
 
         User user = userService.getUserByEmail(email);
@@ -93,28 +93,29 @@ public class AuthService {
 //        } catch (JsonProcessingException e) {
 //            throw new RuntimeException(e);
 //        }
-
-        return WsApiResult.ok("authentication", null);
+        return null;
+//        return WsApiResult.ok(1, null);
     }
 
-    public BigInteger getAuthKey(Api.DH dh, Channel channel) {
+    public BigInteger getAuthKey( Channel channel) {
         // 获取256位指数
-        byte[] randomBytes = Helpers.getRandomBytes(32);
-        BigInteger index = Helpers.readBigIntegerFromBytes(randomBytes, false);
-        DHResult result1 = DH.getResult(Constant.DH_BASE, index, Constant.DH_PRIME);
-        BigInteger gbp = result1.getResult();
-
-        DHResult result = DH.getResult(new BigInteger(dh.getGap()), index, Constant.DH_PRIME);
-        byte[] authKey = Helpers.getByteArray(result.getResult());
-        String authKeyId = Helpers.readBigIntegerFromBytes(
-                Helpers.slice(Helpers.SHA1(authKey), 0, 8), true
-        ).toString();
-
-        stringRedisTemplate.opsForValue().set(
-                Constant.CHANNEL_ID_AUTH_KEY + channel.id().asShortText(),
-                Helpers.byteArrayToHexString(authKey)
-        );
-
-        return gbp;
+//        byte[] randomBytes = Helpers.getRandomBytes(32);
+//        BigInteger index = Helpers.readBigIntegerFromBytes(randomBytes, false);
+//        DHResult result1 = DH.getResult(Constant.DH_BASE, index, Constant.DH_PRIME);
+//        BigInteger gbp = result1.getResult();
+//
+//        DHResult result = DH.getResult(new BigInteger(dh.getGap()), index, Constant.DH_PRIME);
+//        byte[] authKey = Helpers.getByteArray(result.getResult());
+//        String authKeyId = Helpers.readBigIntegerFromBytes(
+//                Helpers.slice(Helpers.SHA1(authKey), 0, 8), true
+//        ).toString();
+//
+//        stringRedisTemplate.opsForValue().set(
+//                Constant.CHANNEL_ID_AUTH_KEY + channel.id().asShortText(),
+//                Helpers.byteArrayToHexString(authKey)
+//        );
+//
+//        return gbp;
+        return null;
     }
 }

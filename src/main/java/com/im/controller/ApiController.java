@@ -2,26 +2,27 @@ package com.im.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.im.api.*;
+import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
+import com.im.lib.entity.WsApiResult;
 import com.im.service.ApiService;
-import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 
-@Controller
+@WebsocketHandler
 public class ApiController {
 
 	@Resource
 	private ApiService apiService;
 
 	@WebsocketHandlerMapping(value = 1615239032, name = "ReqPq")
-	public Api.ResPQ reqPq(Api.ReqPq reqPq) throws JsonProcessingException {
-		return apiService.reqPq(reqPq);
+	public Api.ResPQ reqPq(Api.ReqPq reqPq) {
+		return null;
 	}
 
 	@WebsocketHandlerMapping(value = -1099002127, name = "ReqPqMulti")
-	public Api.ResPQ reqPqMulti(Api.ReqPqMulti reqPqMulti) {
-		return null;
+	public Api.ResPQ reqPqMulti(Api.ReqPqMulti reqPqMulti) throws JsonProcessingException {
+		return apiService.reqPqMulti(reqPqMulti);
 	}
 
 	@WebsocketHandlerMapping(value = 1370755325, name = "ReqPqMultiNew")

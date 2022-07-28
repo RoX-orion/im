@@ -1,10 +1,10 @@
 package com.im.controller;
 
 import com.im.api.*;
+import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
-import org.springframework.stereotype.Controller;
 
-@Controller
+@WebsocketHandler
 public class PhotosController {
 
 	@WebsocketHandlerMapping(value = 1926525996, name = "UpdateProfilePhoto")

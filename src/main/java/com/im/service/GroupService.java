@@ -114,10 +114,10 @@ public class GroupService {
         GroupMessageVo groupMessageVo = new GroupMessageVo();
         groupMessageVo.setList(Collections.singletonList(groupMessage));
         groupMessageVo.setGroupId(Math.toIntExact(groupMessage.getGroupId()));
-        WsApiResult response = WsApiResult.ok("getGroupMessage", groupMessageVo);
-        for (UserGroup userGroup : userGroups) {
-            sendMessageService.sendGroupMessage(userGroup, id, response);
-        }
+//        WsApiResult response = WsApiResult.ok(1, groupMessageVo);
+//        for (UserGroup userGroup : userGroups) {
+//            sendMessageService.sendGroupMessage(userGroup, id, response);
+//        }
 
         List<String> channelIds = stringRedisTemplate.opsForList().range(Constant.GROUP + groupMessage.getGroupId(), 0, -1);
         if (channelIds != null) {

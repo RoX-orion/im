@@ -1,17 +1,13 @@
 package com.im.lib.core;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.im.config.Constant;
 import com.im.lib.Helpers;
 import com.im.lib.entity.RequestData;
 import com.im.lib.entity.WsApiResult;
-import com.im.lib.net.DispatcherWebsocket;
-import com.im.lib.net.MTProto;
-import com.im.lib.net.WriteData;
+import com.im.lib.net.*;
+import com.im.lib.tl.TLHelpers;
 import com.im.service.ChatService;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -26,7 +22,6 @@ import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Objects;
 
 @Component
 @Slf4j
@@ -55,62 +50,84 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     @Resource
     private MTProto MTProto;
 
+    @Resource
+    private SerializeResponse serializeResponse;
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     @Resource
     private MTProtoStateService mtProtoStateService;
 
+    @Resource
+    private TCPAbridged tcpAbridged;
+
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, BinaryWebSocketFrame binaryWebSocketFrame) throws JsonProcessingException {
+    protected void channelRead0(ChannelHandlerContext ctx, BinaryWebSocketFrame binaryWebSocketFrame) throws NoSuchFieldException, IllegalAccessException {
         Channel channel = ctx.channel();
         ByteBuf byteBuf = binaryWebSocketFrame.content();
-        int length = byteBuf.capacity();
-        byte[] bytes = new byte[length];
+        int length = byteBuf.readableBytes();
+//        byte[] bytes = new byte[length];
         int[] unsignedInt8Array = new int[length];
         for (int i = 0; i < length; i++) {
             byte b = byteBuf.readByte();
-            bytes[i] = b;
+//            bytes[i] = b;
             unsignedInt8Array[i] = b & 0xFF;
         }
         System.out.println("接收到的字节数组: " + length + Arrays.toString(unsignedInt8Array));
 
-        Object response = null;
+        WsApiResult response = null;
         try {
             byteBuf.resetReaderIndex();
             RequestData requestData = MTProto.getRequestData(byteBuf, channel);
 
             response = dispatcherWebsocket.dispatcherRequest(requestData, channel);
-
         } catch (Exception e){
             e.printStackTrace();
-            WsApiResult error = WsApiResult.error();
-            encryptResponse(error, channel);
+//            WsApiResult error = WsApiResult.error();
+//            encryptResponse(error, channel);
         }
 
-        encryptResponse(response, channel);
+        writeResponse(response, channel);
     }
 
-    private void encryptResponse(Object response, Channel channel) throws JsonProcessingException {
-        if (response instanceof WsApiResult data) {
-            if (!data.getType().equals("ping")) {
-                System.out.println("返回未加密二进制数据: " + data /*Arrays.toString(objectMapper.writeValueAsBytes(WsApiResult.ok("ping", null)))*/);
-            }
-            ObjectMapper objectMapper = new ObjectMapper();
-            byte[] resp = objectMapper.writeValueAsBytes(data);
-            if (!data.getType().equals("dh")) {
-                byte[] authKey = Helpers.hexStringToByteArray(
-                        Objects.requireNonNull(stringRedisTemplate.opsForValue().get(Constant.CHANNEL_ID_AUTH_KEY + channel.id().asShortText()))
-                );
-                System.out.println("未加密字节数组:" + resp.length + Arrays.toString(resp));
-                resp = mtProtoStateService.encryptData(resp, authKey);
-                System.out.println("返回加密密文: " + resp.length + Arrays.toString(resp));
-                ByteBuf binaryData = Unpooled.wrappedBuffer(resp);
-                channel.writeAndFlush(new BinaryWebSocketFrame(binaryData));
-            } else {
-                WriteData.write(channel, response);
-            }
-        }
+    private void writeResponse(WsApiResult response, Channel channel) throws NoSuchFieldException, IllegalAccessException {
+        System.out.println(response);
+
+//            if (!data.getConstructorId() == ) {
+//                System.out.println("返回未加密二进制数据: " + data /*Arrays.toString(objectMapper.writeValueAsBytes(WsApiResult.ok("ping", null)))*/);
+//            }
+        int constructorId = response.getConstructorId();
+
+        ByteBuf buffer = PooledByteBufAllocator.DEFAULT.buffer();
+        serializeResponse.serialize(buffer, constructorId, response);
+        Helpers.printByteBuf(buffer);
+        ByteBuf byteBuf = tcpAbridged.encodePacket(buffer);
+        Helpers.printByteBuf(byteBuf);
+        channel.writeAndFlush(new BinaryWebSocketFrame(byteBuf));
+
+//        if (TLHelpers.AUTH_KEY_TYPES.contains(constructorId)) {
+//
+//            buffer = buffer.readBytes(buffer.readableBytes());
+//            System.out.println(buffer.capacity());
+//            Helpers.printByteBuf(buffer);
+//            buffer.resetReaderIndex();
+//            channel.writeAndFlush(new BinaryWebSocketFrame(buffer));
+//        } else {
+//            System.out.println("加密");
+//        }
+//            if (!data.getType().equals("dh")) {
+//                byte[] authKey = Helpers.hexStringToByteArray(
+//                        Objects.requireNonNull(stringRedisTemplate.opsForValue().get(Constant.CHANNEL_ID_AUTH_KEY + channel.id().asShortText()))
+//                );
+//                System.out.println("未加密字节数组:" + resp.length + Arrays.toString(resp));
+//                resp = mtProtoStateService.encryptData(resp, authKey);
+//                System.out.println("返回加密密文: " + resp.length + Arrays.toString(resp));
+//                ByteBuf binaryData = Unpooled.wrappedBuffer(resp);
+//                channel.writeAndFlush(new BinaryWebSocketFrame(binaryData));
+//            } else {
+//                WriteData.write(channel, response);
+//            }
     }
 
     /**

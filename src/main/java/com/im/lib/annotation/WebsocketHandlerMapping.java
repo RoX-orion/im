@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 @Target(value = {ElementType.METHOD})
 @Documented
 public @interface WebsocketHandlerMapping {
-    long value() default 0L;
+    int value() default 0;
 
     String name() default "";
 }

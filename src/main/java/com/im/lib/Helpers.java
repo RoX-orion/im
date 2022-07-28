@@ -1,8 +1,14 @@
 package com.im.lib;
 
+import io.netty.buffer.ByteBuf;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
 
 public class Helpers {
 
@@ -244,5 +250,65 @@ public class Helpers {
         result[1] =  (byte) ((value>>8) & 0xFF);
         result[0] =  (byte) (value & 0xFF);
         return result;
+    }
+
+    public static void printByteBuf(ByteBuf byteBuf) {
+        int length = byteBuf.readableBytes();
+        for (int i = 0; i < length; i++) {
+            System.out.print(byteBuf.readByte() + " ");
+        }
+        byteBuf.resetReaderIndex();
+        System.out.println("\n" + length);
+    }
+
+    /**
+     * 将BigInteger转为字节数组
+     * @param bytesNumber 字节数
+     * @param little 小端字节序，默认true
+     * @param signed 有符号，默认false
+     */
+    public static byte[] readBufferFromInt(int number, int bytesNumber, Boolean little, Boolean signed) {
+        if (little == null) little = true;
+        if (signed == null) signed = false;
+//        int bitLength = bigInt.bitLength();
+//
+//        int bytes = (int)Math.ceil(bitLength / 8.0);
+//        if (bytesNumber < bytes) {
+//            throw new RuntimeException("OverflowError: int too big to convert");
+//        }
+//        if (!signed && bigInt.compareTo(BigInteger.ZERO) < 0) {
+//            throw new RuntimeException("Cannot convert to unsigned");
+//        }
+//        boolean below = false;
+//        if (bigInt.compareTo(BigInteger.ZERO) < 0) {
+//            below = true;
+//            bigInt = bigInt.abs();
+//        }
+//        Integer integer = Integer.valueOf(number);
+        if (!signed && number < 0) {
+            throw new RuntimeException("Cannot convert to unsigned");
+        }
+        Stack<Byte> stack = new Stack<>();
+        int mod;
+        while (number != 0) {
+            mod = number % 128;
+            stack.push((byte) mod);
+            number = number >> 8;
+        }
+        if (stack.size() > bytesNumber) {
+            throw new RuntimeException("OverflowError: int too big to convert");
+        }
+        byte[] bytes = new byte[bytesNumber];
+        int i = 0;
+        for (; i < stack.size(); i++) {
+            bytes[i] = stack.pop();
+        }
+        if (stack.size() < bytesNumber) {
+            int padding = bytesNumber - stack.size();
+            for (int j = 0; j < padding; j++) {
+                bytes[i++] = 0;
+            }
+        }
+        return bytes;
     }
 }

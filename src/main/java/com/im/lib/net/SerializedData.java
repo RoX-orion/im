@@ -1,5 +1,6 @@
 package com.im.lib.net;
 
+import io.netty.buffer.ByteBuf;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
@@ -8,6 +9,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
@@ -19,6 +21,12 @@ public class SerializedData extends AbstractSerializedData {
     private DataInputStream in;
     private boolean justCalc = false;
     private int len;
+
+    private ByteBuf buffer;
+
+    public SerializedData(ByteBuf buffer) {
+        this.buffer = buffer;
+    }
 
     public SerializedData() {
         outBuffer = new ByteArrayOutputStream();
@@ -93,11 +101,7 @@ public class SerializedData extends AbstractSerializedData {
     }
 
     public void writeInt32(int x) {
-        if (!justCalc) {
-            writeInt32(x, out);
-        } else {
-            len += 4;
-        }
+        buffer.writeIntLE(x);
     }
 
     private void writeInt32(int x, DataOutputStream out) {

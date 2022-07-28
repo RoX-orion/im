@@ -9,6 +9,7 @@ import com.im.lib.Helpers;
 import com.im.lib.crypto.DH;
 import com.im.lib.crypto.RSA;
 import com.im.lib.entity.DHResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,15 @@ import java.util.List;
 @Service
 public class ApiService {
 
+    @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     public Api.ResPQ reqPq(Api.ReqPq reqPq) throws JsonProcessingException {
-        BigInteger nonce = reqPq.getNonce();
+        return null;
+    }
+
+    public Api.ResPQ reqPqMulti(Api.ReqPqMulti reqPqMulti) throws JsonProcessingException {
+        BigInteger nonce = reqPqMulti.getNonce();
         BigInteger serverNonce = Helpers.readBigIntegerFromBytes(Helpers.getRandomBytes(16), true);
 
         Api.ResPQ resPQ = new Api.ResPQ();
@@ -45,10 +51,6 @@ public class ApiService {
         );
 
         return resPQ;
-    }
-
-    public Api.ResPQ reqPqMulti(Api.ReqPqMulti reqPqMulti) {
-        return null;
     }
 
     public Api.ResPQ reqPqMultiNew(Api.ReqPqMultiNew reqPqMultiNew) {

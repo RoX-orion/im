@@ -28,21 +28,23 @@ public class ChatHandler {
 //    @WebsocketHandlerMapping("online")
     public WsApiResult online(@WebsocketRequestParam String token, ChannelId channelId) {
         chatService.online(token, channelId);
-
-        return WsApiResult.ok("online", null);
+        return null;
+//        return WsApiResult.ok(1, null);
     }
 
 
-//    @WebsocketHandlerMapping("ping")
+    //    @WebsocketHandlerMapping("ping")
     public WsApiResult ping(@WebsocketRequestParam Long pingId,
                             @WebsocketRequestParam Integer disconnectDelay) {
-        return WsApiResult.ok("ping", null);
+        return null;
+//        return WsApiResult.ok(1, null);
     }
 
 //    @WebsocketHandlerMapping("getChatList")
     public WsApiResult getChatList(ChannelId channelId) {
         PageUtil page = chatService.getChatList(channelId);
-        return WsApiResult.ok("getChatList", page);
+        return null;
+//        return WsApiResult.ok(1, page);
     }
 
 //    @WebsocketHandlerMapping("getGroupMessage")
@@ -55,27 +57,28 @@ public class ChatHandler {
         groupMessageVo.setList(list);
         groupMessageVo.setGroupId(groupId);
 
-        return WsApiResult.ok("getGroupMessage", groupMessageVo);
+        return null;
+//        return WsApiResult.ok(1, groupMessageVo);
     }
 
 //    @WebsocketHandlerMapping("searchGroupVaguely")
     public WsApiResult searchGroup(@WebsocketRequestParam String groupName) {
         List<Group> group = chatService.searchGroupVaguely(groupName);
-
-        return WsApiResult.ok("searchGroup", group);
+        return null;
+//        return WsApiResult.ok(1, group);
     }
 
 //    @WebsocketHandlerMapping("searchUser")
     public WsApiResult searchChat(@WebsocketRequestParam String email) {
         User user = chatService.searchChat(email);
-
-        return WsApiResult.ok("searchUser", user);
+        return null;
+//        return WsApiResult.ok(1, user);
     }
 
 //    @WebsocketHandlerMapping("sendChatMessage")
     public WsApiResult sendChatMessage(PrivateChatMessage privateChatMessage) {
         chatService.sendChatMessage(privateChatMessage);
-
-        return WsApiResult.ok("sendChatMessage", null);
+        return null;
+//        return WsApiResult.ok(1, null);
     }
 }

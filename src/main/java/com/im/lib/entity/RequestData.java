@@ -6,6 +6,6 @@ import java.util.HashMap;
 
 @Data
 public class RequestData {
-    private HashMap<String, Object> data;
-    private String type;
+    private Object requestParam;
+    private int constructorId;
 }

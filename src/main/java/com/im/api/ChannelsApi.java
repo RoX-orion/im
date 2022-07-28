@@ -103,13 +103,13 @@ public class ChannelsApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class CreateChannel extends Api.TypeUpdates {
-		private Boolean broadcast;
+		private Api.True broadcast;
 		private String address;
 		private String about;
 		private String title;
 		private Api.TypeInputGeoPoint geoPoint;
-		private Boolean forImport;
-		private Boolean megagroup;
+		private Api.True forImport;
+		private Api.True megagroup;
 	}
 
 	@Data
@@ -177,9 +177,9 @@ public class ChannelsApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ExportMessageLink extends Api.TypeExportedMessageLink {
-		private Boolean grouped;
+		private Api.True grouped;
 		private Api.TypeInputChannel channel;
-		private Boolean thread;
+		private Api.True thread;
 		private int id;
 	}
 
@@ -192,8 +192,8 @@ public class ChannelsApi {
 
 	@Data
 	public static class GetAdminedPublicChannels {
-		private Boolean byLocation;
-		private Boolean checkLimit;
+		private Api.True byLocation;
+		private Api.True checkLimit;
 	}
 
 	@Data
@@ -234,7 +234,7 @@ public class ChannelsApi {
 	public static class DeleteHistory extends Api.TypeUpdates {
 		private int maxId;
 		private Api.TypeInputChannel channel;
-		private Boolean forEveryone;
+		private Api.True forEveryone;
 	}
 
 	@Data

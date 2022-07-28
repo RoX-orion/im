@@ -195,8 +195,8 @@ public class ChatService {
         Channel channel = serverContext.getChannel(channelId);
 
         if (channel != null) {
-            WsApiResult newChat = WsApiResult.ok("newChat", userInfo);
-            WriteData.write(channel, newChat);
+//            WsApiResult newChat = WsApiResult.ok(1, userInfo);
+//            WriteData.write(channel, newChat);
         }
     }
 

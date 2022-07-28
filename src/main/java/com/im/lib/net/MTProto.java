@@ -20,7 +20,7 @@ public class MTProto {
     private StringRedisTemplate stringRedisTemplate;
 
     @Resource
-    private MTProtoStateService mtProtoStateService;
+    private MTProtoStateService mtprotoStateService;
 
     @Resource
     private TCPAbridged tcpAbridged;
@@ -41,7 +41,7 @@ public class MTProto {
         } else {// 加密数据
             byte[] msgKey = binaryReader.readBytes(16);
             byte[] bytes = binaryReader.readAll();
-            byte[] payload = mtProtoStateService.decryptData(msgKey, bytes, channel);
+            byte[] payload = mtprotoStateService.decryptData(msgKey, bytes, channel);
             System.out.println("解密后的数据:" + payload.length + Arrays.toString(payload));
             BinaryReader br = new BinaryReader(payload);
             long salt = br.readInt64();
@@ -55,10 +55,14 @@ public class MTProto {
     }
 
     private RequestData readRequestData(BinaryReader binaryReader, int dataLength) {
-        Object o = binaryReader.readObject(dataLength);
-        System.out.println("数据部分:" + o);
+        int constructorId = binaryReader.readInt32();
+        Object requestParam = binaryReader.tgReadObject(constructorId);
+        System.out.println("数据部分:" + requestParam);
+        RequestData requestData = new RequestData();
+        requestData.setConstructorId(constructorId);
+        requestData.setRequestParam(requestParam);
 
-        return new RequestData();
+        return requestData;
     }
 
     /**
@@ -67,5 +71,12 @@ public class MTProto {
      */
     public boolean isEncryptedData(long authKeyId) {
         return authKeyId != 0;
+    }
+
+    public ByteBuf mtprotoPlainSender(ByteBuf buffer) {
+//        long msgId = mtprotoStateService.getNewMsgId();
+//        buffer.writeBytes(new byte[8]);
+//        buffer.writeByte()
+        return buffer;
     }
 }

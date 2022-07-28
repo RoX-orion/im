@@ -11,7 +11,7 @@ public class ApplicationHandler {
 //    @WebsocketHandlerMapping("initConnection")
     public WsApiResult initConnection(InitConnection initConnection) {
         System.out.println(initConnection);
-
-        return WsApiResult.ok("initConnection", null);
+        return null;
+//        return WsApiResult.ok(1, null);
     }
 }

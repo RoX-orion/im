@@ -26,8 +26,8 @@ public class GroupHandler {
 //    @WebsocketHandlerMapping("sendGroupMessage")
     public WsApiResult sendGroupMessage(GroupMessage groupMessage, ChannelId channelId) {
         groupService.sendGroupMessage(groupMessage, channelId);
-
-        return WsApiResult.ok("sendGroupMessage", null);
+        return null;
+//        return WsApiResult.ok(1, null);
     }
 
 //    @WebsocketHandlerMapping("getGroupInfo")
@@ -35,8 +35,8 @@ public class GroupHandler {
                                     @WebsocketRequestParam Integer uid,
                                     @WebsocketRequestParam String type) {
         Group group = groupService.getGroupInfo(groupId, uid);
-
-        return WsApiResult.ok(type, group);
+        return null;
+//        return WsApiResult.ok(1, group);
     }
 
 //    @WebsocketHandlerMapping("joinGroup")

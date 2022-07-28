@@ -1,9 +1,8 @@
 package com.im.wscontroller;
 
-import com.im.lib.entity.Api;
+import com.im.api.Api;
 import com.im.lib.entity.Response;
 import com.im.lib.annotation.WebsocketHandler;
-import com.im.lib.annotation.WebsocketHandlerMapping;
 import com.im.lib.annotation.WebsocketRequestParam;
 import com.im.lib.entity.WsApiResult;
 import com.im.service.AuthService;
@@ -19,18 +18,19 @@ public class AuthHandler {
     private AuthService authService;
 
 //    @WebsocketHandlerMapping("dh")
-    public WsApiResult getAuthKey(Api.DH dh, Channel channel) {
-        BigInteger gbp = authService.getAuthKey(dh, channel);
+    public WsApiResult getAuthKey(Channel channel) {
+//        BigInteger gbp = authService.getAuthKey(dh, channel);
         Response.DH dhResponse = new Response.DH();
-        dhResponse.setGbp(gbp.toString());
-        return WsApiResult.ok("dh", dhResponse);
+//        dhResponse.setGbp(gbp.toString());
+        return null;
+//        return WsApiResult.ok(1, dhResponse);
     }
 
 //    @WebsocketHandlerMapping("login")
     public WsApiResult sendCheckCode(@WebsocketRequestParam String email) {
         authService.sendCheckCode(email);
-
-        return WsApiResult.ok("login", null);
+        return null;
+//        return WsApiResult.ok(1, null);
     }
 
 //    @WebsocketHandlerMapping("authentication")

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -83,7 +84,7 @@ public class MTProtoStateService {
 
 //    public long getNewMsgId() {
 //        BigInteger bigInteger = new BigInteger("0");
-//        long now = new Date().getTime() / 1000 + this.timeOffset;
+//        long now = System.currentTimeMillis() / 1000 + this.timeOffset;
 //        long nanoseconds = Math.floor((now - Math.floor(now)) * 1e9);
 //        let newMsgId = (BigInt(Math.floor(now))
 //                .shiftLeft(BigInt(32))).or(BigInt(nanoseconds)

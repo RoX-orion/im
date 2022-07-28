@@ -10,18 +10,19 @@ public class TLHelpers {
             0xc4b9f9bbL, // error#c4b9f9bb code:int text:string = Error;
             0x56730bccL  // null#56730bcc = Null;
     ));
-    public static Set<Long> AUTH_KEY_TYPES = new HashSet<>(Arrays.asList(
-            0x05162463L, // resPQ,
-            0x83c95aecL, // p_q_inner_data
-            0xa9f55f95L, // p_q_inner_data_dc
-            0x3c6a84d4L, // p_q_inner_data_temp
-            0x56fddf88L, // p_q_inner_data_temp_dc
-            0xd0e8075cL, // server_DH_params_ok
-            0xb5890dbaL, // server_DH_inner_data
-            0x6643b654L, // client_DH_inner_data
-            0xd712e4beL, // req_DH_params
-            0xf5045f1fL, // set_client_DH_params
-            0x3072cfa1L  // gzip_packed
+    public static Set<Integer> AUTH_KEY_TYPES = new HashSet<>(Arrays.asList(
+            0xbe7e8ef1, // req_pq_multi
+            0x05162463, // resPQ,
+            0x83c95aec, // p_q_inner_data
+            0xa9f55f95, // p_q_inner_data_dc
+            0x3c6a84d4, // p_q_inner_data_temp
+            0x56fddf88, // p_q_inner_data_temp_dc
+            0xd0e8075c, // server_DH_params_ok
+            0xb5890dba, // server_DH_inner_data
+            0x6643b654, // client_DH_inner_data
+            0xd712e4be, // req_DH_params
+            0xf5045f1f, // set_client_DH_params
+            0x3072cfa1  // gzip_packed
     ));
 
     public static Set<String> BASE_TYPE = new HashSet<>(Arrays.asList(
