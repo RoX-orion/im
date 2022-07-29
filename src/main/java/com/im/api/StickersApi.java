@@ -17,15 +17,15 @@ public class StickersApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class CreateStickerSet extends Api.TypeStickerSet {
-		private String software;
-		private Api.TypeInputDocument thumb;
-		private Api.True animated;
 		private Api.True masks;
+		private Api.True animated;
 		private Api.True videos;
-		private Api.TypeInputStickerSetItem[] stickers;
+		private Api.TypeInputUser userId;
 		private String title;
 		private String shortName;
-		private Api.TypeInputUser userId;
+		private Api.TypeInputDocument thumb;
+		private Api.TypeInputStickerSetItem[] stickers;
+		private String software;
 	}
 
 	@Data
@@ -44,15 +44,15 @@ public class StickersApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class AddStickerToSet extends Api.TypeStickerSet {
-		private Api.TypeInputStickerSetItem sticker;
 		private Api.TypeInputStickerSet stickerset;
+		private Api.TypeInputStickerSetItem sticker;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SetStickerSetThumb extends Api.TypeStickerSet {
-		private Api.TypeInputDocument thumb;
 		private Api.TypeInputStickerSet stickerset;
+		private Api.TypeInputDocument thumb;
 	}
 
 	@Data

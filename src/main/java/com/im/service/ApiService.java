@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ApiService {
@@ -47,7 +48,7 @@ public class ApiService {
         String s = new ObjectMapper().writeValueAsString(createAuthKeyState);
         stringRedisTemplate.opsForValue().set(
                 Constant.CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce,
-                s
+                s, 10, TimeUnit.MINUTES
         );
 
         return resPQ;
@@ -86,7 +87,10 @@ public class ApiService {
         }
         createAuthKeyState.setNewNonce(pqInnerData.getNewNonce());
         String s = objectMapper.writeValueAsString(createAuthKeyState);
-        stringRedisTemplate.opsForValue().set(Constant.CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce, s);
+        stringRedisTemplate.opsForValue().set(
+                Constant.CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce,
+                s, 10, TimeUnit.MINUTES
+        );
 
         byte[] randomBytes = Helpers.getRandomBytes(32);
         BigInteger index = Helpers.readBigIntegerFromBytes(randomBytes, false);

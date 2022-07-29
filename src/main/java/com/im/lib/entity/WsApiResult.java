@@ -5,17 +5,20 @@ import lombok.Data;
 @Data
 public class WsApiResult {
     private int constructorId;
+
+    private long authKeyId;
     private Class<?> returnType;
     private Object data;
 
-    public WsApiResult(int constructorId, Class<?> returnType, Object data) {
+    public WsApiResult(int constructorId, long authKeyId, Class<?> returnType, Object data) {
         this.constructorId = constructorId;
+        this.authKeyId = authKeyId;
         this.returnType = returnType;
         this.data = data;
     }
 
-    public static WsApiResult ok(int constructorId, Class<?> returnType, Object data) {
-        return new WsApiResult(constructorId, returnType, data);
+    public static WsApiResult ok(int constructorId, long authKeyId, Class<?> returnType, Object data) {
+        return new WsApiResult(constructorId, authKeyId, returnType, data);
     }
 
 //    public static WsApiResult fail(String type, String msg) {

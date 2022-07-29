@@ -11,20 +11,19 @@ public class TCPAbridged {
 
     public final int header = 0x7f;
 
-    public ByteBuf encodePacket(ByteBuf byteBuf) {
-        int length = byteBuf.readableBytes() >> 2;
-        ByteBuf buffer;
+    public byte[] encodePacket(int length) {
+        length = length >> 2;
+        byte[] bytes;
         if (length < 127) {
-            buffer = PooledByteBufAllocator.DEFAULT.buffer(length + 1);
-            buffer.writeByte(length);
-            buffer.writeBytes(byteBuf);
+            bytes = new byte[1];
+            bytes[0] = (byte) length;
         } else {
-            buffer = PooledByteBufAllocator.DEFAULT.buffer(length + 4);
-            buffer.writeByte(0x7f);
-            byte[] bytes = Helpers.readBufferFromInt(length, 3, null, null);
-            buffer.writeBytes(bytes);
+            bytes = new byte[4];
+            bytes[0] = 0x7f;
+            byte[] b = Helpers.readBufferFromInt(length, 3, null, null);
+            System.arraycopy(b, 0, bytes, 1, b.length);
         }
-        return buffer;
+        return bytes;
     }
 
     public ByteBuf readPacket(ByteBuf byteBuf) {

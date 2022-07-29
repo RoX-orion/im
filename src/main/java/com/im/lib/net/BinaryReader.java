@@ -1,4 +1,4 @@
-package com.im.lib.core;
+package com.im.lib.net;
 
 import com.im.lib.exception.ParamBindException;
 import com.im.lib.tl.ArgsConfig;
@@ -181,10 +181,13 @@ public class BinaryReader {
 //                throw new RuntimeException("Can read the Object of constructorId is " + constructorId);
 //            }
         }
-        HashMap<String, ArgsConfig> argsConfigs = paramsConfig.getArgsConfig();
+        List<String> argsNames = paramsConfig.getArgsName();
+        List<ArgsConfig> argsConfigs = paramsConfig.getArgsConfig();
+//        HashMap<String, ArgsConfig> argsConfigs = paramsConfig.getArgsConfig();
         HashMap<String, Object> args = new HashMap<>();
-        for (String argName : argsConfigs.keySet()) {
-            ArgsConfig arg = argsConfigs.get(argName);
+        for (int i = 0; i < argsConfigs.size(); i++) {
+            String argName = argsNames.get(i);
+            ArgsConfig arg = argsConfigs.get(i);
             if (arg.isFlag()) {
                 int flagValue = arg.getFlagIndex() > 30 ?
                         (int) args.get("flags2") & (1 << arg.getFlagIndex() - 31)

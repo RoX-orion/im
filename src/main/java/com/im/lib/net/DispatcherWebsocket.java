@@ -87,11 +87,8 @@ public class DispatcherWebsocket implements ApplicationContextAware {
         Object[] invokeParam = bindParam.bind(parameters, requestParam, channel);
         Object response = method.invoke(handlerObject, invokeParam);
 
-        return buildResponse(constructorId, returnType, response);
-    }
-
-    private WsApiResult buildResponse(int constructorId, Class<?> returnType, Object response) {
-        return WsApiResult.ok(constructorId, returnType, response);
+        long authKeyId = requestData.getAuthKeyId();
+        return WsApiResult.ok(constructorId, authKeyId, returnType, response);
     }
 
     public static <T> T get(Class<T> clz,Object o){

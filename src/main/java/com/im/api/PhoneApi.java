@@ -26,20 +26,20 @@ public class PhoneApi {
 	@EqualsAndHashCode(callSuper=false)
 	public static class GroupCall extends Api.TypeGroupCall {
 		private Api.TypeGroupCall call;
+		private Api.TypeGroupCallParticipant[] participants;
 		private String participantsNextOffset;
 		private Api.TypeChat[] chats;
 		private Api.TypeUser[] users;
-		private Api.TypeGroupCallParticipant[] participants;
 	}
 
 	@Data
 	public static class GroupParticipants {
 		private int count;
-		private Api.TypeChat[] chats;
-		private String nextOffset;
-		private int version;
-		private Api.TypeUser[] users;
 		private Api.TypeGroupCallParticipant[] participants;
+		private String nextOffset;
+		private Api.TypeChat[] chats;
+		private Api.TypeUser[] users;
+		private int version;
 	}
 
 	@Data
@@ -73,28 +73,28 @@ public class PhoneApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class RequestCall extends Api.TypePhoneCall {
-		private byte gAHash;
-		private int randomId;
-		private Api.TypePhoneCallProtocol protocol;
 		private Api.True video;
 		private Api.TypeInputUser userId;
+		private int randomId;
+		private byte gAHash;
+		private Api.TypePhoneCallProtocol protocol;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class AcceptCall extends Api.TypePhoneCall {
-		private Api.TypePhoneCallProtocol protocol;
 		private Api.TypeInputPhoneCall peer;
 		private byte gB;
+		private Api.TypePhoneCallProtocol protocol;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ConfirmCall extends Api.TypePhoneCall {
-		private Api.TypePhoneCallProtocol protocol;
 		private Api.TypeInputPhoneCall peer;
-		private BigInteger keyFingerprint;
 		private byte gA;
+		private BigInteger keyFingerprint;
+		private Api.TypePhoneCallProtocol protocol;
 	}
 
 	@Data
@@ -106,55 +106,55 @@ public class PhoneApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class DiscardCall extends Api.TypeUpdates {
+		private Api.True video;
+		private Api.TypeInputPhoneCall peer;
 		private int duration;
 		private Api.TypePhoneCallDiscardReason reason;
-		private Api.TypeInputPhoneCall peer;
 		private BigInteger connectionId;
-		private Api.True video;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SetCallRating extends Api.TypeUpdates {
+		private Api.True userInitiative;
 		private Api.TypeInputPhoneCall peer;
 		private int rating;
 		private String comment;
-		private Api.True userInitiative;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SaveCallDebug extends Api.TypeBool {
-		private Api.TypeDataJSON debug;
 		private Api.TypeInputPhoneCall peer;
+		private Api.TypeDataJSON debug;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SendSignalingData extends Api.TypeBool {
-		private byte data;
 		private Api.TypeInputPhoneCall peer;
+		private byte data;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class CreateGroupCall extends Api.TypeUpdates {
-		private int randomId;
-		private Api.TypeInputPeer peer;
-		private int scheduleDate;
-		private String title;
 		private Api.True rtmpStream;
+		private Api.TypeInputPeer peer;
+		private int randomId;
+		private String title;
+		private int scheduleDate;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class JoinGroupCall extends Api.TypeUpdates {
+		private Api.True muted;
+		private Api.True videoStopped;
 		private Api.TypeInputGroupCall call;
 		private Api.TypeInputPeer joinAs;
 		private String inviteHash;
-		private Api.True videoStopped;
 		private Api.TypeDataJSON params;
-		private Api.True muted;
 	}
 
 	@Data
@@ -180,8 +180,8 @@ public class PhoneApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ToggleGroupCallSettings extends Api.TypeUpdates {
-		private Api.TypeInputGroupCall call;
 		private Api.True resetInviteHash;
+		private Api.TypeInputGroupCall call;
 		private Boolean joinMuted;
 	}
 
@@ -195,10 +195,10 @@ public class PhoneApi {
 	@Data
 	public static class GetGroupParticipants {
 		private Api.TypeInputGroupCall call;
+		private Api.TypeInputPeer[] ids;
 		private int[] sources;
 		private String offset;
 		private int limit;
-		private Api.TypeInputPeer[] ids;
 	}
 
 	@Data
@@ -210,24 +210,24 @@ public class PhoneApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ToggleGroupCallRecord extends Api.TypeUpdates {
-		private Api.TypeInputGroupCall call;
 		private Api.True start;
-		private Boolean videoPortrait;
 		private Api.True video;
+		private Api.TypeInputGroupCall call;
 		private String title;
+		private Boolean videoPortrait;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EditGroupCallParticipant extends Api.TypeUpdates {
 		private Api.TypeInputGroupCall call;
+		private Api.TypeInputPeer participant;
+		private Boolean muted;
 		private int volume;
 		private Boolean raiseHand;
 		private Boolean videoStopped;
 		private Boolean videoPaused;
 		private Boolean presentationPaused;
-		private Boolean muted;
-		private Api.TypeInputPeer participant;
 	}
 
 	@Data
@@ -244,8 +244,8 @@ public class PhoneApi {
 
 	@Data
 	public static class ExportGroupCallInvite {
-		private Api.TypeInputGroupCall call;
 		private Api.True canSelfUnmute;
+		private Api.TypeInputGroupCall call;
 	}
 
 	@Data
@@ -264,8 +264,8 @@ public class PhoneApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SaveDefaultGroupCallJoinAs extends Api.TypeBool {
-		private Api.TypeInputPeer joinAs;
 		private Api.TypeInputPeer peer;
+		private Api.TypeInputPeer joinAs;
 	}
 
 	@Data
@@ -295,7 +295,7 @@ public class PhoneApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SaveCallLog extends Api.TypeBool {
-		private Api.TypeInputFile file;
 		private Api.TypeInputPhoneCall peer;
+		private Api.TypeInputFile file;
 	}
 }

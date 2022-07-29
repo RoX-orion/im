@@ -12,8 +12,8 @@ public class UsersApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UserFull extends Api.TypeUserFull {
-		private Api.TypeChat[] chats;
 		private Api.TypeUserFull fullUser;
+		private Api.TypeChat[] chats;
 		private Api.TypeUser[] users;
 	}
 

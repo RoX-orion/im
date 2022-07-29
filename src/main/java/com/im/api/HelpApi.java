@@ -34,13 +34,13 @@ public class HelpApi {
 	@Data
 	public static class AppUpdate {
 		private Api.True canNotSkip;
+		private int id;
+		private String version;
+		private String text;
 		private Api.TypeMessageEntity[] entities;
 		private Api.TypeDocument document;
-		private Api.TypeDocument sticker;
-		private int id;
-		private String text;
-		private String version;
 		private String url;
+		private Api.TypeDocument sticker;
 	}
 
 	@Data
@@ -61,10 +61,10 @@ public class HelpApi {
 	@Data
 	public static class TermsOfService {
 		private Api.True popup;
-		private Api.TypeMessageEntity[] entities;
-		private int minAgeConfirm;
 		private Api.TypeDataJSON id;
 		private String text;
+		private Api.TypeMessageEntity[] entities;
+		private int minAgeConfirm;
 	}
 
 	@Data
@@ -91,9 +91,9 @@ public class HelpApi {
 
 	@Data
 	public static class DeepLinkInfo {
-		private Api.TypeMessageEntity[] entities;
 		private Api.True updateApp;
 		private String message;
+		private Api.TypeMessageEntity[] entities;
 	}
 
 	@Data
@@ -102,8 +102,8 @@ public class HelpApi {
 
 	@Data
 	public static class PassportConfig {
-		private Api.TypeDataJSON countriesLangs;
 		private int hash;
+		private Api.TypeDataJSON countriesLangs;
 	}
 
 	@Data
@@ -117,10 +117,10 @@ public class HelpApi {
 
 	@Data
 	public static class UserInfo {
-		private int date;
+		private String message;
 		private Api.TypeMessageEntity[] entities;
 		private String author;
-		private String message;
+		private int date;
 	}
 
 	@Data
@@ -134,25 +134,25 @@ public class HelpApi {
 		private int expires;
 		private Api.TypePeer peer;
 		private Api.TypeChat[] chats;
-		private String psaMessage;
 		private Api.TypeUser[] users;
 		private String psaType;
+		private String psaMessage;
 	}
 
 	@Data
 	public static class CountryCode {
-		private String[] prefixes;
 		private String countryCode;
+		private String[] prefixes;
 		private String[] patterns;
 	}
 
 	@Data
 	public static class Country {
-		private HelpApi.TypeCountryCode[] countryCodes;
 		private Api.True hidden;
-		private String name;
 		private String iso2;
 		private String defaultName;
+		private String name;
+		private HelpApi.TypeCountryCode[] countryCodes;
 	}
 
 	@Data
@@ -167,12 +167,12 @@ public class HelpApi {
 
 	@Data
 	public static class PremiumPromo {
-		private String[] videoSections;
 		private String statusText;
+		private Api.TypeMessageEntity[] statusEntities;
+		private String[] videoSections;
 		private Api.TypeDocument[] videos;
 		private String currency;
 		private BigInteger monthlyAmount;
-		private Api.TypeMessageEntity[] statusEntities;
 		private Api.TypeUser[] users;
 	}
 
@@ -264,9 +264,9 @@ public class HelpApi {
 
 	@Data
 	public static class EditUserInfo {
-		private Api.TypeMessageEntity[] entities;
-		private String message;
 		private Api.TypeInputUser userId;
+		private String message;
+		private Api.TypeMessageEntity[] entities;
 	}
 
 	@Data

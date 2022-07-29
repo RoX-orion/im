@@ -18,16 +18,16 @@ public class LangpackApi {
 	@Data
 	public static class GetStrings {
 		private String langPack;
-		private String[] keys;
 		private String langCode;
+		private String[] keys;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class GetDifference extends Api.TypeLangPackDifference {
-		private int fromVersion;
 		private String langPack;
 		private String langCode;
+		private int fromVersion;
 	}
 
 	@Data
