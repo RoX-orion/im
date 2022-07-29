@@ -13,94 +13,94 @@ public class UploadApi {
 
 	@Data
 	public static class File {
-		private byte bytes;
 		private StorageApi.TypeFileType type;
 		private int mtime;
+		private byte[] bytes;
 	}
 
 	@Data
 	public static class FileCdnRedirect {
-		private byte fileToken;
-		private byte encryptionIv;
 		private int dcId;
+		private byte[] fileToken;
+		private byte[] encryptionKey;
+		private byte[] encryptionIv;
 		private Api.TypeFileHash[] fileHashes;
-		private byte encryptionKey;
 	}
 
 	@Data
 	public static class WebFile {
 		private int size;
-		private byte bytes;
 		private String mimeType;
-		private int mtime;
 		private StorageApi.TypeFileType fileType;
+		private int mtime;
+		private byte[] bytes;
 	}
 
 	@Data
 	public static class CdnFileReuploadNeeded {
-		private byte requestToken;
+		private byte[] requestToken;
 	}
 
 	@Data
 	public static class CdnFile {
-		private byte bytes;
+		private byte[] bytes;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SaveFilePart extends Api.TypeBool {
-		private byte bytes;
-		private int filePart;
 		private BigInteger fileId;
+		private int filePart;
+		private byte[] bytes;
 	}
 
 	@Data
 	public static class GetFile {
-		private BigInteger offset;
-		private int limit;
+		private Api.True precise;
 		private Api.True cdnSupported;
 		private Api.TypeInputFileLocation location;
-		private Api.True precise;
+		private BigInteger offset;
+		private int limit;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SaveBigFilePart extends Api.TypeBool {
-		private byte bytes;
+		private BigInteger fileId;
 		private int filePart;
 		private int fileTotalParts;
-		private BigInteger fileId;
+		private byte[] bytes;
 	}
 
 	@Data
 	public static class GetWebFile {
+		private Api.TypeInputWebFileLocation location;
 		private int offset;
 		private int limit;
-		private Api.TypeInputWebFileLocation location;
 	}
 
 	@Data
 	public static class GetCdnFile {
-		private byte fileToken;
+		private byte[] fileToken;
 		private BigInteger offset;
 		private int limit;
 	}
 
 	@Data
 	public static class ReuploadCdnFile {
-		private byte fileToken;
-		private byte requestToken;
+		private byte[] fileToken;
+		private byte[] requestToken;
 	}
 
 	@Data
 	public static class GetCdnFileHashes {
-		private byte fileToken;
+		private byte[] fileToken;
 		private BigInteger offset;
 	}
 
 	@Data
 	public static class GetFileHashes {
-		private BigInteger offset;
 		private Api.TypeInputFileLocation location;
+		private BigInteger offset;
 	}
 }

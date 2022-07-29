@@ -40,8 +40,8 @@ public class PhotosApi {
 	@EqualsAndHashCode(callSuper=false)
 	public static class UploadProfilePhoto extends Api.TypePhoto {
 		private Api.TypeInputFile file;
-		private double videoStartTs;
 		private Api.TypeInputFile video;
+		private double videoStartTs;
 	}
 
 	@Data
@@ -51,9 +51,9 @@ public class PhotosApi {
 
 	@Data
 	public static class GetUserPhotos {
-		private BigInteger maxId;
-		private int offset;
-		private int limit;
 		private Api.TypeInputUser userId;
+		private int offset;
+		private BigInteger maxId;
+		private int limit;
 	}
 }

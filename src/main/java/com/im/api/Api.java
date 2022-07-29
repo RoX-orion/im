@@ -283,118 +283,118 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ResPQ extends Api.TypeResPQ {
+		private BigInteger nonce;
+		private BigInteger serverNonce;
 		private String pq;
 		private BigInteger[] serverPublicKeyFingerprints;
-		private BigInteger serverNonce;
-		private BigInteger nonce;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PQInnerData extends Api.TypeP_Q_inner_data {
-		private String p;
 		private String pq;
+		private String p;
 		private String q;
-		private BigInteger newNonce;
-		private BigInteger serverNonce;
 		private BigInteger nonce;
+		private BigInteger serverNonce;
+		private BigInteger newNonce;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PQInnerDataDc extends Api.TypeP_Q_inner_data {
-		private String p;
 		private String pq;
+		private String p;
 		private String q;
-		private BigInteger newNonce;
-		private BigInteger serverNonce;
 		private BigInteger nonce;
+		private BigInteger serverNonce;
+		private BigInteger newNonce;
 		private int dc;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PQInnerDataTemp extends Api.TypeP_Q_inner_data {
-		private String p;
-		private int expiresIn;
 		private String pq;
+		private String p;
 		private String q;
-		private BigInteger newNonce;
-		private BigInteger serverNonce;
 		private BigInteger nonce;
+		private BigInteger serverNonce;
+		private BigInteger newNonce;
+		private int expiresIn;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PQInnerDataTempDc extends Api.TypeP_Q_inner_data {
-		private String p;
-		private int expiresIn;
 		private String pq;
+		private String p;
 		private String q;
-		private BigInteger newNonce;
-		private BigInteger serverNonce;
 		private BigInteger nonce;
+		private BigInteger serverNonce;
+		private BigInteger newNonce;
 		private int dc;
+		private int expiresIn;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ServerDHParamsFail extends Api.TypeServer_DH_Params {
-		private BigInteger newNonceHash;
-		private BigInteger serverNonce;
 		private BigInteger nonce;
+		private BigInteger serverNonce;
+		private BigInteger newNonceHash;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ServerDHParamsOk extends Api.TypeServer_DH_Params {
-		private String encryptedAnswer;
-		private BigInteger serverNonce;
 		private BigInteger nonce;
+		private BigInteger serverNonce;
+		private String encryptedAnswer;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ServerDHInnerData extends Api.TypeServer_DH_inner_data {
+		private BigInteger nonce;
+		private BigInteger serverNonce;
 		private int g;
 		private String dhPrime;
 		private String gA;
 		private int serverTime;
-		private BigInteger serverNonce;
-		private BigInteger nonce;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ClientDHInnerData extends Api.TypeClient_DH_Inner_Data {
+		private BigInteger nonce;
 		private BigInteger serverNonce;
 		private BigInteger retryId;
 		private String gB;
-		private BigInteger nonce;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class DhGenOk extends Api.TypeSet_client_DH_params_answer {
-		private BigInteger newNonceHash1;
-		private BigInteger serverNonce;
 		private BigInteger nonce;
+		private BigInteger serverNonce;
+		private BigInteger newNonceHash1;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class DhGenRetry extends Api.TypeSet_client_DH_params_answer {
-		private BigInteger newNonceHash2;
-		private BigInteger serverNonce;
 		private BigInteger nonce;
+		private BigInteger serverNonce;
+		private BigInteger newNonceHash2;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class DhGenFail extends Api.TypeSet_client_DH_params_answer {
-		private BigInteger newNonceHash3;
-		private BigInteger serverNonce;
 		private BigInteger nonce;
+		private BigInteger serverNonce;
+		private BigInteger newNonceHash3;
 	}
 
 	@Data
@@ -431,8 +431,8 @@ public class Api {
 	public static class BadServerSalt extends Api.TypeBadMsgNotification {
 		private BigInteger badMsgId;
 		private int badMsgSeqno;
-		private BigInteger newServerSalt;
 		private int errorCode;
+		private BigInteger newServerSalt;
 	}
 
 	@Data
@@ -458,17 +458,17 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MsgDetailedInfo extends Api.TypeMsgDetailedInfo {
-		private int bytes;
 		private BigInteger msgId;
 		private BigInteger answerMsgId;
+		private int bytes;
 		private int status;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MsgNewDetailedInfo extends Api.TypeMsgDetailedInfo {
-		private int bytes;
 		private BigInteger answerMsgId;
+		private int bytes;
 		private int status;
 	}
 
@@ -481,8 +481,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class RpcError extends Api.TypeRpcError {
-		private String errorMessage;
 		private int errorCode;
+		private String errorMessage;
 	}
 
 	@Data
@@ -498,32 +498,32 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class RpcAnswerDropped extends Api.TypeRpcDropAnswer {
+		private BigInteger msgId;
 		private int seqNo;
 		private int bytes;
-		private BigInteger msgId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class FutureSalt extends Api.TypeFutureSalt {
 		private int validSince;
-		private BigInteger salt;
 		private int validUntil;
+		private BigInteger salt;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class FutureSalts extends Api.TypeFutureSalts {
-		private int now;
 		private BigInteger reqMsgId;
+		private int now;
 		private Object[] salts;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Pong extends Api.TypePong {
-		private BigInteger pingId;
 		private BigInteger msgId;
+		private BigInteger pingId;
 	}
 
 	@Data
@@ -542,8 +542,8 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class NewSessionCreated extends Api.TypeNewSession {
 		private BigInteger firstMsgId;
-		private BigInteger serverSalt;
 		private BigInteger uniqueId;
+		private BigInteger serverSalt;
 	}
 
 	@Data
@@ -566,7 +566,7 @@ public class Api {
 	public static class IpPortSecret extends Api.TypeIpPort {
 		private int ipv4;
 		private int port;
-		private byte secret;
+		private byte[] secret;
 	}
 
 	@Data
@@ -659,15 +659,15 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputPeerUser extends Api.TypeInputPeer {
-		private BigInteger accessHash;
 		private BigInteger userId;
+		private BigInteger accessHash;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputPeerChannel extends Api.TypeInputPeer {
-		private BigInteger accessHash;
 		private BigInteger channelId;
+		private BigInteger accessHash;
 	}
 
 	@Data
@@ -699,8 +699,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputUser extends Api.TypeInputUser {
-		private BigInteger accessHash;
 		private BigInteger userId;
+		private BigInteger accessHash;
 	}
 
 	@Data
@@ -714,27 +714,27 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputPhoneContact extends Api.TypeInputContact {
-		private String firstName;
-		private String lastName;
 		private BigInteger clientId;
 		private String phone;
+		private String firstName;
+		private String lastName;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputFile extends Api.TypeInputFile {
-		private String md5Checksum;
+		private BigInteger id;
 		private int parts;
 		private String name;
-		private BigInteger id;
+		private String md5Checksum;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputFileBig extends Api.TypeInputFile {
+		private BigInteger id;
 		private int parts;
 		private String name;
-		private BigInteger id;
 	}
 
 	@Data
@@ -766,56 +766,56 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputMediaContact extends Api.TypeInputMedia {
+		private String phoneNumber;
 		private String firstName;
 		private String lastName;
-		private String phoneNumber;
 		private String vcard;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputMediaUploadedDocument extends Api.TypeInputMedia {
+		private Api.True nosoundVideo;
+		private Api.True forceFile;
 		private Api.TypeInputFile file;
 		private Api.TypeInputFile thumb;
-		private Api.True forceFile;
+		private String mimeType;
 		private Api.TypeDocumentAttribute[] attributes;
 		private Api.TypeInputDocument[] stickers;
-		private String mimeType;
-		private Api.True nosoundVideo;
 		private int ttlSeconds;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputMediaDocument extends Api.TypeInputMedia {
-		private String query;
 		private Api.TypeInputDocument id;
 		private int ttlSeconds;
+		private String query;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputMediaVenue extends Api.TypeInputMedia {
-		private String address;
-		private String venueType;
-		private String provider;
-		private String venueId;
 		private Api.TypeInputGeoPoint geoPoint;
 		private String title;
+		private String address;
+		private String provider;
+		private String venueId;
+		private String venueType;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputMediaPhotoExternal extends Api.TypeInputMedia {
-		private int ttlSeconds;
 		private String url;
+		private int ttlSeconds;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputMediaDocumentExternal extends Api.TypeInputMedia {
-		private int ttlSeconds;
 		private String url;
+		private int ttlSeconds;
 	}
 
 	@Data
@@ -827,32 +827,32 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputMediaInvoice extends Api.TypeInputMedia {
-		private String startParam;
-		private byte payload;
-		private String provider;
-		private Api.TypeDataJSON providerData;
+		private String title;
 		private String description;
 		private Api.TypeInputWebDocument photo;
 		private Api.TypeInvoice invoice;
-		private String title;
+		private byte[] payload;
+		private String provider;
+		private Api.TypeDataJSON providerData;
+		private String startParam;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputMediaGeoLive extends Api.TypeInputMedia {
 		private Api.True stopped;
-		private int period;
-		private int heading;
 		private Api.TypeInputGeoPoint geoPoint;
+		private int heading;
+		private int period;
 		private int proximityNotificationRadius;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputMediaPoll extends Api.TypeInputMedia {
-		private String solution;
 		private Api.TypePoll poll;
-		private byte[] correctAnswers;
+		private byte[][] correctAnswers;
+		private String solution;
 		private Api.TypeMessageEntity[] solutionEntities;
 	}
 
@@ -871,8 +871,8 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputChatUploadedPhoto extends Api.TypeInputChatPhoto {
 		private Api.TypeInputFile file;
-		private double videoStartTs;
 		private Api.TypeInputFile video;
+		private double videoStartTs;
 	}
 
 	@Data
@@ -889,9 +889,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputGeoPoint extends Api.TypeInputGeoPoint {
-		private int accuracyRadius;
 		private double lat;
 		private double longSuffix;
+		private int accuracyRadius;
 	}
 
 	@Data
@@ -902,41 +902,41 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputPhoto extends Api.TypeInputPhoto {
-		private BigInteger accessHash;
 		private BigInteger id;
-		private byte fileReference;
+		private BigInteger accessHash;
+		private byte[] fileReference;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputFileLocation extends Api.TypeInputFileLocation {
 		private BigInteger volumeId;
-		private BigInteger secret;
-		private byte fileReference;
 		private int localId;
+		private BigInteger secret;
+		private byte[] fileReference;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputEncryptedFileLocation extends Api.TypeInputFileLocation {
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputDocumentFileLocation extends Api.TypeInputFileLocation {
-		private String thumbSize;
-		private BigInteger accessHash;
 		private BigInteger id;
-		private byte fileReference;
+		private BigInteger accessHash;
+		private byte[] fileReference;
+		private String thumbSize;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputSecureFileLocation extends Api.TypeInputFileLocation {
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
 	}
 
 	@Data
@@ -947,21 +947,21 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputPhotoFileLocation extends Api.TypeInputFileLocation {
-		private String thumbSize;
-		private BigInteger accessHash;
 		private BigInteger id;
-		private byte fileReference;
+		private BigInteger accessHash;
+		private byte[] fileReference;
+		private String thumbSize;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputPhotoLegacyFileLocation extends Api.TypeInputFileLocation {
-		private BigInteger volumeId;
-		private BigInteger accessHash;
 		private BigInteger id;
-		private BigInteger secret;
-		private byte fileReference;
+		private BigInteger accessHash;
+		private byte[] fileReference;
+		private BigInteger volumeId;
 		private int localId;
+		private BigInteger secret;
 	}
 
 	@Data
@@ -983,9 +983,9 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputGroupCallStream extends Api.TypeInputFileLocation {
 		private Api.TypeInputGroupCall call;
+		private BigInteger timeMs;
 		private int scale;
 		private int videoChannel;
-		private BigInteger timeMs;
 		private int videoQuality;
 	}
 
@@ -1016,36 +1016,36 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class User extends Api.TypeUser {
-		private Api.True botChatHistory;
-		private String lastName;
-		private Api.True attachMenuEnabled;
-		private Api.True bot;
-		private String langCode;
-		private Api.True scam;
-		private Api.TypeRestrictionReason[] restrictionReason;
-		private int botInfoVersion;
-		private Api.True min;
-		private Api.True premium;
-		private Api.True contact;
-		private String botInlinePlaceholder;
-		private BigInteger id;
-		private Api.True botAttachMenu;
-		private Api.True mutualContact;
-		private Api.True verified;
-		private Api.TypeUserProfilePhoto photo;
-		private Api.True botInlineGeo;
-		private String firstName;
-		private Api.True deleted;
-		private String phone;
-		private Api.True botNochats;
-		private Api.True restricted;
-		private Api.True applyMinPhoto;
 		private Api.True self;
-		private Api.True fake;
-		private BigInteger accessHash;
+		private Api.True contact;
+		private Api.True mutualContact;
+		private Api.True deleted;
+		private Api.True bot;
+		private Api.True botChatHistory;
+		private Api.True botNochats;
+		private Api.True verified;
+		private Api.True restricted;
+		private Api.True min;
+		private Api.True botInlineGeo;
 		private Api.True support;
+		private Api.True scam;
+		private Api.True applyMinPhoto;
+		private Api.True fake;
+		private Api.True botAttachMenu;
+		private Api.True premium;
+		private Api.True attachMenuEnabled;
+		private BigInteger id;
+		private BigInteger accessHash;
+		private String firstName;
+		private String lastName;
 		private String username;
+		private String phone;
+		private Api.TypeUserProfilePhoto photo;
 		private Api.TypeUserStatus status;
+		private int botInfoVersion;
+		private Api.TypeRestrictionReason[] restrictionReason;
+		private String botInlinePlaceholder;
+		private String langCode;
 	}
 
 	@Data
@@ -1057,9 +1057,9 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class UserProfilePhoto extends Api.TypeUserProfilePhoto {
 		private Api.True hasVideo;
-		private int dcId;
 		private BigInteger photoId;
-		private byte strippedThumb;
+		private byte[] strippedThumb;
+		private int dcId;
 	}
 
 	@Data
@@ -1103,21 +1103,21 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Chat extends Api.TypeChat {
-		private int date;
-		private int participantsCount;
 		private Api.True creator;
-		private Api.True noforwards;
-		private Api.TypeChatPhoto photo;
-		private Api.TypeChatBannedRights defaultBannedRights;
-		private String title;
-		private Api.True callActive;
-		private int version;
-		private Api.True deactivated;
-		private Api.True callNotEmpty;
-		private Api.TypeChatAdminRights adminRights;
 		private Api.True left;
-		private Api.TypeInputChannel migratedTo;
+		private Api.True deactivated;
+		private Api.True callActive;
+		private Api.True callNotEmpty;
+		private Api.True noforwards;
 		private BigInteger id;
+		private String title;
+		private Api.TypeChatPhoto photo;
+		private int participantsCount;
+		private int date;
+		private int version;
+		private Api.TypeInputChannel migratedTo;
+		private Api.TypeChatAdminRights adminRights;
+		private Api.TypeChatBannedRights defaultBannedRights;
 	}
 
 	@Data
@@ -1130,127 +1130,127 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Channel extends Api.TypeChat {
-		private Api.True broadcast;
-		private int date;
-		private int participantsCount;
-		private Api.True noforwards;
-		private Api.True scam;
-		private Api.TypeRestrictionReason[] restrictionReason;
-		private String title;
-		private Api.True callActive;
-		private Api.True signatures;
-		private Api.True megagroup;
-		private Api.True min;
-		private Api.True hasGeo;
-		private Api.True joinToSend;
-		private BigInteger id;
-		private Api.TypeChatBannedRights bannedRights;
-		private Api.True joinRequest;
 		private Api.True creator;
-		private Api.True verified;
-		private Api.TypeChatPhoto photo;
-		private Api.True slowmodeEnabled;
-		private Api.TypeChatBannedRights defaultBannedRights;
-		private Api.True callNotEmpty;
-		private Api.True gigagroup;
-		private Api.TypeChatAdminRights adminRights;
-		private Api.True hasLink;
 		private Api.True left;
+		private Api.True broadcast;
+		private Api.True verified;
+		private Api.True megagroup;
 		private Api.True restricted;
+		private Api.True signatures;
+		private Api.True min;
+		private Api.True scam;
+		private Api.True hasLink;
+		private Api.True hasGeo;
+		private Api.True slowmodeEnabled;
+		private Api.True callActive;
+		private Api.True callNotEmpty;
 		private Api.True fake;
+		private Api.True gigagroup;
+		private Api.True noforwards;
+		private Api.True joinToSend;
+		private Api.True joinRequest;
+		private BigInteger id;
 		private BigInteger accessHash;
+		private String title;
 		private String username;
+		private Api.TypeChatPhoto photo;
+		private int date;
+		private Api.TypeRestrictionReason[] restrictionReason;
+		private Api.TypeChatAdminRights adminRights;
+		private Api.TypeChatBannedRights bannedRights;
+		private Api.TypeChatBannedRights defaultBannedRights;
+		private int participantsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelForbidden extends Api.TypeChat {
 		private Api.True broadcast;
-		private int untilDate;
-		private BigInteger accessHash;
-		private BigInteger id;
-		private String title;
 		private Api.True megagroup;
+		private BigInteger id;
+		private BigInteger accessHash;
+		private String title;
+		private int untilDate;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatFull extends Api.TypeChatFull {
+		private Api.True canSetUsername;
+		private Api.True hasScheduled;
+		private BigInteger id;
+		private String about;
+		private Api.TypeChatParticipants participants;
 		private Api.TypePhoto chatPhoto;
-		private Api.TypePeer groupcallDefaultJoinAs;
+		private Api.TypePeerNotifySettings notifySettings;
+		private Api.TypeExportedChatInvite exportedInvite;
 		private Api.TypeBotInfo[] botInfo;
 		private int pinnedMsgId;
-		private String[] availableReactions;
-		private String about;
-		private BigInteger[] recentRequesters;
-		private Api.True canSetUsername;
-		private Api.TypePeerNotifySettings notifySettings;
 		private int folderId;
 		private Api.TypeInputGroupCall call;
+		private int ttlPeriod;
+		private Api.TypePeer groupcallDefaultJoinAs;
 		private String themeEmoticon;
 		private int requestsPending;
-		private int ttlPeriod;
-		private BigInteger id;
-		private Api.True hasScheduled;
-		private Api.TypeExportedChatInvite exportedInvite;
-		private Api.TypeChatParticipants participants;
+		private BigInteger[] recentRequesters;
+		private String[] availableReactions;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelFull extends Api.TypeChatFull {
-		private int participantsCount;
-		private int migratedFromMaxId;
-		private Api.TypePhoto chatPhoto;
-		private int kickedCount;
-		private int readInboxMaxId;
-		private Api.TypeBotInfo[] botInfo;
-		private int pinnedMsgId;
-		private String about;
-		private BigInteger[] recentRequesters;
-		private int unreadCount;
-		private Api.True canSetLocation;
-		private Api.True canSetUsername;
-		private int adminsCount;
-		private int slowmodeSeconds;
-		private Api.TypePeer defaultSendAs;
 		private Api.True canViewParticipants;
-		private String themeEmoticon;
-		private int statsDc;
-		private Api.True blocked;
-		private int requestsPending;
-		private int availableMinId;
-		private BigInteger id;
-		private Api.True hasScheduled;
-		private Api.TypeExportedChatInvite exportedInvite;
-		private int onlineCount;
-		private BigInteger migratedFromChatId;
-		private Api.TypePeer groupcallDefaultJoinAs;
-		private Api.True canViewStats;
-		private Api.True canDeleteChannel;
-		private BigInteger linkedChatId;
-		private String[] availableReactions;
-		private Api.True hiddenPrehistory;
-		private Api.TypePeerNotifySettings notifySettings;
-		private int folderId;
-		private int pts;
+		private Api.True canSetUsername;
 		private Api.True canSetStickers;
-		private String[] pendingSuggestions;
-		private Api.TypeInputGroupCall call;
-		private int readOutboxMaxId;
+		private Api.True hiddenPrehistory;
+		private Api.True canSetLocation;
+		private Api.True hasScheduled;
+		private Api.True canViewStats;
+		private Api.True blocked;
+		private Api.True canDeleteChannel;
+		private BigInteger id;
+		private String about;
+		private int participantsCount;
+		private int adminsCount;
+		private int kickedCount;
 		private int bannedCount;
-		private int ttlPeriod;
+		private int onlineCount;
+		private int readInboxMaxId;
+		private int readOutboxMaxId;
+		private int unreadCount;
+		private Api.TypePhoto chatPhoto;
+		private Api.TypePeerNotifySettings notifySettings;
+		private Api.TypeExportedChatInvite exportedInvite;
+		private Api.TypeBotInfo[] botInfo;
+		private BigInteger migratedFromChatId;
+		private int migratedFromMaxId;
+		private int pinnedMsgId;
 		private Api.TypeStickerSet stickerset;
+		private int availableMinId;
+		private int folderId;
+		private BigInteger linkedChatId;
 		private Api.TypeChannelLocation location;
+		private int slowmodeSeconds;
 		private int slowmodeNextSendDate;
+		private int statsDc;
+		private int pts;
+		private Api.TypeInputGroupCall call;
+		private int ttlPeriod;
+		private String[] pendingSuggestions;
+		private Api.TypePeer groupcallDefaultJoinAs;
+		private String themeEmoticon;
+		private int requestsPending;
+		private BigInteger[] recentRequesters;
+		private Api.TypePeer defaultSendAs;
+		private String[] availableReactions;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatParticipant extends Api.TypeChatParticipant {
-		private int date;
-		private BigInteger inviterId;
 		private BigInteger userId;
+		private BigInteger inviterId;
+		private int date;
 	}
 
 	@Data
@@ -1262,24 +1262,24 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatParticipantAdmin extends Api.TypeChatParticipant {
-		private int date;
-		private BigInteger inviterId;
 		private BigInteger userId;
+		private BigInteger inviterId;
+		private int date;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatParticipantsForbidden extends Api.TypeChatParticipants {
-		private Api.TypeChatParticipant selfParticipant;
 		private BigInteger chatId;
+		private Api.TypeChatParticipant selfParticipant;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatParticipants extends Api.TypeChatParticipants {
 		private BigInteger chatId;
-		private int version;
 		private Api.TypeChatParticipant[] participants;
+		private int version;
 	}
 
 	@Data
@@ -1291,69 +1291,69 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatPhoto extends Api.TypeChatPhoto {
 		private Api.True hasVideo;
-		private int dcId;
 		private BigInteger photoId;
-		private byte strippedThumb;
+		private byte[] strippedThumb;
+		private int dcId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageEmpty extends Api.TypeMessage {
-		private Api.TypePeer peerId;
 		private int id;
+		private Api.TypePeer peerId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Message extends Api.TypeMessage {
-		private Api.TypePeer peerId;
-		private int date;
-		private int forwards;
-		private BigInteger viaBotId;
-		private Api.True pinned;
-		private Api.True legacy;
-		private Api.True noforwards;
-		private Api.TypeMessageMedia media;
-		private Api.TypeRestrictionReason[] restrictionReason;
 		private Api.True out;
-		private Api.True mediaUnread;
-		private Api.TypeMessageFwdHeader fwdFrom;
-		private String postAuthor;
-		private Api.True post;
-		private Api.True editHide;
-		private int id;
 		private Api.True mentioned;
-		private int views;
+		private Api.True mediaUnread;
 		private Api.True silent;
-		private String message;
+		private Api.True post;
+		private Api.True fromScheduled;
+		private Api.True legacy;
+		private Api.True editHide;
+		private Api.True pinned;
+		private Api.True noforwards;
+		private int id;
 		private Api.TypePeer fromId;
-		private int editDate;
-		private Api.TypeMessageReplies replies;
-		private Api.TypeMessageEntity[] entities;
-		private Api.TypeReplyMarkup replyMarkup;
+		private Api.TypePeer peerId;
+		private Api.TypeMessageFwdHeader fwdFrom;
+		private BigInteger viaBotId;
 		private Api.TypeMessageReplyHeader replyTo;
-		private int ttlPeriod;
+		private int date;
+		private String message;
+		private Api.TypeMessageMedia media;
+		private Api.TypeReplyMarkup replyMarkup;
+		private Api.TypeMessageEntity[] entities;
+		private int views;
+		private int forwards;
+		private Api.TypeMessageReplies replies;
+		private int editDate;
+		private String postAuthor;
 		private BigInteger groupedId;
 		private Api.TypeMessageReactions reactions;
-		private Api.True fromScheduled;
+		private Api.TypeRestrictionReason[] restrictionReason;
+		private int ttlPeriod;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageService extends Api.TypeMessage {
-		private Api.TypePeer peerId;
-		private int date;
-		private Api.True silent;
-		private Api.True legacy;
-		private Api.TypePeer fromId;
 		private Api.True out;
+		private Api.True mentioned;
 		private Api.True mediaUnread;
+		private Api.True silent;
 		private Api.True post;
+		private Api.True legacy;
+		private int id;
+		private Api.TypePeer fromId;
+		private Api.TypePeer peerId;
 		private Api.TypeMessageReplyHeader replyTo;
+		private int date;
 		private Api.TypeMessageAction action;
 		private int ttlPeriod;
-		private int id;
-		private Api.True mentioned;
 	}
 
 	@Data
@@ -1377,9 +1377,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageMediaContact extends Api.TypeMessageMedia {
+		private String phoneNumber;
 		private String firstName;
 		private String lastName;
-		private String phoneNumber;
 		private String vcard;
 		private BigInteger userId;
 	}
@@ -1392,8 +1392,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageMediaDocument extends Api.TypeMessageMedia {
-		private Api.TypeDocument document;
 		private Api.True nopremium;
+		private Api.TypeDocument document;
 		private int ttlSeconds;
 	}
 
@@ -1407,11 +1407,11 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageMediaVenue extends Api.TypeMessageMedia {
 		private Api.TypeGeoPoint geo;
+		private String title;
 		private String address;
-		private String venueType;
 		private String provider;
 		private String venueId;
-		private String title;
+		private String venueType;
 	}
 
 	@Data
@@ -1423,23 +1423,23 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageMediaInvoice extends Api.TypeMessageMedia {
-		private BigInteger totalAmount;
-		private int receiptMsgId;
-		private Api.True test;
-		private String startParam;
 		private Api.True shippingAddressRequested;
+		private Api.True test;
+		private String title;
 		private String description;
 		private Api.TypeWebDocument photo;
+		private int receiptMsgId;
 		private String currency;
-		private String title;
+		private BigInteger totalAmount;
+		private String startParam;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageMediaGeoLive extends Api.TypeMessageMedia {
 		private Api.TypeGeoPoint geo;
-		private int period;
 		private int heading;
+		private int period;
 		private int proximityNotificationRadius;
 	}
 
@@ -1519,8 +1519,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageActionChannelMigrateFrom extends Api.TypeMessageAction {
-		private BigInteger chatId;
 		private String title;
+		private BigInteger chatId;
 	}
 
 	@Data
@@ -1543,33 +1543,33 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageActionPaymentSentMe extends Api.TypeMessageAction {
-		private BigInteger totalAmount;
-		private Api.TypePaymentCharge charge;
-		private byte payload;
-		private String currency;
-		private String shippingOptionId;
-		private Api.True recurringUsed;
 		private Api.True recurringInit;
+		private Api.True recurringUsed;
+		private String currency;
+		private BigInteger totalAmount;
+		private byte[] payload;
 		private Api.TypePaymentRequestedInfo info;
+		private String shippingOptionId;
+		private Api.TypePaymentCharge charge;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageActionPaymentSent extends Api.TypeMessageAction {
+		private Api.True recurringInit;
+		private Api.True recurringUsed;
+		private String currency;
 		private BigInteger totalAmount;
 		private String invoiceSlug;
-		private String currency;
-		private Api.True recurringUsed;
-		private Api.True recurringInit;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageActionPhoneCall extends Api.TypeMessageAction {
-		private BigInteger callId;
-		private int duration;
-		private Api.TypePhoneCallDiscardReason reason;
 		private Api.True video;
+		private BigInteger callId;
+		private Api.TypePhoneCallDiscardReason reason;
+		private int duration;
 	}
 
 	@Data
@@ -1592,8 +1592,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageActionSecureValuesSentMe extends Api.TypeMessageAction {
-		private Api.TypeSecureCredentialsEncrypted credentials;
 		private Api.TypeSecureValue[] values;
+		private Api.TypeSecureCredentialsEncrypted credentials;
 	}
 
 	@Data
@@ -1610,9 +1610,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageActionGeoProximityReached extends Api.TypeMessageAction {
+		private Api.TypePeer fromId;
 		private Api.TypePeer toId;
 		private int distance;
-		private Api.TypePeer fromId;
 	}
 
 	@Data
@@ -1656,8 +1656,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageActionWebViewDataSentMe extends Api.TypeMessageAction {
-		private String data;
 		private String text;
+		private String data;
 	}
 
 	@Data
@@ -1671,17 +1671,17 @@ public class Api {
 	public static class Dialog extends Api.TypeDialog {
 		private Api.True pinned;
 		private Api.True unreadMark;
-		private int readInboxMaxId;
-		private int unreadMentionsCount;
+		private Api.TypePeer peer;
 		private int topMessage;
+		private int readInboxMaxId;
+		private int readOutboxMaxId;
 		private int unreadCount;
+		private int unreadMentionsCount;
+		private int unreadReactionsCount;
 		private Api.TypePeerNotifySettings notifySettings;
 		private int pts;
-		private int folderId;
-		private int readOutboxMaxId;
-		private Api.TypePeer peer;
 		private Api.TypeDraftMessage draft;
-		private int unreadReactionsCount;
+		private int folderId;
 	}
 
 	@Data
@@ -1689,12 +1689,12 @@ public class Api {
 	public static class DialogFolder extends Api.TypeDialog {
 		private Api.True pinned;
 		private Api.TypeFolder folder;
-		private int unreadMutedMessagesCount;
 		private Api.TypePeer peer;
 		private int topMessage;
-		private int unreadUnmutedMessagesCount;
 		private int unreadMutedPeersCount;
 		private int unreadUnmutedPeersCount;
+		private int unreadMutedMessagesCount;
+		private int unreadUnmutedMessagesCount;
 	}
 
 	@Data
@@ -1707,13 +1707,13 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class Photo extends Api.TypePhoto {
 		private Api.True hasStickers;
+		private BigInteger id;
+		private BigInteger accessHash;
+		private byte[] fileReference;
 		private int date;
 		private Api.TypePhotoSize[] sizes;
 		private Api.TypeVideoSize[] videoSizes;
 		private int dcId;
-		private BigInteger accessHash;
-		private BigInteger id;
-		private byte fileReference;
 	}
 
 	@Data
@@ -1725,42 +1725,42 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhotoSize extends Api.TypePhotoSize {
-		private int size;
+		private String type;
 		private int w;
 		private int h;
-		private String type;
+		private int size;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhotoCachedSize extends Api.TypePhotoSize {
-		private byte bytes;
+		private String type;
 		private int w;
 		private int h;
-		private String type;
+		private byte[] bytes;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhotoStrippedSize extends Api.TypePhotoSize {
-		private byte bytes;
 		private String type;
+		private byte[] bytes;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhotoSizeProgressive extends Api.TypePhotoSize {
-		private int[] sizes;
+		private String type;
 		private int w;
 		private int h;
-		private String type;
+		private int[] sizes;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhotoPathSize extends Api.TypePhotoSize {
-		private byte bytes;
 		private String type;
+		private byte[] bytes;
 	}
 
 	@Data
@@ -1771,10 +1771,10 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class GeoPoint extends Api.TypeGeoPoint {
-		private int accuracyRadius;
-		private BigInteger accessHash;
 		private double longSuffix;
 		private double lat;
+		private BigInteger accessHash;
+		private int accuracyRadius;
 	}
 
 	@Data
@@ -1801,61 +1801,61 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputPeerNotifySettings extends Api.TypeInputPeerNotifySettings {
-		private Boolean silent;
 		private Boolean showPreviews;
-		private Api.TypeNotificationSound sound;
+		private Boolean silent;
 		private int muteUntil;
+		private Api.TypeNotificationSound sound;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PeerNotifySettings extends Api.TypePeerNotifySettings {
-		private Api.TypeNotificationSound iosSound;
-		private Boolean silent;
 		private Boolean showPreviews;
-		private Api.TypeNotificationSound otherSound;
-		private Api.TypeNotificationSound androidSound;
+		private Boolean silent;
 		private int muteUntil;
+		private Api.TypeNotificationSound iosSound;
+		private Api.TypeNotificationSound androidSound;
+		private Api.TypeNotificationSound otherSound;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PeerSettings extends Api.TypePeerSettings {
 		private Api.True reportSpam;
-		private int requestChatDate;
-		private Api.True shareContact;
-		private Api.True blockContact;
-		private Api.True autoarchived;
 		private Api.True addContact;
-		private Api.True inviteMembers;
-		private Api.True reportGeo;
-		private int geoDistance;
+		private Api.True blockContact;
+		private Api.True shareContact;
 		private Api.True needContactsException;
-		private String requestChatTitle;
+		private Api.True reportGeo;
+		private Api.True autoarchived;
+		private Api.True inviteMembers;
 		private Api.True requestChatBroadcast;
+		private int geoDistance;
+		private String requestChatTitle;
+		private int requestChatDate;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class WallPaper extends Api.TypeWallPaper {
-		private Api.TypeWallPaperSettings settings;
+		private BigInteger id;
 		private Api.True creator;
 		private Api.True defaultSuffix;
-		private Api.TypeDocument document;
 		private Api.True pattern;
 		private Api.True dark;
 		private BigInteger accessHash;
-		private BigInteger id;
 		private String slug;
+		private Api.TypeDocument document;
+		private Api.TypeWallPaperSettings settings;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class WallPaperNoFile extends Api.TypeWallPaper {
-		private Api.TypeWallPaperSettings settings;
+		private BigInteger id;
 		private Api.True defaultSuffix;
 		private Api.True dark;
-		private BigInteger id;
+		private Api.TypeWallPaperSettings settings;
 	}
 
 	@Data
@@ -1911,40 +1911,40 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UserFull extends Api.TypeUserFull {
-		private Api.TypePeerSettings settings;
-		private int commonChatsCount;
+		private Api.True blocked;
 		private Api.True phoneCallsAvailable;
-		private Api.TypeChatAdminRights botBroadcastAdminRights;
-		private Api.TypeBotInfo botInfo;
-		private int pinnedMsgId;
-		private String about;
 		private Api.True phoneCallsPrivate;
 		private Api.True canPinMessage;
-		private Api.TypePeerNotifySettings notifySettings;
-		private int folderId;
-		private String themeEmoticon;
-		private Api.TypePhoto profilePhoto;
-		private String privateForwardName;
-		private Api.True blocked;
-		private Api.True videoCallsAvailable;
-		private int ttlPeriod;
-		private Api.TypeChatAdminRights botGroupAdminRights;
-		private BigInteger id;
 		private Api.True hasScheduled;
+		private Api.True videoCallsAvailable;
+		private BigInteger id;
+		private String about;
+		private Api.TypePeerSettings settings;
+		private Api.TypePhoto profilePhoto;
+		private Api.TypePeerNotifySettings notifySettings;
+		private Api.TypeBotInfo botInfo;
+		private int pinnedMsgId;
+		private int commonChatsCount;
+		private int folderId;
+		private int ttlPeriod;
+		private String themeEmoticon;
+		private String privateForwardName;
+		private Api.TypeChatAdminRights botGroupAdminRights;
+		private Api.TypeChatAdminRights botBroadcastAdminRights;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Contact extends Api.TypeContact {
-		private Boolean mutual;
 		private BigInteger userId;
+		private Boolean mutual;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ImportedContact extends Api.TypeImportedContact {
-		private BigInteger clientId;
 		private BigInteger userId;
+		private BigInteger clientId;
 	}
 
 	@Data
@@ -2043,39 +2043,39 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateNewMessage extends Api.TypeUpdate {
-		private int ptsCount;
 		private Api.TypeMessage message;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateMessageID extends Api.TypeUpdate {
-		private BigInteger randomId;
 		private int id;
+		private BigInteger randomId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateDeleteMessages extends Api.TypeUpdate {
-		private int ptsCount;
 		private int[] messages;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateUserTyping extends Api.TypeUpdate {
-		private Api.TypeSendMessageAction action;
 		private BigInteger userId;
+		private Api.TypeSendMessageAction action;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateChatUserTyping extends Api.TypeUpdate {
 		private BigInteger chatId;
-		private Api.TypeSendMessageAction action;
 		private Api.TypePeer fromId;
+		private Api.TypeSendMessageAction action;
 	}
 
 	@Data
@@ -2094,26 +2094,26 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateUserName extends Api.TypeUpdate {
+		private BigInteger userId;
 		private String firstName;
 		private String lastName;
-		private BigInteger userId;
 		private String username;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateUserPhoto extends Api.TypeUpdate {
-		private int date;
-		private Boolean previous;
-		private Api.TypeUserProfilePhoto photo;
 		private BigInteger userId;
+		private int date;
+		private Api.TypeUserProfilePhoto photo;
+		private Boolean previous;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateNewEncryptedMessage extends Api.TypeUpdate {
-		private int qts;
 		private Api.TypeEncryptedMessage message;
+		private int qts;
 	}
 
 	@Data
@@ -2125,25 +2125,25 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateEncryption extends Api.TypeUpdate {
-		private int date;
 		private Api.TypeEncryptedChat chat;
+		private int date;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateEncryptedMessagesRead extends Api.TypeUpdate {
-		private int date;
 		private int chatId;
 		private int maxDate;
+		private int date;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateChatParticipantAdd extends Api.TypeUpdate {
-		private int date;
 		private BigInteger chatId;
-		private BigInteger inviterId;
 		private BigInteger userId;
+		private BigInteger inviterId;
+		private int date;
 		private int version;
 	}
 
@@ -2172,61 +2172,61 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateServiceNotification extends Api.TypeUpdate {
 		private Api.True popup;
-		private Api.TypeMessageEntity[] entities;
-		private Api.TypeMessageMedia media;
+		private int inboxDate;
 		private String type;
 		private String message;
-		private int inboxDate;
+		private Api.TypeMessageMedia media;
+		private Api.TypeMessageEntity[] entities;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdatePrivacy extends Api.TypeUpdate {
-		private Api.TypePrivacyRule[] rules;
 		private Api.TypePrivacyKey key;
+		private Api.TypePrivacyRule[] rules;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateUserPhone extends Api.TypeUpdate {
-		private String phone;
 		private BigInteger userId;
+		private String phone;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateReadHistoryInbox extends Api.TypeUpdate {
-		private int maxId;
-		private Api.TypePeer peer;
-		private int ptsCount;
 		private int folderId;
+		private Api.TypePeer peer;
+		private int maxId;
 		private int stillUnreadCount;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateReadHistoryOutbox extends Api.TypeUpdate {
-		private int maxId;
 		private Api.TypePeer peer;
-		private int ptsCount;
+		private int maxId;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateWebPage extends Api.TypeUpdate {
-		private int ptsCount;
 		private Api.TypeWebPage webpage;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateReadMessagesContents extends Api.TypeUpdate {
-		private int ptsCount;
 		private int[] messages;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
@@ -2245,17 +2245,17 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateNewChannelMessage extends Api.TypeUpdate {
-		private int ptsCount;
 		private Api.TypeMessage message;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateReadChannelInbox extends Api.TypeUpdate {
-		private int maxId;
 		private int folderId;
 		private BigInteger channelId;
+		private int maxId;
 		private int stillUnreadCount;
 		private int pts;
 	}
@@ -2263,17 +2263,17 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateDeleteChannelMessages extends Api.TypeUpdate {
-		private int ptsCount;
-		private int[] messages;
 		private BigInteger channelId;
+		private int[] messages;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateChannelMessageViews extends Api.TypeUpdate {
-		private int id;
 		private BigInteger channelId;
+		private int id;
 		private int views;
 	}
 
@@ -2281,8 +2281,8 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateChatParticipantAdmin extends Api.TypeUpdate {
 		private BigInteger chatId;
-		private Boolean isAdmin;
 		private BigInteger userId;
+		private Boolean isAdmin;
 		private int version;
 	}
 
@@ -2312,68 +2312,68 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateBotInlineQuery extends Api.TypeUpdate {
-		private Api.TypeGeoPoint geo;
-		private String offset;
-		private String query;
-		private Api.TypeInlineQueryPeerType peerType;
-		private BigInteger userId;
 		private BigInteger queryId;
+		private BigInteger userId;
+		private String query;
+		private Api.TypeGeoPoint geo;
+		private Api.TypeInlineQueryPeerType peerType;
+		private String offset;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateBotInlineSend extends Api.TypeUpdate {
-		private Api.TypeGeoPoint geo;
-		private String query;
-		private Api.TypeInputBotInlineMessageID msgId;
-		private String id;
 		private BigInteger userId;
+		private String query;
+		private Api.TypeGeoPoint geo;
+		private String id;
+		private Api.TypeInputBotInlineMessageID msgId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateEditChannelMessage extends Api.TypeUpdate {
-		private int ptsCount;
 		private Api.TypeMessage message;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateBotCallbackQuery extends Api.TypeUpdate {
-		private byte data;
+		private BigInteger queryId;
+		private BigInteger userId;
 		private Api.TypePeer peer;
 		private int msgId;
-		private String gameShortName;
-		private BigInteger userId;
-		private BigInteger queryId;
 		private BigInteger chatInstance;
+		private byte[] data;
+		private String gameShortName;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateEditMessage extends Api.TypeUpdate {
-		private int ptsCount;
 		private Api.TypeMessage message;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateInlineBotCallbackQuery extends Api.TypeUpdate {
-		private byte data;
-		private Api.TypeInputBotInlineMessageID msgId;
-		private String gameShortName;
-		private BigInteger userId;
 		private BigInteger queryId;
+		private BigInteger userId;
+		private Api.TypeInputBotInlineMessageID msgId;
 		private BigInteger chatInstance;
+		private byte[] data;
+		private String gameShortName;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateReadChannelOutbox extends Api.TypeUpdate {
-		private int maxId;
 		private BigInteger channelId;
+		private int maxId;
 	}
 
 	@Data
@@ -2406,18 +2406,18 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateChannelWebPage extends Api.TypeUpdate {
-		private int ptsCount;
-		private Api.TypeWebPage webpage;
 		private BigInteger channelId;
+		private Api.TypeWebPage webpage;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateDialogPinned extends Api.TypeUpdate {
 		private Api.True pinned;
-		private Api.TypeDialogPeer peer;
 		private int folderId;
+		private Api.TypeDialogPeer peer;
 	}
 
 	@Data
@@ -2436,30 +2436,30 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateBotWebhookJSONQuery extends Api.TypeUpdate {
+		private BigInteger queryId;
 		private Api.TypeDataJSON data;
 		private int timeout;
-		private BigInteger queryId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateBotShippingQuery extends Api.TypeUpdate {
-		private byte payload;
-		private Api.TypePostAddress shippingAddress;
-		private BigInteger userId;
 		private BigInteger queryId;
+		private BigInteger userId;
+		private byte[] payload;
+		private Api.TypePostAddress shippingAddress;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateBotPrecheckoutQuery extends Api.TypeUpdate {
-		private BigInteger totalAmount;
-		private byte payload;
-		private String currency;
-		private String shippingOptionId;
-		private BigInteger userId;
 		private BigInteger queryId;
+		private BigInteger userId;
+		private byte[] payload;
 		private Api.TypePaymentRequestedInfo info;
+		private String shippingOptionId;
+		private String currency;
+		private BigInteger totalAmount;
 	}
 
 	@Data
@@ -2488,8 +2488,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateChannelReadMessagesContents extends Api.TypeUpdate {
-		private int[] messages;
 		private BigInteger channelId;
+		private int[] messages;
 	}
 
 	@Data
@@ -2500,8 +2500,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateChannelAvailableMessages extends Api.TypeUpdate {
-		private int availableMinId;
 		private BigInteger channelId;
+		private int availableMinId;
 	}
 
 	@Data
@@ -2531,15 +2531,15 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateFolderPeers extends Api.TypeUpdate {
 		private Api.TypeFolderPeer[] folderPeers;
-		private int ptsCount;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdatePeerSettings extends Api.TypeUpdate {
-		private Api.TypePeerSettings settings;
 		private Api.TypePeer peer;
+		private Api.TypePeerSettings settings;
 	}
 
 	@Data
@@ -2582,17 +2582,17 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateMessagePollVote extends Api.TypeUpdate {
-		private int qts;
 		private BigInteger pollId;
-		private byte[] options;
 		private BigInteger userId;
+		private byte[][] options;
+		private int qts;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateDialogFilter extends Api.TypeUpdate {
-		private Api.TypeDialogFilter filter;
 		private int id;
+		private Api.TypeDialogFilter filter;
 	}
 
 	@Data
@@ -2610,33 +2610,33 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdatePhoneCallSignalingData extends Api.TypeUpdate {
 		private BigInteger phoneCallId;
-		private byte data;
+		private byte[] data;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateChannelMessageForwards extends Api.TypeUpdate {
-		private int forwards;
-		private int id;
 		private BigInteger channelId;
+		private int id;
+		private int forwards;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateReadChannelDiscussionInbox extends Api.TypeUpdate {
-		private int broadcastPost;
+		private BigInteger channelId;
+		private int topMsgId;
 		private int readMaxId;
 		private BigInteger broadcastId;
-		private int topMsgId;
-		private BigInteger channelId;
+		private int broadcastPost;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateReadChannelDiscussionOutbox extends Api.TypeUpdate {
-		private int readMaxId;
-		private int topMsgId;
 		private BigInteger channelId;
+		private int topMsgId;
+		private int readMaxId;
 	}
 
 	@Data
@@ -2649,10 +2649,10 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateChannelUserTyping extends Api.TypeUpdate {
-		private Api.TypeSendMessageAction action;
+		private BigInteger channelId;
 		private int topMsgId;
 		private Api.TypePeer fromId;
-		private BigInteger channelId;
+		private Api.TypeSendMessageAction action;
 	}
 
 	@Data
@@ -2660,19 +2660,19 @@ public class Api {
 	public static class UpdatePinnedMessages extends Api.TypeUpdate {
 		private Api.True pinned;
 		private Api.TypePeer peer;
-		private int ptsCount;
 		private int[] messages;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdatePinnedChannelMessages extends Api.TypeUpdate {
 		private Api.True pinned;
-		private int ptsCount;
-		private int[] messages;
 		private BigInteger channelId;
+		private int[] messages;
 		private int pts;
+		private int ptsCount;
 	}
 
 	@Data
@@ -2685,15 +2685,15 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateGroupCallParticipants extends Api.TypeUpdate {
 		private Api.TypeInputGroupCall call;
-		private int version;
 		private Api.TypeGroupCallParticipant[] participants;
+		private int version;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateGroupCall extends Api.TypeUpdate {
-		private Api.TypeGroupCall call;
 		private BigInteger chatId;
+		private Api.TypeGroupCall call;
 	}
 
 	@Data
@@ -2706,36 +2706,36 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateChatParticipant extends Api.TypeUpdate {
-		private int date;
-		private int qts;
-		private BigInteger actorId;
 		private BigInteger chatId;
-		private Api.TypeChatParticipant newParticipant;
-		private Api.TypeExportedChatInvite invite;
+		private int date;
+		private BigInteger actorId;
 		private BigInteger userId;
 		private Api.TypeChatParticipant prevParticipant;
+		private Api.TypeChatParticipant newParticipant;
+		private Api.TypeExportedChatInvite invite;
+		private int qts;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateChannelParticipant extends Api.TypeUpdate {
+		private BigInteger channelId;
 		private int date;
-		private int qts;
 		private BigInteger actorId;
-		private Api.TypeChannelParticipant newParticipant;
-		private Api.TypeExportedChatInvite invite;
 		private BigInteger userId;
 		private Api.TypeChannelParticipant prevParticipant;
-		private BigInteger channelId;
+		private Api.TypeChannelParticipant newParticipant;
+		private Api.TypeExportedChatInvite invite;
+		private int qts;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateBotStopped extends Api.TypeUpdate {
-		private int date;
-		private int qts;
-		private Boolean stopped;
 		private BigInteger userId;
+		private int date;
+		private Boolean stopped;
+		private int qts;
 	}
 
 	@Data
@@ -2756,20 +2756,20 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdatePendingJoinRequests extends Api.TypeUpdate {
-		private int requestsPending;
 		private Api.TypePeer peer;
+		private int requestsPending;
 		private BigInteger[] recentRequesters;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateBotChatInviteRequester extends Api.TypeUpdate {
-		private int date;
-		private int qts;
 		private Api.TypePeer peer;
+		private int date;
+		private BigInteger userId;
 		private String about;
 		private Api.TypeExportedChatInvite invite;
-		private BigInteger userId;
+		private int qts;
 	}
 
 	@Data
@@ -2794,8 +2794,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateBotMenuButton extends Api.TypeUpdate {
-		private Api.TypeBotMenuButton button;
 		private BigInteger botId;
+		private Api.TypeBotMenuButton button;
 	}
 
 	@Data
@@ -2806,10 +2806,10 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateTranscribedAudio extends Api.TypeUpdate {
-		private Api.TypePeer peer;
 		private Api.True pending;
-		private BigInteger transcriptionId;
+		private Api.TypePeer peer;
 		private int msgId;
+		private BigInteger transcriptionId;
 		private String text;
 	}
 
@@ -2821,162 +2821,162 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateShortMessage extends Api.TypeUpdates {
-		private int date;
-		private BigInteger viaBotId;
-		private Api.True silent;
-		private String message;
-		private BigInteger userId;
-		private int pts;
 		private Api.True out;
-		private Api.True mediaUnread;
-		private Api.TypeMessageFwdHeader fwdFrom;
-		private Api.TypeMessageEntity[] entities;
-		private int ptsCount;
-		private Api.TypeMessageReplyHeader replyTo;
-		private int ttlPeriod;
-		private int id;
 		private Api.True mentioned;
+		private Api.True mediaUnread;
+		private Api.True silent;
+		private int id;
+		private BigInteger userId;
+		private String message;
+		private int pts;
+		private int ptsCount;
+		private int date;
+		private Api.TypeMessageFwdHeader fwdFrom;
+		private BigInteger viaBotId;
+		private Api.TypeMessageReplyHeader replyTo;
+		private Api.TypeMessageEntity[] entities;
+		private int ttlPeriod;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateShortChatMessage extends Api.TypeUpdates {
-		private int date;
-		private BigInteger viaBotId;
+		private Api.True out;
+		private Api.True mentioned;
+		private Api.True mediaUnread;
 		private Api.True silent;
+		private int id;
+		private BigInteger fromId;
 		private BigInteger chatId;
 		private String message;
-		private BigInteger fromId;
 		private int pts;
-		private Api.True out;
-		private Api.True mediaUnread;
-		private Api.TypeMessageFwdHeader fwdFrom;
-		private Api.TypeMessageEntity[] entities;
 		private int ptsCount;
+		private int date;
+		private Api.TypeMessageFwdHeader fwdFrom;
+		private BigInteger viaBotId;
 		private Api.TypeMessageReplyHeader replyTo;
+		private Api.TypeMessageEntity[] entities;
 		private int ttlPeriod;
-		private int id;
-		private Api.True mentioned;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateShort extends Api.TypeUpdates {
-		private int date;
 		private Api.TypeUpdate update;
+		private int date;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdatesCombined extends Api.TypeUpdates {
-		private int date;
-		private int seqStart;
-		private Api.TypeChat[] chats;
 		private Api.TypeUpdate[] updates;
 		private Api.TypeUser[] users;
+		private Api.TypeChat[] chats;
+		private int date;
+		private int seqStart;
 		private int seq;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Updates extends Api.TypeUpdates {
-		private int date;
-		private Api.TypeChat[] chats;
 		private Api.TypeUpdate[] updates;
 		private Api.TypeUser[] users;
+		private Api.TypeChat[] chats;
+		private int date;
 		private int seq;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateShortSentMessage extends Api.TypeUpdates {
-		private int date;
-		private Api.TypeMessageEntity[] entities;
-		private int ptsCount;
-		private int ttlPeriod;
-		private int id;
-		private Api.TypeMessageMedia media;
-		private int pts;
 		private Api.True out;
+		private int id;
+		private int pts;
+		private int ptsCount;
+		private int date;
+		private Api.TypeMessageMedia media;
+		private Api.TypeMessageEntity[] entities;
+		private int ttlPeriod;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class DcOption extends Api.TypeDcOption {
-		private Api.True mediaOnly;
-		private Api.True staticSuffix;
-		private int port;
 		private Api.True ipv6;
-		private String ipAddress;
+		private Api.True mediaOnly;
 		private Api.True tcpoOnly;
-		private int id;
-		private byte secret;
 		private Api.True cdn;
+		private Api.True staticSuffix;
 		private Api.True thisPortOnly;
+		private int id;
+		private String ipAddress;
+		private int port;
+		private byte[] secret;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Config extends Api.TypeConfig {
-		private int date;
-		private int pinnedDialogsCountMax;
-		private Api.True forceTryIpv6;
-		private int callConnectTimeoutMs;
-		private int onlineCloudTimeoutMs;
-		private int pushChatPeriodMs;
+		private Api.True phonecallsEnabled;
+		private Api.True defaultP2pContacts;
+		private Api.True preloadFeaturedStickers;
+		private Api.True ignorePhoneEntities;
+		private Api.True revokePmInbox;
+		private Api.True blockedMode;
 		private Api.True pfsEnabled;
+		private Api.True forceTryIpv6;
+		private int date;
+		private int expires;
+		private Boolean testMode;
+		private int thisDc;
 		private Api.TypeDcOption[] dcOptions;
-		private String gifSearchUsername;
+		private String dcTxtDomainName;
+		private int chatSizeMax;
+		private int megagroupSizeMax;
+		private int forwardedCountMax;
+		private int onlineUpdatePeriodMs;
+		private int offlineBlurTimeoutMs;
+		private int offlineIdleTimeoutMs;
+		private int onlineCloudTimeoutMs;
 		private int notifyCloudDelayMs;
-		private int callRingTimeoutMs;
 		private int notifyDefaultDelayMs;
+		private int pushChatPeriodMs;
+		private int pushChatLimit;
+		private int savedGifsLimit;
+		private int editTimeLimit;
+		private int revokeTimeLimit;
+		private int revokePmTimeLimit;
+		private int ratingEDecay;
+		private int stickersRecentLimit;
+		private int stickersFavedLimit;
+		private int channelsReadMediaPeriod;
+		private int tmpSessions;
+		private int pinnedDialogsCountMax;
 		private int pinnedInfolderCountMax;
 		private int callReceiveTimeoutMs;
-		private int tmpSessions;
-		private String venueSearchUsername;
-		private int captionLengthMax;
-		private int forwardedCountMax;
-		private Api.True blockedMode;
-		private int revokePmTimeLimit;
-		private int megagroupSizeMax;
-		private int messageLengthMax;
-		private int stickersRecentLimit;
-		private int onlineUpdatePeriodMs;
-		private int editTimeLimit;
-		private int expires;
-		private Api.True phonecallsEnabled;
-		private int stickersFavedLimit;
-		private int savedGifsLimit;
-		private String dcTxtDomainName;
-		private String imgSearchUsername;
-		private int revokeTimeLimit;
-		private Api.True defaultP2pContacts;
-		private int pushChatLimit;
-		private String suggestedLangCode;
-		private String meUrlPrefix;
-		private int chatSizeMax;
-		private int langPackVersion;
-		private int thisDc;
+		private int callRingTimeoutMs;
+		private int callConnectTimeoutMs;
 		private int callPacketTimeoutMs;
-		private Api.True preloadFeaturedStickers;
-		private Api.True revokePmInbox;
-		private int offlineBlurTimeoutMs;
-		private int webfileDcId;
-		private Api.True ignorePhoneEntities;
-		private Boolean testMode;
-		private int channelsReadMediaPeriod;
-		private int ratingEDecay;
+		private String meUrlPrefix;
 		private String autoupdateUrlPrefix;
-		private int baseLangPackVersion;
-		private int offlineIdleTimeoutMs;
+		private String gifSearchUsername;
+		private String venueSearchUsername;
+		private String imgSearchUsername;
 		private String staticMapsProvider;
+		private int captionLengthMax;
+		private int messageLengthMax;
+		private int webfileDcId;
+		private String suggestedLangCode;
+		private int langPackVersion;
+		private int baseLangPackVersion;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class NearestDc extends Api.TypeNearestDc {
-		private int thisDc;
 		private String country;
+		private int thisDc;
 		private int nearestDc;
 	}
 
@@ -2989,42 +2989,42 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EncryptedChatWaiting extends Api.TypeEncryptedChat {
-		private int date;
-		private BigInteger participantId;
-		private BigInteger adminId;
-		private BigInteger accessHash;
 		private int id;
+		private BigInteger accessHash;
+		private int date;
+		private BigInteger adminId;
+		private BigInteger participantId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EncryptedChatRequested extends Api.TypeEncryptedChat {
-		private int date;
-		private BigInteger participantId;
-		private BigInteger adminId;
-		private BigInteger accessHash;
-		private byte gA;
-		private int id;
 		private int folderId;
+		private int id;
+		private BigInteger accessHash;
+		private int date;
+		private BigInteger adminId;
+		private BigInteger participantId;
+		private byte[] gA;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EncryptedChat extends Api.TypeEncryptedChat {
-		private int date;
-		private BigInteger participantId;
-		private BigInteger keyFingerprint;
-		private BigInteger adminId;
-		private BigInteger accessHash;
 		private int id;
-		private byte gAOrB;
+		private BigInteger accessHash;
+		private int date;
+		private BigInteger adminId;
+		private BigInteger participantId;
+		private byte[] gAOrB;
+		private BigInteger keyFingerprint;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EncryptedChatDiscarded extends Api.TypeEncryptedChat {
-		private int id;
 		private Api.True historyDeleted;
+		private int id;
 	}
 
 	@Data
@@ -3042,11 +3042,11 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EncryptedFile extends Api.TypeEncryptedFile {
+		private BigInteger id;
+		private BigInteger accessHash;
 		private BigInteger size;
 		private int dcId;
 		private int keyFingerprint;
-		private BigInteger accessHash;
-		private BigInteger id;
 	}
 
 	@Data
@@ -3057,44 +3057,44 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputEncryptedFileUploaded extends Api.TypeInputEncryptedFile {
+		private BigInteger id;
+		private int parts;
 		private String md5Checksum;
 		private int keyFingerprint;
-		private int parts;
-		private BigInteger id;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputEncryptedFile extends Api.TypeInputEncryptedFile {
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputEncryptedFileBigUploaded extends Api.TypeInputEncryptedFile {
-		private int keyFingerprint;
-		private int parts;
 		private BigInteger id;
+		private int parts;
+		private int keyFingerprint;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EncryptedMessage extends Api.TypeEncryptedMessage {
-		private int date;
 		private BigInteger randomId;
-		private Api.TypeEncryptedFile file;
 		private int chatId;
-		private byte bytes;
+		private int date;
+		private byte[] bytes;
+		private Api.TypeEncryptedFile file;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EncryptedMessageService extends Api.TypeEncryptedMessage {
-		private int date;
 		private BigInteger randomId;
 		private int chatId;
-		private byte bytes;
+		private int date;
+		private byte[] bytes;
 	}
 
 	@Data
@@ -3105,9 +3105,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputDocument extends Api.TypeInputDocument {
-		private BigInteger accessHash;
 		private BigInteger id;
-		private byte fileReference;
+		private BigInteger accessHash;
+		private byte[] fileReference;
 	}
 
 	@Data
@@ -3119,16 +3119,16 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Document extends Api.TypeDocument {
-		private int date;
-		private BigInteger size;
-		private int dcId;
-		private BigInteger accessHash;
-		private Api.TypeDocumentAttribute[] attributes;
 		private BigInteger id;
+		private BigInteger accessHash;
+		private byte[] fileReference;
+		private int date;
 		private String mimeType;
-		private byte fileReference;
+		private BigInteger size;
 		private Api.TypePhotoSize[] thumbs;
 		private Api.TypeVideoSize[] videoThumbs;
+		private int dcId;
+		private Api.TypeDocumentAttribute[] attributes;
 	}
 
 	@Data
@@ -3241,9 +3241,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SendMessageEmojiInteraction extends Api.TypeSendMessageAction {
-		private Api.TypeDataJSON interaction;
-		private int msgId;
 		private String emoticon;
+		private int msgId;
+		private Api.TypeDataJSON interaction;
 	}
 
 	@Data
@@ -3441,20 +3441,20 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class DocumentAttributeSticker extends Api.TypeDocumentAttribute {
-		private Api.TypeMaskCoords maskCoords;
+		private Api.True mask;
 		private String alt;
 		private Api.TypeInputStickerSet stickerset;
-		private Api.True mask;
+		private Api.TypeMaskCoords maskCoords;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class DocumentAttributeVideo extends Api.TypeDocumentAttribute {
-		private int duration;
+		private Api.True roundMessage;
 		private Api.True supportsStreaming;
+		private int duration;
 		private int w;
 		private int h;
-		private Api.True roundMessage;
 	}
 
 	@Data
@@ -3462,9 +3462,9 @@ public class Api {
 	public static class DocumentAttributeAudio extends Api.TypeDocumentAttribute {
 		private Api.True voice;
 		private int duration;
-		private String performer;
 		private String title;
-		private byte waveform;
+		private String performer;
+		private byte[] waveform;
 	}
 
 	@Data
@@ -3481,8 +3481,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class StickerPack extends Api.TypeStickerPack {
-		private BigInteger[] documents;
 		private String emoticon;
+		private BigInteger[] documents;
 	}
 
 	@Data
@@ -3494,31 +3494,31 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class WebPagePending extends Api.TypeWebPage {
-		private int date;
 		private BigInteger id;
+		private int date;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class WebPage extends Api.TypeWebPage {
-		private String embedUrl;
-		private Api.TypePage cachedPage;
-		private String author;
-		private Api.TypeDocument document;
-		private int embedWidth;
-		private String siteName;
-		private String description;
-		private Api.TypePhoto photo;
-		private String type;
-		private String title;
+		private BigInteger id;
 		private String url;
 		private String displayUrl;
-		private int duration;
-		private int embedHeight;
-		private String embedType;
-		private Api.TypeWebPageAttribute[] attributes;
-		private BigInteger id;
 		private int hash;
+		private String type;
+		private String siteName;
+		private String title;
+		private String description;
+		private Api.TypePhoto photo;
+		private String embedUrl;
+		private String embedType;
+		private int embedWidth;
+		private int embedHeight;
+		private int duration;
+		private String author;
+		private Api.TypeDocument document;
+		private Api.TypePage cachedPage;
+		private Api.TypeWebPageAttribute[] attributes;
 	}
 
 	@Data
@@ -3530,23 +3530,23 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Authorization extends Api.TypeAuthorization {
-		private String country;
-		private String appVersion;
-		private int dateActive;
-		private String appName;
-		private String ip;
-		private Api.True passwordPending;
-		private String systemVersion;
-		private String platform;
 		private Api.True current;
-		private Api.True encryptedRequestsDisabled;
-		private int dateCreated;
-		private Api.True callRequestsDisabled;
-		private String deviceModel;
 		private Api.True officialApp;
-		private String region;
+		private Api.True passwordPending;
+		private Api.True encryptedRequestsDisabled;
+		private Api.True callRequestsDisabled;
 		private BigInteger hash;
+		private String deviceModel;
+		private String platform;
+		private String systemVersion;
 		private int apiId;
+		private String appName;
+		private String appVersion;
+		private int dateCreated;
+		private int dateActive;
+		private String ip;
+		private String country;
+		private String region;
 	}
 
 	@Data
@@ -3558,18 +3558,18 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatInviteExported extends Api.TypeExportedChatInvite {
-		private int date;
+		private Api.True revoked;
+		private Api.True permanent;
 		private Api.True requestNeeded;
+		private String link;
+		private BigInteger adminId;
+		private int date;
+		private int startDate;
+		private int expireDate;
 		private int usageLimit;
 		private int usage;
-		private String link;
-		private Api.True revoked;
-		private String title;
 		private int requested;
-		private Api.True permanent;
-		private BigInteger adminId;
-		private int expireDate;
-		private int startDate;
+		private String title;
 	}
 
 	@Data
@@ -3586,23 +3586,23 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatInvite extends Api.TypeChatInvite {
-		private Api.True broadcast;
-		private Api.True requestNeeded;
-		private int participantsCount;
-		private Api.True publicSuffix;
 		private Api.True channel;
+		private Api.True broadcast;
+		private Api.True publicSuffix;
+		private Api.True megagroup;
+		private Api.True requestNeeded;
+		private String title;
 		private String about;
 		private Api.TypePhoto photo;
-		private String title;
-		private Api.True megagroup;
+		private int participantsCount;
 		private Api.TypeUser[] participants;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatInvitePeek extends Api.TypeChatInvite {
-		private int expires;
 		private Api.TypeChat chat;
+		private int expires;
 	}
 
 	@Data
@@ -3613,8 +3613,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputStickerSetID extends Api.TypeInputStickerSet {
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
 	}
 
 	@Data
@@ -3642,39 +3642,39 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class StickerSet extends Api.TypeStickerSet {
-		private int count;
+		private Api.True archived;
 		private Api.True official;
 		private Api.True masks;
-		private Api.True videos;
-		private int thumbDcId;
-		private String title;
-		private Api.True archived;
-		private int installedDate;
 		private Api.True animated;
-		private BigInteger accessHash;
+		private Api.True videos;
+		private int installedDate;
 		private BigInteger id;
+		private BigInteger accessHash;
+		private String title;
 		private String shortName;
-		private int thumbVersion;
-		private int hash;
 		private Api.TypePhotoSize[] thumbs;
+		private int thumbDcId;
+		private int thumbVersion;
+		private int count;
+		private int hash;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BotCommand extends Api.TypeBotCommand {
-		private String description;
 		private String command;
+		private String description;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BotInfo extends Api.TypeBotInfo {
-		private Api.TypeDocument descriptionDocument;
-		private Api.TypePhoto descriptionPhoto;
-		private Api.TypeBotMenuButton menuButton;
-		private String description;
 		private BigInteger userId;
+		private String description;
+		private Api.TypePhoto descriptionPhoto;
+		private Api.TypeDocument descriptionDocument;
 		private Api.TypeBotCommand[] commands;
+		private Api.TypeBotMenuButton menuButton;
 	}
 
 	@Data
@@ -3694,8 +3694,8 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class KeyboardButtonCallback extends Api.TypeKeyboardButton {
 		private Api.True requiresPassword;
-		private byte data;
 		private String text;
+		private byte[] data;
 	}
 
 	@Data
@@ -3714,8 +3714,8 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class KeyboardButtonSwitchInline extends Api.TypeKeyboardButton {
 		private Api.True samePeer;
-		private String query;
 		private String text;
+		private String query;
 	}
 
 	@Data
@@ -3733,20 +3733,20 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class KeyboardButtonUrlAuth extends Api.TypeKeyboardButton {
-		private String fwdText;
-		private int buttonId;
 		private String text;
+		private String fwdText;
 		private String url;
+		private int buttonId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputKeyboardButtonUrlAuth extends Api.TypeKeyboardButton {
-		private String fwdText;
-		private Api.TypeInputUser bot;
-		private String text;
 		private Api.True requestWriteAccess;
+		private String text;
+		private String fwdText;
 		private String url;
+		private Api.TypeInputUser bot;
 	}
 
 	@Data
@@ -3807,11 +3807,11 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ReplyKeyboardMarkup extends Api.TypeReplyMarkup {
+		private Api.True resize;
 		private Api.True singleUse;
 		private Api.True selective;
-		private Api.True resize;
-		private String placeholder;
 		private Api.TypeKeyboardButtonRow[] rows;
+		private String placeholder;
 	}
 
 	@Data
@@ -3972,8 +3972,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputChannel extends Api.TypeInputChannel {
-		private BigInteger accessHash;
 		private BigInteger channelId;
+		private BigInteger accessHash;
 	}
 
 	@Data
@@ -3987,8 +3987,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageRange extends Api.TypeMessageRange {
-		private int maxId;
 		private int minId;
+		private int maxId;
 	}
 
 	@Data
@@ -4006,47 +4006,47 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelParticipant extends Api.TypeChannelParticipant {
-		private int date;
 		private BigInteger userId;
+		private int date;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelParticipantSelf extends Api.TypeChannelParticipant {
-		private int date;
 		private Api.True viaRequest;
-		private BigInteger inviterId;
 		private BigInteger userId;
+		private BigInteger inviterId;
+		private int date;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelParticipantCreator extends Api.TypeChannelParticipant {
-		private String rank;
 		private BigInteger userId;
 		private Api.TypeChatAdminRights adminRights;
+		private String rank;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelParticipantAdmin extends Api.TypeChannelParticipant {
-		private int date;
-		private BigInteger inviterId;
 		private Api.True canEdit;
 		private Api.True self;
-		private String rank;
-		private BigInteger promotedBy;
 		private BigInteger userId;
+		private BigInteger inviterId;
+		private BigInteger promotedBy;
+		private int date;
 		private Api.TypeChatAdminRights adminRights;
+		private String rank;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelParticipantBanned extends Api.TypeChannelParticipant {
-		private int date;
-		private BigInteger kickedBy;
 		private Api.True left;
 		private Api.TypePeer peer;
+		private BigInteger kickedBy;
+		private int date;
 		private Api.TypeChatBannedRights bannedRights;
 	}
 
@@ -4105,50 +4105,50 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputBotInlineMessageMediaAuto extends Api.TypeInputBotInlineMessage {
+		private String message;
 		private Api.TypeMessageEntity[] entities;
 		private Api.TypeReplyMarkup replyMarkup;
-		private String message;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputBotInlineMessageText extends Api.TypeInputBotInlineMessage {
-		private Api.TypeMessageEntity[] entities;
-		private Api.TypeReplyMarkup replyMarkup;
 		private Api.True noWebpage;
 		private String message;
+		private Api.TypeMessageEntity[] entities;
+		private Api.TypeReplyMarkup replyMarkup;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputBotInlineMessageMediaGeo extends Api.TypeInputBotInlineMessage {
-		private int period;
-		private int heading;
-		private Api.TypeReplyMarkup replyMarkup;
 		private Api.TypeInputGeoPoint geoPoint;
+		private int heading;
+		private int period;
 		private int proximityNotificationRadius;
+		private Api.TypeReplyMarkup replyMarkup;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputBotInlineMessageMediaVenue extends Api.TypeInputBotInlineMessage {
-		private String address;
-		private String venueType;
-		private String provider;
-		private Api.TypeReplyMarkup replyMarkup;
-		private String venueId;
 		private Api.TypeInputGeoPoint geoPoint;
 		private String title;
+		private String address;
+		private String provider;
+		private String venueId;
+		private String venueType;
+		private Api.TypeReplyMarkup replyMarkup;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputBotInlineMessageMediaContact extends Api.TypeInputBotInlineMessage {
+		private String phoneNumber;
 		private String firstName;
 		private String lastName;
-		private String phoneNumber;
-		private Api.TypeReplyMarkup replyMarkup;
 		private String vcard;
+		private Api.TypeReplyMarkup replyMarkup;
 	}
 
 	@Data
@@ -4160,142 +4160,142 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputBotInlineMessageMediaInvoice extends Api.TypeInputBotInlineMessage {
-		private byte payload;
-		private String provider;
-		private Api.TypeDataJSON providerData;
-		private Api.TypeReplyMarkup replyMarkup;
+		private String title;
 		private String description;
 		private Api.TypeInputWebDocument photo;
 		private Api.TypeInvoice invoice;
-		private String title;
+		private byte[] payload;
+		private String provider;
+		private Api.TypeDataJSON providerData;
+		private Api.TypeReplyMarkup replyMarkup;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputBotInlineResult extends Api.TypeInputBotInlineResult {
-		private Api.TypeInputWebDocument thumb;
-		private String description;
-		private Api.TypeInputBotInlineMessage sendMessage;
 		private String id;
 		private String type;
 		private String title;
+		private String description;
 		private String url;
+		private Api.TypeInputWebDocument thumb;
 		private Api.TypeInputWebDocument content;
+		private Api.TypeInputBotInlineMessage sendMessage;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputBotInlineResultPhoto extends Api.TypeInputBotInlineResult {
-		private Api.TypeInputPhoto photo;
-		private Api.TypeInputBotInlineMessage sendMessage;
 		private String id;
 		private String type;
+		private Api.TypeInputPhoto photo;
+		private Api.TypeInputBotInlineMessage sendMessage;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputBotInlineResultDocument extends Api.TypeInputBotInlineResult {
-		private Api.TypeInputDocument document;
-		private String description;
-		private Api.TypeInputBotInlineMessage sendMessage;
 		private String id;
 		private String type;
 		private String title;
+		private String description;
+		private Api.TypeInputDocument document;
+		private Api.TypeInputBotInlineMessage sendMessage;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputBotInlineResultGame extends Api.TypeInputBotInlineResult {
-		private Api.TypeInputBotInlineMessage sendMessage;
 		private String id;
 		private String shortName;
+		private Api.TypeInputBotInlineMessage sendMessage;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BotInlineMessageMediaAuto extends Api.TypeBotInlineMessage {
+		private String message;
 		private Api.TypeMessageEntity[] entities;
 		private Api.TypeReplyMarkup replyMarkup;
-		private String message;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BotInlineMessageText extends Api.TypeBotInlineMessage {
-		private Api.TypeMessageEntity[] entities;
-		private Api.TypeReplyMarkup replyMarkup;
 		private Api.True noWebpage;
 		private String message;
+		private Api.TypeMessageEntity[] entities;
+		private Api.TypeReplyMarkup replyMarkup;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BotInlineMessageMediaGeo extends Api.TypeBotInlineMessage {
 		private Api.TypeGeoPoint geo;
-		private int period;
 		private int heading;
-		private Api.TypeReplyMarkup replyMarkup;
+		private int period;
 		private int proximityNotificationRadius;
+		private Api.TypeReplyMarkup replyMarkup;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BotInlineMessageMediaVenue extends Api.TypeBotInlineMessage {
 		private Api.TypeGeoPoint geo;
-		private String address;
-		private String venueType;
-		private String provider;
-		private Api.TypeReplyMarkup replyMarkup;
-		private String venueId;
 		private String title;
+		private String address;
+		private String provider;
+		private String venueId;
+		private String venueType;
+		private Api.TypeReplyMarkup replyMarkup;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BotInlineMessageMediaContact extends Api.TypeBotInlineMessage {
+		private String phoneNumber;
 		private String firstName;
 		private String lastName;
-		private String phoneNumber;
-		private Api.TypeReplyMarkup replyMarkup;
 		private String vcard;
+		private Api.TypeReplyMarkup replyMarkup;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BotInlineMessageMediaInvoice extends Api.TypeBotInlineMessage {
-		private BigInteger totalAmount;
-		private Api.True test;
-		private Api.TypeReplyMarkup replyMarkup;
 		private Api.True shippingAddressRequested;
+		private Api.True test;
+		private String title;
 		private String description;
 		private Api.TypeWebDocument photo;
 		private String currency;
-		private String title;
+		private BigInteger totalAmount;
+		private Api.TypeReplyMarkup replyMarkup;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BotInlineResult extends Api.TypeBotInlineResult {
-		private Api.TypeWebDocument thumb;
-		private String description;
-		private Api.TypeBotInlineMessage sendMessage;
 		private String id;
 		private String type;
 		private String title;
+		private String description;
 		private String url;
+		private Api.TypeWebDocument thumb;
 		private Api.TypeWebDocument content;
+		private Api.TypeBotInlineMessage sendMessage;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BotInlineMediaResult extends Api.TypeBotInlineResult {
-		private Api.TypeDocument document;
-		private Api.TypePhoto photo;
-		private String description;
-		private Api.TypeBotInlineMessage sendMessage;
 		private String id;
 		private String type;
+		private Api.TypePhoto photo;
+		private Api.TypeDocument document;
 		private String title;
+		private String description;
+		private Api.TypeBotInlineMessage sendMessage;
 	}
 
 	@Data
@@ -4308,14 +4308,14 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageFwdHeader extends Api.TypeMessageFwdHeader {
-		private int date;
-		private Api.TypePeer savedFromPeer;
-		private String postAuthor;
-		private int channelPost;
 		private Api.True imported;
-		private String fromName;
-		private int savedFromMsgId;
 		private Api.TypePeer fromId;
+		private String fromName;
+		private int date;
+		private int channelPost;
+		private String postAuthor;
+		private Api.TypePeer savedFromPeer;
+		private int savedFromMsgId;
 		private String psaType;
 	}
 
@@ -4323,24 +4323,24 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputBotInlineMessageID extends Api.TypeInputBotInlineMessageID {
 		private int dcId;
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputBotInlineMessageID64 extends Api.TypeInputBotInlineMessageID {
 		private int dcId;
-		private BigInteger accessHash;
-		private int id;
 		private BigInteger ownerId;
+		private int id;
+		private BigInteger accessHash;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InlineBotSwitchPM extends Api.TypeInlineBotSwitchPM {
-		private String startParam;
 		private String text;
+		private String startParam;
 	}
 
 	@Data
@@ -4393,9 +4393,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class TopPeerCategoryPeers extends Api.TypeTopPeerCategoryPeers {
+		private Api.TypeTopPeerCategory category;
 		private int count;
 		private Api.TypeTopPeer[] peers;
-		private Api.TypeTopPeerCategory category;
 	}
 
 	@Data
@@ -4407,18 +4407,18 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class DraftMessage extends Api.TypeDraftMessage {
-		private int date;
-		private Api.TypeMessageEntity[] entities;
 		private Api.True noWebpage;
 		private int replyToMsgId;
 		private String message;
+		private Api.TypeMessageEntity[] entities;
+		private int date;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class StickerSetCovered extends Api.TypeStickerSetCovered {
-		private Api.TypeDocument cover;
 		private Api.TypeStickerSet set;
+		private Api.TypeDocument cover;
 	}
 
 	@Data
@@ -4431,10 +4431,10 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MaskCoords extends Api.TypeMaskCoords {
+		private int n;
 		private double x;
 		private double y;
 		private double zoom;
-		private int n;
 	}
 
 	@Data
@@ -4452,20 +4452,20 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Game extends Api.TypeGame {
-		private Api.TypeDocument document;
-		private String description;
-		private Api.TypePhoto photo;
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
 		private String shortName;
 		private String title;
+		private String description;
+		private Api.TypePhoto photo;
+		private Api.TypeDocument document;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputGameID extends Api.TypeInputGame {
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
 	}
 
 	@Data
@@ -4478,9 +4478,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class HighScore extends Api.TypeHighScore {
-		private int score;
 		private int pos;
 		private BigInteger userId;
+		private int score;
 	}
 
 	@Data
@@ -4527,9 +4527,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class TextUrl extends Api.TypeRichText {
-		private BigInteger webpageId;
 		private Api.TypeRichText text;
 		private String url;
+		private BigInteger webpageId;
 	}
 
 	@Data
@@ -4566,23 +4566,23 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class TextPhone extends Api.TypeRichText {
-		private String phone;
 		private Api.TypeRichText text;
+		private String phone;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class TextImage extends Api.TypeRichText {
+		private BigInteger documentId;
 		private int w;
 		private int h;
-		private BigInteger documentId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class TextAnchor extends Api.TypeRichText {
-		private String name;
 		private Api.TypeRichText text;
+		private String name;
 	}
 
 	@Data
@@ -4630,8 +4630,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageBlockPreformatted extends Api.TypePageBlock {
-		private String language;
 		private Api.TypeRichText text;
+		private String language;
 	}
 
 	@Data
@@ -4660,33 +4660,33 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageBlockBlockquote extends Api.TypePageBlock {
-		private Api.TypeRichText caption;
 		private Api.TypeRichText text;
+		private Api.TypeRichText caption;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageBlockPullquote extends Api.TypePageBlock {
-		private Api.TypeRichText caption;
 		private Api.TypeRichText text;
+		private Api.TypeRichText caption;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageBlockPhoto extends Api.TypePageBlock {
-		private BigInteger webpageId;
 		private BigInteger photoId;
 		private Api.TypePageCaption caption;
 		private String url;
+		private BigInteger webpageId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageBlockVideo extends Api.TypePageBlock {
-		private Api.True loop;
-		private Api.TypePageCaption caption;
-		private BigInteger videoId;
 		private Api.True autoplay;
+		private Api.True loop;
+		private BigInteger videoId;
+		private Api.TypePageCaption caption;
 	}
 
 	@Data
@@ -4700,38 +4700,38 @@ public class Api {
 	public static class PageBlockEmbed extends Api.TypePageBlock {
 		private Api.True fullWidth;
 		private Api.True allowScrolling;
+		private String url;
+		private String html;
+		private BigInteger posterPhotoId;
 		private int w;
 		private int h;
 		private Api.TypePageCaption caption;
-		private String html;
-		private String url;
-		private BigInteger posterPhotoId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageBlockEmbedPost extends Api.TypePageBlock {
-		private int date;
+		private String url;
 		private BigInteger webpageId;
+		private BigInteger authorPhotoId;
 		private String author;
+		private int date;
 		private Api.TypePageBlock[] blocks;
 		private Api.TypePageCaption caption;
-		private String url;
-		private BigInteger authorPhotoId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageBlockCollage extends Api.TypePageBlock {
-		private Api.TypePageCaption caption;
 		private Api.TypePageBlock[] items;
+		private Api.TypePageCaption caption;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageBlockSlideshow extends Api.TypePageBlock {
-		private Api.TypePageCaption caption;
 		private Api.TypePageBlock[] items;
+		private Api.TypePageCaption caption;
 	}
 
 	@Data
@@ -4756,8 +4756,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageBlockTable extends Api.TypePageBlock {
-		private Api.True striped;
 		private Api.True bordered;
+		private Api.True striped;
 		private Api.TypeRichText title;
 		private Api.TypePageTableRow[] rows;
 	}
@@ -4771,9 +4771,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageBlockDetails extends Api.TypePageBlock {
+		private Api.True open;
 		private Api.TypePageBlock[] blocks;
 		private Api.TypeRichText title;
-		private Api.True open;
 	}
 
 	@Data
@@ -4787,10 +4787,10 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageBlockMap extends Api.TypePageBlock {
 		private Api.TypeGeoPoint geo;
+		private int zoom;
 		private int w;
 		private int h;
 		private Api.TypePageCaption caption;
-		private int zoom;
 	}
 
 	@Data
@@ -4822,27 +4822,27 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class LabeledPrice extends Api.TypeLabeledPrice {
-		private BigInteger amount;
 		private String label;
+		private BigInteger amount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Invoice extends Api.TypeInvoice {
-		private Api.True phoneToProvider;
-		private Api.True emailRequested;
 		private Api.True test;
-		private Api.True recurring;
 		private Api.True nameRequested;
+		private Api.True phoneRequested;
+		private Api.True emailRequested;
 		private Api.True shippingAddressRequested;
+		private Api.True flexible;
+		private Api.True phoneToProvider;
 		private Api.True emailToProvider;
+		private Api.True recurring;
+		private String currency;
+		private Api.TypeLabeledPrice[] prices;
 		private BigInteger maxTipAmount;
 		private BigInteger[] suggestedTipAmounts;
 		private String recurringTermsUrl;
-		private Api.True flexible;
-		private Api.True phoneRequested;
-		private String currency;
-		private Api.TypeLabeledPrice[] prices;
 	}
 
 	@Data
@@ -4855,21 +4855,21 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PostAddress extends Api.TypePostAddress {
-		private String streetLine2;
 		private String streetLine1;
+		private String streetLine2;
 		private String city;
-		private String postCode;
 		private String state;
 		private String countryIso2;
+		private String postCode;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PaymentRequestedInfo extends Api.TypePaymentRequestedInfo {
-		private String phone;
 		private String name;
-		private Api.TypePostAddress shippingAddress;
+		private String phone;
 		private String email;
+		private Api.TypePostAddress shippingAddress;
 	}
 
 	@Data
@@ -4882,61 +4882,61 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class WebDocument extends Api.TypeWebDocument {
-		private int size;
-		private BigInteger accessHash;
-		private Api.TypeDocumentAttribute[] attributes;
-		private String mimeType;
 		private String url;
+		private BigInteger accessHash;
+		private int size;
+		private String mimeType;
+		private Api.TypeDocumentAttribute[] attributes;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class WebDocumentNoProxy extends Api.TypeWebDocument {
-		private int size;
-		private Api.TypeDocumentAttribute[] attributes;
-		private String mimeType;
 		private String url;
+		private int size;
+		private String mimeType;
+		private Api.TypeDocumentAttribute[] attributes;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputWebDocument extends Api.TypeInputWebDocument {
-		private int size;
-		private Api.TypeDocumentAttribute[] attributes;
-		private String mimeType;
 		private String url;
+		private int size;
+		private String mimeType;
+		private Api.TypeDocumentAttribute[] attributes;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputWebFileLocation extends Api.TypeInputWebFileLocation {
-		private BigInteger accessHash;
 		private String url;
+		private BigInteger accessHash;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputWebFileGeoPointLocation extends Api.TypeInputWebFileLocation {
+		private Api.TypeInputGeoPoint geoPoint;
+		private BigInteger accessHash;
 		private int w;
 		private int h;
-		private int scale;
-		private BigInteger accessHash;
 		private int zoom;
-		private Api.TypeInputGeoPoint geoPoint;
+		private int scale;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputPaymentCredentialsSaved extends Api.TypeInputPaymentCredentials {
-		private byte tmpPassword;
 		private String id;
+		private byte[] tmpPassword;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputPaymentCredentials extends Api.TypeInputPaymentCredentials {
-		private Api.TypeDataJSON data;
 		private Api.True save;
+		private Api.TypeDataJSON data;
 	}
 
 	@Data
@@ -4962,16 +4962,16 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputStickerSetItem extends Api.TypeInputStickerSetItem {
-		private Api.TypeMaskCoords maskCoords;
-		private String emoji;
 		private Api.TypeInputDocument document;
+		private String emoji;
+		private Api.TypeMaskCoords maskCoords;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputPhoneCall extends Api.TypeInputPhoneCall {
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
 	}
 
 	@Data
@@ -4983,55 +4983,55 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhoneCallWaiting extends Api.TypePhoneCall {
-		private int date;
-		private BigInteger participantId;
-		private Api.TypePhoneCallProtocol protocol;
-		private BigInteger adminId;
-		private int receiveDate;
-		private BigInteger accessHash;
 		private Api.True video;
 		private BigInteger id;
+		private BigInteger accessHash;
+		private int date;
+		private BigInteger adminId;
+		private BigInteger participantId;
+		private Api.TypePhoneCallProtocol protocol;
+		private int receiveDate;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhoneCallRequested extends Api.TypePhoneCall {
-		private int date;
-		private BigInteger participantId;
-		private byte gAHash;
-		private Api.TypePhoneCallProtocol protocol;
-		private BigInteger adminId;
-		private BigInteger accessHash;
 		private Api.True video;
 		private BigInteger id;
+		private BigInteger accessHash;
+		private int date;
+		private BigInteger adminId;
+		private BigInteger participantId;
+		private byte[] gAHash;
+		private Api.TypePhoneCallProtocol protocol;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhoneCallAccepted extends Api.TypePhoneCall {
-		private int date;
-		private BigInteger participantId;
-		private Api.TypePhoneCallProtocol protocol;
-		private BigInteger adminId;
-		private BigInteger accessHash;
 		private Api.True video;
 		private BigInteger id;
-		private byte gB;
+		private BigInteger accessHash;
+		private int date;
+		private BigInteger adminId;
+		private BigInteger participantId;
+		private byte[] gB;
+		private Api.TypePhoneCallProtocol protocol;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhoneCall extends Api.TypePhoneCall {
-		private int date;
-		private BigInteger keyFingerprint;
-		private Api.True video;
-		private byte gAOrB;
-		private BigInteger participantId;
-		private Api.TypePhoneCallProtocol protocol;
 		private Api.True p2pAllowed;
-		private BigInteger adminId;
-		private BigInteger accessHash;
+		private Api.True video;
 		private BigInteger id;
+		private BigInteger accessHash;
+		private int date;
+		private BigInteger adminId;
+		private BigInteger participantId;
+		private byte[] gAOrB;
+		private BigInteger keyFingerprint;
+		private Api.TypePhoneCallProtocol protocol;
 		private Api.TypePhoneConnection[] connections;
 		private int startDate;
 	}
@@ -5039,46 +5039,46 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhoneCallDiscarded extends Api.TypePhoneCall {
-		private int duration;
-		private Api.TypePhoneCallDiscardReason reason;
+		private Api.True needRating;
 		private Api.True needDebug;
 		private Api.True video;
 		private BigInteger id;
-		private Api.True needRating;
+		private Api.TypePhoneCallDiscardReason reason;
+		private int duration;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhoneConnection extends Api.TypePhoneConnection {
 		private Api.True tcp;
-		private int port;
-		private String ipv6;
-		private String ip;
 		private BigInteger id;
-		private byte peerTag;
+		private String ip;
+		private String ipv6;
+		private int port;
+		private byte[] peerTag;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhoneConnectionWebrtc extends Api.TypePhoneConnection {
-		private String password;
-		private int port;
-		private String ipv6;
-		private String ip;
 		private Api.True turn;
-		private BigInteger id;
 		private Api.True stun;
+		private BigInteger id;
+		private String ip;
+		private String ipv6;
+		private int port;
 		private String username;
+		private String password;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PhoneCallProtocol extends Api.TypePhoneCallProtocol {
-		private Api.True udpReflector;
 		private Api.True udpP2p;
+		private Api.True udpReflector;
+		private int minLayer;
 		private int maxLayer;
 		private String[] libraryVersions;
-		private int minLayer;
 	}
 
 	@Data
@@ -5097,20 +5097,20 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class LangPackString extends Api.TypeLangPackString {
-		private String value;
 		private String key;
+		private String value;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class LangPackStringPluralized extends Api.TypeLangPackString {
-		private String zeroValue;
-		private String twoValue;
-		private String manyValue;
-		private String oneValue;
-		private String otherValue;
 		private String key;
+		private String zeroValue;
+		private String oneValue;
+		private String twoValue;
 		private String fewValue;
+		private String manyValue;
+		private String otherValue;
 	}
 
 	@Data
@@ -5122,54 +5122,54 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class LangPackDifference extends Api.TypeLangPackDifference {
-		private int fromVersion;
-		private Api.TypeLangPackString[] strings;
 		private String langCode;
+		private int fromVersion;
 		private int version;
+		private Api.TypeLangPackString[] strings;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class LangPackLanguage extends Api.TypeLangPackLanguage {
-		private String nativeName;
-		private String baseLangCode;
-		private int stringsCount;
-		private String langCode;
-		private String name;
 		private Api.True official;
-		private String pluralCode;
-		private String translationsUrl;
 		private Api.True rtl;
 		private Api.True beta;
+		private String name;
+		private String nativeName;
+		private String langCode;
+		private String baseLangCode;
+		private String pluralCode;
+		private int stringsCount;
 		private int translatedCount;
+		private String translationsUrl;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionChangeTitle extends Api.TypeChannelAdminLogEventAction {
-		private String newValue;
 		private String prevValue;
+		private String newValue;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionChangeAbout extends Api.TypeChannelAdminLogEventAction {
-		private String newValue;
 		private String prevValue;
+		private String newValue;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionChangeUsername extends Api.TypeChannelAdminLogEventAction {
-		private String newValue;
 		private String prevValue;
+		private String newValue;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionChangePhoto extends Api.TypeChannelAdminLogEventAction {
-		private Api.TypePhoto newPhoto;
 		private Api.TypePhoto prevPhoto;
+		private Api.TypePhoto newPhoto;
 	}
 
 	@Data
@@ -5222,22 +5222,22 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionParticipantToggleBan extends Api.TypeChannelAdminLogEventAction {
-		private Api.TypeChannelParticipant newParticipant;
 		private Api.TypeChannelParticipant prevParticipant;
+		private Api.TypeChannelParticipant newParticipant;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionParticipantToggleAdmin extends Api.TypeChannelAdminLogEventAction {
-		private Api.TypeChannelParticipant newParticipant;
 		private Api.TypeChannelParticipant prevParticipant;
+		private Api.TypeChannelParticipant newParticipant;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionChangeStickerSet extends Api.TypeChannelAdminLogEventAction {
-		private Api.TypeInputStickerSet newStickerset;
 		private Api.TypeInputStickerSet prevStickerset;
+		private Api.TypeInputStickerSet newStickerset;
 	}
 
 	@Data
@@ -5249,8 +5249,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionDefaultBannedRights extends Api.TypeChannelAdminLogEventAction {
-		private Api.TypeChatBannedRights newBannedRights;
 		private Api.TypeChatBannedRights prevBannedRights;
+		private Api.TypeChatBannedRights newBannedRights;
 	}
 
 	@Data
@@ -5262,22 +5262,22 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionChangeLinkedChat extends Api.TypeChannelAdminLogEventAction {
-		private BigInteger newValue;
 		private BigInteger prevValue;
+		private BigInteger newValue;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionChangeLocation extends Api.TypeChannelAdminLogEventAction {
-		private Api.TypeChannelLocation newValue;
 		private Api.TypeChannelLocation prevValue;
+		private Api.TypeChannelLocation newValue;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionToggleSlowMode extends Api.TypeChannelAdminLogEventAction {
-		private int newValue;
 		private int prevValue;
+		private int newValue;
 	}
 
 	@Data
@@ -5331,8 +5331,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionExportedInviteEdit extends Api.TypeChannelAdminLogEventAction {
-		private Api.TypeExportedChatInvite newInvite;
 		private Api.TypeExportedChatInvite prevInvite;
+		private Api.TypeExportedChatInvite newInvite;
 	}
 
 	@Data
@@ -5344,15 +5344,15 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionChangeHistoryTTL extends Api.TypeChannelAdminLogEventAction {
-		private int newValue;
 		private int prevValue;
+		private int newValue;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionParticipantJoinByRequest extends Api.TypeChannelAdminLogEventAction {
-		private BigInteger approvedBy;
 		private Api.TypeExportedChatInvite invite;
+		private BigInteger approvedBy;
 	}
 
 	@Data
@@ -5370,39 +5370,39 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventActionChangeAvailableReactions extends Api.TypeChannelAdminLogEventAction {
-		private String[] newValue;
 		private String[] prevValue;
+		private String[] newValue;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEvent extends Api.TypeChannelAdminLogEvent {
-		private int date;
-		private Api.TypeChannelAdminLogEventAction action;
 		private BigInteger id;
+		private int date;
 		private BigInteger userId;
+		private Api.TypeChannelAdminLogEventAction action;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelAdminLogEventsFilter extends Api.TypeChannelAdminLogEventsFilter {
+		private Api.True join;
+		private Api.True leave;
+		private Api.True invite;
+		private Api.True ban;
+		private Api.True unban;
+		private Api.True kick;
+		private Api.True unkick;
+		private Api.True promote;
+		private Api.True demote;
+		private Api.True info;
 		private Api.True settings;
 		private Api.True pinned;
 		private Api.True edit;
 		private Api.True delete;
-		private Api.True ban;
 		private Api.True groupCall;
-		private Api.True promote;
-		private Api.True unban;
-		private Api.True demote;
-		private Api.True kick;
-		private Api.True leave;
-		private Api.True unkick;
 		private Api.True invites;
-		private Api.True join;
-		private Api.True invite;
 		private Api.True send;
-		private Api.True info;
 	}
 
 	@Data
@@ -5421,15 +5421,15 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class RecentMeUrlUser extends Api.TypeRecentMeUrl {
-		private BigInteger userId;
 		private String url;
+		private BigInteger userId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class RecentMeUrlChat extends Api.TypeRecentMeUrl {
-		private BigInteger chatId;
 		private String url;
+		private BigInteger chatId;
 	}
 
 	@Data
@@ -5442,31 +5442,31 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class RecentMeUrlStickerSet extends Api.TypeRecentMeUrl {
-		private Api.TypeStickerSetCovered set;
 		private String url;
+		private Api.TypeStickerSetCovered set;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputSingleMedia extends Api.TypeInputSingleMedia {
-		private BigInteger randomId;
-		private Api.TypeMessageEntity[] entities;
 		private Api.TypeInputMedia media;
+		private BigInteger randomId;
 		private String message;
+		private Api.TypeMessageEntity[] entities;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class WebAuthorization extends Api.TypeWebAuthorization {
-		private int dateCreated;
-		private int dateActive;
+		private BigInteger hash;
+		private BigInteger botId;
 		private String domain;
 		private String browser;
-		private String ip;
-		private BigInteger botId;
-		private String region;
-		private BigInteger hash;
 		private String platform;
+		private int dateCreated;
+		private int dateActive;
+		private String ip;
+		private String region;
 	}
 
 	@Data
@@ -5522,7 +5522,7 @@ public class Api {
 	public static class FileHash extends Api.TypeFileHash {
 		private BigInteger offset;
 		private int limit;
-		private byte hash;
+		private byte[] hash;
 	}
 
 	@Data
@@ -5535,18 +5535,18 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputSecureFileUploaded extends Api.TypeInputSecureFile {
-		private String md5Checksum;
-		private int parts;
-		private byte fileHash;
 		private BigInteger id;
-		private byte secret;
+		private int parts;
+		private String md5Checksum;
+		private byte[] fileHash;
+		private byte[] secret;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputSecureFile extends Api.TypeInputSecureFile {
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
 	}
 
 	@Data
@@ -5557,21 +5557,21 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureFile extends Api.TypeSecureFile {
-		private int date;
+		private BigInteger id;
+		private BigInteger accessHash;
 		private BigInteger size;
 		private int dcId;
-		private byte fileHash;
-		private BigInteger accessHash;
-		private BigInteger id;
-		private byte secret;
+		private int date;
+		private byte[] fileHash;
+		private byte[] secret;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureData extends Api.TypeSecureData {
-		private byte data;
-		private byte dataHash;
-		private byte secret;
+		private byte[] data;
+		private byte[] dataHash;
+		private byte[] secret;
 	}
 
 	@Data
@@ -5654,125 +5654,125 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureValue extends Api.TypeSecureValue {
-		private Api.TypeSecurePlainData plainData;
+		private Api.TypeSecureValueType type;
 		private Api.TypeSecureData data;
+		private Api.TypeSecureFile frontSide;
 		private Api.TypeSecureFile reverseSide;
 		private Api.TypeSecureFile selfie;
 		private Api.TypeSecureFile[] translation;
 		private Api.TypeSecureFile[] files;
-		private Api.TypeSecureValueType type;
-		private Api.TypeSecureFile frontSide;
-		private byte hash;
+		private Api.TypeSecurePlainData plainData;
+		private byte[] hash;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputSecureValue extends Api.TypeInputSecureValue {
-		private Api.TypeSecurePlainData plainData;
+		private Api.TypeSecureValueType type;
 		private Api.TypeSecureData data;
+		private Api.TypeInputSecureFile frontSide;
 		private Api.TypeInputSecureFile reverseSide;
 		private Api.TypeInputSecureFile selfie;
 		private Api.TypeInputSecureFile[] translation;
 		private Api.TypeInputSecureFile[] files;
-		private Api.TypeSecureValueType type;
-		private Api.TypeInputSecureFile frontSide;
+		private Api.TypeSecurePlainData plainData;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureValueHash extends Api.TypeSecureValueHash {
 		private Api.TypeSecureValueType type;
-		private byte hash;
+		private byte[] hash;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureValueErrorData extends Api.TypeSecureValueError {
-		private String field;
-		private byte dataHash;
-		private String text;
 		private Api.TypeSecureValueType type;
+		private byte[] dataHash;
+		private String field;
+		private String text;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureValueErrorFrontSide extends Api.TypeSecureValueError {
-		private byte fileHash;
-		private String text;
 		private Api.TypeSecureValueType type;
+		private byte[] fileHash;
+		private String text;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureValueErrorReverseSide extends Api.TypeSecureValueError {
-		private byte fileHash;
-		private String text;
 		private Api.TypeSecureValueType type;
+		private byte[] fileHash;
+		private String text;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureValueErrorSelfie extends Api.TypeSecureValueError {
-		private byte fileHash;
-		private String text;
 		private Api.TypeSecureValueType type;
+		private byte[] fileHash;
+		private String text;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureValueErrorFile extends Api.TypeSecureValueError {
-		private byte fileHash;
-		private String text;
 		private Api.TypeSecureValueType type;
+		private byte[] fileHash;
+		private String text;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureValueErrorFiles extends Api.TypeSecureValueError {
-		private byte[] fileHash;
-		private String text;
 		private Api.TypeSecureValueType type;
+		private byte[][] fileHash;
+		private String text;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureValueError extends Api.TypeSecureValueError {
-		private String text;
 		private Api.TypeSecureValueType type;
-		private byte hash;
+		private byte[] hash;
+		private String text;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureValueErrorTranslationFile extends Api.TypeSecureValueError {
-		private byte fileHash;
-		private String text;
 		private Api.TypeSecureValueType type;
+		private byte[] fileHash;
+		private String text;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureValueErrorTranslationFiles extends Api.TypeSecureValueError {
-		private byte[] fileHash;
-		private String text;
 		private Api.TypeSecureValueType type;
+		private byte[][] fileHash;
+		private String text;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureCredentialsEncrypted extends Api.TypeSecureCredentialsEncrypted {
-		private byte data;
-		private byte secret;
-		private byte hash;
+		private byte[] data;
+		private byte[] hash;
+		private byte[] secret;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SavedPhoneContact extends Api.TypeSavedContact {
-		private int date;
+		private String phone;
 		private String firstName;
 		private String lastName;
-		private String phone;
+		private int date;
 	}
 
 	@Data
@@ -5783,10 +5783,10 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow extends Api.TypePasswordKdfAlgo {
-		private byte p;
+		private byte[] salt1;
+		private byte[] salt2;
 		private int g;
-		private byte salt1;
-		private byte salt2;
+		private byte[] p;
 	}
 
 	@Data
@@ -5797,20 +5797,20 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecurePasswordKdfAlgoPBKDF2HMACSHA512iter100000 extends Api.TypeSecurePasswordKdfAlgo {
-		private byte salt;
+		private byte[] salt;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecurePasswordKdfAlgoSHA512 extends Api.TypeSecurePasswordKdfAlgo {
-		private byte salt;
+		private byte[] salt;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureSecretSettings extends Api.TypeSecureSecretSettings {
-		private byte secureSecret;
 		private Api.TypeSecurePasswordKdfAlgo secureAlgo;
+		private byte[] secureSecret;
 		private BigInteger secureSecretId;
 	}
 
@@ -5822,17 +5822,17 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputCheckPasswordSRP extends Api.TypeInputCheckPasswordSRP {
-		private byte A;
-		private byte M1;
 		private BigInteger srpId;
+		private byte[] A;
+		private byte[] M1;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SecureRequiredType extends Api.TypeSecureRequiredType {
-		private Api.True translationRequired;
 		private Api.True nativeNames;
 		private Api.True selfieRequired;
+		private Api.True translationRequired;
 		private Api.TypeSecureValueType type;
 	}
 
@@ -5845,17 +5845,17 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputAppEvent extends Api.TypeInputAppEvent {
-		private Api.TypeJSONValue data;
-		private BigInteger peer;
 		private double time;
 		private String type;
+		private BigInteger peer;
+		private Api.TypeJSONValue data;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class JsonObjectValue extends Api.TypeJSONObjectValue {
-		private Api.TypeJSONValue value;
 		private String key;
+		private Api.TypeJSONValue value;
 	}
 
 	@Data
@@ -5896,14 +5896,14 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageTableCell extends Api.TypePageTableCell {
-		private int colspan;
-		private int rowspan;
 		private Api.True header;
 		private Api.True alignCenter;
+		private Api.True alignRight;
+		private Api.True valignMiddle;
 		private Api.True valignBottom;
 		private Api.TypeRichText text;
-		private Api.True valignMiddle;
-		private Api.True alignRight;
+		private int colspan;
+		private int rowspan;
 	}
 
 	@Data
@@ -5941,32 +5941,32 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageListOrderedItemBlocks extends Api.TypePageListOrderedItem {
-		private Api.TypePageBlock[] blocks;
 		private String num;
+		private Api.TypePageBlock[] blocks;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PageRelatedArticle extends Api.TypePageRelatedArticle {
+		private String url;
 		private BigInteger webpageId;
-		private String author;
+		private String title;
 		private String description;
 		private BigInteger photoId;
+		private String author;
 		private int publishedDate;
-		private String title;
-		private String url;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Page extends Api.TypePage {
-		private Api.TypeDocument[] documents;
-		private Api.TypePageBlock[] blocks;
 		private Api.True part;
 		private Api.True rtl;
 		private Api.True v2;
-		private Api.TypePhoto[] photos;
 		private String url;
+		private Api.TypePageBlock[] blocks;
+		private Api.TypePhoto[] photos;
+		private Api.TypeDocument[] documents;
 		private int views;
 	}
 
@@ -5974,41 +5974,41 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class PollAnswer extends Api.TypePollAnswer {
 		private String text;
-		private byte option;
+		private byte[] option;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Poll extends Api.TypePoll {
-		private Api.True quiz;
-		private int closeDate;
-		private String question;
-		private int closePeriod;
-		private Api.True publicVoters;
-		private Api.TypePollAnswer[] answers;
-		private Api.True closed;
 		private BigInteger id;
+		private Api.True closed;
+		private Api.True publicVoters;
 		private Api.True multipleChoice;
+		private Api.True quiz;
+		private String question;
+		private Api.TypePollAnswer[] answers;
+		private int closePeriod;
+		private int closeDate;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PollAnswerVoters extends Api.TypePollAnswerVoters {
-		private Api.True correct;
-		private int voters;
 		private Api.True chosen;
-		private byte option;
+		private Api.True correct;
+		private byte[] option;
+		private int voters;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PollResults extends Api.TypePollResults {
-		private BigInteger[] recentVoters;
 		private Api.True min;
-		private String solution;
 		private Api.TypePollAnswerVoters[] results;
-		private Api.TypeMessageEntity[] solutionEntities;
 		private int totalVoters;
+		private BigInteger[] recentVoters;
+		private String solution;
+		private Api.TypeMessageEntity[] solutionEntities;
 	}
 
 	@Data
@@ -6026,42 +6026,42 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatAdminRights extends Api.TypeChatAdminRights {
-		private Api.True deleteMessages;
-		private Api.True manageCall;
-		private Api.True banUsers;
-		private Api.True other;
-		private Api.True pinMessages;
 		private Api.True changeInfo;
+		private Api.True postMessages;
+		private Api.True editMessages;
+		private Api.True deleteMessages;
+		private Api.True banUsers;
+		private Api.True inviteUsers;
+		private Api.True pinMessages;
 		private Api.True addAdmins;
 		private Api.True anonymous;
-		private Api.True editMessages;
-		private Api.True postMessages;
-		private Api.True inviteUsers;
+		private Api.True manageCall;
+		private Api.True other;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatBannedRights extends Api.TypeChatBannedRights {
-		private Api.True sendInline;
+		private Api.True viewMessages;
+		private Api.True sendMessages;
+		private Api.True sendMedia;
+		private Api.True sendStickers;
 		private Api.True sendGifs;
 		private Api.True sendGames;
-		private Api.True pinMessages;
-		private Api.True sendStickers;
+		private Api.True sendInline;
 		private Api.True embedLinks;
-		private Api.True inviteUsers;
 		private Api.True sendPolls;
-		private Api.True sendMedia;
-		private Api.True sendMessages;
 		private Api.True changeInfo;
+		private Api.True inviteUsers;
+		private Api.True pinMessages;
 		private int untilDate;
-		private Api.True viewMessages;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputWallPaper extends Api.TypeInputWallPaper {
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
 	}
 
 	@Data
@@ -6079,60 +6079,60 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class CodeSettings extends Api.TypeCodeSettings {
-		private byte[] logoutTokens;
 		private Api.True allowFlashcall;
-		private Api.True allowMissedCall;
-		private Api.True allowAppHash;
 		private Api.True currentNumber;
+		private Api.True allowAppHash;
+		private Api.True allowMissedCall;
+		private byte[][] logoutTokens;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class WallPaperSettings extends Api.TypeWallPaperSettings {
-		private int intensity;
+		private Api.True blur;
+		private Api.True motion;
 		private int backgroundColor;
+		private int secondBackgroundColor;
 		private int thirdBackgroundColor;
 		private int fourthBackgroundColor;
-		private Api.True motion;
-		private int secondBackgroundColor;
+		private int intensity;
 		private int rotation;
-		private Api.True blur;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class AutoDownloadSettings extends Api.TypeAutoDownloadSettings {
-		private BigInteger videoSizeMax;
+		private Api.True disabled;
 		private Api.True videoPreloadLarge;
+		private Api.True audioPreloadNext;
 		private Api.True phonecallsLessData;
 		private int photoSizeMax;
-		private int videoUploadMaxbitrate;
-		private Api.True audioPreloadNext;
-		private Api.True disabled;
+		private BigInteger videoSizeMax;
 		private BigInteger fileSizeMax;
+		private int videoUploadMaxbitrate;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EmojiKeyword extends Api.TypeEmojiKeyword {
-		private String[] emoticons;
 		private String keyword;
+		private String[] emoticons;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EmojiKeywordDeleted extends Api.TypeEmojiKeyword {
-		private String[] emoticons;
 		private String keyword;
+		private String[] emoticons;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EmojiKeywordsDifference extends Api.TypeEmojiKeywordsDifference {
-		private int fromVersion;
-		private Api.TypeEmojiKeyword[] keywords;
 		private String langCode;
+		private int fromVersion;
 		private int version;
+		private Api.TypeEmojiKeyword[] keywords;
 	}
 
 	@Data
@@ -6151,11 +6151,11 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class Folder extends Api.TypeFolder {
 		private Api.True autofillNewBroadcasts;
-		private Api.TypeChatPhoto photo;
 		private Api.True autofillPublicGroups;
+		private Api.True autofillNewCorrespondents;
 		private int id;
 		private String title;
-		private Api.True autofillNewCorrespondents;
+		private Api.TypeChatPhoto photo;
 	}
 
 	@Data
@@ -6175,9 +6175,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UrlAuthResultRequest extends Api.TypeUrlAuthResult {
+		private Api.True requestWriteAccess;
 		private Api.TypeUser bot;
 		private String domain;
-		private Api.True requestWriteAccess;
 	}
 
 	@Data
@@ -6199,16 +6199,16 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelLocation extends Api.TypeChannelLocation {
-		private String address;
 		private Api.TypeGeoPoint geoPoint;
+		private String address;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PeerLocated extends Api.TypePeerLocated {
+		private Api.TypePeer peer;
 		private int expires;
 		private int distance;
-		private Api.TypePeer peer;
 	}
 
 	@Data
@@ -6220,16 +6220,16 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class RestrictionReason extends Api.TypeRestrictionReason {
+		private String platform;
 		private String reason;
 		private String text;
-		private String platform;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputTheme extends Api.TypeInputTheme {
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
 	}
 
 	@Data
@@ -6241,17 +6241,17 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Theme extends Api.TypeTheme {
-		private Api.TypeThemeSettings[] settings;
 		private Api.True creator;
 		private Api.True defaultSuffix;
-		private int installsCount;
-		private Api.TypeDocument document;
-		private BigInteger accessHash;
-		private BigInteger id;
-		private String title;
 		private Api.True forChat;
-		private String emoticon;
+		private BigInteger id;
+		private BigInteger accessHash;
 		private String slug;
+		private String title;
+		private Api.TypeDocument document;
+		private Api.TypeThemeSettings[] settings;
+		private String emoticon;
+		private int installsCount;
 	}
 
 	@Data
@@ -6284,11 +6284,11 @@ public class Api {
 	public static class InputThemeSettings extends Api.TypeInputThemeSettings {
 		private Api.True messageColorsAnimated;
 		private Api.TypeBaseTheme baseTheme;
-		private Api.TypeInputWallPaper wallpaper;
 		private int accentColor;
-		private Api.TypeWallPaperSettings wallpaperSettings;
-		private int[] messageColors;
 		private int outboxAccentColor;
+		private int[] messageColors;
+		private Api.TypeInputWallPaper wallpaper;
+		private Api.TypeWallPaperSettings wallpaperSettings;
 	}
 
 	@Data
@@ -6296,66 +6296,66 @@ public class Api {
 	public static class ThemeSettings extends Api.TypeThemeSettings {
 		private Api.True messageColorsAnimated;
 		private Api.TypeBaseTheme baseTheme;
-		private Api.TypeWallPaper wallpaper;
 		private int accentColor;
-		private int[] messageColors;
 		private int outboxAccentColor;
+		private int[] messageColors;
+		private Api.TypeWallPaper wallpaper;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class WebPageAttributeTheme extends Api.TypeWebPageAttribute {
-		private Api.TypeThemeSettings settings;
 		private Api.TypeDocument[] documents;
+		private Api.TypeThemeSettings settings;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageUserVote extends Api.TypeMessageUserVote {
-		private int date;
 		private BigInteger userId;
-		private byte option;
+		private byte[] option;
+		private int date;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageUserVoteInputOption extends Api.TypeMessageUserVote {
-		private int date;
 		private BigInteger userId;
+		private int date;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageUserVoteMultiple extends Api.TypeMessageUserVote {
-		private int date;
-		private byte[] options;
 		private BigInteger userId;
+		private byte[][] options;
+		private int date;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BankCardOpenUrl extends Api.TypeBankCardOpenUrl {
-		private String name;
 		private String url;
+		private String name;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class DialogFilter extends Api.TypeDialogFilter {
-		private Api.True excludeRead;
-		private Api.True bots;
-		private Api.True excludeMuted;
+		private Api.True contacts;
+		private Api.True nonContacts;
 		private Api.True groups;
 		private Api.True broadcasts;
-		private Api.True nonContacts;
-		private String title;
-		private Api.TypeInputPeer[] excludePeers;
-		private Api.TypeInputPeer[] includePeers;
+		private Api.True bots;
+		private Api.True excludeMuted;
+		private Api.True excludeRead;
 		private Api.True excludeArchived;
 		private int id;
+		private String title;
 		private String emoticon;
-		private Api.True contacts;
 		private Api.TypeInputPeer[] pinnedPeers;
+		private Api.TypeInputPeer[] includePeers;
+		private Api.TypeInputPeer[] excludePeers;
 	}
 
 	@Data
@@ -6387,8 +6387,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class StatsPercentValue extends Api.TypeStatsPercentValue {
-		private double total;
 		private double part;
+		private double total;
 	}
 
 	@Data
@@ -6406,50 +6406,50 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class StatsGraph extends Api.TypeStatsGraph {
-		private String zoomToken;
 		private Api.TypeDataJSON json;
+		private String zoomToken;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageInteractionCounters extends Api.TypeMessageInteractionCounters {
-		private int forwards;
 		private int msgId;
 		private int views;
+		private int forwards;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class VideoSize extends Api.TypeVideoSize {
-		private double videoStartTs;
-		private int size;
+		private String type;
 		private int w;
 		private int h;
-		private String type;
+		private int size;
+		private double videoStartTs;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class StatsGroupTopPoster extends Api.TypeStatsGroupTopPoster {
-		private int messages;
 		private BigInteger userId;
+		private int messages;
 		private int avgChars;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class StatsGroupTopAdmin extends Api.TypeStatsGroupTopAdmin {
+		private BigInteger userId;
 		private int deleted;
 		private int kicked;
 		private int banned;
-		private BigInteger userId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class StatsGroupTopInviter extends Api.TypeStatsGroupTopInviter {
-		private int invitations;
 		private BigInteger userId;
+		private int invitations;
 	}
 
 	@Data
@@ -6461,30 +6461,30 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageViews extends Api.TypeMessageViews {
+		private int views;
 		private int forwards;
 		private Api.TypeMessageReplies replies;
-		private int views;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageReplyHeader extends Api.TypeMessageReplyHeader {
 		private Api.True replyToScheduled;
-		private int replyToTopId;
-		private Api.TypePeer replyToPeerId;
 		private int replyToMsgId;
+		private Api.TypePeer replyToPeerId;
+		private int replyToTopId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessageReplies extends Api.TypeMessageReplies {
-		private int maxId;
 		private Api.True comments;
 		private int replies;
-		private int readMaxId;
-		private Api.TypePeer[] recentRepliers;
 		private int repliesPts;
+		private Api.TypePeer[] recentRepliers;
 		private BigInteger channelId;
+		private int maxId;
+		private int readMaxId;
 	}
 
 	@Data
@@ -6497,63 +6497,63 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class GroupCallDiscarded extends Api.TypeGroupCall {
-		private int duration;
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
+		private int duration;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class GroupCall extends Api.TypeGroupCall {
-		private Api.True canStartVideo;
-		private int participantsCount;
-		private int unmutedVideoLimit;
+		private Api.True joinMuted;
+		private Api.True canChangeJoinMuted;
 		private Api.True joinDateAsc;
 		private Api.True scheduleStartSubscribed;
-		private String title;
-		private int version;
-		private Api.True joinMuted;
-		private Api.True rtmpStream;
-		private int recordStartDate;
+		private Api.True canStartVideo;
 		private Api.True recordVideoActive;
-		private Api.True canChangeJoinMuted;
-		private int scheduleDate;
-		private BigInteger accessHash;
+		private Api.True rtmpStream;
 		private Api.True listenersHidden;
 		private BigInteger id;
+		private BigInteger accessHash;
+		private int participantsCount;
+		private String title;
 		private int streamDcId;
+		private int recordStartDate;
+		private int scheduleDate;
 		private int unmutedVideoCount;
+		private int unmutedVideoLimit;
+		private int version;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InputGroupCall extends Api.TypeInputGroupCall {
-		private BigInteger accessHash;
 		private BigInteger id;
+		private BigInteger accessHash;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class GroupCallParticipant extends Api.TypeGroupCallParticipant {
-		private int date;
-		private Api.True videoJoined;
-		private Api.True justJoined;
-		private String about;
-		private int source;
-		private Api.TypeGroupCallParticipantVideo video;
-		private int volume;
-		private Api.TypeGroupCallParticipantVideo presentation;
-		private Api.True min;
-		private Api.True volumeByAdmin;
-		private Api.True left;
-		private Api.True mutedByYou;
-		private Api.True versioned;
-		private Api.TypePeer peer;
-		private int activeDate;
-		private Api.True canSelfUnmute;
-		private Api.True self;
 		private Api.True muted;
+		private Api.True left;
+		private Api.True canSelfUnmute;
+		private Api.True justJoined;
+		private Api.True versioned;
+		private Api.True min;
+		private Api.True mutedByYou;
+		private Api.True volumeByAdmin;
+		private Api.True self;
+		private Api.True videoJoined;
+		private Api.TypePeer peer;
+		private int date;
+		private int activeDate;
+		private int source;
+		private int volume;
+		private String about;
 		private BigInteger raiseHandRating;
+		private Api.TypeGroupCallParticipantVideo video;
+		private Api.TypeGroupCallParticipantVideo presentation;
 	}
 
 	@Data
@@ -6584,26 +6584,26 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatInviteImporter extends Api.TypeChatInviteImporter {
-		private int date;
 		private Api.True requested;
+		private BigInteger userId;
+		private int date;
 		private String about;
 		private BigInteger approvedBy;
-		private BigInteger userId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChatAdminWithInvites extends Api.TypeChatAdminWithInvites {
-		private int revokedInvitesCount;
 		private BigInteger adminId;
 		private int invitesCount;
+		private int revokedInvitesCount;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class GroupCallParticipantVideoSourceGroup extends Api.TypeGroupCallParticipantVideoSourceGroup {
-		private int[] sources;
 		private String semantics;
+		private int[] sources;
 	}
 
 	@Data
@@ -6657,40 +6657,40 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SponsoredMessage extends Api.TypeSponsoredMessage {
-		private byte randomId;
-		private String startParam;
-		private Api.TypeMessageEntity[] entities;
-		private int channelPost;
-		private String chatInviteHash;
-		private String message;
+		private Api.True recommended;
+		private byte[] randomId;
 		private Api.TypePeer fromId;
 		private Api.TypeChatInvite chatInvite;
-		private Api.True recommended;
+		private String chatInviteHash;
+		private int channelPost;
+		private String startParam;
+		private String message;
+		private Api.TypeMessageEntity[] entities;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SearchResultsCalendarPeriod extends Api.TypeSearchResultsCalendarPeriod {
 		private int date;
-		private int count;
 		private int minMsgId;
 		private int maxMsgId;
+		private int count;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SearchResultPosition extends Api.TypeSearchResultsPosition {
+		private int msgId;
 		private int date;
 		private int offset;
-		private int msgId;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ReactionCount extends Api.TypeReactionCount {
+		private Api.True chosen;
 		private String reaction;
 		private int count;
-		private Api.True chosen;
 	}
 
 	@Data
@@ -6698,48 +6698,48 @@ public class Api {
 	public static class MessageReactions extends Api.TypeMessageReactions {
 		private Api.True min;
 		private Api.True canSeeList;
-		private Api.TypeMessagePeerReaction[] recentReactions;
 		private Api.TypeReactionCount[] results;
+		private Api.TypeMessagePeerReaction[] recentReactions;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class AvailableReaction extends Api.TypeAvailableReaction {
-		private Api.TypeDocument staticIcon;
-		private Api.TypeDocument appearAnimation;
 		private Api.True inactive;
 		private Api.True premium;
 		private String reaction;
-		private Api.TypeDocument centerIcon;
-		private Api.TypeDocument activateAnimation;
-		private Api.TypeDocument selectAnimation;
 		private String title;
+		private Api.TypeDocument staticIcon;
+		private Api.TypeDocument appearAnimation;
+		private Api.TypeDocument selectAnimation;
+		private Api.TypeDocument activateAnimation;
 		private Api.TypeDocument effectAnimation;
 		private Api.TypeDocument aroundAnimation;
+		private Api.TypeDocument centerIcon;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class MessagePeerReaction extends Api.TypeMessagePeerReaction {
-		private Api.TypePeer peerId;
 		private Api.True big;
-		private String reaction;
 		private Api.True unread;
+		private Api.TypePeer peerId;
+		private String reaction;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class GroupCallStreamChannel extends Api.TypeGroupCallStreamChannel {
-		private BigInteger lastTimestampMs;
 		private int channel;
 		private int scale;
+		private BigInteger lastTimestampMs;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class AttachMenuBotIconColor extends Api.TypeAttachMenuBotIconColor {
-		private int color;
 		private String name;
+		private int color;
 	}
 
 	@Data
@@ -6755,9 +6755,9 @@ public class Api {
 	public static class AttachMenuBot extends Api.TypeAttachMenuBot {
 		private Api.True inactive;
 		private Api.True hasSettings;
-		private Api.TypeAttachMenuPeerType[] peerTypes;
 		private BigInteger botId;
 		private String shortName;
+		private Api.TypeAttachMenuPeerType[] peerTypes;
 		private Api.TypeAttachMenuBotIcon[] icons;
 	}
 
@@ -6769,8 +6769,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class AttachMenuBots extends Api.TypeAttachMenuBots {
-		private Api.TypeAttachMenuBot[] bots;
 		private BigInteger hash;
+		private Api.TypeAttachMenuBot[] bots;
 		private Api.TypeUser[] users;
 	}
 
@@ -6784,8 +6784,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class WebViewResultUrl extends Api.TypeWebViewResult {
-		private String url;
 		private BigInteger queryId;
+		private String url;
 	}
 
 	@Data
@@ -6830,8 +6830,8 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class NotificationSoundLocal extends Api.TypeNotificationSound {
-		private String data;
 		private String title;
+		private String data;
 	}
 
 	@Data
@@ -6899,20 +6899,20 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ReqDHParams extends Api.TypeServer_DH_Params {
+		private BigInteger nonce;
+		private BigInteger serverNonce;
 		private String p;
 		private String q;
 		private BigInteger publicKeyFingerprint;
 		private String encryptedData;
-		private BigInteger serverNonce;
-		private BigInteger nonce;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SetClientDHParams extends Api.TypeSet_client_DH_params_answer {
-		private String encryptedData;
-		private BigInteger serverNonce;
 		private BigInteger nonce;
+		private BigInteger serverNonce;
+		private String encryptedData;
 	}
 
 	@Data
@@ -6953,8 +6953,8 @@ public class Api {
 
 	@Data
 	public static class InvokeAfterMsg {
-		private Api.X query;
 		private BigInteger msgId;
+		private Api.X query;
 	}
 
 	@Data
@@ -6965,22 +6965,22 @@ public class Api {
 
 	@Data
 	public static class InitConnection {
-		private Api.TypeInputClientProxy proxy;
+		private int apiId;
+		private String deviceModel;
+		private String systemVersion;
 		private String appVersion;
+		private String systemLangCode;
 		private String langPack;
 		private String langCode;
-		private Api.X query;
-		private String deviceModel;
-		private String systemLangCode;
+		private Api.TypeInputClientProxy proxy;
 		private Api.TypeJSONValue params;
-		private String systemVersion;
-		private int apiId;
+		private Api.X query;
 	}
 
 	@Data
 	public static class InvokeWithLayer {
-		private Api.X query;
 		private int layer;
+		private Api.X query;
 	}
 
 	@Data
@@ -6990,13 +6990,13 @@ public class Api {
 
 	@Data
 	public static class InvokeWithMessagesRange {
-		private Api.X query;
 		private Api.TypeMessageRange range;
+		private Api.X query;
 	}
 
 	@Data
 	public static class InvokeWithTakeout {
-		private Api.X query;
 		private BigInteger takeoutId;
+		private Api.X query;
 	}
 }

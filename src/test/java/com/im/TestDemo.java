@@ -5,8 +5,10 @@ package com.im;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.lib.Helpers;
+import com.im.lib.core.MTProtoStateService;
 import com.im.lib.crypto.AES;
 import com.im.lib.crypto.DH;
+import com.im.lib.entity.MTProtoState;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.util.internal.ObjectUtil;
@@ -111,7 +113,19 @@ public class TestDemo {
 //        HashMap<String, String> map = new HashMap<>();
 //        map.put("age", "10");
 //        map.put("name", "Jack");
-        System.out.println(-15 & 0xff);
+//        BigInteger bigInteger = new BigInteger("7125461004117455568");
+//        System.out.println(bigInteger.divide(new BigInteger("4")));
+//        System.out.println(new BigInteger("1781365251029363892").multiply(new BigInteger("4")));
+//        System.out.println(bigInteger.shiftLeft(32));
+        //
+
+//        double now = System.currentTimeMillis() / 1000.0;
+//        System.out.println(now);
+//        System.out.println(Math.floor(now));
+//        System.out.println(now - Math.floor(now));
+//        double floor = Math.floor((now - Math.floor(now)) * 1e9);
+//        System.out.println(floor);
+        System.out.println(new MTProtoStateService().getNewMsgId());
     }
 
     @Test
@@ -354,7 +368,6 @@ public class TestDemo {
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
+        System.out.println(-1099002127 & 0xffffffffL);
     }
-
-
 }

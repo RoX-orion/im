@@ -15,9 +15,9 @@ public class ChannelsApi {
 	@Data
 	public static class ChannelParticipants {
 		private int count;
+		private Api.TypeChannelParticipant[] participants;
 		private Api.TypeChat[] chats;
 		private Api.TypeUser[] users;
-		private Api.TypeChannelParticipant[] participants;
 	}
 
 	@Data
@@ -27,15 +27,15 @@ public class ChannelsApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChannelParticipant extends Api.TypeChannelParticipant {
-		private Api.TypeChat[] chats;
 		private Api.TypeChannelParticipant participant;
+		private Api.TypeChat[] chats;
 		private Api.TypeUser[] users;
 	}
 
 	@Data
 	public static class AdminLogResults {
-		private Api.TypeChat[] chats;
 		private Api.TypeChannelAdminLogEvent[] events;
+		private Api.TypeChat[] chats;
 		private Api.TypeUser[] users;
 	}
 
@@ -49,8 +49,8 @@ public class ChannelsApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ReadHistory extends Api.TypeBool {
-		private int maxId;
 		private Api.TypeInputChannel channel;
+		private int maxId;
 	}
 
 	@Data
@@ -63,8 +63,8 @@ public class ChannelsApi {
 	@EqualsAndHashCode(callSuper=false)
 	public static class ReportSpam extends Api.TypeBool {
 		private Api.TypeInputChannel channel;
-		private int[] id;
 		private Api.TypeInputPeer participant;
+		private int[] id;
 	}
 
 	@Data
@@ -75,9 +75,9 @@ public class ChannelsApi {
 
 	@Data
 	public static class GetParticipants {
+		private Api.TypeInputChannel channel;
 		private Api.TypeChannelParticipantsFilter filter;
 		private int offset;
-		private Api.TypeInputChannel channel;
 		private int limit;
 		private BigInteger hash;
 	}
@@ -104,21 +104,21 @@ public class ChannelsApi {
 	@EqualsAndHashCode(callSuper=false)
 	public static class CreateChannel extends Api.TypeUpdates {
 		private Api.True broadcast;
-		private String address;
-		private String about;
-		private String title;
-		private Api.TypeInputGeoPoint geoPoint;
-		private Api.True forImport;
 		private Api.True megagroup;
+		private Api.True forImport;
+		private String title;
+		private String about;
+		private Api.TypeInputGeoPoint geoPoint;
+		private String address;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EditAdmin extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
-		private String rank;
 		private Api.TypeInputUser userId;
 		private Api.TypeChatAdminRights adminRights;
+		private String rank;
 	}
 
 	@Data
@@ -178,8 +178,8 @@ public class ChannelsApi {
 	@EqualsAndHashCode(callSuper=false)
 	public static class ExportMessageLink extends Api.TypeExportedMessageLink {
 		private Api.True grouped;
-		private Api.TypeInputChannel channel;
 		private Api.True thread;
+		private Api.TypeInputChannel channel;
 		private int id;
 	}
 
@@ -206,13 +206,13 @@ public class ChannelsApi {
 
 	@Data
 	public static class GetAdminLog {
-		private String q;
-		private BigInteger maxId;
-		private Api.TypeChannelAdminLogEventsFilter eventsFilter;
 		private Api.TypeInputChannel channel;
-		private int limit;
-		private BigInteger minId;
+		private String q;
+		private Api.TypeChannelAdminLogEventsFilter eventsFilter;
 		private Api.TypeInputUser[] admins;
+		private BigInteger maxId;
+		private BigInteger minId;
+		private int limit;
 	}
 
 	@Data
@@ -232,9 +232,9 @@ public class ChannelsApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class DeleteHistory extends Api.TypeUpdates {
-		private int maxId;
-		private Api.TypeInputChannel channel;
 		private Api.True forEveryone;
+		private Api.TypeInputChannel channel;
+		private int maxId;
 	}
 
 	@Data
@@ -263,24 +263,24 @@ public class ChannelsApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EditCreator extends Api.TypeUpdates {
-		private Api.TypeInputCheckPasswordSRP password;
 		private Api.TypeInputChannel channel;
 		private Api.TypeInputUser userId;
+		private Api.TypeInputCheckPasswordSRP password;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class EditLocation extends Api.TypeBool {
-		private String address;
 		private Api.TypeInputChannel channel;
 		private Api.TypeInputGeoPoint geoPoint;
+		private String address;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ToggleSlowMode extends Api.TypeUpdates {
-		private int seconds;
 		private Api.TypeInputChannel channel;
+		private int seconds;
 	}
 
 	@Data
@@ -296,8 +296,8 @@ public class ChannelsApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ViewSponsoredMessage extends Api.TypeBool {
-		private byte randomId;
 		private Api.TypeInputChannel channel;
+		private byte[] randomId;
 	}
 
 	@Data

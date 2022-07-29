@@ -1,9 +1,13 @@
 package com.im.lib.core;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.config.Constant;
 import com.im.lib.Helpers;
 import com.im.lib.crypto.AES;
 import com.im.lib.entity.AesParams;
+import com.im.lib.entity.MTProtoState;
+import com.im.lib.net.BinaryReader;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -82,17 +86,28 @@ public class MTProtoStateService {
 
 
 
-//    public long getNewMsgId() {
-//        BigInteger bigInteger = new BigInteger("0");
-//        long now = System.currentTimeMillis() / 1000 + this.timeOffset;
-//        long nanoseconds = Math.floor((now - Math.floor(now)) * 1e9);
-//        let newMsgId = (BigInt(Math.floor(now))
-//                .shiftLeft(BigInt(32))).or(BigInt(nanoseconds)
-//                .shiftLeft(BigInt(2)));
-//        if (this._lastMsgId.greaterOrEquals(newMsgId)) {
-//            newMsgId = this._lastMsgId.add(BigInt(4));
-//        }
-//        this._lastMsgId = newMsgId;
-//        return newMsgId;
-//    }
+    public BigInteger getNewMsgId() {
+        long now = System.currentTimeMillis() / 1000;
+        long nanoseconds = (long) Math.floor((now - Math.floor(now)) * 1e9);
+        BigInteger newMsgId = (new BigInteger(String.valueOf((long) Math.floor(now))).shiftLeft(32))
+                .or(new BigInteger(String.valueOf(nanoseconds)).shiftLeft(2));
+        return newMsgId.add(BigInteger.ONE);
+    }
+
+    public void checkEncryptedData(BinaryReader br, long authKeyId) {
+        long salt = br.readInt64();
+        long sessionId = br.readInt64();
+        BigInteger msgId = BigInteger.valueOf(br.readInt64())
+                                    .and(new BigInteger("0xffffffff"));
+        long seqNo = br.readInt32() & 0xffffffffL;
+        String state = stringRedisTemplate.opsForValue().get(String.valueOf(authKeyId));
+        if (state != null) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                MTProtoState mtProtoState = objectMapper.readValue(state, MTProtoState.class);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }

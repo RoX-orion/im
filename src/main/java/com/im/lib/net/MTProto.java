@@ -1,16 +1,19 @@
 package com.im.lib.net;
 
-import com.im.lib.core.BinaryReader;
 import com.im.lib.core.MTProtoStateService;
 import com.im.lib.entity.RequestData;
+import com.im.lib.entity.WsApiResult;
 import com.im.lib.exception.RequestIncompleteException;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
+import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.math.BigInteger;
 import java.util.Arrays;
 
 @Component
@@ -25,6 +28,9 @@ public class MTProto {
     @Resource
     private TCPAbridged tcpAbridged;
 
+    @Resource
+    private SerializeResponse serializeResponse;
+
     public RequestData getRequestData(ByteBuf byteBuf, Channel channel) {
 
         if (byteBuf.capacity() == 0) {
@@ -37,30 +43,28 @@ public class MTProto {
         if (!isEncryptedData(authKeyId)) {// 未加密数据
             long msgId = binaryReader.readInt64();
             int dataLength = binaryReader.readInt32();
-            return readRequestData(binaryReader, dataLength);
+
+            return readRequestData(binaryReader, dataLength, authKeyId);
         } else {// 加密数据
             byte[] msgKey = binaryReader.readBytes(16);
             byte[] bytes = binaryReader.readAll();
             byte[] payload = mtprotoStateService.decryptData(msgKey, bytes, channel);
             System.out.println("解密后的数据:" + payload.length + Arrays.toString(payload));
             BinaryReader br = new BinaryReader(payload);
-            long salt = br.readInt64();
-            long sessionId = br.readInt64();
-            long msgId = br.readInt64();
-            int seqNo = br.readInt32();
+            mtprotoStateService.checkEncryptedData(br, authKeyId);
             int dataLength = br.readInt32();
-
-            return readRequestData(br, dataLength);
+            return readRequestData(br, dataLength, authKeyId);
         }
     }
 
-    private RequestData readRequestData(BinaryReader binaryReader, int dataLength) {
+    private RequestData readRequestData(BinaryReader binaryReader, int dataLength, long authKeyId) {
         int constructorId = binaryReader.readInt32();
         Object requestParam = binaryReader.tgReadObject(constructorId);
         System.out.println("数据部分:" + requestParam);
         RequestData requestData = new RequestData();
         requestData.setConstructorId(constructorId);
         requestData.setRequestParam(requestParam);
+        requestData.setAuthKeyId(authKeyId);
 
         return requestData;
     }
@@ -73,10 +77,63 @@ public class MTProto {
         return authKeyId != 0;
     }
 
-    public ByteBuf mtprotoPlainSender(ByteBuf buffer) {
-//        long msgId = mtprotoStateService.getNewMsgId();
-//        buffer.writeBytes(new byte[8]);
-//        buffer.writeByte()
-        return buffer;
+    public void mtprotoPlainSender(WsApiResult response, Channel channel) throws NoSuchFieldException, IllegalAccessException {
+        System.out.println(response.getData());
+        SerializedData serializedData = new SerializedData();
+        serializeResponse.serialize(serializedData, response.getConstructorId(), response);
+        byte[] bytes = serializedData.toByteArray();
+        System.out.println(bytes.length + Arrays.toString(bytes));
+        BigInteger msgId = mtprotoStateService.getNewMsgId();
+        ByteBuf byteBuf = PooledByteBufAllocator.DEFAULT.buffer(20 + bytes.length);
+        byteBuf.writeLongLE(0);
+        byteBuf.writeLongLE(msgId.longValue());
+        byteBuf.writeIntLE(bytes.length);
+        byteBuf.writeBytes(bytes);
+
+        byte[] prefix = tcpAbridged.encodePacket(bytes.length);
+        ByteBuf buffer = PooledByteBufAllocator.DEFAULT.buffer(prefix.length + byteBuf.capacity());
+        buffer.writeBytes(prefix);
+        buffer.writeBytes(byteBuf);
+
+        channel.writeAndFlush(new BinaryWebSocketFrame(buffer));
+    }
+
+
+    public void writeResponse(WsApiResult response, Channel channel) throws NoSuchFieldException, IllegalAccessException {
+        System.out.println(response);
+        int constructorId = response.getConstructorId();
+        SerializedData serializedData = new SerializedData();
+        serializeResponse.serialize(serializedData, constructorId, response);
+        System.out.println(Arrays.toString(serializedData.toByteArray()));
+//        Helpers.printByteBuf(buffer);
+        BigInteger msgId = mtprotoStateService.getNewMsgId();
+
+//        DataOutputStream dataOutputStream = new DataOutputStream();
+
+//        Helpers.printByteBuf(byteBuf);
+//        channel.writeAndFlush(new BinaryWebSocketFrame(byteBuf));
+
+//        if (TLHelpers.AUTH_KEY_TYPES.contains(constructorId)) {
+//
+//            buffer = buffer.readBytes(buffer.readableBytes());
+//            System.out.println(buffer.capacity());
+//            Helpers.printByteBuf(buffer);
+//            buffer.resetReaderIndex();
+//            channel.writeAndFlush(new BinaryWebSocketFrame(buffer));
+//        } else {
+//            System.out.println("加密");
+//        }
+//            if (!data.getType().equals("dh")) {
+//                byte[] authKey = Helpers.hexStringToByteArray(
+//                        Objects.requireNonNull(stringRedisTemplate.opsForValue().get(Constant.CHANNEL_ID_AUTH_KEY + channel.id().asShortText()))
+//                );
+//                System.out.println("未加密字节数组:" + resp.length + Arrays.toString(resp));
+//                resp = mtProtoStateService.encryptData(resp, authKey);
+//                System.out.println("返回加密密文: " + resp.length + Arrays.toString(resp));
+//                ByteBuf binaryData = Unpooled.wrappedBuffer(resp);
+//                channel.writeAndFlush(new BinaryWebSocketFrame(binaryData));
+//            } else {
+//                WriteData.write(channel, response);
+//            }
     }
 }

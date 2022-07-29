@@ -20,17 +20,17 @@ public class ContactsApi {
 
 	@Data
 	public static class Contacts {
-		private int savedCount;
 		private Api.TypeContact[] contacts;
+		private int savedCount;
 		private Api.TypeUser[] users;
 	}
 
 	@Data
 	public static class ImportedContacts {
-		private Api.TypePopularContact[] popularInvites;
 		private Api.TypeImportedContact[] imported;
-		private Api.TypeUser[] users;
+		private Api.TypePopularContact[] popularInvites;
 		private BigInteger[] retryContacts;
+		private Api.TypeUser[] users;
 	}
 
 	@Data
@@ -42,18 +42,18 @@ public class ContactsApi {
 
 	@Data
 	public static class BlockedSlice {
-		private Api.TypePeerBlocked[] blocked;
 		private int count;
+		private Api.TypePeerBlocked[] blocked;
 		private Api.TypeChat[] chats;
 		private Api.TypeUser[] users;
 	}
 
 	@Data
 	public static class Found {
-		private Api.TypeChat[] chats;
-		private Api.TypePeer[] results;
-		private Api.TypeUser[] users;
 		private Api.TypePeer[] myResults;
+		private Api.TypePeer[] results;
+		private Api.TypeChat[] chats;
+		private Api.TypeUser[] users;
 	}
 
 	@Data
@@ -69,8 +69,8 @@ public class ContactsApi {
 
 	@Data
 	public static class TopPeers {
-		private Api.TypeChat[] chats;
 		private Api.TypeTopPeerCategoryPeers[] categories;
+		private Api.TypeChat[] chats;
 		private Api.TypeUser[] users;
 	}
 
@@ -140,24 +140,24 @@ public class ContactsApi {
 
 	@Data
 	public static class GetTopPeers {
-		private Api.True phoneCalls;
+		private Api.True correspondents;
 		private Api.True botsPm;
+		private Api.True botsInline;
+		private Api.True phoneCalls;
+		private Api.True forwardUsers;
+		private Api.True forwardChats;
+		private Api.True groups;
 		private Api.True channels;
 		private int offset;
-		private Api.True botsInline;
-		private Api.True forwardChats;
-		private Api.True forwardUsers;
 		private int limit;
-		private Api.True groups;
-		private Api.True correspondents;
 		private BigInteger hash;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ResetTopPeerRating extends Api.TypeBool {
-		private Api.TypeInputPeer peer;
 		private Api.TypeTopPeerCategory category;
+		private Api.TypeInputPeer peer;
 	}
 
 	@Data
@@ -179,10 +179,10 @@ public class ContactsApi {
 	@EqualsAndHashCode(callSuper=false)
 	public static class AddContact extends Api.TypeUpdates {
 		private Api.True addPhonePrivacyException;
+		private Api.TypeInputUser id;
 		private String firstName;
 		private String lastName;
 		private String phone;
-		private Api.TypeInputUser id;
 	}
 
 	@Data
@@ -194,18 +194,18 @@ public class ContactsApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class GetLocated extends Api.TypeUpdates {
-		private int selfExpires;
 		private Api.True background;
 		private Api.TypeInputGeoPoint geoPoint;
+		private int selfExpires;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BlockFromReplies extends Api.TypeUpdates {
+		private Api.True deleteMessage;
 		private Api.True deleteHistory;
 		private Api.True reportSpam;
 		private int msgId;
-		private Api.True deleteMessage;
 	}
 
 	@Data

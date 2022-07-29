@@ -18,18 +18,18 @@ public class AuthApi {
 
 	@Data
 	public static class SentCode {
+		private AuthApi.TypeSentCodeType type;
 		private String phoneCodeHash;
 		private AuthApi.TypeCodeType nextType;
-		private AuthApi.TypeSentCodeType type;
 		private int timeout;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class Authorization extends Api.TypeAuthorization {
-		private int tmpSessions;
-		private int otherwiseReloginDays;
 		private Api.True setupPasswordRequired;
+		private int otherwiseReloginDays;
+		private int tmpSessions;
 		private Api.TypeUser user;
 	}
 
@@ -41,8 +41,8 @@ public class AuthApi {
 
 	@Data
 	public static class ExportedAuthorization {
-		private byte bytes;
 		private BigInteger id;
+		private byte[] bytes;
 	}
 
 	@Data
@@ -95,13 +95,13 @@ public class AuthApi {
 	@Data
 	public static class LoginToken {
 		private int expires;
-		private byte token;
+		private byte[] token;
 	}
 
 	@Data
 	public static class LoginTokenMigrateTo {
 		private int dcId;
-		private byte token;
+		private byte[] token;
 	}
 
 	@Data
@@ -111,24 +111,24 @@ public class AuthApi {
 
 	@Data
 	public static class LoggedOut {
-		private byte futureAuthToken;
+		private byte[] futureAuthToken;
 	}
 
 	@Data
 	public static class SendCode {
-		private Api.TypeCodeSettings settings;
 		private String phoneNumber;
-		private String apiHash;
 		private int apiId;
+		private String apiHash;
+		private Api.TypeCodeSettings settings;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SignUp extends Api.TypeAuthorization {
-		private String firstName;
-		private String lastName;
 		private String phoneNumber;
 		private String phoneCodeHash;
+		private String firstName;
+		private String lastName;
 	}
 
 	@Data
@@ -156,25 +156,25 @@ public class AuthApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ImportAuthorization extends Api.TypeAuthorization {
-		private byte bytes;
 		private BigInteger id;
+		private byte[] bytes;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class BindTempAuthKey extends Api.TypeBool {
-		private byte encryptedMessage;
 		private BigInteger permAuthKeyId;
 		private BigInteger nonce;
 		private int expiresAt;
+		private byte[] encryptedMessage;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ImportBotAuthorization extends Api.TypeAuthorization {
-		private String botAuthToken;
-		private String apiHash;
 		private int apiId;
+		private String apiHash;
+		private String botAuthToken;
 	}
 
 	@Data
@@ -215,20 +215,20 @@ public class AuthApi {
 
 	@Data
 	public static class ExportLoginToken {
-		private BigInteger[] exceptIds;
-		private String apiHash;
 		private int apiId;
+		private String apiHash;
+		private BigInteger[] exceptIds;
 	}
 
 	@Data
 	public static class ImportLoginToken {
-		private byte token;
+		private byte[] token;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class AcceptLoginToken extends Api.TypeAuthorization {
-		private byte token;
+		private byte[] token;
 	}
 
 	@Data

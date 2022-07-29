@@ -13,42 +13,42 @@ public class StatsApi {
 
 	@Data
 	public static class BroadcastStats {
-		private Api.TypeMessageInteractionCounters[] recentMessageInteractions;
 		private Api.TypeStatsDateRangeDays period;
-		private Api.TypeStatsGraph followersGraph;
-		private Api.TypeStatsGraph muteGraph;
-		private Api.TypeStatsGraph languagesGraph;
-		private Api.TypeStatsGraph topHoursGraph;
-		private Api.TypeStatsGraph ivInteractionsGraph;
-		private Api.TypeStatsAbsValueAndPrev sharesPerPost;
-		private Api.TypeStatsGraph interactionsGraph;
-		private Api.TypeStatsGraph viewsBySourceGraph;
 		private Api.TypeStatsAbsValueAndPrev followers;
 		private Api.TypeStatsAbsValueAndPrev viewsPerPost;
+		private Api.TypeStatsAbsValueAndPrev sharesPerPost;
 		private Api.TypeStatsPercentValue enabledNotifications;
-		private Api.TypeStatsGraph newFollowersBySourceGraph;
 		private Api.TypeStatsGraph growthGraph;
+		private Api.TypeStatsGraph followersGraph;
+		private Api.TypeStatsGraph muteGraph;
+		private Api.TypeStatsGraph topHoursGraph;
+		private Api.TypeStatsGraph interactionsGraph;
+		private Api.TypeStatsGraph ivInteractionsGraph;
+		private Api.TypeStatsGraph viewsBySourceGraph;
+		private Api.TypeStatsGraph newFollowersBySourceGraph;
+		private Api.TypeStatsGraph languagesGraph;
+		private Api.TypeMessageInteractionCounters[] recentMessageInteractions;
 	}
 
 	@Data
 	public static class MegagroupStats {
 		private Api.TypeStatsDateRangeDays period;
-		private Api.TypeStatsGraph languagesGraph;
-		private Api.TypeStatsGraph topHoursGraph;
-		private Api.TypeStatsGraph weekdaysGraph;
-		private Api.TypeStatsGraph newMembersBySourceGraph;
-		private Api.TypeStatsGroupTopAdmin[] topAdmins;
-		private Api.TypeStatsAbsValueAndPrev posters;
-		private Api.TypeUser[] users;
-		private Api.TypeStatsGroupTopPoster[] topPosters;
+		private Api.TypeStatsAbsValueAndPrev members;
+		private Api.TypeStatsAbsValueAndPrev messages;
 		private Api.TypeStatsAbsValueAndPrev viewers;
+		private Api.TypeStatsAbsValueAndPrev posters;
+		private Api.TypeStatsGraph growthGraph;
+		private Api.TypeStatsGraph membersGraph;
+		private Api.TypeStatsGraph newMembersBySourceGraph;
+		private Api.TypeStatsGraph languagesGraph;
 		private Api.TypeStatsGraph messagesGraph;
 		private Api.TypeStatsGraph actionsGraph;
-		private Api.TypeStatsAbsValueAndPrev members;
-		private Api.TypeStatsGraph membersGraph;
-		private Api.TypeStatsAbsValueAndPrev messages;
+		private Api.TypeStatsGraph topHoursGraph;
+		private Api.TypeStatsGraph weekdaysGraph;
+		private Api.TypeStatsGroupTopPoster[] topPosters;
+		private Api.TypeStatsGroupTopAdmin[] topAdmins;
 		private Api.TypeStatsGroupTopInviter[] topInviters;
-		private Api.TypeStatsGraph growthGraph;
+		private Api.TypeUser[] users;
 	}
 
 	@Data
@@ -65,8 +65,8 @@ public class StatsApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class LoadAsyncGraph extends Api.TypeStatsGraph {
-		private BigInteger x;
 		private String token;
+		private BigInteger x;
 	}
 
 	@Data
@@ -77,12 +77,12 @@ public class StatsApi {
 
 	@Data
 	public static class GetMessagePublicForwards {
+		private Api.TypeInputChannel channel;
+		private int msgId;
 		private int offsetRate;
 		private Api.TypeInputPeer offsetPeer;
-		private Api.TypeInputChannel channel;
-		private int limit;
-		private int msgId;
 		private int offsetId;
+		private int limit;
 	}
 
 	@Data

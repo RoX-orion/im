@@ -20,11 +20,19 @@ public class TLParser {
 
     public static Map<String, String> position = new HashMap<>();
 
+
     public static void main(String[] args) throws IOException {
+        boolean flag = true;
         List<NodeConfig> c1 = parseTL("schema.tl");
         List<NodeConfig> c2 = parseTL("api.tl");
         c1.addAll(c2);
-        System.out.println(c1);
+        for (NodeConfig nodeConfig : c1) {
+            System.out.println(nodeConfig);
+        }
+//        System.out.println("即将生成类型，是否继续？[y/n]:");
+//        if (flag) {
+//            return;
+//        }
         List<NodeConfig> constructors = new LinkedList<>();
         List<NodeConfig> functions = new LinkedList<>();
         for (NodeConfig nodeConfig : c1) {
@@ -196,7 +204,7 @@ public class TLParser {
                 import com.im.api.*;
                 import com.im.lib.annotation.WebsocketHandler;
                 import com.im.lib.annotation.WebsocketHandlerMapping;
-                
+                                
                 @WebsocketHandler
                 public class\040""";
         Map<String, StringBuilder> controller = new HashMap<>();
@@ -354,22 +362,24 @@ public class TLParser {
 //        Integer constructorId = nodeConfig.getConstructorId();
 //        Boolean isFunction = nodeConfig.getIsFunction();
 //        long subclassOfId = nodeConfig.getSubclassOfId();
-        HashMap<String, ArgsConfig> argsConfig = nodeConfig.getArgsConfig();
+        List<String> argsNames = nodeConfig.getArgsName();
+        List<ArgsConfig> argsConfigs = nodeConfig.getArgsConfig();
 
 //        builder.append("private final long constructorId = ").append(constructorId).append("L;\n\t\t");
 //        builder.append("private final long subclassOfId = ").append(subclassOfId).append("L;\n\t\t");
 //        builder.append("private final Boolean isFunction = ").append(isFunction).append(";\n\n");
-        for (String key : argsConfig.keySet()) {
-            ArgsConfig a = argsConfig.get(key);
-            String type = a.getType();
-            if (key.equals("flags") || key.equals("flags2")) {
+        for (int i = 0; i < argsNames.size(); i++) {
+            String argsName = argsNames.get(i);
+            ArgsConfig argsConfig = argsConfigs.get(i);
+            String type = argsConfig.getType();
+            if (argsName.equals("flags") || argsName.equals("flags2")) {
                 continue;
             }
-            boolean vector = a.isVector();
+            boolean vector = argsConfig.isVector();
             if (type != null) {
                 switch (type) {
                     case "string" -> type = "String";
-                    case "bytes" -> type = "byte";
+                    case "bytes" -> type = "byte[]";
                     case "Bool" -> type = "Boolean";
                     case "true" -> type = "True";
                     case "long", "int128", "int256" -> type = "BigInteger";
@@ -392,11 +402,11 @@ public class TLParser {
             if (vector) {
                 type = type + "[]";
             }
-            if (TLHelpers.CONFLICTING_FIELD.contains(key)) {
-                key = key + TLHelpers.suffix;
+            if (TLHelpers.CONFLICTING_FIELD.contains(argsName)) {
+                argsName = argsName + TLHelpers.suffix;
             }
 
-            builder.append("\t\tprivate ").append(type).append(" ").append(key).append(";\n");
+            builder.append("\t\tprivate ").append(type).append(" ").append(argsName).append(";\n");
         }
         builder.append("\t").append("}");
     }
@@ -453,7 +463,7 @@ public class TLParser {
         Pattern match = Pattern.compile("([\\w.]+)(?:#([0-9a-fA-F]+))?(?:\\s\\{?\\w+:[\\w\\d<>#.?!]+}?)*\\s=\\s([\\w\\d<>#.?]+);$");
         Matcher m = match.matcher(text);
         NodeConfig currentConfig = new NodeConfig();
-        currentConfig.setArgsConfig(new HashMap<>());
+        currentConfig.setArgsConfig(new ArrayList<>());
         if (m.find()) {
             currentConfig.setName(m.group(1));
             String constructorId = m.group(2);
@@ -479,18 +489,19 @@ public class TLParser {
                 String[] split = p.split(":");
                 name = split[0];
                 argType = split[1];
-                currentConfig.getArgsConfig().put(variableSnakeToCamelCase(name), buildArgConfig(name, argType));
+                currentConfig.getArgsName().add(variableSnakeToCamelCase(name));
+                currentConfig.getArgsConfig().add(buildArgConfig(name, argType));
             }
         }
-        if (TLHelpers.AUTH_KEY_TYPES.contains(currentConfig.getConstructorId())) {
-            HashMap<String, ArgsConfig> args = currentConfig.getArgsConfig();
-            for (String key : args.keySet()) {
-                if (args.get(key).getType().equals("string")) {
-                    args.get(key).setType("bytes");
-                }
-            }
-            currentConfig.setArgsConfig(args);
-        }
+//        if (TLHelpers.AUTH_KEY_TYPES.contains(currentConfig.getConstructorId())) {
+//            List<ArgsConfig> argsConfig = currentConfig.getArgsConfig();
+//            for (ArgsConfig config : argsConfig) {
+//                if (config.getType().equals("string")) {
+//                    config.setType("bytes");
+//                }
+//            }
+//            currentConfig.setArgsConfig(argsConfig);
+//        }
         if (currentConfig.getName().indexOf('.') != -1) {
             String[] split = currentConfig.getName().split("\\.");
             currentConfig.setNamespace(split[0]);
@@ -581,12 +592,17 @@ public class TLParser {
     }
 
     public static String variableSnakeToCamelCase(String name) {
-        String[] s = name.split("_");
-        StringBuilder builder = new StringBuilder(s[0]);
-        for (int i = 1; i < s.length; i++) {
-            builder.append(s[i].substring(0, 1).toUpperCase()).append(s[i].substring(1));
+        Pattern compile = Pattern.compile("([-_][a-z])");
+        Matcher matcher1 = compile.matcher(name);
+        while (matcher1.find()) {
+            name = name.replace(
+                    matcher1.group(),
+                    matcher1.group()
+                            .toUpperCase()
+                            .replace("_", "")
+                            .replace("-", "")
+            );
         }
-
-        return builder.toString();
+        return name;
     }
 }

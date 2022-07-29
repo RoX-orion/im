@@ -27,8 +27,8 @@ public class AccountApi {
 
 	@Data
 	public static class PrivacyRules {
-		private Api.TypeChat[] chats;
 		private Api.TypePrivacyRule[] rules;
+		private Api.TypeChat[] chats;
 		private Api.TypeUser[] users;
 	}
 
@@ -40,38 +40,38 @@ public class AccountApi {
 
 	@Data
 	public static class Password {
-		private Api.TypePasswordKdfAlgo newAlgo;
-		private Api.TypePasswordKdfAlgo currentAlgo;
-		private BigInteger srpId;
-		private byte srpB;
-		private Api.True hasPassword;
-		private Api.TypeSecurePasswordKdfAlgo newSecureAlgo;
-		private int pendingResetDate;
-		private String emailUnconfirmedPattern;
-		private byte secureRandom;
-		private String hint;
 		private Api.True hasRecovery;
 		private Api.True hasSecureValues;
+		private Api.True hasPassword;
+		private Api.TypePasswordKdfAlgo currentAlgo;
+		private byte[] srp_B;
+		private BigInteger srpId;
+		private String hint;
+		private String emailUnconfirmedPattern;
+		private Api.TypePasswordKdfAlgo newAlgo;
+		private Api.TypeSecurePasswordKdfAlgo newSecureAlgo;
+		private byte[] secureRandom;
+		private int pendingResetDate;
 	}
 
 	@Data
 	public static class PasswordSettings {
-		private Api.TypeSecureSecretSettings secureSettings;
 		private String email;
+		private Api.TypeSecureSecretSettings secureSettings;
 	}
 
 	@Data
 	public static class PasswordInputSettings {
 		private Api.TypePasswordKdfAlgo newAlgo;
-		private Api.TypeSecureSecretSettings newSecureSettings;
+		private byte[] newPasswordHash;
 		private String hint;
-		private byte newPasswordHash;
 		private String email;
+		private Api.TypeSecureSecretSettings newSecureSettings;
 	}
 
 	@Data
 	public static class TmpPassword {
-		private byte tmpPassword;
+		private byte[] tmpPassword;
 		private int validUntil;
 	}
 
@@ -85,9 +85,9 @@ public class AccountApi {
 	public static class AuthorizationForm {
 		private Api.TypeSecureRequiredType[] requiredTypes;
 		private Api.TypeSecureValue[] values;
-		private String privacyPolicyUrl;
 		private Api.TypeSecureValueError[] errors;
 		private Api.TypeUser[] users;
+		private String privacyPolicyUrl;
 	}
 
 	@Data
@@ -107,16 +107,16 @@ public class AccountApi {
 
 	@Data
 	public static class WallPapers {
-		private Api.TypeWallPaper[] wallpapers;
 		private BigInteger hash;
+		private Api.TypeWallPaper[] wallpapers;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class AutoDownloadSettings extends Api.TypeAutoDownloadSettings {
-		private Api.TypeAutoDownloadSettings high;
 		private Api.TypeAutoDownloadSettings low;
 		private Api.TypeAutoDownloadSettings medium;
+		private Api.TypeAutoDownloadSettings high;
 	}
 
 	@Data
@@ -125,8 +125,8 @@ public class AccountApi {
 
 	@Data
 	public static class Themes {
-		private Api.TypeTheme[] themes;
 		private BigInteger hash;
+		private Api.TypeTheme[] themes;
 	}
 
 	@Data
@@ -155,8 +155,8 @@ public class AccountApi {
 
 	@Data
 	public static class SavedRingtones {
-		private Api.TypeDocument[] ringtones;
 		private BigInteger hash;
+		private Api.TypeDocument[] ringtones;
 	}
 
 	@Data
@@ -172,26 +172,26 @@ public class AccountApi {
 	@EqualsAndHashCode(callSuper=false)
 	public static class RegisterDevice extends Api.TypeBool {
 		private Api.True noMuted;
-		private Boolean appSandbox;
-		private BigInteger[] otherUids;
-		private byte secret;
 		private int tokenType;
 		private String token;
+		private Boolean appSandbox;
+		private byte[] secret;
+		private BigInteger[] otherUids;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UnregisterDevice extends Api.TypeBool {
-		private BigInteger[] otherUids;
 		private int tokenType;
 		private String token;
+		private BigInteger[] otherUids;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateNotifySettings extends Api.TypeBool {
-		private Api.TypeInputPeerNotifySettings settings;
 		private Api.TypeInputNotifyPeer peer;
+		private Api.TypeInputPeerNotifySettings settings;
 	}
 
 	@Data
@@ -227,8 +227,8 @@ public class AccountApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ReportPeer extends Api.TypeBool {
-		private Api.TypeReportReason reason;
 		private Api.TypeInputPeer peer;
+		private Api.TypeReportReason reason;
 		private String message;
 	}
 
@@ -251,8 +251,8 @@ public class AccountApi {
 
 	@Data
 	public static class SetPrivacy {
-		private Api.TypeInputPrivacyRule[] rules;
 		private Api.TypeInputPrivacyKey key;
+		private Api.TypeInputPrivacyRule[] rules;
 	}
 
 	@Data
@@ -274,8 +274,8 @@ public class AccountApi {
 
 	@Data
 	public static class SendChangePhoneCode {
-		private Api.TypeCodeSettings settings;
 		private String phoneNumber;
+		private Api.TypeCodeSettings settings;
 	}
 
 	@Data
@@ -320,8 +320,8 @@ public class AccountApi {
 
 	@Data
 	public static class SendConfirmPhoneCode {
-		private Api.TypeCodeSettings settings;
 		private String hash;
+		private Api.TypeCodeSettings settings;
 	}
 
 	@Data
@@ -376,25 +376,25 @@ public class AccountApi {
 
 	@Data
 	public static class GetAuthorizationForm {
-		private String scope;
 		private BigInteger botId;
+		private String scope;
 		private String publicKey;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class AcceptAuthorization extends Api.TypeBool {
-		private Api.TypeSecureCredentialsEncrypted credentials;
-		private String scope;
-		private Api.TypeSecureValueHash[] valueHashes;
 		private BigInteger botId;
+		private String scope;
 		private String publicKey;
+		private Api.TypeSecureValueHash[] valueHashes;
+		private Api.TypeSecureCredentialsEncrypted credentials;
 	}
 
 	@Data
 	public static class SendVerifyPhoneCode {
-		private Api.TypeCodeSettings settings;
 		private String phoneNumber;
+		private Api.TypeCodeSettings settings;
 	}
 
 	@Data
@@ -413,19 +413,19 @@ public class AccountApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class VerifyEmail extends Api.TypeBool {
-		private String code;
 		private String email;
+		private String code;
 	}
 
 	@Data
 	public static class InitTakeoutSession {
-		private Api.True messageChats;
-		private BigInteger fileMaxSize;
-		private Api.True files;
-		private Api.True messageUsers;
-		private Api.True messageMegagroups;
 		private Api.True contacts;
+		private Api.True messageUsers;
+		private Api.True messageChats;
+		private Api.True messageMegagroups;
 		private Api.True messageChannels;
+		private Api.True files;
+		private BigInteger fileMaxSize;
 	}
 
 	@Data
@@ -477,24 +477,24 @@ public class AccountApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UploadWallPaper extends Api.TypeWallPaper {
-		private Api.TypeWallPaperSettings settings;
 		private Api.TypeInputFile file;
 		private String mimeType;
+		private Api.TypeWallPaperSettings settings;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SaveWallPaper extends Api.TypeBool {
-		private Api.TypeWallPaperSettings settings;
 		private Api.TypeInputWallPaper wallpaper;
 		private Boolean unsave;
+		private Api.TypeWallPaperSettings settings;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InstallWallPaper extends Api.TypeBool {
-		private Api.TypeWallPaperSettings settings;
 		private Api.TypeInputWallPaper wallpaper;
+		private Api.TypeWallPaperSettings settings;
 	}
 
 	@Data
@@ -510,38 +510,38 @@ public class AccountApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SaveAutoDownloadSettings extends Api.TypeBool {
-		private Api.TypeAutoDownloadSettings settings;
-		private Api.True high;
 		private Api.True low;
+		private Api.True high;
+		private Api.TypeAutoDownloadSettings settings;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UploadTheme extends Api.TypeDocument {
-		private String fileName;
 		private Api.TypeInputFile file;
 		private Api.TypeInputFile thumb;
+		private String fileName;
 		private String mimeType;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class CreateTheme extends Api.TypeTheme {
-		private Api.TypeInputThemeSettings[] settings;
-		private Api.TypeInputDocument document;
-		private String title;
 		private String slug;
+		private String title;
+		private Api.TypeInputDocument document;
+		private Api.TypeInputThemeSettings[] settings;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UpdateTheme extends Api.TypeTheme {
-		private Api.TypeInputThemeSettings[] settings;
-		private Api.TypeInputDocument document;
 		private String format;
 		private Api.TypeInputTheme theme;
-		private String title;
 		private String slug;
+		private String title;
+		private Api.TypeInputDocument document;
+		private Api.TypeInputThemeSettings[] settings;
 	}
 
 	@Data
@@ -554,10 +554,10 @@ public class AccountApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class InstallTheme extends Api.TypeBool {
-		private Api.TypeBaseTheme baseTheme;
 		private Api.True dark;
-		private String format;
 		private Api.TypeInputTheme theme;
+		private String format;
+		private Api.TypeBaseTheme baseTheme;
 	}
 
 	@Data
@@ -603,9 +603,9 @@ public class AccountApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ReportProfilePhoto extends Api.TypeBool {
-		private Api.TypeReportReason reason;
 		private Api.TypeInputPeer peer;
 		private Api.TypeInputPhoto photoId;
+		private Api.TypeReportReason reason;
 		private String message;
 	}
 
@@ -632,9 +632,9 @@ public class AccountApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class ChangeAuthorizationSettings extends Api.TypeBool {
+		private BigInteger hash;
 		private Boolean encryptedRequestsDisabled;
 		private Boolean callRequestsDisabled;
-		private BigInteger hash;
 	}
 
 	@Data
@@ -651,8 +651,8 @@ public class AccountApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class UploadRingtone extends Api.TypeDocument {
-		private String fileName;
 		private Api.TypeInputFile file;
+		private String fileName;
 		private String mimeType;
 	}
 }

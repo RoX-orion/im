@@ -11,15 +11,15 @@ public class BotsApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SendCustomRequest extends Api.TypeDataJSON {
-		private Api.TypeDataJSON params;
 		private String customMethod;
+		private Api.TypeDataJSON params;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class AnswerWebhookJSONQuery extends Api.TypeBool {
-		private Api.TypeDataJSON data;
 		private BigInteger queryId;
+		private Api.TypeDataJSON data;
 	}
 
 	@Data
@@ -46,8 +46,8 @@ public class BotsApi {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class SetBotMenuButton extends Api.TypeBool {
-		private Api.TypeBotMenuButton button;
 		private Api.TypeInputUser userId;
+		private Api.TypeBotMenuButton button;
 	}
 
 	@Data

@@ -28,7 +28,7 @@ public class TLHelpers {
     public static Set<String> BASE_TYPE = new HashSet<>(Arrays.asList(
             "String", "Boolean", "boolean", "int",
             "Integer", "Long", "long", "BigInteger",
-            "double", "byte", "Bool"
+            "double", "byte", "Bool", "byte[]"
     ));
 
     public static Map<Integer, String> CORE_TYPE = new HashMap<>();
