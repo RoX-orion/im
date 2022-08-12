@@ -36,7 +36,7 @@ public class RSA {
 
     private static final String PRIVATE_KEY_END = "-----END PRIVATE KEY-----";
 
-    private static final HashMap<String, RSAKeyPair> RSAKey = new HashMap<>();
+    private static final HashMap<Long, RSAKeyPair> RSAKey = new HashMap<>();
 
     static {
 //        PublicKeyNE publicKeyNE1 = new PublicKeyNE(
@@ -59,7 +59,7 @@ public class RSA {
 //        );
         String publicKeyPath;
         try {
-            publicKeyPath = Objects.requireNonNull(RSA.class.getClassLoader().getResource("rsa/RsaKey")).getFile();
+            publicKeyPath = Objects.requireNonNull(RSA.class.getClassLoader().getResource("rsa")).getFile();
         } catch (Exception e) {
             throw new Error("Can load RSA file, you must config it!");
         }
@@ -82,26 +82,22 @@ public class RSA {
                     ).trim();
                     byte[] publicKey = Base64.getDecoder().decode(publicKeyBase64);
                     String n = Helpers.readBigIntegerFromBytes(
-                            Helpers.slice(publicKey, 112, 291),
-                            false
+                            Helpers.slice(publicKey, 33, 289),
+                            false, false
                     ).toString();
 
                     String e = Helpers.readBigIntegerFromBytes(
                             Helpers.slice(publicKey, 291, 294),
-                            false
+                            false, false
                     ).toString();
-
-                    log.info("RSA info:\n fingerprint = {}\n n = {}\n e = {}",
-                            Helpers.readBigIntegerFromBytes(Helpers.slice(Helpers.SHA1(publicKey), 12, 20), false),
-                            n,
-                            e
-                    );
+                    BigInteger fingerprint = Helpers.readBigIntegerFromBytes(Helpers.slice(Helpers.SHA1(publicKey), 12, 20), false, true);
+                    log.info("RSA info:\n fingerprint = {}\n n = {}\n e = {}", fingerprint, n, e);
                     String privateKeyBase64 = source.substring(
                             source.indexOf(RSA.PRIVATE_KEY_BEGIN) + RSA.PRIVATE_KEY_BEGIN.length()
                     ).trim();
                     byte[] privateKey = Base64.getDecoder().decode(privateKeyBase64);
                     RSAKeyPair rsaKeyPair = new RSAKeyPair(publicKey, privateKey);
-                    RSAKey.put(n, rsaKeyPair);
+                    RSAKey.put(fingerprint.longValue(), rsaKeyPair);
                 }
             }
         } catch (IOException e) {
@@ -128,14 +124,14 @@ public class RSA {
         BigInteger p;
         do {
             pBytes = Helpers.getRandomBytes(4);
-            p = Helpers.readBigIntegerFromBytes(pBytes, false);
+            p = Helpers.readBigIntegerFromBytes(pBytes, false, false);
         } while (!p.isProbablePrime(4));
 
         BigInteger q;
         byte[] qBytes;
         while (true) {
             qBytes = Helpers.getRandomBytes(4);
-            q = Helpers.readBigIntegerFromBytes(qBytes, false);
+            q = Helpers.readBigIntegerFromBytes(qBytes, false, false);
             if (p.compareTo(q) >= 0) {
                 continue;
             }
@@ -157,11 +153,11 @@ public class RSA {
         return keyFactory.generatePublic(keySpec);
     }
 
-    public static byte[] getPrivateKey(String key) {
+    public static byte[] getPrivateKey(long key) {
         return RSAKey.get(key).getPrivateKey();
     }
 
-    public static List<String> getFingerprintList() {
+    public static List<Long> getFingerprintList() {
         return new ArrayList<>(RSAKey.keySet());
     }
 }

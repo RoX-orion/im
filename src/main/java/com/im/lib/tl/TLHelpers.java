@@ -3,12 +3,12 @@ package com.im.lib.tl;
 import java.util.*;
 
 public class TLHelpers {
-    public static Set<Long> CORE_TYPES = new HashSet<>(Arrays.asList(
-            0xbc799737L, // boolFalse#bc799737 = Bool;
-            0x997275b5L, // boolTrue#997275b5 = Bool;
-            0x3fedd339L, // true#3fedd339 = True;
-            0xc4b9f9bbL, // error#c4b9f9bb code:int text:string = Error;
-            0x56730bccL  // null#56730bcc = Null;
+    public static Set<Integer> CORE_TYPES = new HashSet<>(Arrays.asList(
+            0xbc799737, // boolFalse#bc799737 = Bool;
+            0x997275b5, // boolTrue#997275b5 = Bool;
+            0x3fedd339, // true#3fedd339 = True;
+            0xc4b9f9bb, // error#c4b9f9bb code:int text:string = Error;
+            0x56730bcc  // null#56730bcc = Null;
     ));
     public static Set<Integer> AUTH_KEY_TYPES = new HashSet<>(Arrays.asList(
             0xbe7e8ef1, // req_pq_multi

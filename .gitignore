@@ -9,7 +9,7 @@ target/
 !**/src/main/resources/rsa/RsaKey
 
 # test
-!**/src/test/
+!**/src/test/**
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -44,3 +44,4 @@ build/
 
 ### Mac OS ###
 .DS_Store
+src/main/resources/rsa

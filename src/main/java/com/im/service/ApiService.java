@@ -30,18 +30,18 @@ public class ApiService {
 
     public Api.ResPQ reqPqMulti(Api.ReqPqMulti reqPqMulti) throws JsonProcessingException {
         BigInteger nonce = reqPqMulti.getNonce();
-        BigInteger serverNonce = Helpers.readBigIntegerFromBytes(Helpers.getRandomBytes(16), true);
+        BigInteger serverNonce = Helpers.readBigIntegerFromBytes(Helpers.getRandomBytes(16), true, true);
 
         Api.ResPQ resPQ = new Api.ResPQ();
         CreateAuthKeyState createAuthKeyState = RSA.getPQ();
         resPQ.setNonce(nonce);
         resPQ.setServerNonce(serverNonce);
-//        resPQ.setPq(createAuthKeyState.getPq());
-        List<String> fingerprintList = RSA.getFingerprintList();
+        resPQ.setPq(createAuthKeyState.getPq());
+        List<Long> fingerprintList = RSA.getFingerprintList();
         BigInteger[] fingerprints = new BigInteger[fingerprintList.size()];
         int i = 0;
-        for (String fingerprint : fingerprintList) {
-            fingerprints[i++] = new BigInteger(fingerprint);
+        for (long fingerprint : fingerprintList) {
+            fingerprints[i++] = new BigInteger(String.valueOf(fingerprint));
         }
         resPQ.setServerPublicKeyFingerprints(fingerprints);
 
@@ -59,57 +59,56 @@ public class ApiService {
     }
 
     public Api.TypeServer_DH_Params reqDHParams(Api.ReqDHParams reqDHParams) throws Exception {
-//        BigInteger nonce = reqDHParams.getNonce();
-//        BigInteger serverNonce = reqDHParams.getServerNonce();
-//        String p = reqDHParams.getP();
-//        String q = reqDHParams.getQ();
-//        BigInteger publicKeyFingerprint = reqDHParams.getPublicKeyFingerprint();
-//        String encryptedData = reqDHParams.getEncryptedData();
-//        byte[] pqInnerDataBytes = RSA.privateDecrypt(
-//                encryptedData.getBytes(StandardCharsets.UTF_8),
-//                RSA.getPrivateKey(publicKeyFingerprint.toString())
-//        );
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        Api.PQInnerData pqInnerData = objectMapper.readValue(pqInnerDataBytes, Api.PQInnerData.class);
-//        if (Boolean.FALSE.equals(stringRedisTemplate.hasKey(Constant.CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce))) {
-//            return serverDHParamsFail(nonce, serverNonce, pqInnerData.getNewNonce());
-//        }
-//        CreateAuthKeyState createAuthKeyState = objectMapper.readValue(
-//                stringRedisTemplate.opsForValue().get(Constant.CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce),
-//                CreateAuthKeyState.class
-//        );
-//        if (!p.equals(createAuthKeyState.getP().toString())
-//                || !q.equals(createAuthKeyState.getQ().toString())
-//                || !p.equals(pqInnerData.getP())
-//                || !q.equals(pqInnerData.getQ())
-//                || !pqInnerData.getPq().equals(createAuthKeyState.getPq())) {
-//            return serverDHParamsFail(nonce, serverNonce, pqInnerData.getNewNonce());
-//        }
-//        createAuthKeyState.setNewNonce(pqInnerData.getNewNonce());
-//        String s = objectMapper.writeValueAsString(createAuthKeyState);
-//        stringRedisTemplate.opsForValue().set(
-//                Constant.CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce,
-//                s, 10, TimeUnit.MINUTES
-//        );
-//
-//        byte[] randomBytes = Helpers.getRandomBytes(32);
-//        BigInteger index = Helpers.readBigIntegerFromBytes(randomBytes, false);
-//        DHResult result = DH.getResult(Constant.DH_BASE, index, Constant.DH_PRIME);
-//
-//        Api.ServerDHInnerData serverDHInnerData = new Api.ServerDHInnerData();
-//        serverDHInnerData.setNonce(nonce);
-//        serverDHInnerData.setServerNonce(serverNonce);
-//        serverDHInnerData.setG(Constant.DH_BASE.intValue());
-//        serverDHInnerData.setDhPrime(Constant.DH_PRIME.toString());
-//        serverDHInnerData.setServerTime((int) (System.currentTimeMillis()));
-//        serverDHInnerData.setGA(result.getResult().toString());
-//        Api.ServerDHParamsOk server_dh_params_ok = new Api.ServerDHParamsOk();
-//        server_dh_params_ok.setNonce(nonce);
-//        server_dh_params_ok.setServerNonce(serverNonce);
-//        server_dh_params_ok.setEncryptedAnswer(objectMapper.writeValueAsString(serverDHInnerData));
+        BigInteger nonce = reqDHParams.getNonce();
+        BigInteger serverNonce = reqDHParams.getServerNonce();
+        String p = reqDHParams.getP();
+        String q = reqDHParams.getQ();
+        BigInteger publicKeyFingerprint = reqDHParams.getPublicKeyFingerprint();
+        String encryptedData = reqDHParams.getEncryptedData();
+        byte[] pqInnerDataBytes = RSA.privateDecrypt(
+                encryptedData.getBytes(StandardCharsets.UTF_8),
+                RSA.getPrivateKey(publicKeyFingerprint.longValue())
+        );
+        ObjectMapper objectMapper = new ObjectMapper();
+        Api.PQInnerData pqInnerData = objectMapper.readValue(pqInnerDataBytes, Api.PQInnerData.class);
+        if (Boolean.FALSE.equals(stringRedisTemplate.hasKey(Constant.CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce))) {
+            return serverDHParamsFail(nonce, serverNonce, pqInnerData.getNewNonce());
+        }
+        CreateAuthKeyState createAuthKeyState = objectMapper.readValue(
+                stringRedisTemplate.opsForValue().get(Constant.CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce),
+                CreateAuthKeyState.class
+        );
+        if (!p.equals(createAuthKeyState.getP().toString())
+                || !q.equals(createAuthKeyState.getQ().toString())
+                || !p.equals(pqInnerData.getP())
+                || !q.equals(pqInnerData.getQ())
+                || !pqInnerData.getPq().equals(createAuthKeyState.getPq())) {
+            return serverDHParamsFail(nonce, serverNonce, pqInnerData.getNewNonce());
+        }
+        createAuthKeyState.setNewNonce(pqInnerData.getNewNonce());
+        String s = objectMapper.writeValueAsString(createAuthKeyState);
+        stringRedisTemplate.opsForValue().set(
+                Constant.CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce,
+                s, 10, TimeUnit.MINUTES
+        );
 
-//        return server_dh_params_ok;
-        return null;
+        byte[] randomBytes = Helpers.getRandomBytes(32);
+        BigInteger index = Helpers.readBigIntegerFromBytes(randomBytes, false, false);
+        DHResult result = DH.getResult(Constant.DH_BASE, index, Constant.DH_PRIME);
+
+        Api.ServerDHInnerData serverDHInnerData = new Api.ServerDHInnerData();
+        serverDHInnerData.setNonce(nonce);
+        serverDHInnerData.setServerNonce(serverNonce);
+        serverDHInnerData.setG(Constant.DH_BASE.intValue());
+        serverDHInnerData.setDhPrime(Constant.DH_PRIME.toString());
+        serverDHInnerData.setServerTime((int) (System.currentTimeMillis()));
+        serverDHInnerData.setGA(result.getResult().toString());
+        Api.ServerDHParamsOk server_dh_params_ok = new Api.ServerDHParamsOk();
+        server_dh_params_ok.setNonce(nonce);
+        server_dh_params_ok.setServerNonce(serverNonce);
+        server_dh_params_ok.setEncryptedAnswer(objectMapper.writeValueAsString(serverDHInnerData));
+
+        return server_dh_params_ok;
     }
 
     public Api.ServerDHParamsFail serverDHParamsFail(BigInteger nonce, BigInteger serverNonce, BigInteger newNonce) {
@@ -120,7 +119,7 @@ public class ApiService {
                 Helpers.SHA1(Helpers.getByteArray(newNonce)),
                 4, 20
         );
-        serverDHParamsFail.setNewNonceHash(Helpers.readBigIntegerFromBytes(slice, false));
+        serverDHParamsFail.setNewNonceHash(Helpers.readBigIntegerFromBytes(slice, false, true));
 
         return serverDHParamsFail;
     }

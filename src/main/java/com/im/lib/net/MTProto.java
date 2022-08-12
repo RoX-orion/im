@@ -5,6 +5,7 @@ import com.im.lib.entity.RequestData;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.exception.RequestIncompleteException;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
@@ -79,23 +80,27 @@ public class MTProto {
 
     public void mtprotoPlainSender(WsApiResult response, Channel channel) throws NoSuchFieldException, IllegalAccessException {
         System.out.println(response.getData());
+        ByteBufAllocator alloc = channel.alloc();
         SerializedData serializedData = new SerializedData();
         serializeResponse.serialize(serializedData, response.getConstructorId(), response);
         byte[] bytes = serializedData.toByteArray();
         System.out.println(bytes.length + Arrays.toString(bytes));
         BigInteger msgId = mtprotoStateService.getNewMsgId();
-        ByteBuf byteBuf = PooledByteBufAllocator.DEFAULT.buffer(20 + bytes.length);
+        ByteBuf byteBuf = alloc.heapBuffer(20 + bytes.length);
         byteBuf.writeLongLE(0);
         byteBuf.writeLongLE(msgId.longValue());
         byteBuf.writeIntLE(bytes.length);
         byteBuf.writeBytes(bytes);
 
-        byte[] prefix = tcpAbridged.encodePacket(bytes.length);
-        ByteBuf buffer = PooledByteBufAllocator.DEFAULT.buffer(prefix.length + byteBuf.capacity());
+        System.out.println(byteBuf.capacity() + ":" + byteBuf.readableBytes());
+        byte[] prefix = tcpAbridged.encodePacket(byteBuf.readableBytes());
+        ByteBuf buffer = alloc.directBuffer(prefix.length + byteBuf.capacity());
         buffer.writeBytes(prefix);
         buffer.writeBytes(byteBuf);
 
         channel.writeAndFlush(new BinaryWebSocketFrame(buffer));
+
+        byteBuf.release();
     }
 
 

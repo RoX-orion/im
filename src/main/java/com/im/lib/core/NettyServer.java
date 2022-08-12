@@ -49,7 +49,6 @@ public class NettyServer {
                     .option(ChannelOption.SO_BACKLOG, 128)//boss 等待连接的队列长度
                     .childOption(ChannelOption.SO_KEEPALIVE, true) //设置非阻塞Socket
                     .childHandler(new ChannelInitializer<SocketChannel>() {
-
                         @Override
                         protected void initChannel(SocketChannel ch) {
                             //从channel中获取pipeline 并往里边添加Handler

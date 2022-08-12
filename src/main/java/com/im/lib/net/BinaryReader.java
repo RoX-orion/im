@@ -1,8 +1,10 @@
 package com.im.lib.net;
 
+import com.im.lib.Helpers;
 import com.im.lib.exception.ParamBindException;
 import com.im.lib.tl.ArgsConfig;
 import com.im.lib.tl.NodeConfig;
+import com.im.lib.tl.TLHelpers;
 import com.im.lib.tl.TLObject;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -224,12 +226,23 @@ public class BinaryReader {
         for (Field declaredField : clazz.getDeclaredFields()) {
             declaredField.setAccessible(true);
             String name = declaredField.getName();
+            Class<?> type = declaredField.getType();
             Object paramObject = args.get(name);
             if (paramObject == null) {
                 throw new ParamBindException("there isn't a param which name is '" + name + "' in request");
             }
             try {
-                declaredField.set(buildObject, paramObject);
+                System.out.println(name + ":" + type.getSimpleName() + ":" + paramObject);
+                if (TLHelpers.AUTH_KEY_TYPES.contains(constructorId) && type.getSimpleName().equals("String")) {
+
+                    if (!(paramObject instanceof byte[])) {
+                        throw new RuntimeException("can not read BigInteger from bytes");
+                    }
+                    BigInteger bigInteger = this.readBigInteger((byte[]) paramObject);
+                    declaredField.set(buildObject, bigInteger);
+                } else {
+                    declaredField.set(buildObject, paramObject);
+                }
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
@@ -286,11 +299,18 @@ public class BinaryReader {
         }
     }
 
+    /**
+     * 从ByteBuf读取BigInteger，小端字节序，有符号
+     * @param buf ByteBuf
+     * @param length 从ByteBuf读取数据的长度
+     */
     public BigInteger readBigInteger(ByteBuf buf, int length) {
-        BigInteger result = BigInteger.ZERO;
-        for (int i = 0; i < length; i++) {
-            result = result.shiftLeft(8).or(BigInteger.valueOf(buf.readByte() & 0xff));
-        }
-        return result;
+        byte[] bytes = new byte[length];
+        buf.readBytes(bytes);
+        return Helpers.readBigIntegerFromBytes(bytes, true, true);
+    }
+
+    public BigInteger readBigInteger(byte[] bytes) {
+        return Helpers.readBigIntegerFromBytes(bytes, false, false);
     }
 }

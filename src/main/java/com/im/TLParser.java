@@ -29,10 +29,10 @@ public class TLParser {
         for (NodeConfig nodeConfig : c1) {
             System.out.println(nodeConfig);
         }
-//        System.out.println("即将生成类型，是否继续？[y/n]:");
-//        if (flag) {
-//            return;
-//        }
+        System.out.println("即将生成类型，是否继续？[y/n]:");
+        if (flag) {
+            return;
+        }
         List<NodeConfig> constructors = new LinkedList<>();
         List<NodeConfig> functions = new LinkedList<>();
         for (NodeConfig nodeConfig : c1) {

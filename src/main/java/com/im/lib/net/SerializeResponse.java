@@ -27,13 +27,13 @@ public class SerializeResponse {
         List<ArgsConfig> configs = nodeConfig.getArgsConfig();
         for (int j = 0; j < argsNames.size(); j++) {
             String argsName = argsNames.get(j);
-            ArgsConfig arg = configs.get(j);
-            if (arg.isFlag()) {
+            ArgsConfig argConfig = configs.get(j);
+            if (argConfig.isFlag()) {
                 try {
                     Field field = clazz.getDeclaredField(argsName);
                     field.setAccessible(true);
                     boolean flag = field.getBoolean(response);
-                    if (!flag && arg.getType().equals("true")) {
+                    if (!flag && argConfig.getType().equals("true")) {
                         continue;
                     }
                 } catch (NoSuchFieldException e) {
@@ -43,8 +43,8 @@ public class SerializeResponse {
                     throw new RuntimeException(e);
                 }
             }
-            if (arg.isVector()) {
-                if (arg.getUseVectorId()) {
+            if (argConfig.isVector()) {
+                if (argConfig.getUseVectorId()) {
                     serializedData.writeInt(0x15c4b51c);
                 }
                 Field vector = clazz.getDeclaredField(argsName);
@@ -54,9 +54,9 @@ public class SerializeResponse {
                 serializedData.writeInt(length);
                 for (int i = 0; i < length; i++) {
                     Object o = Array.get(list, i);
-                    this.argToBytes(serializedData, o, arg.getType());
+                    this.argToBytes(serializedData, o, argConfig.getType());
                 }
-            } else if (arg.isFlagIndicator()) {
+            } else if (argConfig.isFlagIndicator()) {
                 boolean f = false;
                 for (ArgsConfig config : configs) {
                     if (config.isFlag()) {
@@ -91,20 +91,21 @@ public class SerializeResponse {
                 Field filed = clazz.getDeclaredField(argsName);
                 filed.setAccessible(true);
                 Object o = filed.get(response);
-                argToBytes(serializedData, o, arg.getType());
+                boolean isFunction =  argToBytes(serializedData, o, argConfig.getType());
 
-//                if (o != null && typeof this[arg].getBytes === 'function') {
-//                    let boxed = (argsConfig[arg].type.charAt(argsConfig[arg].type.indexOf('.') + 1));
-//                    boxed = boxed === boxed.toUpperCase();
-//                    if (!boxed) {
-//                        serializedDatas.shift();
-//                    }
-//                }
+                if (o != null && isFunction) {
+                    System.out.println("function");
+                    char boxed = argConfig.getType().charAt(argConfig.getType().indexOf('.') + 1);
+                    if (boxed >= 'a' && boxed <= 'z') {
+
+                    }
+                }
             }
         }
     }
 
-    public void argToBytes(SerializedData serializedData, Object x, String type) {
+    public boolean argToBytes(SerializedData serializedData, Object x, String type) {
+        boolean isFunction = false;
         switch (type) {
             case "int": {
                 serializedData.writeInt((int) x);break;
@@ -129,33 +130,36 @@ public class SerializeResponse {
                 }
                 break;
             case "true":
-                return;
+                return false;
             case "date":
                 serializeDate(serializedData, x);break;
             default:
                 try {
                     serializedData.writeBytes(new ObjectMapper().writeValueAsBytes(x));
+                    isFunction = true;
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);
                 }
         }
+        return isFunction;
     }
 
     public void toSignedLittleserializedData(SerializedData serializedData, Object x, int number) {
         BigInteger bigNumber = new BigInteger(String.valueOf(x));
         for (int i = 0; i < number; i++) {
             serializedData.writeByte(bigNumber.shiftRight(8 * i)
-                    .and(BigInteger.valueOf(255)).intValue());
+                    .and(BigInteger.valueOf(255)).byteValue());
         }
     }
 
     private void serializeBytes(SerializedData serializedData, Object data) {
         int length;
-        byte[] bytes = new byte[0];
+        byte[] bytes;
         String str = null;
         if (data instanceof String) {
             str = String.valueOf(data);
-            length = str.length();
+            bytes = str.getBytes(StandardCharsets.UTF_8);
+            length = bytes.length;
         } else {
             bytes = (byte[]) data;
             length = bytes.length;
@@ -166,7 +170,7 @@ public class SerializeResponse {
             if (padding != 0) {
                 padding = 4 - padding;
             }
-            serializedData.writeInt(length);
+            serializedData.writeByte(length);
         } else {
             padding = length % 4;
             if (padding != 0) {

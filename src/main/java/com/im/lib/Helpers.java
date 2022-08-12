@@ -74,14 +74,12 @@ public class Helpers {
     }
 
     /**
-     * 获取给定长度的随机二进制数字
-     * @return BigInteger表示的二进制字符串
+     * 获取给定长度的随机二进制数字-128-127
      */
-
     public static byte[] getRandomBytes(int length) {
         byte[] result = new byte[length];
         for (int i = 0; i < length; i++) {
-            result[i] = (byte) getRandomInt(0, 127);
+            result[i] = (byte) (getRandomInt(0, 255) - 128);
         }
         return result;
     }
@@ -178,9 +176,8 @@ public class Helpers {
      * @param bytes 字节数组
      * @param little 给定字节数组是小端字节序
      */
-    public static BigInteger readBigIntegerFromBytes(byte[] bytes, boolean little) {
+    public static BigInteger readBigIntegerFromBytes(byte[] bytes, boolean little, boolean signed) {
         int length = bytes.length;
-//        byte[] buffer = bytes;
         int[] buffer = new int[length];
         for (int i = 0; i < length; i++) {
             buffer[i] = bytes[i] & 0xff;
@@ -195,6 +192,9 @@ public class Helpers {
             for (int b : buffer) {
                 result = result.shiftLeft(8).or(new BigInteger(String.valueOf(b)));
             }
+        }
+        if (signed && (result.toString(2).length() >> 3) >= length) {
+            result = result.subtract(BigInteger.TWO.pow(length * 8));
         }
 
         return result;
