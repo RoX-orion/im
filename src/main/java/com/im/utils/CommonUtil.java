@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.entity.User;
 
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.DecimalFormat;
@@ -55,13 +55,13 @@ public class CommonUtil {
         return new DecimalFormat("#.##TB").format(tbNumber);
     }
 
-    public static User getUserInfo(HttpServletRequest request) {
-        try {
-            return new ObjectMapper().readValue(request.getAttribute("userInfo").toString(), User.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public static User getUserInfo(HttpServletRequest request) {
+//        try {
+//            return new ObjectMapper().readValue(request.getAttribute("userInfo").toString(), User.class);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public static String toShortLink(int num) {
         StringBuilder shortLink = new StringBuilder();

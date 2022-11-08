@@ -256,8 +256,8 @@ public class TestDemo {
         for (int i = 0; i < a.length; i++) {
             b[i] = (byte) a[i];
         }
-        BigInteger bigInteger = Helpers.readBigIntegerFromBytes(b, false);
-        System.out.println(bigInteger + ":" + Arrays.toString(bigInteger.toByteArray()));
+//        BigInteger bigInteger = Helpers.readBigIntegerFromBytes(b, false);
+//        System.out.println(bigInteger + ":" + Arrays.toString(bigInteger.toByteArray()));
     }
 
     @Test

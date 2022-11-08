@@ -2,12 +2,10 @@ package com.im.lib.net;
 
 import com.im.lib.Helpers;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.buffer.Unpooled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TCPAbridged {
+public class TcpAbridged {
 
     public final int header = 0x7f;
 
@@ -27,7 +25,7 @@ public class TCPAbridged {
     }
 
     public ByteBuf readPacket(ByteBuf byteBuf) {
-        int length = byteBuf.readByte();
+        int length = byteBuf.readByte() & 0xff;
         if (length >= header) {
             byte[] bytes = new byte[3];
             byteBuf.readBytes(bytes);

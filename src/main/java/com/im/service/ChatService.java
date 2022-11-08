@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -177,28 +177,28 @@ public class ChatService {
         return groupMapper.searchChat(email);
     }
 
-    @Transactional
-    public void addUser(User user, HttpServletRequest request) {
-        User userInfo = ChatUtil.getUserInfo(request);
-        Relationship relationship = new Relationship();
-        relationship.setUid(userInfo.getUid());
-        relationship.setFriendUid(user.getUid());
-        relationship.setUnreadCount(0L);
-        relationship.setOffset(0L);
-        relationship.setStatus("unCheck");
-
-        relationshipMapper.insert(relationship);
-
-        String channelId = stringRedisTemplate.opsForValue()
-                .get(Constant.UID_CHANNEL_ID + user.getUid());
-
-        Channel channel = serverContext.getChannel(channelId);
-
-        if (channel != null) {
-//            WsApiResult newChat = WsApiResult.ok(1, userInfo);
-//            WriteData.write(channel, newChat);
-        }
-    }
+//    @Transactional
+//    public void addUser(User user, HttpServletRequest request) {
+//        User userInfo = ChatUtil.getUserInfo(request);
+//        Relationship relationship = new Relationship();
+//        relationship.setUid(userInfo.getUid());
+//        relationship.setFriendUid(user.getUid());
+//        relationship.setUnreadCount(0L);
+//        relationship.setOffset(0L);
+//        relationship.setStatus("unCheck");
+//
+//        relationshipMapper.insert(relationship);
+//
+//        String channelId = stringRedisTemplate.opsForValue()
+//                .get(Constant.UID_CHANNEL_ID + user.getUid());
+//
+//        Channel channel = serverContext.getChannel(channelId);
+//
+//        if (channel != null) {
+////            WsApiResult newChat = WsApiResult.ok(1, userInfo);
+////            WriteData.write(channel, newChat);
+//        }
+//    }
 
     public void sendChatMessage(PrivateChatMessage privateChatMessage) {
         privateChatMessage.setSendStatus("sent");
@@ -227,17 +227,17 @@ public class ChatService {
         }
     }
 
-    public User agreeAddUser(User user, HttpServletRequest request) {
-        User userInfo = ChatUtil.getUserInfo(request);
-        Relationship relationship = relationshipMapper.selectOne(
-                new QueryWrapper<Relationship>()
-                        .eq("uid", user.getUid())
-                        .eq("friend_uid", userInfo.getUid())
-        );
-        relationship.setStatus("added");
-        relationshipMapper.update(relationship, null);
-        user.setAdded(Boolean.TRUE);
-        user.setLastMessage("Hello!");
-        return user;
-    }
+//    public User agreeAddUser(User user, HttpServletRequest request) {
+//        User userInfo = ChatUtil.getUserInfo(request);
+//        Relationship relationship = relationshipMapper.selectOne(
+//                new QueryWrapper<Relationship>()
+//                        .eq("uid", user.getUid())
+//                        .eq("friend_uid", userInfo.getUid())
+//        );
+//        relationship.setStatus("added");
+//        relationshipMapper.update(relationship, null);
+//        user.setAdded(Boolean.TRUE);
+//        user.setLastMessage("Hello!");
+//        return user;
+//    }
 }

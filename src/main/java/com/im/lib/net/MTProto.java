@@ -6,7 +6,6 @@ import com.im.lib.entity.WsApiResult;
 import com.im.lib.exception.RequestIncompleteException;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class MTProto {
     private MTProtoStateService mtprotoStateService;
 
     @Resource
-    private TCPAbridged tcpAbridged;
+    private TcpAbridged tcpAbridged;
 
     @Resource
     private SerializeResponse serializeResponse;

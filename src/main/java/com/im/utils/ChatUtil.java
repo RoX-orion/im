@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 @Component
@@ -31,11 +31,11 @@ public class ChatUtil {
         }
     }
 
-    public static User getUserInfo(HttpServletRequest request) {
-        try {
-            return new ObjectMapper().readValue(request.getAttribute("userInfo").toString(), User.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public static User getUserInfo(HttpServletRequest request) {
+//        try {
+//            return new ObjectMapper().readValue(request.getAttribute("userInfo").toString(), User.class);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }
