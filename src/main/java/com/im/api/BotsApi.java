@@ -16,23 +16,20 @@ public class BotsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class AnswerWebhookJSONQuery extends Api.TypeBool {
+	public static class AnswerWebhookJSONQuery {
 		private BigInteger queryId;
 		private Api.TypeDataJSON data;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetBotCommands extends Api.TypeBool {
+	public static class SetBotCommands {
 		private Api.TypeBotCommandScope scope;
 		private String langCode;
 		private Api.TypeBotCommand[] commands;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ResetBotCommands extends Api.TypeBool {
+	public static class ResetBotCommands {
 		private Api.TypeBotCommandScope scope;
 		private String langCode;
 	}
@@ -44,8 +41,7 @@ public class BotsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetBotMenuButton extends Api.TypeBool {
+	public static class SetBotMenuButton {
 		private Api.TypeInputUser userId;
 		private Api.TypeBotMenuButton button;
 	}
@@ -57,14 +53,12 @@ public class BotsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetBotBroadcastDefaultAdminRights extends Api.TypeBool {
+	public static class SetBotBroadcastDefaultAdminRights {
 		private Api.TypeChatAdminRights adminRights;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetBotGroupDefaultAdminRights extends Api.TypeBool {
+	public static class SetBotGroupDefaultAdminRights {
 		private Api.TypeChatAdminRights adminRights;
 	}
 }

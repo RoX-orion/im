@@ -104,20 +104,17 @@ public class ContactsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class DeleteByPhones extends Api.TypeBool {
+	public static class DeleteByPhones {
 		private String[] phones;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class Block extends Api.TypeBool {
+	public static class Block {
 		private Api.TypeInputPeer id;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class Unblock extends Api.TypeBool {
+	public static class Unblock {
 		private Api.TypeInputPeer id;
 	}
 
@@ -154,15 +151,13 @@ public class ContactsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ResetTopPeerRating extends Api.TypeBool {
+	public static class ResetTopPeerRating {
 		private Api.TypeTopPeerCategory category;
 		private Api.TypeInputPeer peer;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ResetSaved extends Api.TypeBool {
+	public static class ResetSaved {
 	}
 
 	@Data
@@ -170,8 +165,7 @@ public class ContactsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ToggleTopPeers extends Api.TypeBool {
+	public static class ToggleTopPeers {
 		private Boolean enabled;
 	}
 

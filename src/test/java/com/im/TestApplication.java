@@ -4,6 +4,7 @@ import com.alibaba.druid.sql.visitor.functions.Char;
 import com.im.lib.Helpers;
 import com.im.lib.crypto.RSA;
 import com.im.lib.net.BinaryReader;
+import lombok.experimental.Helper;
 import org.junit.Test;
 
 import java.math.BigInteger;
@@ -117,5 +118,11 @@ public class TestApplication {
         //30bytes
         String s1 = new BigInteger("b65394b07e516393db6d38deb0621792f16ad7caf2085b95dc37afedaacf01e7629ec00210772ca113009c27520ed5e61546bcec64a5490ba4037cb626b681b6514c1edfdcf624fb620801f5ad07aea5209e71b24f94d00232aaa4ca8725c6ba1ae42f19fdc9b0b450c5adaa03103185e8d31ecd252d830f017dcfc4cdc82f94bdf667db7f1f783804beae4f121d46f4972fb859a5ac516fb8eebc6d975e833975d651c253cd4925dbfb6a2e5a825838d561ec4c967216cb9d8903e47728061c5a87941373be4def819e71b665bf3bc9ac4e920954e9e86e64be8d887453296e7b8038695dd4bf5420c8fa59b19e0bf61ea9e21badfe13ddea6b826bb2450203", 16).toString(10);
 //        System.out.println(s1);
+    }
+
+    @Test
+    public void testSetBigInteger() {
+        byte[] bytes = new byte[]{-100, 75, -43, 115};
+        System.out.println(Helpers.readBigIntegerFromBytes(bytes, false, false));
     }
 }

@@ -29,8 +29,7 @@ public class UsersApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetSecureValueErrors extends Api.TypeBool {
+	public static class SetSecureValueErrors {
 		private Api.TypeInputUser id;
 		private Api.TypeSecureValueError[] errors;
 	}

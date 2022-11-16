@@ -169,8 +169,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class RegisterDevice extends Api.TypeBool {
+	public static class RegisterDevice {
 		private Api.True noMuted;
 		private int tokenType;
 		private String token;
@@ -180,16 +179,14 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class UnregisterDevice extends Api.TypeBool {
+	public static class UnregisterDevice {
 		private int tokenType;
 		private String token;
 		private BigInteger[] otherUids;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class UpdateNotifySettings extends Api.TypeBool {
+	public static class UpdateNotifySettings {
 		private Api.TypeInputNotifyPeer peer;
 		private Api.TypeInputPeerNotifySettings settings;
 	}
@@ -201,8 +198,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ResetNotifySettings extends Api.TypeBool {
+	public static class ResetNotifySettings {
 	}
 
 	@Data
@@ -214,8 +210,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class UpdateStatus extends Api.TypeBool {
+	public static class UpdateStatus {
 		private Boolean offline;
 	}
 
@@ -225,16 +220,14 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReportPeer extends Api.TypeBool {
+	public static class ReportPeer {
 		private Api.TypeInputPeer peer;
 		private Api.TypeReportReason reason;
 		private String message;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class CheckUsername extends Api.TypeBool {
+	public static class CheckUsername {
 		private String username;
 	}
 
@@ -256,8 +249,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class DeleteAccount extends Api.TypeBool {
+	public static class DeleteAccount {
 		private String reason;
 	}
 
@@ -267,8 +259,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetAccountTTL extends Api.TypeBool {
+	public static class SetAccountTTL {
 		private Api.TypeAccountDaysTTL ttl;
 	}
 
@@ -287,8 +278,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class UpdateDeviceLocked extends Api.TypeBool {
+	public static class UpdateDeviceLocked {
 		private int period;
 	}
 
@@ -297,8 +287,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ResetAuthorization extends Api.TypeBool {
+	public static class ResetAuthorization {
 		private BigInteger hash;
 	}
 
@@ -312,8 +301,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class UpdatePasswordSettings extends Api.TypeBool {
+	public static class UpdatePasswordSettings {
 		private Api.TypeInputCheckPasswordSRP password;
 		private AccountApi.TypePasswordInputSettings newSettings;
 	}
@@ -325,8 +313,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ConfirmPhone extends Api.TypeBool {
+	public static class ConfirmPhone {
 		private String phoneCodeHash;
 		private String phoneCode;
 	}
@@ -342,14 +329,12 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ResetWebAuthorization extends Api.TypeBool {
+	public static class ResetWebAuthorization {
 		private BigInteger hash;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ResetWebAuthorizations extends Api.TypeBool {
+	public static class ResetWebAuthorizations {
 	}
 
 	@Data
@@ -369,8 +354,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class DeleteSecureValue extends Api.TypeBool {
+	public static class DeleteSecureValue {
 		private Api.TypeSecureValueType[] types;
 	}
 
@@ -382,8 +366,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class AcceptAuthorization extends Api.TypeBool {
+	public static class AcceptAuthorization {
 		private BigInteger botId;
 		private String scope;
 		private String publicKey;
@@ -398,8 +381,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class VerifyPhone extends Api.TypeBool {
+	public static class VerifyPhone {
 		private String phoneNumber;
 		private String phoneCodeHash;
 		private String phoneCode;
@@ -411,8 +393,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class VerifyEmail extends Api.TypeBool {
+	public static class VerifyEmail {
 		private String email;
 		private String code;
 	}
@@ -429,35 +410,29 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class FinishTakeoutSession extends Api.TypeBool {
+	public static class FinishTakeoutSession {
 		private Api.True success;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ConfirmPasswordEmail extends Api.TypeBool {
+	public static class ConfirmPasswordEmail {
 		private String code;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ResendPasswordEmail extends Api.TypeBool {
+	public static class ResendPasswordEmail {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class CancelPasswordEmail extends Api.TypeBool {
+	public static class CancelPasswordEmail {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class GetContactSignUpNotification extends Api.TypeBool {
+	public static class GetContactSignUpNotification {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetContactSignUpNotification extends Api.TypeBool {
+	public static class SetContactSignUpNotification {
 		private Boolean silent;
 	}
 
@@ -483,23 +458,20 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveWallPaper extends Api.TypeBool {
+	public static class SaveWallPaper {
 		private Api.TypeInputWallPaper wallpaper;
 		private Boolean unsave;
 		private Api.TypeWallPaperSettings settings;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class InstallWallPaper extends Api.TypeBool {
+	public static class InstallWallPaper {
 		private Api.TypeInputWallPaper wallpaper;
 		private Api.TypeWallPaperSettings settings;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ResetWallPapers extends Api.TypeBool {
+	public static class ResetWallPapers {
 	}
 
 	@Data
@@ -508,8 +480,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveAutoDownloadSettings extends Api.TypeBool {
+	public static class SaveAutoDownloadSettings {
 		private Api.True low;
 		private Api.True high;
 		private Api.TypeAutoDownloadSettings settings;
@@ -545,15 +516,13 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveTheme extends Api.TypeBool {
+	public static class SaveTheme {
 		private Api.TypeInputTheme theme;
 		private Boolean unsave;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class InstallTheme extends Api.TypeBool {
+	public static class InstallTheme {
 		private Api.True dark;
 		private Api.TypeInputTheme theme;
 		private String format;
@@ -575,8 +544,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetContentSettings extends Api.TypeBool {
+	public static class SetContentSettings {
 		private Api.True sensitiveEnabled;
 	}
 
@@ -601,8 +569,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReportProfilePhoto extends Api.TypeBool {
+	public static class ReportProfilePhoto {
 		private Api.TypeInputPeer peer;
 		private Api.TypeInputPhoto photoId;
 		private Api.TypeReportReason reason;
@@ -614,8 +581,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class DeclinePasswordReset extends Api.TypeBool {
+	public static class DeclinePasswordReset {
 	}
 
 	@Data
@@ -624,14 +590,12 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetAuthorizationTTL extends Api.TypeBool {
+	public static class SetAuthorizationTTL {
 		private int authorizationTtlDays;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ChangeAuthorizationSettings extends Api.TypeBool {
+	public static class ChangeAuthorizationSettings {
 		private BigInteger hash;
 		private Boolean encryptedRequestsDisabled;
 		private Boolean callRequestsDisabled;

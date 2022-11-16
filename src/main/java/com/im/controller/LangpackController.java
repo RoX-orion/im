@@ -7,27 +7,27 @@ import com.im.lib.annotation.WebsocketHandlerMapping;
 @WebsocketHandler
 public class LangpackController {
 
-	@WebsocketHandlerMapping(value = -219008246, name = "GetLangPack")
+	@WebsocketHandlerMapping(value = 0xf2f2330a, name = "GetLangPack")
 	public Api.LangPackDifference getLangPack(LangpackApi.GetLangPack getLangPack) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -269862909, name = "GetStrings")
+	@WebsocketHandlerMapping(value = 0xefea3803, name = "GetStrings")
 	public Api.LangPackString[] getStrings(LangpackApi.GetStrings getStrings) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -845657435, name = "GetDifference")
+	@WebsocketHandlerMapping(value = 0xcd984aa5, name = "GetDifference")
 	public Api.LangPackDifference getDifference(LangpackApi.GetDifference getDifference) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1120311183, name = "GetLanguages")
+	@WebsocketHandlerMapping(value = 0x42c6978f, name = "GetLanguages")
 	public Api.LangPackLanguage[] getLanguages(LangpackApi.GetLanguages getLanguages) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1784243458, name = "GetLanguage")
+	@WebsocketHandlerMapping(value = 0x6a596502, name = "GetLanguage")
 	public Api.LangPackLanguage getLanguage(LangpackApi.GetLanguage getLanguage) {
 		return null;
 	}

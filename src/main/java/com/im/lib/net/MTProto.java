@@ -8,14 +8,17 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+@Slf4j
 @Component
 public class MTProto {
 
@@ -49,7 +52,8 @@ public class MTProto {
             byte[] msgKey = binaryReader.readBytes(16);
             byte[] bytes = binaryReader.readAll();
             byte[] payload = mtprotoStateService.decryptData(msgKey, bytes, channel);
-            System.out.println("解密后的数据:" + payload.length + Arrays.toString(payload));
+            log.info("解密后的数据:{} {}", payload.length, Arrays.toString(payload));
+//            System.out.println("解密后的数据:" + payload.length + Arrays.toString(payload));
             BinaryReader br = new BinaryReader(payload);
             mtprotoStateService.checkEncryptedData(br, authKeyId);
             int dataLength = br.readInt32();
@@ -60,7 +64,8 @@ public class MTProto {
     private RequestData readRequestData(BinaryReader binaryReader, int dataLength, long authKeyId) {
         int constructorId = binaryReader.readInt32();
         Object requestParam = binaryReader.tgReadObject(constructorId);
-        System.out.println("数据部分:" + requestParam);
+        log.info("数据部分:{}", requestParam);
+//        System.out.println("数据部分:" + requestParam);
         RequestData requestData = new RequestData();
         requestData.setConstructorId(constructorId);
         requestData.setRequestParam(requestParam);
@@ -83,7 +88,8 @@ public class MTProto {
         SerializedData serializedData = new SerializedData();
         serializeResponse.serialize(serializedData, response.getConstructorId(), response);
         byte[] bytes = serializedData.toByteArray();
-        System.out.println(bytes.length + Arrays.toString(bytes));
+        log.info("返回数据：{} {}", bytes.length, Arrays.toString(bytes));
+//        System.out.println(bytes.length + Arrays.toString(bytes));
         BigInteger msgId = mtprotoStateService.getNewMsgId();
         ByteBuf byteBuf = alloc.heapBuffer(20 + bytes.length);
         byteBuf.writeLongLE(0);

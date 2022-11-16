@@ -30,9 +30,9 @@ public class TLParser {
             System.out.println(nodeConfig);
         }
         System.out.println("即将生成类型，是否继续？[y/n]:");
-        if (flag) {
-            return;
-        }
+//        if (flag) {
+//            return;
+//        }
         List<NodeConfig> constructors = new LinkedList<>();
         List<NodeConfig> functions = new LinkedList<>();
         for (NodeConfig nodeConfig : c1) {
@@ -137,6 +137,9 @@ public class TLParser {
             np.put(namespace, b);
         }
         System.out.println("类型构建完成！");
+//        if (flag) {
+//            return;
+//        }
         //=======================构建方法======================
         System.out.println("开始构建方法！");
         for (NodeConfig function : functions) {
@@ -321,8 +324,9 @@ public class TLParser {
             result = "Boolean";
         }
         String functionName = name.substring(0, 1).toLowerCase() + name.substring(1);
+        String mapping = "0x" + Integer.toHexString(constructorId);
         b.append("@WebsocketHandlerMapping(value = ")
-                .append(constructorId)
+                .append(mapping)
                 .append(", name = \"")
                 .append(name).append("\")\n\t")// WebsocketRequestMapping
                 .append("public ")
@@ -346,6 +350,7 @@ public class TLParser {
         String[] s1 = constructor.getResult().split("\\.");
         String name = constructor.getName();
         String result = s1[s1.length - 1];
+        int constructorId = constructor.getConstructorId();
         // result在类型列表中，需要继承
         if (map.containsKey(result)/* && !result.equals(name)*/) {
             builder.append("\n\n\t@Data\n\t@EqualsAndHashCode(callSuper=false)\n").append("\t" + "public static class ").append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).append(" extends ").append("Api.Type").append(result).append(" {").append("\n");
@@ -376,7 +381,11 @@ public class TLParser {
                 continue;
             }
             boolean vector = argsConfig.isVector();
+
             if (type != null) {
+                if (TLHelpers.AUTH_KEY_TYPES.contains(nodeConfig.getConstructorId()) && "string".equals(type)) {
+                    type = "bytes";
+                }
                 switch (type) {
                     case "string" -> type = "String";
                     case "bytes" -> type = "byte[]";
@@ -443,6 +452,17 @@ public class TLParser {
                 continue;
             }
             nodeConfigs.add(nodeConfig);
+        }
+
+        for (NodeConfig nodeConfig : nodeConfigs) {
+            if (TLHelpers.AUTH_KEY_TYPES.contains(nodeConfig.getConstructorId())) {
+                List<ArgsConfig> argsConfig = nodeConfig.getArgsConfig();
+                for (ArgsConfig config : argsConfig) {
+                    if (config.getType().equals("string")) {
+                        config.setType("bytes");
+                    }
+                }
+            }
         }
 
         return nodeConfigs;

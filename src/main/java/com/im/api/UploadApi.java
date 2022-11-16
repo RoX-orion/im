@@ -47,8 +47,7 @@ public class UploadApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveFilePart extends Api.TypeBool {
+	public static class SaveFilePart {
 		private BigInteger fileId;
 		private int filePart;
 		private byte[] bytes;
@@ -64,8 +63,7 @@ public class UploadApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveBigFilePart extends Api.TypeBool {
+	public static class SaveBigFilePart {
 		private BigInteger fileId;
 		private int filePart;
 		private int fileTotalParts;

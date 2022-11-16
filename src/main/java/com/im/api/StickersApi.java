@@ -56,8 +56,7 @@ public class StickersApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class CheckShortName extends Api.TypeBool {
+	public static class CheckShortName {
 		private String shortName;
 	}
 

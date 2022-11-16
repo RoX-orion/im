@@ -206,8 +206,7 @@ public class HelpApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetBotUpdatesStatus extends Api.TypeBool {
+	public static class SetBotUpdatesStatus {
 		private int pendingUpdatesCount;
 		private String message;
 	}
@@ -227,8 +226,7 @@ public class HelpApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class AcceptTermsOfService extends Api.TypeBool {
+	public static class AcceptTermsOfService {
 		private Api.TypeDataJSON id;
 	}
 
@@ -243,8 +241,7 @@ public class HelpApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveAppLog extends Api.TypeBool {
+	public static class SaveAppLog {
 		private Api.TypeInputAppEvent[] events;
 	}
 
@@ -274,14 +271,12 @@ public class HelpApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class HidePromoData extends Api.TypeBool {
+	public static class HidePromoData {
 		private Api.TypeInputPeer peer;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class DismissSuggestion extends Api.TypeBool {
+	public static class DismissSuggestion {
 		private Api.TypeInputPeer peer;
 		private String suggestion;
 	}

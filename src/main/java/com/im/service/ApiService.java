@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +25,7 @@ public class ApiService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    public Api.ResPQ reqPq(Api.ReqPq reqPq) throws JsonProcessingException {
+    public Api.ResPQ reqPq(Api.ReqPq reqPq) {
         return null;
     }
 
@@ -61,14 +62,18 @@ public class ApiService {
     public Api.TypeServer_DH_Params reqDHParams(Api.ReqDHParams reqDHParams) throws Exception {
         BigInteger nonce = reqDHParams.getNonce();
         BigInteger serverNonce = reqDHParams.getServerNonce();
-        String p = reqDHParams.getP();
-        String q = reqDHParams.getQ();
+        byte[] p = reqDHParams.getP();
+        byte[] q = reqDHParams.getQ();
         BigInteger publicKeyFingerprint = reqDHParams.getPublicKeyFingerprint();
-        String encryptedData = reqDHParams.getEncryptedData();
-        byte[] pqInnerDataBytes = RSA.privateDecrypt(
-                encryptedData.getBytes(StandardCharsets.UTF_8),
-                RSA.getPrivateKey(publicKeyFingerprint.longValue())
+        byte[] encryptedData = reqDHParams.getEncryptedData();
+        BigInteger bigInteger = Helpers.readBigIntegerFromBytes(encryptedData, false, false);
+        BigInteger d = RSA.getD(publicKeyFingerprint.longValue());
+        BigInteger bigIntegerData = Helpers.fastMod(
+                bigInteger,
+                d,
+                new BigInteger(RSA.getN(publicKeyFingerprint.longValue()))
         );
+        byte[] pqInnerDataBytes = bigIntegerData.toByteArray();
         ObjectMapper objectMapper = new ObjectMapper();
         Api.PQInnerData pqInnerData = objectMapper.readValue(pqInnerDataBytes, Api.PQInnerData.class);
         if (Boolean.FALSE.equals(stringRedisTemplate.hasKey(Constant.CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce))) {
@@ -78,13 +83,14 @@ public class ApiService {
                 stringRedisTemplate.opsForValue().get(Constant.CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce),
                 CreateAuthKeyState.class
         );
-        if (!p.equals(createAuthKeyState.getP().toString())
-                || !q.equals(createAuthKeyState.getQ().toString())
-                || !p.equals(pqInnerData.getP())
-                || !q.equals(pqInnerData.getQ())
-                || !pqInnerData.getPq().equals(createAuthKeyState.getPq())) {
+        if (!Arrays.equals(p, createAuthKeyState.getP().toByteArray())
+                || Arrays.equals(q, createAuthKeyState.getQ().toByteArray())
+                || Arrays.equals(p, pqInnerData.getP())
+                || Arrays.equals(q, pqInnerData.getQ())
+                || Arrays.equals(pqInnerData.getPq(), createAuthKeyState.getPq())) {
             return serverDHParamsFail(nonce, serverNonce, pqInnerData.getNewNonce());
         }
+        stringRedisTemplate.delete(Constant.CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce);
         createAuthKeyState.setNewNonce(pqInnerData.getNewNonce());
         String s = objectMapper.writeValueAsString(createAuthKeyState);
         stringRedisTemplate.opsForValue().set(
@@ -100,13 +106,13 @@ public class ApiService {
         serverDHInnerData.setNonce(nonce);
         serverDHInnerData.setServerNonce(serverNonce);
         serverDHInnerData.setG(Constant.DH_BASE.intValue());
-        serverDHInnerData.setDhPrime(Constant.DH_PRIME.toString());
+        serverDHInnerData.setDhPrime(Constant.DH_PRIME.toByteArray());
         serverDHInnerData.setServerTime((int) (System.currentTimeMillis()));
-        serverDHInnerData.setGA(result.getResult().toString());
+        serverDHInnerData.setGA(result.getResult().toByteArray());
         Api.ServerDHParamsOk server_dh_params_ok = new Api.ServerDHParamsOk();
         server_dh_params_ok.setNonce(nonce);
         server_dh_params_ok.setServerNonce(serverNonce);
-        server_dh_params_ok.setEncryptedAnswer(objectMapper.writeValueAsString(serverDHInnerData));
+        server_dh_params_ok.setEncryptedAnswer(objectMapper.writeValueAsBytes(serverDHInnerData));
 
         return server_dh_params_ok;
     }

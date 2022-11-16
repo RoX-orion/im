@@ -47,8 +47,7 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReadHistory extends Api.TypeBool {
+	public static class ReadHistory {
 		private Api.TypeInputChannel channel;
 		private int maxId;
 	}
@@ -60,8 +59,7 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReportSpam extends Api.TypeBool {
+	public static class ReportSpam {
 		private Api.TypeInputChannel channel;
 		private Api.TypeInputPeer participant;
 		private int[] id;
@@ -136,15 +134,13 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class CheckUsername extends Api.TypeBool {
+	public static class CheckUsername {
 		private Api.TypeInputChannel channel;
 		private String username;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class UpdateUsername extends Api.TypeBool {
+	public static class UpdateUsername {
 		private Api.TypeInputChannel channel;
 		private String username;
 	}
@@ -216,15 +212,13 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetStickers extends Api.TypeBool {
+	public static class SetStickers {
 		private Api.TypeInputChannel channel;
 		private Api.TypeInputStickerSet stickerset;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReadMessageContents extends Api.TypeBool {
+	public static class ReadMessageContents {
 		private Api.TypeInputChannel channel;
 		private int[] id;
 	}
@@ -254,8 +248,7 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetDiscussionGroup extends Api.TypeBool {
+	public static class SetDiscussionGroup {
 		private Api.TypeInputChannel broadcast;
 		private Api.TypeInputChannel group;
 	}
@@ -269,8 +262,7 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class EditLocation extends Api.TypeBool {
+	public static class EditLocation {
 		private Api.TypeInputChannel channel;
 		private Api.TypeInputGeoPoint geoPoint;
 		private String address;
@@ -294,8 +286,7 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ViewSponsoredMessage extends Api.TypeBool {
+	public static class ViewSponsoredMessage {
 		private Api.TypeInputChannel channel;
 		private byte[] randomId;
 	}

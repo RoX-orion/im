@@ -98,8 +98,7 @@ public class PhoneApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReceivedCall extends Api.TypeBool {
+	public static class ReceivedCall {
 		private Api.TypeInputPhoneCall peer;
 	}
 
@@ -123,15 +122,13 @@ public class PhoneApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveCallDebug extends Api.TypeBool {
+	public static class SaveCallDebug {
 		private Api.TypeInputPhoneCall peer;
 		private Api.TypeDataJSON debug;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SendSignalingData extends Api.TypeBool {
+	public static class SendSignalingData {
 		private Api.TypeInputPhoneCall peer;
 		private byte[] data;
 	}
@@ -262,8 +259,7 @@ public class PhoneApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveDefaultGroupCallJoinAs extends Api.TypeBool {
+	public static class SaveDefaultGroupCallJoinAs {
 		private Api.TypeInputPeer peer;
 		private Api.TypeInputPeer joinAs;
 	}
@@ -293,8 +289,7 @@ public class PhoneApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveCallLog extends Api.TypeBool {
+	public static class SaveCallLog {
 		private Api.TypeInputPhoneCall peer;
 		private Api.TypeInputFile file;
 	}

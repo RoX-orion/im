@@ -7,97 +7,97 @@ import com.im.lib.annotation.WebsocketHandlerMapping;
 @WebsocketHandler
 public class AuthController {
 
-	@WebsocketHandlerMapping(value = -1502141361, name = "SendCode")
+	@WebsocketHandlerMapping(value = 0xa677244f, name = "SendCode")
 	public AuthApi.SentCode sendCode(AuthApi.SendCode sendCode) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -2131827673, name = "SignUp")
+	@WebsocketHandlerMapping(value = 0x80eee427, name = "SignUp")
 	public Api.Authorization signUp(AuthApi.SignUp signUp) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -1126886015, name = "SignIn")
+	@WebsocketHandlerMapping(value = 0xbcd51581, name = "SignIn")
 	public Api.Authorization signIn(AuthApi.SignIn signIn) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1047706137, name = "LogOut")
+	@WebsocketHandlerMapping(value = 0x3e72ba19, name = "LogOut")
 	public AuthApi.LoggedOut logOut(AuthApi.LogOut logOut) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -1616179942, name = "ResetAuthorizations")
+	@WebsocketHandlerMapping(value = 0x9fab0d1a, name = "ResetAuthorizations")
 	public Boolean resetAuthorizations(AuthApi.ResetAuthorizations resetAuthorizations) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -440401971, name = "ExportAuthorization")
+	@WebsocketHandlerMapping(value = 0xe5bfffcd, name = "ExportAuthorization")
 	public AuthApi.ExportedAuthorization exportAuthorization(AuthApi.ExportAuthorization exportAuthorization) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -1518699091, name = "ImportAuthorization")
+	@WebsocketHandlerMapping(value = 0xa57a7dad, name = "ImportAuthorization")
 	public Api.Authorization importAuthorization(AuthApi.ImportAuthorization importAuthorization) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -841733627, name = "BindTempAuthKey")
+	@WebsocketHandlerMapping(value = 0xcdd42a05, name = "BindTempAuthKey")
 	public Boolean bindTempAuthKey(AuthApi.BindTempAuthKey bindTempAuthKey) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1738800940, name = "ImportBotAuthorization")
+	@WebsocketHandlerMapping(value = 0x67a3ff2c, name = "ImportBotAuthorization")
 	public Api.Authorization importBotAuthorization(AuthApi.ImportBotAuthorization importBotAuthorization) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -779399914, name = "CheckPassword")
+	@WebsocketHandlerMapping(value = 0xd18b4d16, name = "CheckPassword")
 	public Api.Authorization checkPassword(AuthApi.CheckPassword checkPassword) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -661144474, name = "RequestPasswordRecovery")
+	@WebsocketHandlerMapping(value = 0xd897bc66, name = "RequestPasswordRecovery")
 	public AuthApi.PasswordRecovery requestPasswordRecovery(AuthApi.RequestPasswordRecovery requestPasswordRecovery) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 923364464, name = "RecoverPassword")
+	@WebsocketHandlerMapping(value = 0x37096c70, name = "RecoverPassword")
 	public Api.Authorization recoverPassword(AuthApi.RecoverPassword recoverPassword) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 1056025023, name = "ResendCode")
+	@WebsocketHandlerMapping(value = 0x3ef1a9bf, name = "ResendCode")
 	public AuthApi.SentCode resendCode(AuthApi.ResendCode resendCode) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 520357240, name = "CancelCode")
+	@WebsocketHandlerMapping(value = 0x1f040578, name = "CancelCode")
 	public Boolean cancelCode(AuthApi.CancelCode cancelCode) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -1907842680, name = "DropTempAuthKeys")
+	@WebsocketHandlerMapping(value = 0x8e48a188, name = "DropTempAuthKeys")
 	public Boolean dropTempAuthKeys(AuthApi.DropTempAuthKeys dropTempAuthKeys) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -1210022402, name = "ExportLoginToken")
+	@WebsocketHandlerMapping(value = 0xb7e085fe, name = "ExportLoginToken")
 	public AuthApi.LoginToken exportLoginToken(AuthApi.ExportLoginToken exportLoginToken) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -1783866140, name = "ImportLoginToken")
+	@WebsocketHandlerMapping(value = 0x95ac5ce4, name = "ImportLoginToken")
 	public AuthApi.LoginToken importLoginToken(AuthApi.ImportLoginToken importLoginToken) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -392909491, name = "AcceptLoginToken")
+	@WebsocketHandlerMapping(value = 0xe894ad4d, name = "AcceptLoginToken")
 	public Api.Authorization acceptLoginToken(AuthApi.AcceptLoginToken acceptLoginToken) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 221691769, name = "CheckRecoveryPassword")
+	@WebsocketHandlerMapping(value = 0xd36bf79, name = "CheckRecoveryPassword")
 	public Boolean checkRecoveryPassword(AuthApi.CheckRecoveryPassword checkRecoveryPassword) {
 		return null;
 	}

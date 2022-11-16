@@ -120,6 +120,7 @@ public class Helpers {
         return key;
     }
 
+
     public static synchronized byte[] slice(byte[] bytes, int ...opt) {
         int length = opt.length;
         int start, end;

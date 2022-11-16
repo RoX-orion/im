@@ -553,8 +553,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetTyping extends Api.TypeBool {
+	public static class SetTyping {
 		private Api.TypeInputPeer peer;
 		private int topMsgId;
 		private Api.TypeSendMessageAction action;
@@ -614,8 +613,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReportSpam extends Api.TypeBool {
+	public static class ReportSpam {
 		private Api.TypeInputPeer peer;
 	}
 
@@ -626,8 +624,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class Report extends Api.TypeBool {
+	public static class Report {
 		private Api.TypeInputPeer peer;
 		private int[] id;
 		private Api.TypeReportReason reason;
@@ -705,22 +702,19 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class DiscardEncryption extends Api.TypeBool {
+	public static class DiscardEncryption {
 		private Api.True deleteHistory;
 		private int chatId;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetEncryptedTyping extends Api.TypeBool {
+	public static class SetEncryptedTyping {
 		private Api.TypeInputEncryptedChat peer;
 		private Boolean typing;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReadEncryptedHistory extends Api.TypeBool {
+	public static class ReadEncryptedHistory {
 		private Api.TypeInputEncryptedChat peer;
 		private int maxDate;
 	}
@@ -755,8 +749,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReportEncryptedSpam extends Api.TypeBool {
+	public static class ReportEncryptedSpam {
 		private Api.TypeInputEncryptedChat peer;
 	}
 
@@ -820,8 +813,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class UninstallStickerSet extends Api.TypeBool {
+	public static class UninstallStickerSet {
 		private Api.TypeInputStickerSet stickerset;
 	}
 
@@ -843,8 +835,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class EditChatAdmin extends Api.TypeBool {
+	public static class EditChatAdmin {
 		private BigInteger chatId;
 		private Api.TypeInputUser userId;
 		private Boolean isAdmin;
@@ -870,8 +861,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReorderStickerSets extends Api.TypeBool {
+	public static class ReorderStickerSets {
 		private Api.True masks;
 		private BigInteger[] order;
 	}
@@ -890,8 +880,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveGif extends Api.TypeBool {
+	public static class SaveGif {
 		private Api.TypeInputDocument id;
 		private Boolean unsave;
 	}
@@ -906,8 +895,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetInlineBotResults extends Api.TypeBool {
+	public static class SetInlineBotResults {
 		private Api.True gallery;
 		private Api.True privateSuffix;
 		private BigInteger queryId;
@@ -953,8 +941,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class EditInlineBotMessage extends Api.TypeBool {
+	public static class EditInlineBotMessage {
 		private Api.True noWebpage;
 		private Api.TypeInputBotInlineMessageID id;
 		private String message;
@@ -973,8 +960,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetBotCallbackAnswer extends Api.TypeBool {
+	public static class SetBotCallbackAnswer {
 		private Api.True alert;
 		private BigInteger queryId;
 		private String message;
@@ -988,8 +974,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveDraft extends Api.TypeBool {
+	public static class SaveDraft {
 		private Api.True noWebpage;
 		private int replyToMsgId;
 		private Api.TypeInputPeer peer;
@@ -1008,8 +993,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReadFeaturedStickers extends Api.TypeBool {
+	public static class ReadFeaturedStickers {
 		private BigInteger[] id;
 	}
 
@@ -1020,16 +1004,14 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveRecentSticker extends Api.TypeBool {
+	public static class SaveRecentSticker {
 		private Api.True attached;
 		private Api.TypeInputDocument id;
 		private Boolean unsave;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ClearRecentStickers extends Api.TypeBool {
+	public static class ClearRecentStickers {
 		private Api.True attached;
 	}
 
@@ -1062,8 +1044,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetInlineGameScore extends Api.TypeBool {
+	public static class SetInlineGameScore {
 		private Api.True editMessage;
 		private Api.True force;
 		private Api.TypeInputBotInlineMessageID id;
@@ -1104,15 +1085,13 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ToggleDialogPin extends Api.TypeBool {
+	public static class ToggleDialogPin {
 		private Api.True pinned;
 		private Api.TypeInputDialogPeer peer;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReorderPinnedDialogs extends Api.TypeBool {
+	public static class ReorderPinnedDialogs {
 		private Api.True force;
 		private int folderId;
 		private Api.TypeInputDialogPeer[] order;
@@ -1124,16 +1103,14 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetBotShippingResults extends Api.TypeBool {
+	public static class SetBotShippingResults {
 		private BigInteger queryId;
 		private String error;
 		private Api.TypeShippingOption[] shippingOptions;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetBotPrecheckoutResults extends Api.TypeBool {
+	public static class SetBotPrecheckoutResults {
 		private Api.True success;
 		private BigInteger queryId;
 		private String error;
@@ -1160,8 +1137,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class FaveSticker extends Api.TypeBool {
+	public static class FaveSticker {
 		private Api.TypeInputDocument id;
 		private Boolean unfave;
 	}
@@ -1221,8 +1197,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class MarkDialogUnread extends Api.TypeBool {
+	public static class MarkDialogUnread {
 		private Api.True unread;
 		private Api.TypeInputDialogPeer peer;
 	}
@@ -1232,8 +1207,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ClearAllDrafts extends Api.TypeBool {
+	public static class ClearAllDrafts {
 	}
 
 	@Data
@@ -1268,8 +1242,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class EditChatAbout extends Api.TypeBool {
+	public static class EditChatAbout {
 		private Api.TypeInputPeer peer;
 		private String about;
 	}
@@ -1331,8 +1304,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class HidePeerSettingsBar extends Api.TypeBool {
+	public static class HidePeerSettingsBar {
 		private Api.TypeInputPeer peer;
 	}
 
@@ -1372,8 +1344,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ToggleStickerSets extends Api.TypeBool {
+	public static class ToggleStickerSets {
 		private Api.True uninstall;
 		private Api.True archive;
 		private Api.True unarchive;
@@ -1389,15 +1360,13 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class UpdateDialogFilter extends Api.TypeBool {
+	public static class UpdateDialogFilter {
 		private int id;
 		private Api.TypeDialogFilter filter;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class UpdateDialogFiltersOrder extends Api.TypeBool {
+	public static class UpdateDialogFiltersOrder {
 		private int[] order;
 	}
 
@@ -1428,8 +1397,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ReadDiscussion extends Api.TypeBool {
+	public static class ReadDiscussion {
 		private Api.TypeInputPeer peer;
 		private int msgId;
 		private int readMaxId;
@@ -1441,8 +1409,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class DeleteChat extends Api.TypeBool {
+	public static class DeleteChat {
 		private BigInteger chatId;
 	}
 
@@ -1473,8 +1440,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class StartHistoryImport extends Api.TypeBool {
+	public static class StartHistoryImport {
 		private Api.TypeInputPeer peer;
 		private BigInteger importId;
 	}
@@ -1509,15 +1475,13 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class DeleteRevokedExportedChatInvites extends Api.TypeBool {
+	public static class DeleteRevokedExportedChatInvites {
 		private Api.TypeInputPeer peer;
 		private Api.TypeInputUser adminId;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class DeleteExportedChatInvite extends Api.TypeBool {
+	public static class DeleteExportedChatInvite {
 		private Api.TypeInputPeer peer;
 		private String link;
 	}
@@ -1603,8 +1567,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SaveDefaultSendAs extends Api.TypeBool {
+	public static class SaveDefaultSendAs {
 		private Api.TypeInputPeer peer;
 		private Api.TypeInputPeer sendAs;
 	}
@@ -1647,8 +1610,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class SetDefaultReaction extends Api.TypeBool {
+	public static class SetDefaultReaction {
 		private String reaction;
 	}
 
@@ -1696,8 +1658,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ToggleBotInAttachMenu extends Api.TypeBool {
+	public static class ToggleBotInAttachMenu {
 		private Api.TypeInputUser bot;
 		private Boolean enabled;
 	}
@@ -1717,8 +1678,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ProlongWebView extends Api.TypeBool {
+	public static class ProlongWebView {
 		private Api.True silent;
 		private Api.TypeInputPeer peer;
 		private Api.TypeInputUser bot;
@@ -1758,8 +1718,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class RateTranscribedAudio extends Api.TypeBool {
+	public static class RateTranscribedAudio {
 		private Api.TypeInputPeer peer;
 		private int msgId;
 		private BigInteger transcriptionId;

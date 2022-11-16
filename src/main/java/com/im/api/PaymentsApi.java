@@ -119,8 +119,7 @@ public class PaymentsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ClearSavedInfo extends Api.TypeBool {
+	public static class ClearSavedInfo {
 		private Api.True credentials;
 		private Api.True info;
 	}
@@ -156,8 +155,7 @@ public class PaymentsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class CanPurchasePremium extends Api.TypeBool {
+	public static class CanPurchasePremium {
 	}
 
 	@Data

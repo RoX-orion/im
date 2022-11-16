@@ -144,8 +144,7 @@ public class AuthApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class ResetAuthorizations extends Api.TypeBool {
+	public static class ResetAuthorizations {
 	}
 
 	@Data
@@ -161,8 +160,7 @@ public class AuthApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class BindTempAuthKey extends Api.TypeBool {
+	public static class BindTempAuthKey {
 		private BigInteger permAuthKeyId;
 		private BigInteger nonce;
 		private int expiresAt;
@@ -201,15 +199,13 @@ public class AuthApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class CancelCode extends Api.TypeBool {
+	public static class CancelCode {
 		private String phoneNumber;
 		private String phoneCodeHash;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class DropTempAuthKeys extends Api.TypeBool {
+	public static class DropTempAuthKeys {
 		private BigInteger[] exceptAuthKeys;
 	}
 
@@ -232,8 +228,7 @@ public class AuthApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class CheckRecoveryPassword extends Api.TypeBool {
+	public static class CheckRecoveryPassword {
 		private String code;
 	}
 }

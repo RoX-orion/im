@@ -25,6 +25,7 @@ public class TLObject {
             throw new RuntimeException(e);
         }
         c1.addAll(c2);
+        System.out.println(c1);
         for (NodeConfig nodeConfig : c1) {
             allTLObject.put(
                     nodeConfig.getConstructorId(),

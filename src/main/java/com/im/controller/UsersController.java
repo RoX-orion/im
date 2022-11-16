@@ -7,17 +7,17 @@ import com.im.lib.annotation.WebsocketHandlerMapping;
 @WebsocketHandler
 public class UsersController {
 
-	@WebsocketHandlerMapping(value = 227648840, name = "GetUsers")
+	@WebsocketHandlerMapping(value = 0xd91a548, name = "GetUsers")
 	public Api.User[] getUsers(UsersApi.GetUsers getUsers) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -1240508136, name = "GetFullUser")
+	@WebsocketHandlerMapping(value = 0xb60f5918, name = "GetFullUser")
 	public UsersApi.UserFull getFullUser(UsersApi.GetFullUser getFullUser) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = -1865902923, name = "SetSecureValueErrors")
+	@WebsocketHandlerMapping(value = 0x90c894b5, name = "SetSecureValueErrors")
 	public Boolean setSecureValueErrors(UsersApi.SetSecureValueErrors setSecureValueErrors) {
 		return null;
 	}

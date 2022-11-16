@@ -41,10 +41,6 @@ public class Api {
 	public static class TypeAccessPointRule {}
 	public static class TypeTlsClientHello {}
 	public static class TypeTlsBlock {}
-	public static class TypeBool {}
-	public static class TypeTrue {}
-	public static class TypeError {}
-	public static class TypeNull {}
 	public static class TypeInputPeer {}
 	public static class TypeInputUser {}
 	public static class TypeInputContact {}
@@ -285,16 +281,16 @@ public class Api {
 	public static class ResPQ extends Api.TypeResPQ {
 		private BigInteger nonce;
 		private BigInteger serverNonce;
-		private String pq;
+		private byte[] pq;
 		private BigInteger[] serverPublicKeyFingerprints;
 	}
 
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PQInnerData extends Api.TypeP_Q_inner_data {
-		private String pq;
-		private String p;
-		private String q;
+		private byte[] pq;
+		private byte[] p;
+		private byte[] q;
 		private BigInteger nonce;
 		private BigInteger serverNonce;
 		private BigInteger newNonce;
@@ -303,9 +299,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PQInnerDataDc extends Api.TypeP_Q_inner_data {
-		private String pq;
-		private String p;
-		private String q;
+		private byte[] pq;
+		private byte[] p;
+		private byte[] q;
 		private BigInteger nonce;
 		private BigInteger serverNonce;
 		private BigInteger newNonce;
@@ -315,9 +311,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PQInnerDataTemp extends Api.TypeP_Q_inner_data {
-		private String pq;
-		private String p;
-		private String q;
+		private byte[] pq;
+		private byte[] p;
+		private byte[] q;
 		private BigInteger nonce;
 		private BigInteger serverNonce;
 		private BigInteger newNonce;
@@ -327,9 +323,9 @@ public class Api {
 	@Data
 	@EqualsAndHashCode(callSuper=false)
 	public static class PQInnerDataTempDc extends Api.TypeP_Q_inner_data {
-		private String pq;
-		private String p;
-		private String q;
+		private byte[] pq;
+		private byte[] p;
+		private byte[] q;
 		private BigInteger nonce;
 		private BigInteger serverNonce;
 		private BigInteger newNonce;
@@ -350,7 +346,7 @@ public class Api {
 	public static class ServerDHParamsOk extends Api.TypeServer_DH_Params {
 		private BigInteger nonce;
 		private BigInteger serverNonce;
-		private String encryptedAnswer;
+		private byte[] encryptedAnswer;
 	}
 
 	@Data
@@ -359,8 +355,8 @@ public class Api {
 		private BigInteger nonce;
 		private BigInteger serverNonce;
 		private int g;
-		private String dhPrime;
-		private String gA;
+		private byte[] dhPrime;
+		private byte[] gA;
 		private int serverTime;
 	}
 
@@ -370,7 +366,7 @@ public class Api {
 		private BigInteger nonce;
 		private BigInteger serverNonce;
 		private BigInteger retryId;
-		private String gB;
+		private byte[] gB;
 	}
 
 	@Data
@@ -616,28 +612,6 @@ public class Api {
 	@EqualsAndHashCode(callSuper=false)
 	public static class TlsBlockScope extends Api.TypeTlsBlock {
 		private Api.TypeTlsBlock[] entries;
-	}
-
-	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class BoolFalse extends Api.TypeBool {
-	}
-
-	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class BoolTrue extends Api.TypeBool {
-	}
-
-	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class Error extends Api.TypeError {
-		private int code;
-		private String text;
-	}
-
-	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class Null extends Api.TypeNull {
 	}
 
 	@Data
@@ -6901,10 +6875,10 @@ public class Api {
 	public static class ReqDHParams extends Api.TypeServer_DH_Params {
 		private BigInteger nonce;
 		private BigInteger serverNonce;
-		private String p;
-		private String q;
+		private byte[] p;
+		private byte[] q;
 		private BigInteger publicKeyFingerprint;
-		private String encryptedData;
+		private byte[] encryptedData;
 	}
 
 	@Data
@@ -6912,7 +6886,7 @@ public class Api {
 	public static class SetClientDHParams extends Api.TypeSet_client_DH_params_answer {
 		private BigInteger nonce;
 		private BigInteger serverNonce;
-		private String encryptedData;
+		private byte[] encryptedData;
 	}
 
 	@Data

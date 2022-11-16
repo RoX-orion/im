@@ -234,7 +234,6 @@ public class BinaryReader {
             try {
                 System.out.println(name + ":" + type.getSimpleName() + ":" + paramObject);
                 if (TLHelpers.AUTH_KEY_TYPES.contains(constructorId) && type.getSimpleName().equals("String")) {
-
                     if (!(paramObject instanceof byte[])) {
                         throw new RuntimeException("can not read BigInteger from bytes");
                     }
@@ -271,7 +270,7 @@ public class BinaryReader {
                 case "int":
                     return buf.readInt();
                 case "long":
-                    return buf.readLong();
+                    return readBigInteger(buf, 8);
                 case "int128":
                     return readBigInteger(buf, 16);
                 case "int256":

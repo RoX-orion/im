@@ -8,6 +8,7 @@ import com.im.lib.Helpers;
 import com.im.lib.core.MTProtoStateService;
 import com.im.lib.crypto.AES;
 import com.im.lib.crypto.DH;
+import com.im.lib.crypto.RSA;
 import com.im.lib.entity.MTProtoState;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -16,15 +17,28 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
 
+import javax.crypto.EncryptedPrivateKeyInfo;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.RSAPrivateKeySpec;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.Objects;
 
 @Slf4j
 public class TestDemo {
@@ -369,5 +383,118 @@ public class TestDemo {
 //            throw new RuntimeException(e);
 //        }
         System.out.println(-1099002127 & 0xffffffffL);
+    }
+
+    @Test
+    public void plainPower() {
+        long begin = System.currentTimeMillis();
+        int result = 1;
+        int x = 2;
+        int n = 1000000000;
+        for (int i = 0; i < n; i++) {
+            result *= x;
+            result = result % 1000;
+        }
+        System.out.println("计算结果为: " + result);
+        System.out.println("耗时: " + (System.currentTimeMillis() - begin) + "毫秒");
+    }
+
+    @Test
+    public void fastPower() {
+        long begin = System.currentTimeMillis();
+        int result = 1;
+        int x = 2;
+        int n = 1000000000;
+        int mod = 1000;
+        while (n != 0) {
+            if ((n & 1) == 1) {
+                result = result * x % mod;
+            }
+            x = x * x % mod;
+            n >>= 1;
+        }
+        System.out.println("计算结果为: " + result);
+        System.out.println("耗时: " + (System.currentTimeMillis() - begin) + "毫秒");
+    }
+
+    @Test
+    public void testStr() {
+        String str = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCetYEejUKjMeZS\n" +
+                "NNktQDrGlQZ5QEGbsSN02K34lXVYBD+6+yQ+lyiPU7/ex6C9HfD7F+5t72Agf4Up\n" +
+                "C1sgbBqVnZc41v4VXvW6Y7JZwvl28xA/X/VSL5MQZ3z6i7Ed77Xp+Imgz16/mEfX\n" +
+                "hfmTZIrexIv72FTM1tSj8gnkXuV27gekgS8zItlz1nlPAXftstwPJ9qS3ImDwG8o\n" +
+                "jRuk8lECUYofh6wFmP3d4piYmuWIxFiYJ+w/7mXeJfLcdiYdUyFw22Rai9PTTPhc\n" +
+                "SZsq+RGVJiGusgUJ/HjEJ5yiTUSDJw/0ppl5wwLTtkMbJraCroZbGOM/71W1X1KR\n" +
+                "mjORDSqNAgMBAAECggEAXHMeY82lo6rNn9VpLRLdKhBlVPw5O5hULxyJOuTVFhBj\n" +
+                "j2f8FPm4hsUiX4Op/oASgDHQkfl+5W9jAiW7T4epdL33+QRDve8y9QBeRCtvZfrw\n" +
+                "2/npzZYo9MVT6B63bdjU/xXoFeS2LKVoNAO2/kTzIBEd+fZqb2g1NcsoN/+Pa1cR\n" +
+                "x6u/B/1vDg0ePHlvha+UmyFxQC3MV5si1G4/1Bz4fE8jnNN0JdojSWn8d0qMizgy\n" +
+                "20OZbw8gzMdGTFUcJ0lLTRv3Y7MvcS5QZGRB+2KIdigyokQeJp+sq9HCiKCtafW3\n" +
+                "oFnx7Vd3stbLahITtEovQDfriFdXhZJwpiI8dlAIAQKBgQDTCpZpmYtA4IabuWiQ\n" +
+                "nngMWH67smV+PUeDS6N9hDrRLmv5FSJs4fip3R4Cn8t8Fj74gFTAJhhHo9vJg5FD\n" +
+                "i9iAnSxM0XOlXk8hvauSOfsQsr2T+tmOUYAwFgzM4G6aUMJJh1K8p7B19caw8b/E\n" +
+                "ruHl79uKp4hwsOi0Pq+bvcw1XQKBgQDAhOeCFoEf5s+tBhiAUIX0VfMRxrifhG/y\n" +
+                "MjPxXvfKVXR7EpwRDFr0tBJw1xLEEiP3dameWYLAsjBIi5Ej04jheznl9/bK3DjW\n" +
+                "tXCACdqSNSBk3HbTIoFN97fKpRgGnJefAo+b94/VistRWepJHusS8AULxaj822kq\n" +
+                "SH1aEx3G8QKBgBQ6rZRNvYVogD6pFRbXudYlHXDMduIU6afyNiev5xtqAbuMhRI+\n" +
+                "zuEpatkBjDXGxB553qXUgPtM/6JfVCtPWl9psXdjlFxDn/4x+iI4IJLHL1jh8Lyt\n" +
+                "n0X8txlkYfW0zArUR+ABiu6jsnn/kkw+HzU1OqwdxvxWWNf+MkMRfGOZAoGAQj04\n" +
+                "Pn0pvmU27Uxcn8GU5WWxNVuPaGsz7TwyvQi07ywJ4NKdWgxLO0i9049ciJPJRjp4\n" +
+                "uuAHae+lR0CmFpKQ1SwF1sdDZbbx44YYCCXby1R2Kd3lEG4d2UqzNQkqxBOa434J\n" +
+                "FVvPZGTV4c6zGqeFsEVfJxbCNwXzIDZC0vwi0bECgYEAjF/uMe6zKh7uZZNXy8Yu\n" +
+                "0Z65HJycEbVP3WtoAF3Br0X+uUxNbb8uaN4sfv/kfwLVxYFCMbYPYLDktLaDKvpj\n" +
+                "jbrsFw2X/Hlo9fMQNeyZM3ut5rLU6mQSu38g9TzNue6MsTuKz2BDRpL0aBrVfkg7\n" +
+                "MsWFwzsm8LQT+WtBRZs2Sbc=";
+
+        String[] split = str.split("\n");
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (String s : split) {
+            stringBuilder.append(s);
+        }
+//
+//        System.out.println(stringBuilder);
+//
+//        byte[] decode = Base64.getDecoder().decode(stringBuilder.toString().getBytes(StandardCharsets.UTF_8));
+//        System.out.println(new String(decode));
+        //
+        String strN = "20035155326511973019352232911675126316137912597278005686039127334540977443191034431989869478976505305369816049806727973429125868737226362858658292146580770649309534809130827555529889312231417020588294195313014919997916271905603206065508470494306375924348050766442785241621570336214631967388741754373171407306061700854205792914390220228904840227455013525161296781694568042612773140891857583364795498204198644635607602927705532471662528394458008533707664676513277461399545044793811433379772332629704568636844193994427613601236865932320906144898523726171333088017983292613995056130285522372955452421739950567184952797837";
+        String result = "6887598521216994864476199154701483176131928196098153097760466196662398023093289954318637999725988865172053899776591208109424933755073061335142712003557747420084560394319455357614295012167042649046710440647251312257545620824757818972064686836929483680435909061904834701338834997057611426874530069562242191330473547067860347293122916147861528305150565302734635527715027376360560538849355609582570861521875973486591043440422969920675077542377184914071334340910521446551066856578571737639805269359018401094949942017386785220290344728047535266910589494058427867407002680365217751304266438405250384636725949908556982808370";
+        BigInteger ans = new BigInteger(result);
+        byte[] decode = Base64.getDecoder().decode(stringBuilder.toString());
+//        System.out.println(Arrays.toString(decode));
+//        PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(decode);
+//        KeyFactory rsa = KeyFactory.getInstance("RSA");
+//        PrivateKey privateKey = rsa.generatePrivate(pkcs8EncodedKeySpec);
+//        byte[] encoded = privateKey.getEncoded();
+//
+        BigInteger encryptedData = new BigInteger("11832209516472180920754413157629239256397558562462878630000470769722607256223638489194632116490679765300012964290547810857707578574843594736130539195457822597270306379080770764865943063115581116218303810348550006453555294700551531296704867582272746107593594773880678595523725137380087410609426512288953704954316560368524622910230087460433523548205518685592598351199330928268421924590070661107276541574686299590497058869793184589950362076189359964659690459789062062633249093132203616061402455005113175410945797177535750105191205297564781237661568787632269184923185511386086691659825969489463968464289378124827014451858");
+        BigInteger n = new BigInteger(strN);
+        BigInteger d;
+        long begin = System.currentTimeMillis();
+        int i, j;
+        int len = decode.length;
+        System.out.println(len);
+        BigInteger bigInteger;
+        flag: for (i = 0; i < len - 1; i++) {
+            System.out.println(i);
+            for (j = i + 1; j < len; j++) {
+                d = Helpers.readBigIntegerFromBytes(Helpers.slice(decode, i, j), false, false);
+
+                bigInteger = Helpers.fastMod(encryptedData, d, n);
+                if (bigInteger.compareTo(ans) == 0) {
+                    System.out.println(i + ":" + j);
+                    break flag;
+                }
+            }
+        }
+        System.out.println(System.currentTimeMillis() - begin);
+    }
+
+    @Test
+    public void testAESIGE() {
+        BigInteger keyAesEncryptedInt = new BigInteger("9005836212356129453154075607208047551157999905932473156830845413292773028268019107782116699358080587119656289546829340760971668098216045130719925735967737911659141327708196539257613591097435520138807433136665458993560950867785921966627273873392443980479290395520964011057603879344593975817253356026551791470829528890285771830226507797067040441228975199663885931629564591289994915587996235219694495024046012988676775709795550798933006039208198288068939791592405254527819036453038648134743262404533603903504384863636473664653895282616878162031173703111110718948097824635095100135917732377567677757086437604041298570218");
+
+        System.out.println(keyAesEncryptedInt.toByteArray().length);
     }
 }
