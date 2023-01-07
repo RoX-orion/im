@@ -3,7 +3,7 @@ package com.im.lib.net;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.lib.annotation.WebsocketRequestParam;
-import com.im.lib.exception.ParamBindException;
+import com.im.lib.entity.RequestData;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,12 +14,18 @@ import java.util.LinkedList;
 @Slf4j
 public class BindParam {
 
-    public Object[] bind(Parameter[] parameters, Object param, Channel channel) {
+    public Object[] bind(Parameter[] parameters, Object param, Channel channel, RequestData requestData) {
         Object[] methodParams = new Object[parameters.length];
         for (int i = 0; i < parameters.length; i++) {
             Class<?> type = parameters[i].getType();
             if (type.isAssignableFrom(Channel.class)) {
                 methodParams[i] = channel;
+                continue;
+            }
+            WebsocketRequestParam websocketRequestParam = parameters[i].getDeclaredAnnotation(WebsocketRequestParam.class);
+            if (websocketRequestParam != null
+                    && "msgId".equals(websocketRequestParam.value())) {
+                methodParams[i] = requestData.getMsgId();
                 continue;
             }
             methodParams[i] = castObject(type, param);

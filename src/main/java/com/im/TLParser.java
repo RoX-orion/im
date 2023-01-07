@@ -3,6 +3,7 @@ package com.im;
 import com.im.lib.tl.ArgsConfig;
 import com.im.lib.tl.NodeConfig;
 import com.im.lib.tl.TLHelpers;
+import com.im.utils.StringUtil;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
@@ -65,10 +66,7 @@ public class TLParser {
                 import java.util.HashMap;
 
                 public class Api {
-                    @Data
-                	public static class X {
-                		private HashMap<String, Object> data;
-                    }
+                
                     @Data
                     public static class True {
                         private boolean value = true;
@@ -299,7 +297,7 @@ public class TLParser {
                     result = position.get("Type" + result).equals("Api") ?
                             "Api.Type" + result : position.get("Type" + result) + ".Type" + result;
                 } else if (result.equals("X")) {
-                    result = "Api.X";
+                    result = "Object";
                 } else {
                     System.out.println(function);
                 }
@@ -317,9 +315,6 @@ public class TLParser {
         if (resultIsVector) {
             result = result + "[]";
         }
-
-        //            case "string" -> result = "String";
-        //            case "bytes" -> result = "byte";
         if ("Bool".equals(result)) {
             result = "Boolean";
         }
@@ -353,10 +348,22 @@ public class TLParser {
         int constructorId = constructor.getConstructorId();
         // result在类型列表中，需要继承
         if (map.containsKey(result)/* && !result.equals(name)*/) {
-            builder.append("\n\n\t@Data\n\t@EqualsAndHashCode(callSuper=false)\n").append("\t" + "public static class ").append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).append(" extends ").append("Api.Type").append(result).append(" {").append("\n");
+            builder.append("\n\n\t@Data\n\t@EqualsAndHashCode(callSuper = true)\n")
+                    .append("\t" + "public static class ")
+                    .append(name.substring(0, 1).toUpperCase())
+                    .append(name.substring(1))
+                    .append(" extends ")
+                    .append("Api.Type")
+                    .append(result).append(" {")
+                    .append("\n");
             setArgs(builder, constructor, name);
         } else {
-            builder.append("\n\n\t@Data\n").append("\t" + "public static class ").append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).append(" {").append("\n");
+            builder.append("\n\n\t@Data\n")
+                    .append("\t" + "public static class ")
+                    .append(name.substring(0, 1).toUpperCase())
+                    .append(name.substring(1))
+                    .append(" {")
+                    .append("\n");
             setArgs(builder, constructor, name);
         }
 
@@ -389,8 +396,7 @@ public class TLParser {
                 switch (type) {
                     case "string" -> type = "String";
                     case "bytes" -> type = "byte[]";
-                    case "Bool" -> type = "Boolean";
-                    case "true" -> type = "True";
+                    case "Bool", "true", "false" -> type = "Boolean";
                     case "long", "int128", "int256" -> type = "BigInteger";
                     default -> {
                     }
@@ -400,12 +406,10 @@ public class TLParser {
                     type = split[0].substring(0, 1).toUpperCase() + split[0].substring(1) + "Api.Type" + split[1].substring(0, 1).toUpperCase() + split[1].substring(1);
                 } else if (superClass.contains(type) && !type.equals("True")) {
                     type = "Api.Type" + type;
+                } else if ("X".equals(type)) {
+                    type = "Object";
                 } else if (!TLHelpers.BASE_TYPE.contains(type)) {
                     type = "Api." + type;
-                }
-
-                if (type.equals("Api.future_salt")) {
-                    type = "Object";
                 }
             }
             if (vector) {
@@ -558,7 +562,7 @@ public class TLParser {
         // Default values
 
         ArgsConfig currentConfig = new ArgsConfig();
-
+        currentConfig.setArgName(name);
         // The type can be an indicator that other arguments will be flags
         if (!argType.equals("#")) {
             currentConfig.setFlagIndicator(false);
@@ -570,7 +574,7 @@ public class TLParser {
             // Note that 'flags' is NOT the flags name; this
             // is determined by a previous argument
             // However, we assume that the argument will always be called 'flags'
-            Pattern compile = Pattern.compile("^(flags.)(\\d+)\\?([\\w<>.]+)");
+            Pattern compile = Pattern.compile("flags(\\d*)\\.(\\d+)\\?([\\w<>.]+)");
             Matcher matcher = compile.matcher(currentConfig.getType());
 
             if (matcher.find()) {
@@ -578,6 +582,12 @@ public class TLParser {
 //                        + matcher.group(2) + "\n" + matcher.group(3));
 //                System.out.println("\n\n");
                 currentConfig.setFlag(true);
+                String group = matcher.group(1);
+                if (StringUtil.isEmpty(group)) {
+                    currentConfig.setFlagGroup(1);
+                } else {
+                    currentConfig.setFlagGroup(Integer.parseInt(group));
+                }
                 currentConfig.setFlagIndex(Integer.parseUnsignedInt(matcher.group(2)));
                 // Update the type to match the exact type, not the "flagged" one
                 currentConfig.setType(matcher.group(3));

@@ -10,7 +10,7 @@ public class UsersApi {
 	public static class TypeUserFull {}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class UserFull extends Api.TypeUserFull {
 		private Api.TypeUserFull fullUser;
 		private Api.TypeChat[] chats;
@@ -23,7 +23,7 @@ public class UsersApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetFullUser extends Api.TypeUserFull {
 		private Api.TypeInputUser id;
 	}

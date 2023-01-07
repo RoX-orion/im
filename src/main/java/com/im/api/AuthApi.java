@@ -25,16 +25,16 @@ public class AuthApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class Authorization extends Api.TypeAuthorization {
-		private Api.True setupPasswordRequired;
+		private Boolean setupPasswordRequired;
 		private int otherwiseReloginDays;
 		private int tmpSessions;
 		private Api.TypeUser user;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class AuthorizationSignUpRequired extends Api.TypeAuthorization {
 		private HelpApi.TypeTermsOfService termsOfService;
 	}
@@ -93,6 +93,21 @@ public class AuthApi {
 	}
 
 	@Data
+	public static class SentCodeTypeEmailCode {
+		private Boolean appleSigninAllowed;
+		private Boolean googleSigninAllowed;
+		private String emailPattern;
+		private int length;
+		private int nextPhoneLoginDate;
+	}
+
+	@Data
+	public static class SentCodeTypeSetUpEmailRequired {
+		private Boolean appleSigninAllowed;
+		private Boolean googleSigninAllowed;
+	}
+
+	@Data
 	public static class LoginToken {
 		private int expires;
 		private byte[] token;
@@ -123,7 +138,7 @@ public class AuthApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SignUp extends Api.TypeAuthorization {
 		private String phoneNumber;
 		private String phoneCodeHash;
@@ -132,11 +147,12 @@ public class AuthApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SignIn extends Api.TypeAuthorization {
 		private String phoneNumber;
 		private String phoneCodeHash;
 		private String phoneCode;
+		private Api.TypeEmailVerification emailVerification;
 	}
 
 	@Data
@@ -153,7 +169,7 @@ public class AuthApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ImportAuthorization extends Api.TypeAuthorization {
 		private BigInteger id;
 		private byte[] bytes;
@@ -168,7 +184,7 @@ public class AuthApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ImportBotAuthorization extends Api.TypeAuthorization {
 		private int apiId;
 		private String apiHash;
@@ -176,7 +192,7 @@ public class AuthApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class CheckPassword extends Api.TypeAuthorization {
 		private Api.TypeInputCheckPasswordSRP password;
 	}
@@ -186,7 +202,7 @@ public class AuthApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class RecoverPassword extends Api.TypeAuthorization {
 		private String code;
 		private AccountApi.TypePasswordInputSettings newSettings;
@@ -222,7 +238,7 @@ public class AuthApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class AcceptLoginToken extends Api.TypeAuthorization {
 		private byte[] token;
 	}
@@ -230,5 +246,13 @@ public class AuthApi {
 	@Data
 	public static class CheckRecoveryPassword {
 		private String code;
+	}
+
+	@Data
+	@EqualsAndHashCode(callSuper = true)
+	public static class ImportWebTokenAuthorization extends Api.TypeAuthorization {
+		private int apiId;
+		private String apiHash;
+		private String webAuthToken;
 	}
 }

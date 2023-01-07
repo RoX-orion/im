@@ -55,8 +55,8 @@ public class UploadApi {
 
 	@Data
 	public static class GetFile {
-		private Api.True precise;
-		private Api.True cdnSupported;
+		private Boolean precise;
+		private Boolean cdnSupported;
 		private Api.TypeInputFileLocation location;
 		private BigInteger offset;
 		private int limit;

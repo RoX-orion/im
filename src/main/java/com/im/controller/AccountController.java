@@ -72,7 +72,7 @@ public class AccountController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0x418d4e0b, name = "DeleteAccount")
+	@WebsocketHandlerMapping(value = 0xa2c0cf74, name = "DeleteAccount")
 	public Boolean deleteAccount(AccountApi.DeleteAccount deleteAccount) {
 		return null;
 	}
@@ -197,13 +197,13 @@ public class AccountController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0x7011509f, name = "SendVerifyEmailCode")
+	@WebsocketHandlerMapping(value = 0x98e037bb, name = "SendVerifyEmailCode")
 	public AccountApi.SentEmailCode sendVerifyEmailCode(AccountApi.SendVerifyEmailCode sendVerifyEmailCode) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xecba39db, name = "VerifyEmail")
-	public Boolean verifyEmail(AccountApi.VerifyEmail verifyEmail) {
+	@WebsocketHandlerMapping(value = 0x32da4cf, name = "VerifyEmail")
+	public AccountApi.EmailVerified verifyEmail(AccountApi.VerifyEmail verifyEmail) {
 		return null;
 	}
 
@@ -307,7 +307,7 @@ public class AccountController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0x8d9d742b, name = "GetTheme")
+	@WebsocketHandlerMapping(value = 0x3a5869ec, name = "GetTheme")
 	public Api.Theme getTheme(AccountApi.GetTheme getTheme) {
 		return null;
 	}
@@ -384,6 +384,36 @@ public class AccountController {
 
 	@WebsocketHandlerMapping(value = 0x831a83a2, name = "UploadRingtone")
 	public Api.Document uploadRingtone(AccountApi.UploadRingtone uploadRingtone) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xfbd3de6b, name = "UpdateEmojiStatus")
+	public Boolean updateEmojiStatus(AccountApi.UpdateEmojiStatus updateEmojiStatus) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xd6753386, name = "GetDefaultEmojiStatuses")
+	public AccountApi.EmojiStatuses getDefaultEmojiStatuses(AccountApi.GetDefaultEmojiStatuses getDefaultEmojiStatuses) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xf578105, name = "GetRecentEmojiStatuses")
+	public AccountApi.EmojiStatuses getRecentEmojiStatuses(AccountApi.GetRecentEmojiStatuses getRecentEmojiStatuses) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0x18201aae, name = "ClearRecentEmojiStatuses")
+	public Boolean clearRecentEmojiStatuses(AccountApi.ClearRecentEmojiStatuses clearRecentEmojiStatuses) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xef500eab, name = "ReorderUsernames")
+	public Boolean reorderUsernames(AccountApi.ReorderUsernames reorderUsernames) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0x58d6b376, name = "ToggleUsername")
+	public Boolean toggleUsername(AccountApi.ToggleUsername toggleUsername) {
 		return null;
 	}
 }

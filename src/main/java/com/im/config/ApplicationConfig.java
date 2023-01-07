@@ -1,6 +1,7 @@
 package com.im.config;
 
 import com.im.entity.User;
+import com.im.lib.crypto.RSA;
 import com.im.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -43,16 +44,17 @@ public class ApplicationConfig implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        RSA.computeRSAInfo();
         removeAllConnection();
 
         // set all users state
-        List<User> users = userMapper.selectList(null);
-        for (User user : users) {
-            stringRedisTemplate.opsForValue().set(
-                    Constant.USER + user.getUid(),
-                    Constant.OFFLINE
-            );
-        }
+//        List<User> users = userMapper.selectList(null);
+//        for (User user : users) {
+//            stringRedisTemplate.opsForValue().set(
+//                    Constant.USER + user.getUid(),
+//                    Constant.OFFLINE
+//            );
+//        }
     }
 
     @PreDestroy

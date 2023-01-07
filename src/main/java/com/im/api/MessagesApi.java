@@ -51,6 +51,8 @@ public class MessagesApi {
 	public static class TypeAvailableReactions {}
 	public static class TypeTranslatedText {}
 	public static class TypeTranscribedAudio {}
+	public static class TypeReactions {}
+	public static class TypeForumTopics {}
 
 	@Data
 	public static class Dialogs {
@@ -83,7 +85,7 @@ public class MessagesApi {
 
 	@Data
 	public static class MessagesSlice {
-		private Api.True inexact;
+		private Boolean inexact;
 		private int count;
 		private int nextRate;
 		private int offsetIdOffset;
@@ -94,11 +96,12 @@ public class MessagesApi {
 
 	@Data
 	public static class ChannelMessages {
-		private Api.True inexact;
+		private Boolean inexact;
 		private int pts;
 		private int count;
 		private int offsetIdOffset;
 		private Api.TypeMessage[] messages;
+		private Api.TypeForumTopic[] topics;
 		private Api.TypeChat[] chats;
 		private Api.TypeUser[] users;
 	}
@@ -120,7 +123,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ChatFull extends Api.TypeChatFull {
 		private Api.TypeChatFull fullChat;
 		private Api.TypeChat[] chats;
@@ -185,15 +188,16 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class StickerSet extends Api.TypeStickerSet {
 		private Api.TypeStickerSet set;
 		private Api.TypeStickerPack[] packs;
+		private Api.TypeStickerKeyword[] keywords;
 		private Api.TypeDocument[] documents;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class StickerSetNotModified extends Api.TypeStickerSet {
 	}
 
@@ -209,7 +213,7 @@ public class MessagesApi {
 
 	@Data
 	public static class BotResults {
-		private Api.True gallery;
+		private Boolean gallery;
 		private BigInteger queryId;
 		private String nextOffset;
 		private Api.TypeInlineBotSwitchPM switchPm;
@@ -220,9 +224,9 @@ public class MessagesApi {
 
 	@Data
 	public static class BotCallbackAnswer {
-		private Api.True alert;
-		private Api.True hasUrl;
-		private Api.True nativeUi;
+		private Boolean alert;
+		private Boolean hasUrl;
+		private Boolean nativeUi;
 		private String message;
 		private String url;
 		private int cacheTime;
@@ -230,7 +234,7 @@ public class MessagesApi {
 
 	@Data
 	public static class MessageEditData {
-		private Api.True caption;
+		private Boolean caption;
 	}
 
 	@Data
@@ -249,7 +253,7 @@ public class MessagesApi {
 
 	@Data
 	public static class FeaturedStickers {
-		private Api.True premium;
+		private Boolean premium;
 		private BigInteger hash;
 		private int count;
 		private Api.TypeStickerSetCovered[] sets;
@@ -312,7 +316,7 @@ public class MessagesApi {
 
 	@Data
 	public static class SearchCounter {
-		private Api.True inexact;
+		private Boolean inexact;
 		private Api.TypeMessagesFilter filter;
 		private int count;
 	}
@@ -333,7 +337,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class MessageViews extends Api.TypeMessageViews {
 		private Api.TypeMessageViews[] views;
 		private Api.TypeChat[] chats;
@@ -358,8 +362,8 @@ public class MessagesApi {
 
 	@Data
 	public static class HistoryImportParsed {
-		private Api.True pm;
-		private Api.True group;
+		private Boolean pm;
+		private Boolean group;
 		private String title;
 	}
 
@@ -379,14 +383,14 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ExportedChatInvite extends Api.TypeExportedChatInvite {
 		private Api.TypeExportedChatInvite invite;
 		private Api.TypeUser[] users;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ExportedChatInviteReplaced extends Api.TypeExportedChatInvite {
 		private Api.TypeExportedChatInvite invite;
 		private Api.TypeExportedChatInvite newInvite;
@@ -413,14 +417,19 @@ public class MessagesApi {
 
 	@Data
 	public static class SponsoredMessages {
+		private int postsBetween;
 		private Api.TypeSponsoredMessage[] messages;
 		private Api.TypeChat[] chats;
 		private Api.TypeUser[] users;
 	}
 
 	@Data
+	public static class SponsoredMessagesEmpty {
+	}
+
+	@Data
 	public static class SearchResultsCalendar {
-		private Api.True inexact;
+		private Boolean inexact;
 		private int count;
 		private int minDate;
 		private int minMsgId;
@@ -438,7 +447,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class PeerSettings extends Api.TypePeerSettings {
 		private Api.TypePeerSettings settings;
 		private Api.TypeChat[] chats;
@@ -475,9 +484,30 @@ public class MessagesApi {
 
 	@Data
 	public static class TranscribedAudio {
-		private Api.True pending;
+		private Boolean pending;
 		private BigInteger transcriptionId;
 		private String text;
+	}
+
+	@Data
+	public static class ReactionsNotModified {
+	}
+
+	@Data
+	public static class Reactions {
+		private BigInteger hash;
+		private Api.TypeReaction[] reactions;
+	}
+
+	@Data
+	public static class ForumTopics {
+		private Boolean orderByCreateDate;
+		private int count;
+		private Api.TypeForumTopic[] topics;
+		private Api.TypeMessage[] messages;
+		private Api.TypeChat[] chats;
+		private Api.TypeUser[] users;
+		private int pts;
 	}
 
 	@Data
@@ -487,7 +517,7 @@ public class MessagesApi {
 
 	@Data
 	public static class GetDialogs {
-		private Api.True excludePinned;
+		private Boolean excludePinned;
 		private int folderId;
 		private int offsetDate;
 		private int offsetId;
@@ -533,8 +563,8 @@ public class MessagesApi {
 
 	@Data
 	public static class DeleteHistory {
-		private Api.True justClear;
-		private Api.True revoke;
+		private Boolean justClear;
+		private Boolean revoke;
 		private Api.TypeInputPeer peer;
 		private int maxId;
 		private int minDate;
@@ -543,7 +573,7 @@ public class MessagesApi {
 
 	@Data
 	public static class DeleteMessages {
-		private Api.True revoke;
+		private Boolean revoke;
 		private int[] id;
 	}
 
@@ -560,15 +590,17 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SendMessage extends Api.TypeUpdates {
-		private Api.True noWebpage;
-		private Api.True silent;
-		private Api.True background;
-		private Api.True clearDraft;
-		private Api.True noforwards;
+		private Boolean noWebpage;
+		private Boolean silent;
+		private Boolean background;
+		private Boolean clearDraft;
+		private Boolean noforwards;
+		private Boolean updateStickersetsOrder;
 		private Api.TypeInputPeer peer;
 		private int replyToMsgId;
+		private int topMsgId;
 		private String message;
 		private BigInteger randomId;
 		private Api.TypeReplyMarkup replyMarkup;
@@ -578,14 +610,16 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SendMedia extends Api.TypeUpdates {
-		private Api.True silent;
-		private Api.True background;
-		private Api.True clearDraft;
-		private Api.True noforwards;
+		private Boolean silent;
+		private Boolean background;
+		private Boolean clearDraft;
+		private Boolean noforwards;
+		private Boolean updateStickersetsOrder;
 		private Api.TypeInputPeer peer;
 		private int replyToMsgId;
+		private int topMsgId;
 		private Api.TypeInputMedia media;
 		private String message;
 		private BigInteger randomId;
@@ -596,18 +630,19 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ForwardMessages extends Api.TypeUpdates {
-		private Api.True silent;
-		private Api.True background;
-		private Api.True withMyScore;
-		private Api.True dropAuthor;
-		private Api.True dropMediaCaptions;
-		private Api.True noforwards;
+		private Boolean silent;
+		private Boolean background;
+		private Boolean withMyScore;
+		private Boolean dropAuthor;
+		private Boolean dropMediaCaptions;
+		private Boolean noforwards;
 		private Api.TypeInputPeer fromPeer;
 		private int[] id;
 		private BigInteger[] randomId;
 		private Api.TypeInputPeer toPeer;
+		private int topMsgId;
 		private int scheduleDate;
 		private Api.TypeInputPeer sendAs;
 	}
@@ -618,7 +653,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetPeerSettings extends Api.TypePeerSettings {
 		private Api.TypeInputPeer peer;
 	}
@@ -637,27 +672,27 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetFullChat extends Api.TypeChatFull {
 		private BigInteger chatId;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class EditChatTitle extends Api.TypeUpdates {
 		private BigInteger chatId;
 		private String title;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class EditChatPhoto extends Api.TypeUpdates {
 		private BigInteger chatId;
 		private Api.TypeInputChatPhoto photo;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class AddChatUser extends Api.TypeUpdates {
 		private BigInteger chatId;
 		private Api.TypeInputUser userId;
@@ -665,15 +700,15 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class DeleteChatUser extends Api.TypeUpdates {
-		private Api.True revokeHistory;
+		private Boolean revokeHistory;
 		private BigInteger chatId;
 		private Api.TypeInputUser userId;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class CreateChat extends Api.TypeUpdates {
 		private Api.TypeInputUser[] users;
 		private String title;
@@ -686,7 +721,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class RequestEncryption extends Api.TypeEncryptedChat {
 		private Api.TypeInputUser userId;
 		private int randomId;
@@ -694,7 +729,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class AcceptEncryption extends Api.TypeEncryptedChat {
 		private Api.TypeInputEncryptedChat peer;
 		private byte[] gB;
@@ -703,7 +738,7 @@ public class MessagesApi {
 
 	@Data
 	public static class DiscardEncryption {
-		private Api.True deleteHistory;
+		private Boolean deleteHistory;
 		private int chatId;
 	}
 
@@ -721,7 +756,7 @@ public class MessagesApi {
 
 	@Data
 	public static class SendEncrypted {
-		private Api.True silent;
+		private Boolean silent;
 		private Api.TypeInputEncryptedChat peer;
 		private BigInteger randomId;
 		private byte[] data;
@@ -729,7 +764,7 @@ public class MessagesApi {
 
 	@Data
 	public static class SendEncryptedFile {
-		private Api.True silent;
+		private Boolean silent;
 		private Api.TypeInputEncryptedChat peer;
 		private BigInteger randomId;
 		private byte[] data;
@@ -770,17 +805,17 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetWebPagePreview extends Api.TypeMessageMedia {
 		private String message;
 		private Api.TypeMessageEntity[] entities;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ExportChatInvite extends Api.TypeExportedChatInvite {
-		private Api.True legacyRevokePermanent;
-		private Api.True requestNeeded;
+		private Boolean legacyRevokePermanent;
+		private Boolean requestNeeded;
 		private Api.TypeInputPeer peer;
 		private int expireDate;
 		private int usageLimit;
@@ -788,19 +823,19 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class CheckChatInvite extends Api.TypeChatInvite {
 		private String hash;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ImportChatInvite extends Api.TypeUpdates {
 		private String hash;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetStickerSet extends Api.TypeStickerSet {
 		private Api.TypeInputStickerSet stickerset;
 		private int hash;
@@ -818,7 +853,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class StartBot extends Api.TypeUpdates {
 		private Api.TypeInputUser bot;
 		private Api.TypeInputPeer peer;
@@ -827,7 +862,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetMessagesViews extends Api.TypeMessageViews {
 		private Api.TypeInputPeer peer;
 		private int[] id;
@@ -842,7 +877,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class MigrateChat extends Api.TypeUpdates {
 		private BigInteger chatId;
 	}
@@ -862,12 +897,13 @@ public class MessagesApi {
 
 	@Data
 	public static class ReorderStickerSets {
-		private Api.True masks;
+		private Boolean masks;
+		private Boolean emojis;
 		private BigInteger[] order;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetDocumentByHash extends Api.TypeDocument {
 		private byte[] sha256;
 		private BigInteger size;
@@ -896,8 +932,8 @@ public class MessagesApi {
 
 	@Data
 	public static class SetInlineBotResults {
-		private Api.True gallery;
-		private Api.True privateSuffix;
+		private Boolean gallery;
+		private Boolean privateSuffix;
 		private BigInteger queryId;
 		private Api.TypeInputBotInlineResult[] results;
 		private int cacheTime;
@@ -906,14 +942,15 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SendInlineBotResult extends Api.TypeUpdates {
-		private Api.True silent;
-		private Api.True background;
-		private Api.True clearDraft;
-		private Api.True hideVia;
+		private Boolean silent;
+		private Boolean background;
+		private Boolean clearDraft;
+		private Boolean hideVia;
 		private Api.TypeInputPeer peer;
 		private int replyToMsgId;
+		private int topMsgId;
 		private BigInteger randomId;
 		private BigInteger queryId;
 		private String id;
@@ -928,9 +965,9 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class EditMessage extends Api.TypeUpdates {
-		private Api.True noWebpage;
+		private Boolean noWebpage;
 		private Api.TypeInputPeer peer;
 		private int id;
 		private String message;
@@ -942,7 +979,7 @@ public class MessagesApi {
 
 	@Data
 	public static class EditInlineBotMessage {
-		private Api.True noWebpage;
+		private Boolean noWebpage;
 		private Api.TypeInputBotInlineMessageID id;
 		private String message;
 		private Api.TypeInputMedia media;
@@ -952,7 +989,7 @@ public class MessagesApi {
 
 	@Data
 	public static class GetBotCallbackAnswer {
-		private Api.True game;
+		private Boolean game;
 		private Api.TypeInputPeer peer;
 		private int msgId;
 		private byte[] data;
@@ -961,7 +998,7 @@ public class MessagesApi {
 
 	@Data
 	public static class SetBotCallbackAnswer {
-		private Api.True alert;
+		private Boolean alert;
 		private BigInteger queryId;
 		private String message;
 		private String url;
@@ -975,15 +1012,16 @@ public class MessagesApi {
 
 	@Data
 	public static class SaveDraft {
-		private Api.True noWebpage;
+		private Boolean noWebpage;
 		private int replyToMsgId;
+		private int topMsgId;
 		private Api.TypeInputPeer peer;
 		private String message;
 		private Api.TypeMessageEntity[] entities;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetAllDrafts extends Api.TypeUpdates {
 	}
 
@@ -999,25 +1037,26 @@ public class MessagesApi {
 
 	@Data
 	public static class GetRecentStickers {
-		private Api.True attached;
+		private Boolean attached;
 		private BigInteger hash;
 	}
 
 	@Data
 	public static class SaveRecentSticker {
-		private Api.True attached;
+		private Boolean attached;
 		private Api.TypeInputDocument id;
 		private Boolean unsave;
 	}
 
 	@Data
 	public static class ClearRecentStickers {
-		private Api.True attached;
+		private Boolean attached;
 	}
 
 	@Data
 	public static class GetArchivedStickers {
-		private Api.True masks;
+		private Boolean masks;
+		private Boolean emojis;
 		private BigInteger offsetId;
 		private int limit;
 	}
@@ -1033,10 +1072,10 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SetGameScore extends Api.TypeUpdates {
-		private Api.True editMessage;
-		private Api.True force;
+		private Boolean editMessage;
+		private Boolean force;
 		private Api.TypeInputPeer peer;
 		private int id;
 		private Api.TypeInputUser userId;
@@ -1045,8 +1084,8 @@ public class MessagesApi {
 
 	@Data
 	public static class SetInlineGameScore {
-		private Api.True editMessage;
-		private Api.True force;
+		private Boolean editMessage;
+		private Boolean force;
 		private Api.TypeInputBotInlineMessageID id;
 		private Api.TypeInputUser userId;
 		private int score;
@@ -1078,7 +1117,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetWebPage extends Api.TypeWebPage {
 		private String url;
 		private int hash;
@@ -1086,13 +1125,13 @@ public class MessagesApi {
 
 	@Data
 	public static class ToggleDialogPin {
-		private Api.True pinned;
+		private Boolean pinned;
 		private Api.TypeInputDialogPeer peer;
 	}
 
 	@Data
 	public static class ReorderPinnedDialogs {
-		private Api.True force;
+		private Boolean force;
 		private int folderId;
 		private Api.TypeInputDialogPeer[] order;
 	}
@@ -1111,20 +1150,20 @@ public class MessagesApi {
 
 	@Data
 	public static class SetBotPrecheckoutResults {
-		private Api.True success;
+		private Boolean success;
 		private BigInteger queryId;
 		private String error;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class UploadMedia extends Api.TypeMessageMedia {
 		private Api.TypeInputPeer peer;
 		private Api.TypeInputMedia media;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SendScreenshotNotification extends Api.TypeUpdates {
 		private Api.TypeInputPeer peer;
 		private int replyToMsgId;
@@ -1145,6 +1184,7 @@ public class MessagesApi {
 	@Data
 	public static class GetUnreadMentions {
 		private Api.TypeInputPeer peer;
+		private int topMsgId;
 		private int offsetId;
 		private int addOffset;
 		private int limit;
@@ -1155,6 +1195,7 @@ public class MessagesApi {
 	@Data
 	public static class ReadMentions {
 		private Api.TypeInputPeer peer;
+		private int topMsgId;
 	}
 
 	@Data
@@ -1165,21 +1206,23 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SendMultiMedia extends Api.TypeUpdates {
-		private Api.True silent;
-		private Api.True background;
-		private Api.True clearDraft;
-		private Api.True noforwards;
+		private Boolean silent;
+		private Boolean background;
+		private Boolean clearDraft;
+		private Boolean noforwards;
+		private Boolean updateStickersetsOrder;
 		private Api.TypeInputPeer peer;
 		private int replyToMsgId;
+		private int topMsgId;
 		private Api.TypeInputSingleMedia[] multiMedia;
 		private int scheduleDate;
 		private Api.TypeInputPeer sendAs;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class UploadEncryptedFile extends Api.TypeEncryptedFile {
 		private Api.TypeInputEncryptedChat peer;
 		private Api.TypeInputEncryptedFile file;
@@ -1187,7 +1230,7 @@ public class MessagesApi {
 
 	@Data
 	public static class SearchStickerSets {
-		private Api.True excludeFeatured;
+		private Boolean excludeFeatured;
 		private String q;
 		private BigInteger hash;
 	}
@@ -1198,7 +1241,7 @@ public class MessagesApi {
 
 	@Data
 	public static class MarkDialogUnread {
-		private Api.True unread;
+		private Boolean unread;
 		private Api.TypeInputDialogPeer peer;
 	}
 
@@ -1211,17 +1254,17 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class UpdatePinnedMessage extends Api.TypeUpdates {
-		private Api.True silent;
-		private Api.True unpin;
-		private Api.True pmOneside;
+		private Boolean silent;
+		private Boolean unpin;
+		private Boolean pmOneside;
 		private Api.TypeInputPeer peer;
 		private int id;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SendVote extends Api.TypeUpdates {
 		private Api.TypeInputPeer peer;
 		private int msgId;
@@ -1229,14 +1272,14 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetPollResults extends Api.TypeUpdates {
 		private Api.TypeInputPeer peer;
 		private int msgId;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetOnlines extends Api.TypeChatOnlines {
 		private Api.TypeInputPeer peer;
 	}
@@ -1248,20 +1291,20 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class EditChatDefaultBannedRights extends Api.TypeUpdates {
 		private Api.TypeInputPeer peer;
 		private Api.TypeChatBannedRights bannedRights;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetEmojiKeywords extends Api.TypeEmojiKeywordsDifference {
 		private String langCode;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetEmojiKeywordsDifference extends Api.TypeEmojiKeywordsDifference {
 		private String langCode;
 		private int fromVersion;
@@ -1273,7 +1316,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetEmojiURL extends Api.TypeEmojiURL {
 		private String langCode;
 	}
@@ -1281,11 +1324,12 @@ public class MessagesApi {
 	@Data
 	public static class GetSearchCounters {
 		private Api.TypeInputPeer peer;
+		private int topMsgId;
 		private Api.TypeMessagesFilter[] filters;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class RequestUrlAuth extends Api.TypeUrlAuthResult {
 		private Api.TypeInputPeer peer;
 		private int msgId;
@@ -1294,9 +1338,9 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class AcceptUrlAuth extends Api.TypeUrlAuthResult {
-		private Api.True writeAllowed;
+		private Boolean writeAllowed;
 		private Api.TypeInputPeer peer;
 		private int msgId;
 		private int buttonId;
@@ -1321,14 +1365,14 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SendScheduledMessages extends Api.TypeUpdates {
 		private Api.TypeInputPeer peer;
 		private int[] id;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class DeleteScheduledMessages extends Api.TypeUpdates {
 		private Api.TypeInputPeer peer;
 		private int[] id;
@@ -1345,9 +1389,9 @@ public class MessagesApi {
 
 	@Data
 	public static class ToggleStickerSets {
-		private Api.True uninstall;
-		private Api.True archive;
-		private Api.True unarchive;
+		private Boolean uninstall;
+		private Boolean archive;
+		private Boolean unarchive;
 		private Api.TypeInputStickerSet[] stickersets;
 	}
 
@@ -1406,6 +1450,7 @@ public class MessagesApi {
 	@Data
 	public static class UnpinAllMessages {
 		private Api.TypeInputPeer peer;
+		private int topMsgId;
 	}
 
 	@Data
@@ -1415,7 +1460,7 @@ public class MessagesApi {
 
 	@Data
 	public static class DeletePhoneCallHistory {
-		private Api.True revoke;
+		private Boolean revoke;
 	}
 
 	@Data
@@ -1431,7 +1476,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class UploadImportedMedia extends Api.TypeMessageMedia {
 		private Api.TypeInputPeer peer;
 		private BigInteger importId;
@@ -1447,7 +1492,7 @@ public class MessagesApi {
 
 	@Data
 	public static class GetExportedChatInvites {
-		private Api.True revoked;
+		private Boolean revoked;
 		private Api.TypeInputPeer peer;
 		private Api.TypeInputUser adminId;
 		private int offsetDate;
@@ -1456,16 +1501,16 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetExportedChatInvite extends Api.TypeExportedChatInvite {
 		private Api.TypeInputPeer peer;
 		private String link;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class EditExportedChatInvite extends Api.TypeExportedChatInvite {
-		private Api.True revoked;
+		private Boolean revoked;
 		private Api.TypeInputPeer peer;
 		private String link;
 		private int expireDate;
@@ -1493,7 +1538,7 @@ public class MessagesApi {
 
 	@Data
 	public static class GetChatInviteImporters {
-		private Api.True requested;
+		private Boolean requested;
 		private Api.TypeInputPeer peer;
 		private String link;
 		private String q;
@@ -1503,7 +1548,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SetHistoryTTL extends Api.TypeUpdates {
 		private Api.TypeInputPeer peer;
 		private int period;
@@ -1515,7 +1560,7 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SetChatTheme extends Api.TypeUpdates {
 		private Api.TypeInputPeer peer;
 		private String emoticon;
@@ -1544,23 +1589,23 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class HideChatJoinRequest extends Api.TypeUpdates {
-		private Api.True approved;
+		private Boolean approved;
 		private Api.TypeInputPeer peer;
 		private Api.TypeInputUser userId;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class HideAllChatJoinRequests extends Api.TypeUpdates {
-		private Api.True approved;
+		private Boolean approved;
 		private Api.TypeInputPeer peer;
 		private String link;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ToggleNoForwards extends Api.TypeUpdates {
 		private Api.TypeInputPeer peer;
 		private Boolean enabled;
@@ -1573,16 +1618,17 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SendReaction extends Api.TypeUpdates {
-		private Api.True big;
+		private Boolean big;
+		private Boolean addToRecent;
 		private Api.TypeInputPeer peer;
 		private int msgId;
-		private String reaction;
+		private Api.TypeReaction[] reaction;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetMessagesReactions extends Api.TypeUpdates {
 		private Api.TypeInputPeer peer;
 		private int[] id;
@@ -1592,16 +1638,16 @@ public class MessagesApi {
 	public static class GetMessageReactionsList {
 		private Api.TypeInputPeer peer;
 		private int id;
-		private String reaction;
+		private Api.TypeReaction reaction;
 		private String offset;
 		private int limit;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SetChatAvailableReactions extends Api.TypeUpdates {
 		private Api.TypeInputPeer peer;
-		private String[] availableReactions;
+		private Api.TypeChatReactions availableReactions;
 	}
 
 	@Data
@@ -1611,7 +1657,7 @@ public class MessagesApi {
 
 	@Data
 	public static class SetDefaultReaction {
-		private String reaction;
+		private Api.TypeReaction reaction;
 	}
 
 	@Data
@@ -1626,6 +1672,7 @@ public class MessagesApi {
 	@Data
 	public static class GetUnreadReactions {
 		private Api.TypeInputPeer peer;
+		private int topMsgId;
 		private int offsetId;
 		private int addOffset;
 		private int limit;
@@ -1636,6 +1683,7 @@ public class MessagesApi {
 	@Data
 	public static class ReadReactions {
 		private Api.TypeInputPeer peer;
+		private int topMsgId;
 	}
 
 	@Data
@@ -1646,13 +1694,13 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetAttachMenuBots extends Api.TypeAttachMenuBots {
 		private BigInteger hash;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetAttachMenuBot extends Api.TypeAttachMenuBotsBot {
 		private Api.TypeInputUser bot;
 	}
@@ -1664,46 +1712,50 @@ public class MessagesApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class RequestWebView extends Api.TypeWebViewResult {
-		private Api.True fromBotMenu;
-		private Api.True silent;
+		private Boolean fromBotMenu;
+		private Boolean silent;
 		private Api.TypeInputPeer peer;
 		private Api.TypeInputUser bot;
 		private String url;
 		private String startParam;
 		private Api.TypeDataJSON themeParams;
+		private String platform;
 		private int replyToMsgId;
+		private int topMsgId;
 		private Api.TypeInputPeer sendAs;
 	}
 
 	@Data
 	public static class ProlongWebView {
-		private Api.True silent;
+		private Boolean silent;
 		private Api.TypeInputPeer peer;
 		private Api.TypeInputUser bot;
 		private BigInteger queryId;
 		private int replyToMsgId;
+		private int topMsgId;
 		private Api.TypeInputPeer sendAs;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class RequestSimpleWebView extends Api.TypeSimpleWebViewResult {
 		private Api.TypeInputUser bot;
 		private String url;
 		private Api.TypeDataJSON themeParams;
+		private String platform;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SendWebViewResultMessage extends Api.TypeWebViewMessageSent {
 		private String botQueryId;
 		private Api.TypeInputBotInlineResult result;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SendWebViewData extends Api.TypeUpdates {
 		private Api.TypeInputUser bot;
 		private BigInteger randomId;
@@ -1723,5 +1775,50 @@ public class MessagesApi {
 		private int msgId;
 		private BigInteger transcriptionId;
 		private Boolean good;
+	}
+
+	@Data
+	public static class GetCustomEmojiDocuments {
+		private BigInteger[] documentId;
+	}
+
+	@Data
+	public static class GetEmojiStickers {
+		private BigInteger hash;
+	}
+
+	@Data
+	public static class GetFeaturedEmojiStickers {
+		private BigInteger hash;
+	}
+
+	@Data
+	public static class ReportReaction {
+		private Api.TypeInputPeer peer;
+		private int id;
+		private Api.TypeInputPeer reactionPeer;
+	}
+
+	@Data
+	public static class GetTopReactions {
+		private int limit;
+		private BigInteger hash;
+	}
+
+	@Data
+	public static class GetRecentReactions {
+		private int limit;
+		private BigInteger hash;
+	}
+
+	@Data
+	public static class ClearRecentReactions {
+	}
+
+	@Data
+	@EqualsAndHashCode(callSuper = true)
+	public static class GetExtendedMedia extends Api.TypeUpdates {
+		private Api.TypeInputPeer peer;
+		private int[] id;
 	}
 }

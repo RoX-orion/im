@@ -52,17 +52,17 @@ public class MessagesController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xd9d75a4, name = "SendMessage")
+	@WebsocketHandlerMapping(value = 0x1cc20387, name = "SendMessage")
 	public Api.Updates sendMessage(MessagesApi.SendMessage sendMessage) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xe25ff8e0, name = "SendMedia")
+	@WebsocketHandlerMapping(value = 0x7547c966, name = "SendMedia")
 	public Api.Updates sendMedia(MessagesApi.SendMedia sendMedia) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xcc30290b, name = "ForwardMessages")
+	@WebsocketHandlerMapping(value = 0xc661bbc4, name = "ForwardMessages")
 	public Api.Updates forwardMessages(MessagesApi.ForwardMessages forwardMessages) {
 		return null;
 	}
@@ -277,7 +277,7 @@ public class MessagesController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0x7aa11297, name = "SendInlineBotResult")
+	@WebsocketHandlerMapping(value = 0xd3fbdccb, name = "SendInlineBotResult")
 	public Api.Updates sendInlineBotResult(MessagesApi.SendInlineBotResult sendInlineBotResult) {
 		return null;
 	}
@@ -312,7 +312,7 @@ public class MessagesController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xbc39e14b, name = "SaveDraft")
+	@WebsocketHandlerMapping(value = 0xb4331e3f, name = "SaveDraft")
 	public Boolean saveDraft(MessagesApi.SaveDraft saveDraft) {
 		return null;
 	}
@@ -442,12 +442,12 @@ public class MessagesController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0x46578472, name = "GetUnreadMentions")
+	@WebsocketHandlerMapping(value = 0xf107e790, name = "GetUnreadMentions")
 	public MessagesApi.Messages getUnreadMentions(MessagesApi.GetUnreadMentions getUnreadMentions) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xf0189d3, name = "ReadMentions")
+	@WebsocketHandlerMapping(value = 0x36e5bf4d, name = "ReadMentions")
 	public MessagesApi.AffectedHistory readMentions(MessagesApi.ReadMentions readMentions) {
 		return null;
 	}
@@ -457,7 +457,7 @@ public class MessagesController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xf803138f, name = "SendMultiMedia")
+	@WebsocketHandlerMapping(value = 0xb6f11a1c, name = "SendMultiMedia")
 	public Api.Updates sendMultiMedia(MessagesApi.SendMultiMedia sendMultiMedia) {
 		return null;
 	}
@@ -542,7 +542,7 @@ public class MessagesController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0x732eef00, name = "GetSearchCounters")
+	@WebsocketHandlerMapping(value = 0xae7cc1, name = "GetSearchCounters")
 	public MessagesApi.SearchCounter[] getSearchCounters(MessagesApi.GetSearchCounters getSearchCounters) {
 		return null;
 	}
@@ -632,7 +632,7 @@ public class MessagesController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xf025bc8b, name = "UnpinAllMessages")
+	@WebsocketHandlerMapping(value = 0xee22b9a8, name = "UnpinAllMessages")
 	public MessagesApi.AffectedHistory unpinAllMessages(MessagesApi.UnpinAllMessages unpinAllMessages) {
 		return null;
 	}
@@ -752,7 +752,7 @@ public class MessagesController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0x25690ce4, name = "SendReaction")
+	@WebsocketHandlerMapping(value = 0xd30d78d4, name = "SendReaction")
 	public Api.Updates sendReaction(MessagesApi.SendReaction sendReaction) {
 		return null;
 	}
@@ -762,12 +762,12 @@ public class MessagesController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xe0ee6b77, name = "GetMessageReactionsList")
+	@WebsocketHandlerMapping(value = 0x461b3f48, name = "GetMessageReactionsList")
 	public MessagesApi.MessageReactionsList getMessageReactionsList(MessagesApi.GetMessageReactionsList getMessageReactionsList) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0x14050ea6, name = "SetChatAvailableReactions")
+	@WebsocketHandlerMapping(value = 0xfeb16771, name = "SetChatAvailableReactions")
 	public Api.Updates setChatAvailableReactions(MessagesApi.SetChatAvailableReactions setChatAvailableReactions) {
 		return null;
 	}
@@ -777,7 +777,7 @@ public class MessagesController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xd960c4d4, name = "SetDefaultReaction")
+	@WebsocketHandlerMapping(value = 0x4f47a016, name = "SetDefaultReaction")
 	public Boolean setDefaultReaction(MessagesApi.SetDefaultReaction setDefaultReaction) {
 		return null;
 	}
@@ -787,12 +787,12 @@ public class MessagesController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xe85bae1a, name = "GetUnreadReactions")
+	@WebsocketHandlerMapping(value = 0x3223495b, name = "GetUnreadReactions")
 	public MessagesApi.Messages getUnreadReactions(MessagesApi.GetUnreadReactions getUnreadReactions) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0x82e251d7, name = "ReadReactions")
+	@WebsocketHandlerMapping(value = 0x54aa7f8e, name = "ReadReactions")
 	public MessagesApi.AffectedHistory readReactions(MessagesApi.ReadReactions readReactions) {
 		return null;
 	}
@@ -817,17 +817,17 @@ public class MessagesController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0x91b15831, name = "RequestWebView")
+	@WebsocketHandlerMapping(value = 0x178b480b, name = "RequestWebView")
 	public Api.TypeWebViewResult requestWebView(MessagesApi.RequestWebView requestWebView) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xea5fbcce, name = "ProlongWebView")
+	@WebsocketHandlerMapping(value = 0x7ff34309, name = "ProlongWebView")
 	public Boolean prolongWebView(MessagesApi.ProlongWebView prolongWebView) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0x6abb2f73, name = "RequestSimpleWebView")
+	@WebsocketHandlerMapping(value = 0x299bec8e, name = "RequestSimpleWebView")
 	public Api.TypeSimpleWebViewResult requestSimpleWebView(MessagesApi.RequestSimpleWebView requestSimpleWebView) {
 		return null;
 	}
@@ -849,6 +849,46 @@ public class MessagesController {
 
 	@WebsocketHandlerMapping(value = 0x7f1d072f, name = "RateTranscribedAudio")
 	public Boolean rateTranscribedAudio(MessagesApi.RateTranscribedAudio rateTranscribedAudio) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xd9ab0f54, name = "GetCustomEmojiDocuments")
+	public Api.Document[] getCustomEmojiDocuments(MessagesApi.GetCustomEmojiDocuments getCustomEmojiDocuments) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xfbfca18f, name = "GetEmojiStickers")
+	public MessagesApi.AllStickers getEmojiStickers(MessagesApi.GetEmojiStickers getEmojiStickers) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xecf6736, name = "GetFeaturedEmojiStickers")
+	public MessagesApi.FeaturedStickers getFeaturedEmojiStickers(MessagesApi.GetFeaturedEmojiStickers getFeaturedEmojiStickers) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0x3f64c076, name = "ReportReaction")
+	public Boolean reportReaction(MessagesApi.ReportReaction reportReaction) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xbb8125ba, name = "GetTopReactions")
+	public MessagesApi.Reactions getTopReactions(MessagesApi.GetTopReactions getTopReactions) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0x39461db2, name = "GetRecentReactions")
+	public MessagesApi.Reactions getRecentReactions(MessagesApi.GetRecentReactions getRecentReactions) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0x9dfeefb4, name = "ClearRecentReactions")
+	public Boolean clearRecentReactions(MessagesApi.ClearRecentReactions clearRecentReactions) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0x84f80814, name = "GetExtendedMedia")
+	public Api.Updates getExtendedMedia(MessagesApi.GetExtendedMedia getExtendedMedia) {
 		return null;
 	}
 }

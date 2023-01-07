@@ -1,16 +1,17 @@
 package com.im.lib;
 
+import com.im.lib.entity.AesParams;
 import io.netty.buffer.ByteBuf;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Stack;
 
 public class Helpers {
+
+    private Helpers() {}
 
     //compute a^b mod p fastly
     public static BigInteger fastMod(BigInteger a, BigInteger b, BigInteger p) {
@@ -58,7 +59,7 @@ public class Helpers {
         // 参数16表示16进制
         StringBuilder result = new StringBuilder(integer.toString(16));
         // 不足32位高位补零
-        while(result.length() < 32) {
+        while (result.length() < 32) {
             result.insert(0, "0");
         }
         return result.toString();
@@ -66,6 +67,7 @@ public class Helpers {
 
     /**
      * 获取min(包括) - max(包括)之间的随机数
+     *
      * @param min 最小值
      * @param max 最大值
      */
@@ -121,7 +123,7 @@ public class Helpers {
     }
 
 
-    public static synchronized byte[] slice(byte[] bytes, int ...opt) {
+    public static synchronized byte[] slice(byte[] bytes, int... opt) {
         int length = opt.length;
         int start, end;
         if (length == 0) {
@@ -134,13 +136,13 @@ public class Helpers {
             throw new RuntimeException("slice can include at most two index!");
         }
         start = opt[0];
-        byte[] result = new byte[end - start];
-        if (end - start >= 0) System.arraycopy(bytes, start, result, 0, end - start);
-
-        return result;
+//        byte[] result = new byte[end - start];
+//        if (end - start >= 0) System.arraycopy(bytes, start, result, 0, end - start);
+        return Arrays.copyOfRange(bytes, start, end);
+//        return result;
     }
 
-    public static synchronized byte[] concat(byte[] ...bytes) {
+    public static synchronized byte[] concat(byte[]... bytes) {
         int length = 0;
 
         for (byte[] b : bytes) {
@@ -174,7 +176,8 @@ public class Helpers {
 
     /**
      * 从字节数组中读取BigInteger
-     * @param bytes 字节数组
+     *
+     * @param bytes  字节数组
      * @param little 给定字节数组是小端字节序
      */
     public static BigInteger readBigIntegerFromBytes(byte[] bytes, boolean little, boolean signed) {
@@ -185,7 +188,7 @@ public class Helpers {
         }
         BigInteger result = new BigInteger("0");
 
-        if(little){
+        if (little) {
             for (int i = buffer.length - 1; i >= 0; i--) {
                 result = result.shiftLeft(8).or(new BigInteger(String.valueOf(buffer[i])));
             }
@@ -225,6 +228,7 @@ public class Helpers {
 
     /**
      * 获取给定数量的随机字节数组
+     *
      * @param count 随机字节数组数量
      */
     public static byte[] generateRandomBytes(int count) {
@@ -246,10 +250,10 @@ public class Helpers {
 
     public static byte[] readBytesFromInt(int value) {
         byte[] result = new byte[4];
-        result[3] =  (byte) ((value>>24) & 0xFF);
-        result[2] =  (byte) ((value>>16) & 0xFF);
-        result[1] =  (byte) ((value>>8) & 0xFF);
-        result[0] =  (byte) (value & 0xFF);
+        result[3] = (byte) ((value >> 24) & 0xFF);
+        result[2] = (byte) ((value >> 16) & 0xFF);
+        result[1] = (byte) ((value >> 8) & 0xFF);
+        result[0] = (byte) (value & 0xFF);
         return result;
     }
 
@@ -264,9 +268,10 @@ public class Helpers {
 
     /**
      * 将BigInteger转为字节数组
+     *
      * @param bytesNumber 字节数
-     * @param little 小端字节序，默认true
-     * @param signed 有符号，默认false
+     * @param little      小端字节序，默认true
+     * @param signed      有符号，默认false
      */
     public static byte[] readBufferFromInt(int number, int bytesNumber, Boolean little, Boolean signed) {
         if (little == null) little = true;
@@ -312,4 +317,53 @@ public class Helpers {
         }
         return bytes;
     }
+
+    public static byte[] xorByteArray(byte[] a, byte[] b) {
+        int i = 0;
+        int len = Math.min(a.length, b.length);
+        byte[] bytes = new byte[len];
+        for (; i < len ; i++) {
+            bytes[i] = (byte) (a[i] ^ b[i]);
+        }
+        return bytes;
+    }
+
+    public static void reverse(byte[] bytes) {
+        byte tmp;
+        for (int i = 0, j = bytes.length - 1; i < j; i++, j--) {
+            tmp = bytes[i];
+            bytes[i] = bytes[j];
+            bytes[j] = tmp;
+        }
+    }
+
+    public static byte[] toSignedLittleBuffer(BigInteger bigInteger, int number) {
+        byte[] bytes = new byte[number];
+        BigInteger b = new BigInteger("255");
+        BigInteger tmp;
+        for (int i = 0; i < number; i++) {
+            tmp = bigInteger.shiftRight(8 * i).and(b);
+            bytes[i] = tmp.byteValue();
+        }
+        return bytes;
+    }
+
+    public static AesParams generateKeyDataFromNonce(BigInteger serverNonce, BigInteger newNonce) {
+        byte[] serverNonceBytes = Helpers.toSignedLittleBuffer(serverNonce, 16);
+        byte[] newNonceBytes = Helpers.toSignedLittleBuffer(newNonce, 32);
+
+        byte[] hash1 = Helpers.SHA1(Helpers.concat(newNonceBytes, serverNonceBytes));
+        byte[] hash2 = Helpers.SHA1(Helpers.concat(serverNonceBytes, newNonceBytes));
+        byte[] hash3 = Helpers.SHA1(Helpers.concat(newNonceBytes, newNonceBytes));
+
+        byte[] key = Helpers.concat(hash1, Helpers.slice(hash2, 0, 12));
+        byte[] iv = Helpers.concat(Helpers.slice(hash2, 12, 20), hash3, Helpers.slice(newNonceBytes, 0, 4));
+        return new AesParams(key, iv);
+    }
+
+    public static void setBytes(byte[] dest, byte[] src, int begin, int end) {
+        if (end - begin >= 0) System.arraycopy(src, 0, dest, begin, end - begin);
+
+    }
+
 }

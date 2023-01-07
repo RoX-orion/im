@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.Cipher;
-import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -17,9 +16,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.security.spec.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.RSAPublicKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
-import java.util.List;
 
 @Slf4j
 public class RSA {
@@ -41,7 +42,7 @@ public class RSA {
 
     private static final HashMap<Long, RSAKeyPair> RSAKey = new HashMap<>();
 
-    static {
+    public static void computeRSAInfo() {
         String publicKeyPath;
         try {
             publicKeyPath = Objects.requireNonNull(RSA.class.getClassLoader().getResource("rsa")).getFile();
@@ -67,21 +68,21 @@ public class RSA {
                     ).trim();
                     byte[] publicKey = Base64.getDecoder().decode(publicKeyBase64);
                     String n = Helpers.readBigIntegerFromBytes(
-                            Helpers.slice(publicKey, 33, 289),
+                            Arrays.copyOfRange(publicKey, 33, 289),
                             false, false
                     ).toString();
 
                     String e = Helpers.readBigIntegerFromBytes(
-                            Helpers.slice(publicKey, 291, 294),
+                            Arrays.copyOfRange(publicKey, 291, 294),
                             false, false
                     ).toString();
-                    BigInteger fingerprint = Helpers.readBigIntegerFromBytes(Helpers.slice(Helpers.SHA1(publicKey), 12, 20), false, true);
+                    BigInteger fingerprint = Helpers.readBigIntegerFromBytes(Arrays.copyOfRange(Helpers.SHA1(publicKey), 12, 20), false, true);
 
                     String privateKeyBase64 = source.substring(
                             source.indexOf(RSA.PRIVATE_KEY_BEGIN) + RSA.PRIVATE_KEY_BEGIN.length()
                     ).trim();
                     byte[] pkcs8Key = Base64.getDecoder().decode(privateKeyBase64);
-                    BigInteger d = Helpers.readBigIntegerFromBytes(Helpers.slice(pkcs8Key, 302, 559), false, false);
+                    BigInteger d = Helpers.readBigIntegerFromBytes(Arrays.copyOfRange(pkcs8Key, 302, 559), false, false);
                     RSAKeyPair rsaKeyPair = new RSAKeyPair(publicKey, d, n);
                     log.info("RSA info:\n fingerprint = {}\n n = {}\n e = {}\n d = {}", fingerprint, n, e, d);
                     RSAKey.put(fingerprint.longValue(), rsaKeyPair);
@@ -110,27 +111,30 @@ public class RSA {
         byte[] pBytes;
         BigInteger p;
         do {
-            pBytes = Helpers.getRandomBytes(4);
+            pBytes = Helpers.getRandomBytes(3);
             p = Helpers.readBigIntegerFromBytes(pBytes, false, false);
-        } while (!p.isProbablePrime(4));
+        } while (!p.isProbablePrime(5));
 
         BigInteger q;
         byte[] qBytes;
+        CreateAuthKeyState createAuthKeyState = new CreateAuthKeyState();
         while (true) {
-            qBytes = Helpers.getRandomBytes(4);
+            qBytes = Helpers.getRandomBytes(3);
             q = Helpers.readBigIntegerFromBytes(qBytes, false, false);
-            if (p.compareTo(q) >= 0) {
+            if (!q.isProbablePrime(5)) {
                 continue;
             }
-            if (q.isProbablePrime(4)) {
-                break;
+            if (p.compareTo(q) >= 0) {
+                BigInteger tmp = p;
+                p = q;
+                q = tmp;
             }
+            break;
         }
 
-        CreateAuthKeyState createAuthKeyState = new CreateAuthKeyState();
         createAuthKeyState.setP(p);
         createAuthKeyState.setQ(q);
-        createAuthKeyState.setPq(p.multiply(q).toByteArray());
+        createAuthKeyState.setPq(p.multiply(q));
         return createAuthKeyState;
     }
 
@@ -154,5 +158,9 @@ public class RSA {
 
     public static List<Long> getFingerprintList() {
         return new ArrayList<>(RSAKey.keySet());
+    }
+
+    public static HashMap<Long, RSAKeyPair> getRSAKey() {
+        return RSAKey;
     }
 }

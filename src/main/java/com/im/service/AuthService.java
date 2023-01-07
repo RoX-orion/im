@@ -1,11 +1,7 @@
 package com.im.service;
 
-import com.im.api.Api;
 import com.im.config.Constant;
 import com.im.entity.User;
-import com.im.lib.Helpers;
-import com.im.lib.crypto.DH;
-import com.im.lib.entity.DHResult;
 import com.im.lib.entity.WsApiResult;
 import com.im.utils.CommonUtil;
 import io.netty.channel.Channel;
@@ -81,8 +77,8 @@ public class AuthService {
          * uid:authKey
          * AES(uid + authKey)
          */
-        String authKey = stringRedisTemplate.opsForValue().get(Constant.UID_AUTH_KEY + user.getUid());
-        String originalToken = user.getUid() + ":" + authKey;
+//        String authKey = stringRedisTemplate.opsForValue().get(Constant.UID_AUTH_KEY + user.getUid());
+//        String originalToken = user.getUid() + ":" + authKey;
 
         String token = null;
 //        try {

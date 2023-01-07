@@ -25,9 +25,9 @@ public class UserService {
     public User createUser(String email) {
         User user = new User();
         user.setEmail(email);
-        user.setSign("这个人很懒，什么都没有写");
-        user.setDisplayName(email);
-        user.setStatus("active");
+//        user.setSign("这个人很懒，什么都没有写");
+//        user.setDisplayName(email);
+//        user.setStatus("active");
 
         userMapper.insert(user);
         return user;

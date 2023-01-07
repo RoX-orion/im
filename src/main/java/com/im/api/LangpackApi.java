@@ -9,7 +9,7 @@ public class LangpackApi {
 
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetLangPack extends Api.TypeLangPackDifference {
 		private String langPack;
 		private String langCode;
@@ -23,7 +23,7 @@ public class LangpackApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetDifference extends Api.TypeLangPackDifference {
 		private String langPack;
 		private String langCode;
@@ -36,7 +36,7 @@ public class LangpackApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetLanguage extends Api.TypeLangPackLanguage {
 		private String langPack;
 		private String langCode;

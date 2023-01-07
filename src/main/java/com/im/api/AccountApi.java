@@ -24,6 +24,8 @@ public class AccountApi {
 	public static class TypeResetPasswordResult {}
 	public static class TypeSavedRingtones {}
 	public static class TypeSavedRingtone {}
+	public static class TypeEmojiStatuses {}
+	public static class TypeEmailVerified {}
 
 	@Data
 	public static class PrivacyRules {
@@ -40,9 +42,9 @@ public class AccountApi {
 
 	@Data
 	public static class Password {
-		private Api.True hasRecovery;
-		private Api.True hasSecureValues;
-		private Api.True hasPassword;
+		private Boolean hasRecovery;
+		private Boolean hasSecureValues;
+		private Boolean hasPassword;
 		private Api.TypePasswordKdfAlgo currentAlgo;
 		private byte[] srp_B;
 		private BigInteger srpId;
@@ -52,6 +54,7 @@ public class AccountApi {
 		private Api.TypeSecurePasswordKdfAlgo newSecureAlgo;
 		private byte[] secureRandom;
 		private int pendingResetDate;
+		private String loginEmailPattern;
 	}
 
 	@Data
@@ -112,7 +115,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class AutoDownloadSettings extends Api.TypeAutoDownloadSettings {
 		private Api.TypeAutoDownloadSettings low;
 		private Api.TypeAutoDownloadSettings medium;
@@ -131,8 +134,8 @@ public class AccountApi {
 
 	@Data
 	public static class ContentSettings {
-		private Api.True sensitiveEnabled;
-		private Api.True sensitiveCanChange;
+		private Boolean sensitiveEnabled;
+		private Boolean sensitiveCanChange;
 	}
 
 	@Data
@@ -169,8 +172,29 @@ public class AccountApi {
 	}
 
 	@Data
+	public static class EmojiStatusesNotModified {
+	}
+
+	@Data
+	public static class EmojiStatuses {
+		private BigInteger hash;
+		private Api.TypeEmojiStatus[] statuses;
+	}
+
+	@Data
+	public static class EmailVerified {
+		private String email;
+	}
+
+	@Data
+	public static class EmailVerifiedLogin {
+		private String email;
+		private AuthApi.TypeSentCode sentCode;
+	}
+
+	@Data
 	public static class RegisterDevice {
-		private Api.True noMuted;
+		private Boolean noMuted;
 		private int tokenType;
 		private String token;
 		private Boolean appSandbox;
@@ -192,7 +216,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetNotifySettings extends Api.TypePeerNotifySettings {
 		private Api.TypeInputNotifyPeer peer;
 	}
@@ -202,7 +226,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class UpdateProfile extends Api.TypeUser {
 		private String firstName;
 		private String lastName;
@@ -232,7 +256,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class UpdateUsername extends Api.TypeUser {
 		private String username;
 	}
@@ -251,10 +275,11 @@ public class AccountApi {
 	@Data
 	public static class DeleteAccount {
 		private String reason;
+		private Api.TypeInputCheckPasswordSRP password;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetAccountTTL extends Api.TypeAccountDaysTTL {
 	}
 
@@ -270,7 +295,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ChangePhone extends Api.TypeUser {
 		private String phoneNumber;
 		private String phoneCodeHash;
@@ -347,7 +372,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SaveSecureValue extends Api.TypeSecureValue {
 		private Api.TypeInputSecureValue value;
 		private BigInteger secureSecretId;
@@ -389,29 +414,30 @@ public class AccountApi {
 
 	@Data
 	public static class SendVerifyEmailCode {
+		private Api.TypeEmailVerifyPurpose purpose;
 		private String email;
 	}
 
 	@Data
 	public static class VerifyEmail {
-		private String email;
-		private String code;
+		private Api.TypeEmailVerifyPurpose purpose;
+		private Api.TypeEmailVerification verification;
 	}
 
 	@Data
 	public static class InitTakeoutSession {
-		private Api.True contacts;
-		private Api.True messageUsers;
-		private Api.True messageChats;
-		private Api.True messageMegagroups;
-		private Api.True messageChannels;
-		private Api.True files;
+		private Boolean contacts;
+		private Boolean messageUsers;
+		private Boolean messageChats;
+		private Boolean messageMegagroups;
+		private Boolean messageChannels;
+		private Boolean files;
 		private BigInteger fileMaxSize;
 	}
 
 	@Data
 	public static class FinishTakeoutSession {
-		private Api.True success;
+		private Boolean success;
 	}
 
 	@Data
@@ -437,20 +463,20 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetNotifyExceptions extends Api.TypeUpdates {
-		private Api.True compareSound;
+		private Boolean compareSound;
 		private Api.TypeInputNotifyPeer peer;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetWallPaper extends Api.TypeWallPaper {
 		private Api.TypeInputWallPaper wallpaper;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class UploadWallPaper extends Api.TypeWallPaper {
 		private Api.TypeInputFile file;
 		private String mimeType;
@@ -475,19 +501,19 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetAutoDownloadSettings extends Api.TypeAutoDownloadSettings {
 	}
 
 	@Data
 	public static class SaveAutoDownloadSettings {
-		private Api.True low;
-		private Api.True high;
+		private Boolean low;
+		private Boolean high;
 		private Api.TypeAutoDownloadSettings settings;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class UploadTheme extends Api.TypeDocument {
 		private Api.TypeInputFile file;
 		private Api.TypeInputFile thumb;
@@ -496,7 +522,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class CreateTheme extends Api.TypeTheme {
 		private String slug;
 		private String title;
@@ -505,7 +531,7 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class UpdateTheme extends Api.TypeTheme {
 		private String format;
 		private Api.TypeInputTheme theme;
@@ -523,18 +549,17 @@ public class AccountApi {
 
 	@Data
 	public static class InstallTheme {
-		private Api.True dark;
+		private Boolean dark;
 		private Api.TypeInputTheme theme;
 		private String format;
 		private Api.TypeBaseTheme baseTheme;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetTheme extends Api.TypeTheme {
 		private String format;
 		private Api.TypeInputTheme theme;
-		private BigInteger documentId;
 	}
 
 	@Data
@@ -545,7 +570,7 @@ public class AccountApi {
 
 	@Data
 	public static class SetContentSettings {
-		private Api.True sensitiveEnabled;
+		private Boolean sensitiveEnabled;
 	}
 
 	@Data
@@ -558,12 +583,12 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetGlobalPrivacySettings extends Api.TypeGlobalPrivacySettings {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SetGlobalPrivacySettings extends Api.TypeGlobalPrivacySettings {
 		private Api.TypeGlobalPrivacySettings settings;
 	}
@@ -613,10 +638,40 @@ public class AccountApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class UploadRingtone extends Api.TypeDocument {
 		private Api.TypeInputFile file;
 		private String fileName;
 		private String mimeType;
+	}
+
+	@Data
+	public static class UpdateEmojiStatus {
+		private Api.TypeEmojiStatus emojiStatus;
+	}
+
+	@Data
+	public static class GetDefaultEmojiStatuses {
+		private BigInteger hash;
+	}
+
+	@Data
+	public static class GetRecentEmojiStatuses {
+		private BigInteger hash;
+	}
+
+	@Data
+	public static class ClearRecentEmojiStatuses {
+	}
+
+	@Data
+	public static class ReorderUsernames {
+		private String[] order;
+	}
+
+	@Data
+	public static class ToggleUsername {
+		private String username;
+		private Boolean active;
 	}
 }

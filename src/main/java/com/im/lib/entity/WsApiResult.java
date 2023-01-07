@@ -2,22 +2,24 @@ package com.im.lib.entity;
 
 import lombok.Data;
 
+import java.math.BigInteger;
+
 @Data
 public class WsApiResult {
     private int constructorId;
 
-    private long authKeyId;
+    private BigInteger authKeyId;
     private Class<?> returnType;
     private Object data;
 
-    public WsApiResult(int constructorId, long authKeyId, Class<?> returnType, Object data) {
+    public WsApiResult(int constructorId, BigInteger authKeyId, Class<?> returnType, Object data) {
         this.constructorId = constructorId;
         this.authKeyId = authKeyId;
         this.returnType = returnType;
         this.data = data;
     }
 
-    public static WsApiResult ok(int constructorId, long authKeyId, Class<?> returnType, Object data) {
+    public static WsApiResult ok(int constructorId, BigInteger authKeyId, Class<?> returnType, Object data) {
         return new WsApiResult(constructorId, authKeyId, returnType, data);
     }
 

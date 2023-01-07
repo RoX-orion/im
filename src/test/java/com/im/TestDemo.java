@@ -8,37 +8,16 @@ import com.im.lib.Helpers;
 import com.im.lib.core.MTProtoStateService;
 import com.im.lib.crypto.AES;
 import com.im.lib.crypto.DH;
-import com.im.lib.crypto.RSA;
-import com.im.lib.entity.MTProtoState;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.util.internal.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
 
-import javax.crypto.EncryptedPrivateKeyInfo;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.reflect.Field;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.RSAPrivateKeySpec;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Objects;
 
 @Slf4j
 public class TestDemo {
@@ -139,7 +118,6 @@ public class TestDemo {
 //        System.out.println(now - Math.floor(now));
 //        double floor = Math.floor((now - Math.floor(now)) * 1e9);
 //        System.out.println(floor);
-        System.out.println(new MTProtoStateService().getNewMsgId());
     }
 
     @Test
@@ -382,8 +360,11 @@ public class TestDemo {
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
-        System.out.println(-1099002127 & 0xffffffffL);
+//        System.out.println(-1099002127 & 0xffffffffL);
+        System.out.println(Integer.toHexString(-686627650));
+        System.out.println(0xd712e4be);
     }
+
 
     @Test
     public void plainPower() {
@@ -493,8 +474,27 @@ public class TestDemo {
 
     @Test
     public void testAESIGE() {
-        BigInteger keyAesEncryptedInt = new BigInteger("9005836212356129453154075607208047551157999905932473156830845413292773028268019107782116699358080587119656289546829340760971668098216045130719925735967737911659141327708196539257613591097435520138807433136665458993560950867785921966627273873392443980479290395520964011057603879344593975817253356026551791470829528890285771830226507797067040441228975199663885931629564591289994915587996235219694495024046012988676775709795550798933006039208198288068939791592405254527819036453038648134743262404533603903504384863636473664653895282616878162031173703111110718948097824635095100135917732377567677757086437604041298570218");
+        BigInteger keyAesEncryptedInt = new BigInteger("8900923281321603797558071721967738707552812628948398562664738579930427060062762121747392019085929382301984530111754317371423157317244800402732213987396612495544402124185988036405798063096230490577172649816610633896079889761483288868792985267622198247443587805472341000943568406729303419698389166069516774873223872889294466616664304915173894454027574826380161820205892928697666207909320267291473661632363459723224659061945039655602766158522795602349097853456681028374353067330982988439409369277693349370284954884039597838784910151060048958266604346716637062520085433777933609298308362789146442531782357522603001751930");
+        byte[] bytes = keyAesEncryptedInt.toByteArray();
+        System.out.println(Arrays.toString(bytes));
 
-        System.out.println(keyAesEncryptedInt.toByteArray().length);
+        byte[] tempKeyXor = new byte[32];
+        System.arraycopy(bytes, 0, tempKeyXor, 0, 32);
+
+        byte[] aesEncrypted = new byte[224];
+        System.arraycopy(bytes, 32, aesEncrypted, 0, 224);
+        byte[] tempKey = Helpers.xorByteArray(tempKeyXor, Helpers.SHA256(aesEncrypted));
+//        System.out.println(Arrays.toString(tempKey));
+        byte[] iv = new byte[32];
+        byte[] dataWithHash = AES.igeDecrypt(tempKey, iv, aesEncrypted);
+
+        System.out.println(Arrays.toString(dataWithHash));
+    }
+
+    @Test
+    public void testReverse() {
+        byte[] bytes = new byte[]{};
+        Helpers.reverse(bytes);
+        System.out.println(Arrays.toString(bytes));
     }
 }

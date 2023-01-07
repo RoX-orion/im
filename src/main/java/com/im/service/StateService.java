@@ -18,21 +18,21 @@ public class StateService {
          * 设置channelId-uid表
          * 1:1
          */
-        stringRedisTemplate.opsForValue().set(
-                Constant.CHANNEL_ID_UID + channelId,
-                String.valueOf(user.getUid())
-        );
+//        stringRedisTemplate.opsForValue().set(
+//                Constant.CHANNEL_ID_UID + channelId,
+//                String.valueOf(user.getUid())
+//        );
 
         /*
          * 设置uid-channelId表
          * uid------channelId
          *      1:1
          */
-        stringRedisTemplate.opsForValue().set(
-                Constant.UID_CHANNEL_ID + user.getUid(), channelId
-        );
+//        stringRedisTemplate.opsForValue().set(
+//                Constant.UID_CHANNEL_ID + user.getUid(), channelId
+//        );
 
-        stringRedisTemplate.opsForValue().set(Constant.USER + user.getUid(), Constant.ONLINE);
+//        stringRedisTemplate.opsForValue().set(Constant.USER + user.getUid(), Constant.ONLINE);
     }
 
     public void outGroup(String uid, String channelId) {

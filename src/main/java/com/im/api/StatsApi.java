@@ -58,12 +58,12 @@ public class StatsApi {
 
 	@Data
 	public static class GetBroadcastStats {
-		private Api.True dark;
+		private Boolean dark;
 		private Api.TypeInputChannel channel;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class LoadAsyncGraph extends Api.TypeStatsGraph {
 		private String token;
 		private BigInteger x;
@@ -71,7 +71,7 @@ public class StatsApi {
 
 	@Data
 	public static class GetMegagroupStats {
-		private Api.True dark;
+		private Boolean dark;
 		private Api.TypeInputChannel channel;
 	}
 
@@ -87,7 +87,7 @@ public class StatsApi {
 
 	@Data
 	public static class GetMessageStats {
-		private Api.True dark;
+		private Boolean dark;
 		private Api.TypeInputChannel channel;
 		private int msgId;
 	}

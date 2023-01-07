@@ -1,6 +1,5 @@
 package com.im.lib.net;
 
-import com.im.lib.Helpers;
 import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +17,7 @@ public class TcpAbridged {
         } else {
             bytes = new byte[4];
             bytes[0] = 0x7f;
-            byte[] b = Helpers.readBufferFromInt(length, 3, null, null);
-            System.arraycopy(b, 0, bytes, 1, b.length);
+            this.readLengthLE(length, bytes);
         }
         return bytes;
     }
@@ -40,5 +38,13 @@ public class TcpAbridged {
             sum |= (bytes[i] << (i * 8));
         }
         return sum;
+    }
+
+    private void readLengthLE(int length, byte[] bytes) {
+        bytes[1] = (byte) (length % 0xff);
+        length >>>= 8;
+        bytes[2] = (byte) (length % 0xff);
+        length >>>= 8;
+        bytes[3] = (byte) length;
     }
 }

@@ -39,7 +39,7 @@ public class TLHelpers {
     }
 
     public static Set<String> CONFLICTING_FIELD = new HashSet<>(Arrays.asList(
-            "long", "default", "static", "public", "final", "private"
+            "long", "default", "static", "public", "final", "private", "short"
     ));
     public static final String suffix = "Suffix";
     private static int[] crcTable;

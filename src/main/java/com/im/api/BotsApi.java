@@ -9,7 +9,7 @@ public class BotsApi {
 
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SendCustomRequest extends Api.TypeDataJSON {
 		private String customMethod;
 		private Api.TypeDataJSON params;
@@ -47,7 +47,7 @@ public class BotsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetBotMenuButton extends Api.TypeBotMenuButton {
 		private Api.TypeInputUser userId;
 	}

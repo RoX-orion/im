@@ -15,11 +15,11 @@ public class StickersApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class CreateStickerSet extends Api.TypeStickerSet {
-		private Api.True masks;
-		private Api.True animated;
-		private Api.True videos;
+		private Boolean masks;
+		private Boolean animated;
+		private Boolean videos;
 		private Api.TypeInputUser userId;
 		private String title;
 		private String shortName;
@@ -29,27 +29,27 @@ public class StickersApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class RemoveStickerFromSet extends Api.TypeStickerSet {
 		private Api.TypeInputDocument sticker;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ChangeStickerPosition extends Api.TypeStickerSet {
 		private Api.TypeInputDocument sticker;
 		private int position;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class AddStickerToSet extends Api.TypeStickerSet {
 		private Api.TypeInputStickerSet stickerset;
 		private Api.TypeInputStickerSetItem sticker;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class SetStickerSetThumb extends Api.TypeStickerSet {
 		private Api.TypeInputStickerSet stickerset;
 		private Api.TypeInputDocument thumb;

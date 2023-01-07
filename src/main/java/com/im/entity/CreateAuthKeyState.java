@@ -8,7 +8,7 @@ import java.math.BigInteger;
 @Data
 public class CreateAuthKeyState {
 
-    private byte[] pq;
+    private BigInteger pq;
 
     private BigInteger p;
 
@@ -16,4 +16,8 @@ public class CreateAuthKeyState {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private BigInteger newNonce;
+
+    private BigInteger ga;
+
+    private BigInteger a;
 }

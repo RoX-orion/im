@@ -47,28 +47,18 @@ public class PaymentsController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xfec13c6, name = "AssignAppStoreTransaction")
+	@WebsocketHandlerMapping(value = 0x80ed747d, name = "AssignAppStoreTransaction")
 	public Api.Updates assignAppStoreTransaction(PaymentsApi.AssignAppStoreTransaction assignAppStoreTransaction) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0x4faa4aed, name = "AssignPlayMarketTransaction")
+	@WebsocketHandlerMapping(value = 0xdffd50d3, name = "AssignPlayMarketTransaction")
 	public Api.Updates assignPlayMarketTransaction(PaymentsApi.AssignPlayMarketTransaction assignPlayMarketTransaction) {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xd164e36a, name = "RestorePlayMarketReceipt")
-	public Api.Updates restorePlayMarketReceipt(PaymentsApi.RestorePlayMarketReceipt restorePlayMarketReceipt) {
-		return null;
-	}
-
-	@WebsocketHandlerMapping(value = 0xaa6a90c8, name = "CanPurchasePremium")
+	@WebsocketHandlerMapping(value = 0x9fc19eb6, name = "CanPurchasePremium")
 	public Boolean canPurchasePremium(PaymentsApi.CanPurchasePremium canPurchasePremium) {
-		return null;
-	}
-
-	@WebsocketHandlerMapping(value = 0x146e958d, name = "RequestRecurringPayment")
-	public Api.Updates requestRecurringPayment(PaymentsApi.RequestRecurringPayment requestRecurringPayment) {
 		return null;
 	}
 }

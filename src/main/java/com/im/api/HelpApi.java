@@ -33,7 +33,7 @@ public class HelpApi {
 
 	@Data
 	public static class AppUpdate {
-		private Api.True canNotSkip;
+		private Boolean canNotSkip;
 		private int id;
 		private String version;
 		private String text;
@@ -60,7 +60,7 @@ public class HelpApi {
 
 	@Data
 	public static class TermsOfService {
-		private Api.True popup;
+		private Boolean popup;
 		private Api.TypeDataJSON id;
 		private String text;
 		private Api.TypeMessageEntity[] entities;
@@ -91,7 +91,7 @@ public class HelpApi {
 
 	@Data
 	public static class DeepLinkInfo {
-		private Api.True updateApp;
+		private Boolean updateApp;
 		private String message;
 		private Api.TypeMessageEntity[] entities;
 	}
@@ -130,7 +130,7 @@ public class HelpApi {
 
 	@Data
 	public static class PromoData {
-		private Api.True proxy;
+		private Boolean proxy;
 		private int expires;
 		private Api.TypePeer peer;
 		private Api.TypeChat[] chats;
@@ -148,7 +148,7 @@ public class HelpApi {
 
 	@Data
 	public static class Country {
-		private Api.True hidden;
+		private Boolean hidden;
 		private String iso2;
 		private String defaultName;
 		private String name;
@@ -171,18 +171,17 @@ public class HelpApi {
 		private Api.TypeMessageEntity[] statusEntities;
 		private String[] videoSections;
 		private Api.TypeDocument[] videos;
-		private String currency;
-		private BigInteger monthlyAmount;
+		private Api.TypePremiumSubscriptionOption[] periodOptions;
 		private Api.TypeUser[] users;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetConfig extends Api.TypeConfig {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetNearestDc extends Api.TypeNearestDc {
 	}
 
@@ -200,7 +199,7 @@ public class HelpApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetAppChangelog extends Api.TypeUpdates {
 		private String prevAppVersion;
 	}
@@ -212,7 +211,7 @@ public class HelpApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetCdnConfig extends Api.TypeCdnConfig {
 	}
 
@@ -236,7 +235,7 @@ public class HelpApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetAppConfig extends Api.TypeJSONValue {
 	}
 

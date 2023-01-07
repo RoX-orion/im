@@ -1,9 +1,9 @@
 package com.im.lib.net;
 
-import com.im.lib.entity.HandlerMeta;
-import com.im.lib.entity.RequestData;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
+import com.im.lib.entity.HandlerMeta;
+import com.im.lib.entity.RequestData;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.exception.WebsocketHandlerMappingException;
 import io.netty.channel.Channel;
@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.math.BigInteger;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -52,10 +53,6 @@ public class DispatcherWebsocket implements ApplicationContextAware {
                 }
             }
         }
-
-//        for (Integer key : handlerContainer.keySet()) {
-//            System.out.println(key);
-//        }
     }
 
     @Override
@@ -81,13 +78,14 @@ public class DispatcherWebsocket implements ApplicationContextAware {
             throw new WebsocketHandlerMappingException("current websocket request didn't config handler!");
         }
         Method method = handlerMeta.getMethod();
-        Class<?> returnType = method.getReturnType();
+//        Class<?> returnType = method.getReturnType();
         Parameter[] parameters = method.getParameters();
         Object handlerObject = handlerMeta.getHandlerObject();
-        Object[] invokeParam = bindParam.bind(parameters, requestParam, channel);
+        Object[] invokeParam = bindParam.bind(parameters, requestParam, channel, requestData);
         Object response = method.invoke(handlerObject, invokeParam);
+        Class<?> returnType = response.getClass();
 
-        long authKeyId = requestData.getAuthKeyId();
+        BigInteger authKeyId = requestData.getAuthKeyId();
         return WsApiResult.ok(constructorId, authKeyId, returnType, response);
     }
 

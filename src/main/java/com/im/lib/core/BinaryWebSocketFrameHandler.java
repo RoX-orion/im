@@ -1,23 +1,22 @@
 package com.im.lib.core;
 
-import com.im.lib.Helpers;
 import com.im.lib.entity.RequestData;
 import com.im.lib.entity.WsApiResult;
-import com.im.lib.net.*;
+import com.im.lib.net.DispatcherWebsocket;
+import com.im.lib.net.MTProto;
+import com.im.lib.net.TransportManager;
 import com.im.service.ChatService;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -35,8 +34,8 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
      */
     private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
-    @Resource
-    private ServerContext serverContext;
+//    @Resource
+//    private ServerContext serverContext;
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -49,16 +48,16 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     @Resource
     private MTProto mtproto;
 
+    private final TransportManager transportManager = new TransportManager();
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, BinaryWebSocketFrame binaryWebSocketFrame) throws NoSuchFieldException, IllegalAccessException {
         Channel channel = ctx.channel();
         ByteBuf byteBuf = binaryWebSocketFrame.content();
         int length = byteBuf.readableBytes();
-//        byte[] bytes = new byte[length];
         int[] unsignedInt8Array = new int[length];
         for (int i = 0; i < length; i++) {
             byte b = byteBuf.readByte();
-//            bytes[i] = b;
             unsignedInt8Array[i] = b & 0xFF;
         }
         System.out.println("接收到的字节数组: " + length + Arrays.toString(unsignedInt8Array));
@@ -72,11 +71,7 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
         } catch (Exception e){
             e.printStackTrace();
         }
-        if (response.getAuthKeyId() != 0) {
-            mtproto.writeResponse(response, channel);
-        } else {
-            mtproto.mtprotoPlainSender(response, channel);
-        }
+        mtproto.sendData(response, channel);
     }
 
     /**
@@ -86,7 +81,8 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     public void handlerAdded(ChannelHandlerContext ctx) {
         Channel channel = ctx.channel();
         channels.add(channel);
-        serverContext.addChannel(channel.id().asShortText(), channel);
+
+//        serverContext.addChannel(channel.id().asShortText(), channel);
     }
 
     /**
@@ -95,7 +91,7 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         String address = ctx.channel().remoteAddress().toString();
-        log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 上线 " + " : " + serverContext.getChannelSize());
+        log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 上线 " + " : " + channels.size());
     }
 
     /**
@@ -106,8 +102,8 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
         String address = ctx.channel().remoteAddress().toString();
         log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 下线 ");
         ChannelId id = ctx.channel().id();
-        chatService.offline(id);
-        serverContext.removeChannel(id.asShortText());
+//        chatService.offline(id);
+//        serverContext.removeChannel(id.asShortText());
     }
 
     /**
@@ -126,6 +122,6 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
      */
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
-        log.info("当前在线人数是:" + channels.size() + " | all:" + serverContext.getChannelSize());
+        log.info("当前在线人数是:" + channels.size() + " | all:" + channels.size());
     }
 }

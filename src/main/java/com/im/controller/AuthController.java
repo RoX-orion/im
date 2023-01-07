@@ -17,7 +17,7 @@ public class AuthController {
 		return null;
 	}
 
-	@WebsocketHandlerMapping(value = 0xbcd51581, name = "SignIn")
+	@WebsocketHandlerMapping(value = 0x8d52a951, name = "SignIn")
 	public Api.Authorization signIn(AuthApi.SignIn signIn) {
 		return null;
 	}
@@ -99,6 +99,11 @@ public class AuthController {
 
 	@WebsocketHandlerMapping(value = 0xd36bf79, name = "CheckRecoveryPassword")
 	public Boolean checkRecoveryPassword(AuthApi.CheckRecoveryPassword checkRecoveryPassword) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0x2db873a9, name = "ImportWebTokenAuthorization")
+	public Api.Authorization importWebTokenAuthorization(AuthApi.ImportWebTokenAuthorization importWebTokenAuthorization) {
 		return null;
 	}
 }

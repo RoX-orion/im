@@ -1,6 +1,14 @@
+/*
+ * This is the source code of Telegram for Android v. 5.x.x.
+ * It is licensed under GNU GPL v. 2 or later.
+ * You should have received a copy of the license in this archive (see LICENSE).
+ *
+ * Copyright Nikolai Kudashov, 2013-2018.
+ */
+
 package com.im.lib.net;
 
-import io.netty.buffer.ByteBuf;
+import com.im.config.Constant;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
@@ -9,41 +17,64 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 
 @Slf4j
-public class SerializedData {
+public class SerializedData extends AbstractSerializedData {
     protected boolean isOut = true;
-    private ByteArrayOutputStream outBuffer;
+    private ByteArrayOutputStream outbuf;
     private DataOutputStream out;
+    private ByteArrayInputStream inbuf;
+    private DataInputStream in;
     private boolean justCalc = false;
     private int len;
 
     public SerializedData() {
-        outBuffer = new ByteArrayOutputStream();
-        out = new DataOutputStream(outBuffer);
+        outbuf = new ByteArrayOutputStream();
+        out = new DataOutputStream(outbuf);
     }
 
     public SerializedData(boolean calculate) {
         if (!calculate) {
-            outBuffer = new ByteArrayOutputStream();
-            out = new DataOutputStream(outBuffer);
+            outbuf = new ByteArrayOutputStream();
+            out = new DataOutputStream(outbuf);
         }
         justCalc = calculate;
         len = 0;
     }
 
     public SerializedData(int size) {
-        outBuffer = new ByteArrayOutputStream(size);
-        out = new DataOutputStream(outBuffer);
+        outbuf = new ByteArrayOutputStream(size);
+        out = new DataOutputStream(outbuf);
+    }
+
+    public SerializedData(byte[] data) {
+        isOut = false;
+        inbuf = new ByteArrayInputStream(data);
+        in = new DataInputStream(inbuf);
+        len = 0;
     }
 
     public void cleanup() {
         try {
-            if (outBuffer != null) {
-                outBuffer.close();
-                outBuffer = null;
+            if (inbuf != null) {
+                inbuf.close();
+                inbuf = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (in != null) {
+                in.close();
+                in = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (outbuf != null) {
+                outbuf.close();
+                outbuf = null;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,14 +89,35 @@ public class SerializedData {
         }
     }
 
+    public SerializedData(File file) throws Exception {
+        FileInputStream is = new FileInputStream(file);
+        byte[] data = new byte[(int) file.length()];
+        new DataInputStream(is).readFully(data);
+        is.close();
+
+        isOut = false;
+        inbuf = new ByteArrayInputStream(data);
+        in = new DataInputStream(inbuf);
+    }
+
+    public void writeInt32(int x) {
+        if (!justCalc) {
+            writeInt32(x, out);
+        } else {
+            len += 4;
+        }
+    }
+
     private void writeInt32(int x, DataOutputStream out) {
         try {
             for (int i = 0; i < 4; i++) {
                 out.write(x >> (i * 8));
             }
         } catch (Exception e) {
-            log.error("write int32 error");
-            e.printStackTrace();
+            if (Constant.ENABLE_LOGS) {
+                log.error("write int32 error");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -77,27 +129,25 @@ public class SerializedData {
         }
     }
 
-    public void writeInt(int i) {
-        writeInt32(i, out);
-    }
-
     private void writeInt64(long x, DataOutputStream out) {
         try {
             for (int i = 0; i < 8; i++) {
                 out.write((int) (x >> (i * 8)));
             }
         } catch (Exception e) {
-            log.error("write int64 error");
-            e.printStackTrace();
+            if (Constant.ENABLE_LOGS) {
+                log.error("write int64 error");
+                e.printStackTrace();
+            }
         }
     }
 
     public void writeBool(boolean value) {
         if (!justCalc) {
             if (value) {
-                writeInt32(0x997275b5, out);
+                writeInt32(0x997275b5);
             } else {
-                writeInt32(0xbc799737, out);
+                writeInt32(0xbc799737);
             }
         } else {
             len += 4;
@@ -112,8 +162,10 @@ public class SerializedData {
                 len += b.length;
             }
         } catch (Exception e) {
-            log.error("write raw error");
-            e.printStackTrace();
+            if (Constant.ENABLE_LOGS) {
+                log.error("write raw error");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -125,8 +177,10 @@ public class SerializedData {
                 len += count;
             }
         } catch (Exception e) {
-            log.error("write bytes error");
-            e.printStackTrace();
+            if (Constant.ENABLE_LOGS) {
+                log.error("write bytes error");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -138,8 +192,10 @@ public class SerializedData {
                 len += 1;
             }
         } catch (Exception e) {
-            log.error("write byte error");
-            e.printStackTrace();
+            if (Constant.ENABLE_LOGS) {
+                log.error("write byte error");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -151,8 +207,10 @@ public class SerializedData {
                 len += 1;
             }
         } catch (Exception e) {
-            log.error("write byte error");
-            e.printStackTrace();
+            if (Constant.ENABLE_LOGS) {
+                log.error("write byte error");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -189,17 +247,21 @@ public class SerializedData {
                 i++;
             }
         } catch (Exception e) {
-            log.error("write byte array error");
-            e.printStackTrace();
+            if (Constant.ENABLE_LOGS) {
+                log.error("write byte array error");
+                e.printStackTrace();
+            }
         }
     }
 
     public void writeString(String s) {
         try {
-            writeByteArray(s.getBytes(StandardCharsets.UTF_8));
+            writeByteArray(s.getBytes("UTF-8"));
         } catch (Exception e) {
-            log.error("write string error");
-            e.printStackTrace();
+            if (Constant.ENABLE_LOGS) {
+                log.error("write string error");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -236,8 +298,10 @@ public class SerializedData {
                 i++;
             }
         } catch (Exception e) {
-            log.error("write byte array error");
-            e.printStackTrace();
+            if (Constant.ENABLE_LOGS) {
+                log.error("write byte array error");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -245,21 +309,275 @@ public class SerializedData {
         try {
             writeInt64(Double.doubleToRawLongBits(d));
         } catch (Exception e) {
-            log.error("write double error");
-            e.printStackTrace();
+            if (Constant.ENABLE_LOGS) {
+                log.error("write double error");
+                e.printStackTrace();
+            }
         }
     }
 
     public void writeFloat(float d) {
         try {
-            writeInt32(Float.floatToIntBits(d), out);
+            writeInt32(Float.floatToIntBits(d));
         } catch (Exception e) {
-            log.error("write float error");
-            e.printStackTrace();
+            if (Constant.ENABLE_LOGS) {
+                log.error("write float error");
+                e.printStackTrace();
+            }
         }
     }
 
+    public int length() {
+        if (!justCalc) {
+            return isOut ? outbuf.size() : inbuf.available();
+        }
+        return len;
+    }
+
+    protected void set(byte[] newData) {
+        isOut = false;
+        inbuf = new ByteArrayInputStream(newData);
+        in = new DataInputStream(inbuf);
+    }
+
     public byte[] toByteArray() {
-        return outBuffer.toByteArray();
+        return outbuf.toByteArray();
+    }
+
+    public void skip(int count) {
+        if (count == 0) {
+            return;
+        }
+        if (!justCalc) {
+            if (in != null) {
+                try {
+                    in.skipBytes(count);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            len += count;
+        }
+    }
+
+    public int getPosition() {
+        return len;
+    }
+
+    public boolean readBool(boolean exception) {
+        int consructor = readInt32(exception);
+        if (consructor == 0x997275b5) {
+            return true;
+        } else if (consructor == 0xbc799737) {
+            return false;
+        }
+        if (exception) {
+            throw new RuntimeException("Not bool value!");
+        } else {
+            if (Constant.ENABLE_LOGS) {
+                log.error("Not bool value!");
+            }
+        }
+        return false;
+    }
+
+    public byte readByte(boolean exception) {
+        try {
+            byte result = in.readByte();
+            len += 1;
+            return result;
+        } catch (Exception e) {
+            if (exception) {
+                throw new RuntimeException("read byte error", e);
+            } else {
+                if (Constant.ENABLE_LOGS) {
+                    log.error("read byte error");
+                    e.printStackTrace();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public void readBytes(byte[] b, boolean exception) {
+        try {
+            in.read(b);
+            len += b.length;
+        } catch (Exception e) {
+            if (exception) {
+                throw new RuntimeException("read bytes error", e);
+            } else {
+                if (Constant.ENABLE_LOGS) {
+                    log.error("read bytes error");
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public byte[] readData(int count, boolean exception) {
+        byte[] arr = new byte[count];
+        readBytes(arr, exception);
+        return arr;
+    }
+
+    public String readString(boolean exception) {
+        try {
+            int sl = 1;
+            int l = in.read();
+            len++;
+            if (l >= 254) {
+                l = in.read() | (in.read() << 8) | (in.read() << 16);
+                len += 3;
+                sl = 4;
+            }
+            byte[] b = new byte[l];
+            in.read(b);
+            len++;
+            int i = sl;
+            while ((l + i) % 4 != 0) {
+                in.read();
+                len++;
+                i++;
+            }
+            return new String(b, "UTF-8");
+        } catch (Exception e) {
+            if (exception) {
+                throw new RuntimeException("read string error", e);
+            } else {
+                if (Constant.ENABLE_LOGS) {
+                    log.error("read string error");
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public byte[] readByteArray(boolean exception) {
+        try {
+            int sl = 1;
+            int l = in.read();
+            len++;
+            if (l >= 254) {
+                l = in.read() | (in.read() << 8) | (in.read() << 16);
+                len += 3;
+                sl = 4;
+            }
+            byte[] b = new byte[l];
+            in.read(b);
+            len++;
+            int i = sl;
+            while ((l + i) % 4 != 0) {
+                in.read();
+                len++;
+                i++;
+            }
+            return b;
+        } catch (Exception e) {
+            if (exception) {
+                throw new RuntimeException("read byte array error", e);
+            } else {
+                if (Constant.ENABLE_LOGS) {
+                    log.error("read byte array error");
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public double readDouble(boolean exception) {
+        try {
+            return Double.longBitsToDouble(readInt64(exception));
+        } catch (Exception e) {
+            if (exception) {
+                throw new RuntimeException("read double error", e);
+            } else {
+                if (Constant.ENABLE_LOGS) {
+                    log.error("read double error");
+                    e.printStackTrace();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public float readFloat(boolean exception) {
+        try {
+            return Float.intBitsToFloat(readInt32(exception));
+        } catch (Exception e) {
+            if (exception) {
+                throw new RuntimeException("read float error", e);
+            } else {
+                if (Constant.ENABLE_LOGS) {
+                    log.error("read float error");
+                    e.printStackTrace();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public int readInt32(boolean exception) {
+        try {
+            int i = 0;
+            for (int j = 0; j < 4; j++) {
+                i |= (in.read() << (j * 8));
+                len++;
+            }
+            return i;
+        } catch (Exception e) {
+            if (exception) {
+                throw new RuntimeException("read int32 error", e);
+            } else {
+                if (Constant.ENABLE_LOGS) {
+                    log.error("read int32 error");
+                    e.printStackTrace();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public long readInt64(boolean exception) {
+        try {
+            long i = 0;
+            for (int j = 0; j < 8; j++) {
+                i |= ((long) in.read() << (j * 8));
+                len++;
+            }
+            return i;
+        } catch (Exception e) {
+            if (exception) {
+                throw new RuntimeException("read int64 error", e);
+            } else {
+                if (Constant.ENABLE_LOGS) {
+                    log.error("read int64 error");
+                    e.printStackTrace();
+                }
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public void writeByteBuffer(NativeByteBuffer buffer) {
+
+    }
+
+    @Override
+    public NativeByteBuffer readByteBuffer(boolean exception) {
+        return null;
+    }
+
+    @Override
+    public int remaining() {
+        try {
+            return in.available();
+        } catch (Exception e) {
+            return Integer.MAX_VALUE;
+        }
     }
 }

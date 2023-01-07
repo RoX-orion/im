@@ -1,9 +1,6 @@
 package com.im.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -15,52 +12,67 @@ import java.util.Date;
 @TableName("user")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键id
-     */
     @TableId
-    private Long uid;
-    /**
-     * 邮箱
-     */
+    private Long id;
+
     private String email;
 
-    /**
-     * 头像
-     */
-    private String avatar;
+    private Boolean self;
 
-    private String displayName;
-    /**
-     * 用户名
-     */
+    private Boolean contact;
+
+    private Boolean mutualContact;
+
+    private Boolean deleted;
+
+    private Boolean bot;
+
+    private Boolean botChatHistory;
+
+    private Boolean botNochats;
+
+    private Boolean verified;
+
+    private Boolean restricted;
+
+    private Boolean min;
+
+    private Boolean botInlineGeo;
+
+    private Boolean support;
+
+    private Boolean scam;
+
+    private Boolean applyMinPhoto;
+
+    private Boolean fake;
+
+    private Boolean botAttachMenu;
+
+    private Boolean premium;
+
+    private Boolean attachMenuEnabled;
+
+    private String accessHash;
+
+    private String firstName;
+
+    private String lastName;
+
     private String username;
 
+    private Integer status;
 
-    /**
-     * 签名
-     */
-    private String sign;
+    private Integer botInfoVersion;
 
-    private String status;
+    private String botInlinePlaceholder;
 
-    /**
-     * 创建时间
-     */
-    @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
-    /**
-     * 更新时间
-     */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
+    private String langCode;
 
-    @TableField(exist = false)
-    private Boolean added = Boolean.TRUE;
+    private Long emojiStatus;
 
-    @TableField(exist = false)
-    private String lastMessage;
 }

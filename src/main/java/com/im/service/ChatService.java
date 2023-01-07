@@ -5,23 +5,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.config.Constant;
 import com.im.entity.*;
-import com.im.lib.entity.WsApiResult;
 import com.im.lib.core.ServerContext;
+import com.im.lib.entity.WsApiResult;
 import com.im.lib.exception.RequestIncompleteException;
 import com.im.lib.net.WriteData;
 import com.im.mapper.*;
-import com.im.utils.ChatUtil;
 import com.im.utils.PageUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-//import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -80,7 +77,7 @@ public class ChatService {
             stateService.outGroup(uid, channelId.asShortText());
         }
         // 删除authKey
-        stringRedisTemplate.delete(Constant.CHANNEL_ID_AUTH_KEY + channelId.asShortText());
+        stringRedisTemplate.delete(Constant.AUTH_KEY_ID + channelId.asShortText());
     }
 
     public PageUtil getChatList(ChannelId channelId) {
@@ -100,12 +97,12 @@ public class ChatService {
                         .eq("uid", uid));
         List<User> myAddUsers = relationships.stream().map(e -> {
             User user = userMapper.selectById(e.getFriendUid());
-            if (e.getStatus().equals("unCheck")) {
-                user.setLastMessage("对方尚未添加你为好友");
-                user.setAdded(Boolean.FALSE);
-            } else {
-                user.setLastMessage(privateChatMessageMapper.selectLastMessage(uid, user.getUid()));
-            }
+//            if (e.getStatus().equals("unCheck")) {
+//                user.setLastMessage("对方尚未添加你为好友");
+//                user.setAdded(Boolean.FALSE);
+//            } else {
+//                user.setLastMessage(privateChatMessageMapper.selectLastMessage(uid, user.getUid()));
+//            }
             return user;
         }).toList();
         if (myAddUsers.size() != 0) {
@@ -123,10 +120,10 @@ public class ChatService {
         List<Long> ids = whoAddMes.stream().map(Relationship::getUid).toList();
         if (ids.size() != 0) {
             List<User> addMeUsers = userMapper.selectBatchIds(ids);
-            for (User user : addMeUsers) {
-                user.setLastMessage("请求添加你为好友");
-                user.setAdded(Boolean.FALSE);
-            }
+//            for (User user : addMeUsers) {
+//                user.setLastMessage("请求添加你为好友");
+//                user.setAdded(Boolean.FALSE);
+//            }
             list.addAll(addMeUsers);
         }
 

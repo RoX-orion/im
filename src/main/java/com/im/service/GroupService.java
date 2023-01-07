@@ -1,33 +1,17 @@
 package com.im.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.im.config.Constant;
 import com.im.entity.Group;
-import com.im.entity.GroupMessage;
-import com.im.entity.User;
 import com.im.entity.UserGroup;
 import com.im.lib.core.ServerContext;
-import com.im.lib.entity.WsApiResult;
-import com.im.lib.net.WriteData;
 import com.im.mapper.GroupMapper;
 import com.im.mapper.GroupMessageMapper;
 import com.im.mapper.UserGroupMapper;
-import com.im.utils.ChatUtil;
-import com.im.utils.CommonUtil;
-import com.im.vo.GroupMessageVo;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-//import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 
 @Service
 public class GroupService {

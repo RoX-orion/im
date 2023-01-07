@@ -1,18 +1,27 @@
 package com.im;
 
-import com.alibaba.druid.sql.visitor.functions.Char;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.im.api.Api;
 import com.im.lib.Helpers;
+import com.im.lib.core.MTProtoStateService;
+import com.im.lib.crypto.AES;
 import com.im.lib.crypto.RSA;
-import com.im.lib.net.BinaryReader;
-import lombok.experimental.Helper;
+import com.im.vo.TestArray;
 import org.junit.Test;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
+import javax.annotation.Resource;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Date;
 
 public class TestApplication {
+
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     @Test
     public void testSha1() {
@@ -122,7 +131,97 @@ public class TestApplication {
 
     @Test
     public void testSetBigInteger() {
-        byte[] bytes = new byte[]{-100, 75, -43, 115};
-        System.out.println(Helpers.readBigIntegerFromBytes(bytes, false, false));
+        BigInteger p = new BigInteger("11507591");
+        BigInteger q = new BigInteger("15081037");
+        System.out.println(p.multiply(q));
+//        long begin = System.currentTimeMillis();
+//        System.out.println(p.isProbablePrime(5));
+//        System.out.println(System.currentTimeMillis() - begin);
+    }
+
+    @Test
+    public void testBytes() throws Exception {
+//        System.out.println(127 + (-82 & 0xff) * 256);
+        BigInteger bigInteger = new BigInteger("8273283975129431674");
+        byte[] bytes = Helpers.toSignedLittleBuffer(bigInteger, 8);
+        System.out.println(Arrays.toString(bytes));
+    }
+
+    @Test
+    public void testTL() throws JsonProcessingException {
+//        AesParams aesParams = new AesParams(new byte[10], new byte[10]);
+//        System.out.println(aesParams);
+        int[] ints = new int[]{96, 9, 190, 148, 132, 12, 83, 187};
+        byte[] bytes = new byte[8];
+        for (int i = 0; i < ints.length; i++) {
+            bytes[i] = (byte) ints[i];
+        }
+//        ByteBuf byteBuf = Unpooled.wrappedBuffer(bytes);
+//        System.out.println(byteBuf.readLongLE());
+//        BigInteger bigInteger = Helpers.readBigIntegerFromBytes(bytes, true, false);
+//        System.out.println(bigInteger);
+//        System.out.println(bigInteger.longValue());
+        System.out.println(0xc1cd5ea9);
+
+//        Class<com.im.api.Test> clazz = com.im.api.Test.class;
+//        Field[] declaredFields = clazz.getDeclaredFields();
+//        for (Field declaredField : declaredFields) {
+//            Class<?> type = declaredField.getType();
+//            System.out.println(type.getSimpleName());
+//        }
+
+    }
+
+    @Test
+    public void testAesGCM() {
+        byte[] key = new byte[32];
+        byte[] iv = new byte[32];
+        String str = "hello";
+        System.out.println(Arrays.toString(str.getBytes(StandardCharsets.UTF_8)));
+        byte[] bytes = AES.gcmEncrypt(key, iv, str.getBytes(StandardCharsets.UTF_8));
+        System.out.println(Arrays.toString(bytes));
+        System.out.println(new String(AES.gcmDecrypt(key, iv, bytes)));
+    }
+
+    @Test
+    public void testArray() throws IllegalAccessException {
+
+//        Class<TestArray> clazz = TestArray.class;
+//        Field[] declaredFields = clazz.getDeclaredFields();
+//        TestArray testArray = new TestArray();
+//        String[] str = new String[]{"hello", "world"};
+//        for (Field declaredField : declaredFields) {
+//            declaredField.setAccessible(true);
+//            declaredField.set(testArray, str);
+//            System.out.println(declaredField.getType());
+//        }
+//        System.out.println(testArray);
+//        Class clazz = String.class;
+//        Object o = Array.newInstance(clazz, 5);
+//        for (int i = 0; i < 3; i++) {
+//            Array.set(o, i, String.valueOf(i));
+//        }
+//
+//        System.out.println(Arrays.toString((String[])o));
+//        Object o = Array.newInstance(, 1);
+//        Array.set(o, 0, "hello");
+//        String[] strings;
+//        strings = (String[]) o;
+//        System.out.println(Arrays.toString(strings));
+
+        String[][] array = new String[1][];
+        System.out.println(array.getClass().getComponentType().getComponentType());
+//        stringRedisTemplate.opsForList().indexOf();
+    }
+
+    @Test
+    public void testMsgId() {
+        MTProtoStateService mtProtoStateService = new MTProtoStateService();
+        BigInteger mod = mtProtoStateService.getNewMsgId(true);
+        BigInteger divide = mod.divide(new BigInteger("4294967296"));
+//        Date date = new Date();
+//        System.out.println(date);
+        System.out.println(new Date(divide.longValue() * 1000));
+        System.out.println(new Date());
     }
 }

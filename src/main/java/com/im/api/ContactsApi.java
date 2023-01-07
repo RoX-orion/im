@@ -98,7 +98,7 @@ public class ContactsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class DeleteContacts extends Api.TypeUpdates {
 		private Api.TypeInputUser[] id;
 	}
@@ -137,14 +137,14 @@ public class ContactsApi {
 
 	@Data
 	public static class GetTopPeers {
-		private Api.True correspondents;
-		private Api.True botsPm;
-		private Api.True botsInline;
-		private Api.True phoneCalls;
-		private Api.True forwardUsers;
-		private Api.True forwardChats;
-		private Api.True groups;
-		private Api.True channels;
+		private Boolean correspondents;
+		private Boolean botsPm;
+		private Boolean botsInline;
+		private Boolean phoneCalls;
+		private Boolean forwardUsers;
+		private Boolean forwardChats;
+		private Boolean groups;
+		private Boolean channels;
 		private int offset;
 		private int limit;
 		private BigInteger hash;
@@ -170,9 +170,9 @@ public class ContactsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class AddContact extends Api.TypeUpdates {
-		private Api.True addPhonePrivacyException;
+		private Boolean addPhonePrivacyException;
 		private Api.TypeInputUser id;
 		private String firstName;
 		private String lastName;
@@ -180,25 +180,25 @@ public class ContactsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class AcceptContact extends Api.TypeUpdates {
 		private Api.TypeInputUser id;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetLocated extends Api.TypeUpdates {
-		private Api.True background;
+		private Boolean background;
 		private Api.TypeInputGeoPoint geoPoint;
 		private int selfExpires;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class BlockFromReplies extends Api.TypeUpdates {
-		private Api.True deleteMessage;
-		private Api.True deleteHistory;
-		private Api.True reportSpam;
+		private Boolean deleteMessage;
+		private Boolean deleteHistory;
+		private Boolean reportSpam;
 		private int msgId;
 	}
 

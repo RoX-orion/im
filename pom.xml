@@ -17,6 +17,7 @@
     </parent>
 
     <properties>
+        <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <skipTests>true</skipTests>
@@ -44,7 +45,7 @@
         <dependency>
             <groupId>com.corundumstudio.socketio</groupId>
             <artifactId>netty-socketio</artifactId>
-            <version>1.7.19</version>
+            <version>1.7.22</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -58,7 +59,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.2.11</version>
+            <version>1.2.15</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

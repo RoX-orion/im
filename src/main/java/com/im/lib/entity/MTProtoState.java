@@ -3,7 +3,6 @@ package com.im.lib.entity;
 import lombok.Data;
 
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Set;
 
 @Data

@@ -25,7 +25,7 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ChannelParticipant extends Api.TypeChannelParticipant {
 		private Api.TypeChannelParticipant participant;
 		private Api.TypeChat[] chats;
@@ -41,7 +41,7 @@ public class ChannelsApi {
 
 	@Data
 	public static class SendAsPeers {
-		private Api.TypePeer[] peers;
+		private Api.TypeSendAsPeer[] peers;
 		private Api.TypeChat[] chats;
 		private Api.TypeUser[] users;
 	}
@@ -81,7 +81,7 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetParticipant extends Api.TypeChannelParticipant {
 		private Api.TypeInputChannel channel;
 		private Api.TypeInputPeer participant;
@@ -93,17 +93,17 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class GetFullChannel extends Api.TypeChatFull {
 		private Api.TypeInputChannel channel;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class CreateChannel extends Api.TypeUpdates {
-		private Api.True broadcast;
-		private Api.True megagroup;
-		private Api.True forImport;
+		private Boolean broadcast;
+		private Boolean megagroup;
+		private Boolean forImport;
 		private String title;
 		private String about;
 		private Api.TypeInputGeoPoint geoPoint;
@@ -111,7 +111,7 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class EditAdmin extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 		private Api.TypeInputUser userId;
@@ -120,14 +120,14 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class EditTitle extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 		private String title;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class EditPhoto extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 		private Api.TypeInputChatPhoto photo;
@@ -146,41 +146,41 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class JoinChannel extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class LeaveChannel extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class InviteToChannel extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 		private Api.TypeInputUser[] users;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class DeleteChannel extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ExportMessageLink extends Api.TypeExportedMessageLink {
-		private Api.True grouped;
-		private Api.True thread;
+		private Boolean grouped;
+		private Boolean thread;
 		private Api.TypeInputChannel channel;
 		private int id;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ToggleSignatures extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 		private Boolean enabled;
@@ -188,12 +188,12 @@ public class ChannelsApi {
 
 	@Data
 	public static class GetAdminedPublicChannels {
-		private Api.True byLocation;
-		private Api.True checkLimit;
+		private Boolean byLocation;
+		private Boolean checkLimit;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class EditBanned extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 		private Api.TypeInputPeer participant;
@@ -224,15 +224,15 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class DeleteHistory extends Api.TypeUpdates {
-		private Api.True forEveryone;
+		private Boolean forEveryone;
 		private Api.TypeInputChannel channel;
 		private int maxId;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class TogglePreHistoryHidden extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 		private Boolean enabled;
@@ -254,7 +254,7 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class EditCreator extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 		private Api.TypeInputUser userId;
@@ -269,7 +269,7 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ToggleSlowMode extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 		private int seconds;
@@ -280,7 +280,7 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ConvertToGigagroup extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 	}
@@ -308,16 +308,100 @@ public class ChannelsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ToggleJoinToSend extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 		private Boolean enabled;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class ToggleJoinRequest extends Api.TypeUpdates {
 		private Api.TypeInputChannel channel;
 		private Boolean enabled;
+	}
+
+	@Data
+	public static class ReorderUsernames {
+		private Api.TypeInputChannel channel;
+		private String[] order;
+	}
+
+	@Data
+	public static class ToggleUsername {
+		private Api.TypeInputChannel channel;
+		private String username;
+		private Boolean active;
+	}
+
+	@Data
+	public static class DeactivateAllUsernames {
+		private Api.TypeInputChannel channel;
+	}
+
+	@Data
+	@EqualsAndHashCode(callSuper = true)
+	public static class ToggleForum extends Api.TypeUpdates {
+		private Api.TypeInputChannel channel;
+		private Boolean enabled;
+	}
+
+	@Data
+	@EqualsAndHashCode(callSuper = true)
+	public static class CreateForumTopic extends Api.TypeUpdates {
+		private Api.TypeInputChannel channel;
+		private String title;
+		private int iconColor;
+		private BigInteger iconEmojiId;
+		private BigInteger randomId;
+		private Api.TypeInputPeer sendAs;
+	}
+
+	@Data
+	public static class GetForumTopics {
+		private Api.TypeInputChannel channel;
+		private String q;
+		private int offsetDate;
+		private int offsetId;
+		private int offsetTopic;
+		private int limit;
+	}
+
+	@Data
+	public static class GetForumTopicsByID {
+		private Api.TypeInputChannel channel;
+		private int[] topics;
+	}
+
+	@Data
+	@EqualsAndHashCode(callSuper = true)
+	public static class EditForumTopic extends Api.TypeUpdates {
+		private Api.TypeInputChannel channel;
+		private int topicId;
+		private String title;
+		private BigInteger iconEmojiId;
+		private Boolean closed;
+	}
+
+	@Data
+	@EqualsAndHashCode(callSuper = true)
+	public static class UpdatePinnedForumTopic extends Api.TypeUpdates {
+		private Api.TypeInputChannel channel;
+		private int topicId;
+		private Boolean pinned;
+	}
+
+	@Data
+	public static class DeleteTopicHistory {
+		private Api.TypeInputChannel channel;
+		private int topMsgId;
+	}
+
+	@Data
+	@EqualsAndHashCode(callSuper = true)
+	public static class ReorderPinnedForumTopics extends Api.TypeUpdates {
+		private Boolean force;
+		private Api.TypeInputChannel channel;
+		private int[] order;
 	}
 }

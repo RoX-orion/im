@@ -17,8 +17,8 @@ public class PaymentsApi {
 
 	@Data
 	public static class PaymentForm {
-		private Api.True canSaveCredentials;
-		private Api.True passwordMissing;
+		private Boolean canSaveCredentials;
+		private Boolean passwordMissing;
 		private BigInteger formId;
 		private BigInteger botId;
 		private String title;
@@ -29,8 +29,9 @@ public class PaymentsApi {
 		private String url;
 		private String nativeProvider;
 		private Api.TypeDataJSON nativeParams;
+		private Api.TypePaymentFormMethod[] additionalMethods;
 		private Api.TypePaymentRequestedInfo savedInfo;
-		private Api.TypePaymentSavedCredentials savedCredentials;
+		private Api.TypePaymentSavedCredentials[] savedCredentials;
 		private Api.TypeUser[] users;
 	}
 
@@ -70,7 +71,7 @@ public class PaymentsApi {
 
 	@Data
 	public static class SavedInfo {
-		private Api.True hasSavedCredentials;
+		private Boolean hasSavedCredentials;
 		private Api.TypePaymentRequestedInfo savedInfo;
 	}
 
@@ -99,7 +100,7 @@ public class PaymentsApi {
 
 	@Data
 	public static class ValidateRequestedInfo {
-		private Api.True save;
+		private Boolean save;
 		private Api.TypeInputInvoice invoice;
 		private Api.TypePaymentRequestedInfo info;
 	}
@@ -120,8 +121,8 @@ public class PaymentsApi {
 
 	@Data
 	public static class ClearSavedInfo {
-		private Api.True credentials;
-		private Api.True info;
+		private Boolean credentials;
+		private Boolean info;
 	}
 
 	@Data
@@ -135,34 +136,21 @@ public class PaymentsApi {
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class AssignAppStoreTransaction extends Api.TypeUpdates {
-		private Api.True restore;
-		private String transactionId;
 		private byte[] receipt;
+		private Api.TypeInputStorePaymentPurpose purpose;
 	}
 
 	@Data
-	@EqualsAndHashCode(callSuper=false)
+	@EqualsAndHashCode(callSuper = true)
 	public static class AssignPlayMarketTransaction extends Api.TypeUpdates {
-		private String purchaseToken;
-	}
-
-	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class RestorePlayMarketReceipt extends Api.TypeUpdates {
-		private byte[] receipt;
+		private Api.TypeDataJSON receipt;
+		private Api.TypeInputStorePaymentPurpose purpose;
 	}
 
 	@Data
 	public static class CanPurchasePremium {
-	}
-
-	@Data
-	@EqualsAndHashCode(callSuper=false)
-	public static class RequestRecurringPayment extends Api.TypeUpdates {
-		private Api.TypeInputUser userId;
-		private String recurringInitCharge;
-		private Api.TypeInputMedia invoiceMedia;
+		private Api.TypeInputStorePaymentPurpose purpose;
 	}
 }

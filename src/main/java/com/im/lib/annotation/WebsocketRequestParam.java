@@ -6,5 +6,5 @@ import java.lang.annotation.*;
 @Target(value={ElementType.PARAMETER})
 @Documented
 public @interface WebsocketRequestParam {
-
+    String value();
 }

@@ -211,4 +211,59 @@ public class ChannelsController {
 	public Api.Updates toggleJoinRequest(ChannelsApi.ToggleJoinRequest toggleJoinRequest) {
 		return null;
 	}
+
+	@WebsocketHandlerMapping(value = 0xb45ced1d, name = "ReorderUsernames")
+	public Boolean reorderUsernames(ChannelsApi.ReorderUsernames reorderUsernames) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0x50f24105, name = "ToggleUsername")
+	public Boolean toggleUsername(ChannelsApi.ToggleUsername toggleUsername) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xa245dd3, name = "DeactivateAllUsernames")
+	public Boolean deactivateAllUsernames(ChannelsApi.DeactivateAllUsernames deactivateAllUsernames) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xa4298b29, name = "ToggleForum")
+	public Api.Updates toggleForum(ChannelsApi.ToggleForum toggleForum) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xf40c0224, name = "CreateForumTopic")
+	public Api.Updates createForumTopic(ChannelsApi.CreateForumTopic createForumTopic) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xde560d1, name = "GetForumTopics")
+	public MessagesApi.ForumTopics getForumTopics(ChannelsApi.GetForumTopics getForumTopics) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0xb0831eb9, name = "GetForumTopicsByID")
+	public MessagesApi.ForumTopics getForumTopicsByID(ChannelsApi.GetForumTopicsByID getForumTopicsByID) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0x6c883e2d, name = "EditForumTopic")
+	public Api.Updates editForumTopic(ChannelsApi.EditForumTopic editForumTopic) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0x6c2d9026, name = "UpdatePinnedForumTopic")
+	public Api.Updates updatePinnedForumTopic(ChannelsApi.UpdatePinnedForumTopic updatePinnedForumTopic) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0x34435f2d, name = "DeleteTopicHistory")
+	public MessagesApi.AffectedHistory deleteTopicHistory(ChannelsApi.DeleteTopicHistory deleteTopicHistory) {
+		return null;
+	}
+
+	@WebsocketHandlerMapping(value = 0x2950a18f, name = "ReorderPinnedForumTopics")
+	public Api.Updates reorderPinnedForumTopics(ChannelsApi.ReorderPinnedForumTopics reorderPinnedForumTopics) {
+		return null;
+	}
 }

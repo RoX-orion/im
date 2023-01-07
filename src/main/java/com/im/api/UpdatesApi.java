@@ -53,14 +53,14 @@ public class UpdatesApi {
 
 	@Data
 	public static class ChannelDifferenceEmpty {
-		private Api.True finalSuffix;
+		private Boolean finalSuffix;
 		private int pts;
 		private int timeout;
 	}
 
 	@Data
 	public static class ChannelDifferenceTooLong {
-		private Api.True finalSuffix;
+		private Boolean finalSuffix;
 		private int timeout;
 		private Api.TypeDialog dialog;
 		private Api.TypeMessage[] messages;
@@ -70,7 +70,7 @@ public class UpdatesApi {
 
 	@Data
 	public static class ChannelDifference {
-		private Api.True finalSuffix;
+		private Boolean finalSuffix;
 		private int pts;
 		private int timeout;
 		private Api.TypeMessage[] newMessages;
@@ -93,7 +93,7 @@ public class UpdatesApi {
 
 	@Data
 	public static class GetChannelDifference {
-		private Api.True force;
+		private Boolean force;
 		private Api.TypeInputChannel channel;
 		private Api.TypeChannelMessagesFilter filter;
 		private int pts;
