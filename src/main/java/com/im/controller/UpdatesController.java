@@ -1,15 +1,21 @@
 package com.im.controller;
 
-import com.im.api.*;
+import com.im.api.UpdatesApi;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
+import com.im.service.UpdatesService;
+
+import javax.annotation.Resource;
 
 @WebsocketHandler
 public class UpdatesController {
 
+	@Resource
+	private UpdatesService updatesService;
+
 	@WebsocketHandlerMapping(value = 0xedd4882a, name = "GetState")
 	public UpdatesApi.State getState(UpdatesApi.GetState getState) {
-		return null;
+		return updatesService.getState(getState);
 	}
 
 	@WebsocketHandlerMapping(value = 0x25939651, name = "GetDifference")

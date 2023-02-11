@@ -1,6 +1,8 @@
 package com.im.controller;
 
-import com.im.api.*;
+import com.im.api.AccountApi;
+import com.im.api.Api;
+import com.im.api.AuthApi;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
 

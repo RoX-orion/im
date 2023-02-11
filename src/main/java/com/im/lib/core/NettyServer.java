@@ -73,10 +73,10 @@ public class NettyServer {
 
             channelFuture.addListener(future -> {
                 if (future.isSuccess()) {
-                    log.info("Netty服务器正在启动");
+                    log.info("Netty server is starting");
                 }
                 if (future.isDone()) {
-                    log.info("Netty服务器启动成功, 监听端口:" + port);
+                    log.info("Netty server started successfully, listen port: " + port);
                 }
 
             });

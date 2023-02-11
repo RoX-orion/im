@@ -1,6 +1,6 @@
 package com.im.controller;
 
-import com.im.api.*;
+import com.im.api.PhotosApi;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
 

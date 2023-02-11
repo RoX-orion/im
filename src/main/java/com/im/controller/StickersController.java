@@ -1,6 +1,7 @@
 package com.im.controller;
 
-import com.im.api.*;
+import com.im.api.MessagesApi;
+import com.im.api.StickersApi;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
 

@@ -7,13 +7,13 @@ import com.im.lib.entity.RequestData;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.exception.WebsocketHandlerMappingException;
 import io.netty.channel.Channel;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -83,6 +83,13 @@ public class DispatcherWebsocket implements ApplicationContextAware {
         Object handlerObject = handlerMeta.getHandlerObject();
         Object[] invokeParam = bindParam.bind(parameters, requestParam, channel, requestData);
         Object response = method.invoke(handlerObject, invokeParam);
+        if (response == null) {
+//            System.out.println("方法未实现！");
+            throw new RuntimeException(handlerObject.getClass().getSimpleName()
+                    + ":" + handlerMeta.getMethod().getName()
+                    + "方法未实现！");
+        }
+        System.out.println("返回对象:" + response);
         Class<?> returnType = response.getClass();
 
         BigInteger authKeyId = requestData.getAuthKeyId();

@@ -256,4 +256,8 @@ public class SerializedDataBak {
     public byte[] toByteArray() {
         return outBuffer.toByteArray();
     }
+
+    public int getLen() {
+        return outBuffer.size();
+    }
 }

@@ -15,7 +15,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class BinaryReader {
 
@@ -67,10 +69,10 @@ public class BinaryReader {
 
     public boolean tgReadBool() {
         long value = buf.readUnsignedIntLE();
-        if (value == 0x997275b5) {
+        if (value == 0x997275b5L) {
             // boolTrue
             return true;
-        } else if (value == 0xbc799737) {
+        } else if (value == 0xbc799737L) {
             // boolFalse
             return false;
         } else {

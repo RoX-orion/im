@@ -3,8 +3,6 @@ package com.im.api;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.math.BigInteger;
-
 public class UsersApi {
 
 	public static class TypeUserFull {}

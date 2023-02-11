@@ -73,4 +73,9 @@ public class ApiController {
 	public Api.TypeDestroySessionRes destroySession(Api.DestroySession destroySession) {
 		return null;
 	}
+
+	@WebsocketHandlerMapping(value = 0xda9b0d0d, name = "invokeWithLayer")
+	public Object invokeWithLayer(Api.InvokeWithLayer invokeWithLayer) {
+		return apiService.invokeWithLayer(invokeWithLayer);
+	}
 }

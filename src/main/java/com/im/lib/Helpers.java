@@ -6,7 +6,6 @@ import io.netty.buffer.ByteBuf;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Stack;
 
 public class Helpers {
@@ -136,10 +135,10 @@ public class Helpers {
             throw new RuntimeException("slice can include at most two index!");
         }
         start = opt[0];
-//        byte[] result = new byte[end - start];
-//        if (end - start >= 0) System.arraycopy(bytes, start, result, 0, end - start);
-        return Arrays.copyOfRange(bytes, start, end);
-//        return result;
+        byte[] result = new byte[end - start];
+        if (end - start >= 0) System.arraycopy(bytes, start, result, 0, end - start);
+//        return Arrays.copyOfRange(bytes, start, end);
+        return result;
     }
 
     public static synchronized byte[] concat(byte[]... bytes) {
@@ -182,11 +181,8 @@ public class Helpers {
      */
     public static BigInteger readBigIntegerFromBytes(byte[] bytes, boolean little, boolean signed) {
         int length = bytes.length;
-        int[] buffer = new int[length];
-        for (int i = 0; i < length; i++) {
-            buffer[i] = bytes[i] & 0xff;
-        }
-        BigInteger result = new BigInteger("0");
+        int[] buffer = toUnsignedInt(bytes);
+        BigInteger result = BigInteger.ZERO;
 
         if (little) {
             for (int i = buffer.length - 1; i >= 0; i--) {

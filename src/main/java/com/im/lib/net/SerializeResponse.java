@@ -18,9 +18,25 @@ public class SerializeResponse {
     public static void serialize(SerializedDataBak serializedData, WsApiResult data) {
         Object response = data.getData();
         Class<?> clazz = data.getReturnType();
-        String responseName = clazz.getSimpleName();
-        NodeConfig nodeConfig = TLObject.getTLObject(responseName);
-        serializedData.writeInt(nodeConfig.getConstructorId());
+        if (clazz.isArray()) {
+            Class<?> componentType = clazz.getComponentType();
+            serializedData.writeInt(0x1cb5c415);
+            int length = Array.getLength(response);
+            for (int i = 0; i < length; i++) {
+                NodeConfig nodeConfig = TLObject.getTLObject(componentType.getSimpleName());
+                serializedData.writeInt(nodeConfig.getConstructorId());
+                objectToBytes(nodeConfig, serializedData, componentType, response);
+            }
+        } else {
+            String responseName = clazz.getSimpleName();
+            NodeConfig nodeConfig = TLObject.getTLObject(responseName);
+            serializedData.writeInt(nodeConfig.getConstructorId());
+            objectToBytes(nodeConfig, serializedData, clazz, response);
+        }
+    }
+
+    private static void objectToBytes(NodeConfig nodeConfig, SerializedDataBak serializedData,
+                                      Class<?> clazz, Object response) {
         List<String> argsNames = nodeConfig.getArgsName();
         List<ArgsConfig> configs = nodeConfig.getArgsConfig();
         for (int j = 0; j < argsNames.size(); j++) {

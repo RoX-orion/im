@@ -224,4 +224,15 @@ public class TestApplication {
         System.out.println(new Date(divide.longValue() * 1000));
         System.out.println(new Date());
     }
+
+    @Test
+    public void testMod() {
+        int mod = Helpers.mod(17, 3);
+        System.out.println(mod);
+    }
+
+    @Test
+    public void testBiginteger() {
+
+    }
 }

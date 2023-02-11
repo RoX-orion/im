@@ -11,12 +11,7 @@ package com.im.lib.net;
 import com.im.config.Constant;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 
 @Slf4j
 public class SerializedData extends AbstractSerializedData {

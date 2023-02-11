@@ -291,10 +291,10 @@ public class ApiService {
 //        return null;
 //    }
 //
-//    public Api.X invokeWithLayer(Api.InvokeWithLayer invokeWithLayer) {
-//        System.out.println(invokeWithLayer);
-//        return null;
-//    }
+    public Object invokeWithLayer(Api.InvokeWithLayer invokeWithLayer) {
+        System.out.println(invokeWithLayer);
+        return invokeWithLayer.getQuery();
+    }
 //
 //    public Api.X invokeWithoutUpdates(Api.InvokeWithoutUpdates invokeWithoutUpdates) {
 //        return null;

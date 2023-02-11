@@ -39,7 +39,9 @@ public class MTProto {
         ByteBuf buffer = tcpAbridged.readPacket(byteBuf);
         BinaryReader binaryReader = new BinaryReader(buffer);
         byte[] authKeyBytes = binaryReader.readBytes(8);
+//        BigInteger authKeyId = new BigInteger(authKeyBytes);
         BigInteger authKeyId = Helpers.readBigIntegerFromBytes(authKeyBytes, true, false);
+        BigInteger bigInteger = new BigInteger(authKeyBytes);
         RequestData requestData = new RequestData();
         if (!isEncryptedData(authKeyId)) {// 未加密数据
             long msgId = binaryReader.readInt64();
@@ -114,13 +116,22 @@ public class MTProto {
 
     public void mtprotoSender(WsApiResult response, Channel channel) {
         System.out.println(response);
-        int constructorId = response.getConstructorId();
         SerializedDataBak serializedData = new SerializedDataBak();
         SerializeResponse.serialize(serializedData, response);
         System.out.println(Arrays.toString(serializedData.toByteArray()));
-        BigInteger msgId = mtprotoStateService.getNewMsgId(true);
-        BigInteger authKeyId = response.getAuthKeyId();
+        int len = serializedData.getLen();
+        byte[] randomBytes = Helpers.getRandomBytes(Helpers.mod(-(len + 12), 16) + 12);
+        serializedData.writeBytes(randomBytes);
+        byte[] data = serializedData.toByteArray();
 
+        byte[] encryptData = mtprotoStateService.encryptData(data, response.getAuthKeyId());
+        byte[] prefix = tcpAbridged.encodePacket(encryptData.length);
+
+        ByteBufAllocator alloc = channel.alloc();
+        ByteBuf byteBuf = alloc.directBuffer(prefix.length + encryptData.length);
+        byteBuf.writeBytes(Helpers.concat(prefix, encryptData));
+
+        channel.writeAndFlush(new BinaryWebSocketFrame(byteBuf));
     }
 
     public void sendData(WsApiResult response, Channel channel) {

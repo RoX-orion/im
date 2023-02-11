@@ -1,6 +1,5 @@
 package com.im.config;
 
-import com.im.entity.User;
 import com.im.lib.crypto.RSA;
 import com.im.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
