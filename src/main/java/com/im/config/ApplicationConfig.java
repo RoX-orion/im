@@ -1,12 +1,14 @@
 package com.im.config;
 
+import com.im.lib.Constant;
 import com.im.lib.crypto.RSA;
 import com.im.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.im.redis.KeyPrefix;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -19,11 +21,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 public class ApplicationConfig implements ApplicationRunner {
 
-    @Autowired
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     @Resource
-    private UserMapper userMapper;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Bean
     public Executor asyncServiceExecutor() {
@@ -45,6 +47,8 @@ public class ApplicationConfig implements ApplicationRunner {
         RSA.computeRSAInfo();
         removeAllConnection();
 
+        deleteAllSession();
+
         // set all users state
 //        List<User> users = userMapper.selectList(null);
 //        for (User user : users) {
@@ -53,6 +57,11 @@ public class ApplicationConfig implements ApplicationRunner {
 //                    Constant.OFFLINE
 //            );
 //        }
+    }
+
+    private void deleteAllSession() {
+        redisTemplate.delete(KeyPrefix.SESSION + "*");
+        stringRedisTemplate.delete(KeyPrefix.CHANNEL_ID_AUTH_KEY_ID + "*");
     }
 
     @PreDestroy

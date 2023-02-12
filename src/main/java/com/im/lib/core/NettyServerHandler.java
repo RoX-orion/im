@@ -2,8 +2,6 @@ package com.im.lib.core;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.im.lib.net.DispatcherWebsocket;
-import com.im.lib.net.MTProto;
 import com.im.service.ChatService;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
@@ -39,16 +37,12 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocke
     private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     @Resource
-    private ServerContext serverContext;
+    private ChannelManager channelManager;
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Resource
-    private MTProto MTProto;
-    @Resource
     private ChatService chatService;
-    @Resource
-    private DispatcherWebsocket dispatcherWebsocket;
 
     /**
      * 处理收到的消息
@@ -89,7 +83,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocke
     public void handlerAdded(ChannelHandlerContext ctx) {
         Channel channel = ctx.channel();
         channels.add(channel);
-        serverContext.addChannel(channel.id().asShortText(), channel);
+        channelManager.addChannel(channel.id().asLongText(), channel);
     }
 
     /**
@@ -98,7 +92,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocke
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         String address = ctx.channel().remoteAddress().toString();
-        log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 上线 " + " : " + serverContext.getChannelSize());
+        log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 上线 " + " : " + channelManager.getChannelSize());
     }
 
     /**
@@ -110,7 +104,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocke
         log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 下线 ");
         ChannelId id = ctx.channel().id();
         chatService.offline(id);
-        serverContext.removeChannel(id.asShortText());
+        channelManager.removeChannel(id.asLongText());
     }
 
     /**
@@ -129,7 +123,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocke
      */
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
-        log.info("当前在线人数是:" + channels.size() + " | all:" + serverContext.getChannelSize());
+        log.info("当前在线人数是:" + channels.size() + " | all:" + channelManager.getChannelSize());
     }
 }
 

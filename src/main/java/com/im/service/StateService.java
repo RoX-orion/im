@@ -1,7 +1,7 @@
 package com.im.service;
 
-import com.im.config.Constant;
 import com.im.entity.User;
+import com.im.lib.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;

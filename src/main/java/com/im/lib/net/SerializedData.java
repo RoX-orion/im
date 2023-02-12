@@ -8,7 +8,7 @@
 
 package com.im.lib.net;
 
-import com.im.config.Constant;
+import com.im.lib.Constant;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;

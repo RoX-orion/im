@@ -3,9 +3,9 @@ package com.im.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.im.config.Constant;
 import com.im.entity.*;
-import com.im.lib.core.ServerContext;
+import com.im.lib.Constant;
+import com.im.lib.core.ChannelManager;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.exception.RequestIncompleteException;
 import com.im.lib.net.WriteData;
@@ -33,7 +33,7 @@ public class ChatService {
     private UserMapper userMapper;
 
     @Resource
-    private ServerContext serverContext;
+    private ChannelManager channelManager;
 
     @Resource
     private ChatMessageMapper chatMessageMapper;
@@ -139,7 +139,7 @@ public class ChatService {
     }
 
     public WsApiResult sendMessageRpc(String channelId, ChatMessage chatMessage) {
-        Channel channel = serverContext.getChannel(channelId);
+        Channel channel = channelManager.getChannel(channelId);
         channel.writeAndFlush(chatMessage);
 
         return null;
@@ -218,7 +218,7 @@ public class ChatService {
         String channelId = stringRedisTemplate.opsForValue().get(
                 Constant.UID_CHANNEL_ID + privateChatMessage.getToUid()
         );
-        Channel channel = serverContext.getChannel(channelId);
+        Channel channel = channelManager.getChannel(channelId);
         if (channel != null) {
             WriteData.write(channel, privateChatMessage);
         }

@@ -3,25 +3,27 @@ package com.im.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.api.Api;
-import com.im.config.Constant;
 import com.im.entity.CreateAuthKeyState;
+import com.im.lib.Constant;
 import com.im.lib.Helpers;
 import com.im.lib.crypto.AES;
 import com.im.lib.crypto.DH;
 import com.im.lib.crypto.RSA;
-import com.im.lib.entity.AesParams;
+import com.im.lib.entity.AesKeyIv;
 import com.im.lib.entity.DHResult;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.net.BinaryReader;
 import com.im.lib.net.SerializeResponse;
 import com.im.lib.net.SerializedDataBak;
 import com.im.lib.tl.TLObject;
+import com.im.redis.KeyPrefix;
+import com.im.redis.SessionManager;
 import io.netty.channel.Channel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
@@ -32,10 +34,13 @@ public class ApiService {
 
     public static final String CREATE_AUTH_KEY_STATE    = "create-authKey-state:";
 
-    public static final String AES_PARAMS               = "aes-param:";
+    public static final String AES_KEY_IV = "aes-key-iv:";
 
-    @Autowired
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private SessionManager sessionManager;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -135,7 +140,7 @@ public class ApiService {
         server_dh_params_ok.setNonce(nonce);
         server_dh_params_ok.setServerNonce(serverNonce);
 
-        AesParams aesParams = Helpers.generateKeyDataFromNonce(serverNonce, pqInnerData.getNewNonce());
+        AesKeyIv aesKeyIv = Helpers.generateKeyDataFromNonce(serverNonce, pqInnerData.getNewNonce());
         SerializedDataBak serializedData = new SerializedDataBak();
         Integer returnConstructorId = TLObject.getTLObject(Api.ServerDHInnerData.class.getSimpleName()).getConstructorId();
         WsApiResult response = WsApiResult.ok(returnConstructorId, BigInteger.ZERO, Api.ServerDHInnerData.class, serverDHInnerData);
@@ -148,12 +153,12 @@ public class ApiService {
                 answer,
                 Helpers.getRandomBytes(padding)
         );
-        byte[] encryptedAnswer = AES.igeEncrypt(answerWithHash, aesParams.getKey(), aesParams.getIv());
-        BigInteger igeKey = Helpers.readBigIntegerFromBytes(aesParams.getKey(), false, true);
-        BigInteger igeIv = Helpers.readBigIntegerFromBytes(aesParams.getIv(), false, true);
+        byte[] encryptedAnswer = AES.igeEncrypt(answerWithHash, aesKeyIv.getKey(), aesKeyIv.getIv());
+        BigInteger igeKey = Helpers.readBigIntegerFromBytes(aesKeyIv.getKey(), false, true);
+        BigInteger igeIv = Helpers.readBigIntegerFromBytes(aesKeyIv.getIv(), false, true);
         String s = igeKey + ":" + igeIv;
         stringRedisTemplate.opsForValue().set(
-                AES_PARAMS + nonce + "-" + serverNonce,
+                AES_KEY_IV + nonce + "-" + serverNonce,
                 s, 10, TimeUnit.MINUTES
         );
 
@@ -189,7 +194,7 @@ public class ApiService {
         if (Boolean.FALSE.equals(stringRedisTemplate.hasKey(CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce))) {
             return new Api.DhGenFail();
         }
-        String s = stringRedisTemplate.opsForValue().get(AES_PARAMS + nonce + "-" + serverNonce);
+        String s = stringRedisTemplate.opsForValue().get(AES_KEY_IV + nonce + "-" + serverNonce);
         if (!StringUtils.hasLength(s)) {
             return new Api.DhGenFail();
         }
@@ -220,7 +225,7 @@ public class ApiService {
         BigInteger gb = Helpers.readBigIntegerFromBytes(gbBytes, false, false);
         BigInteger gab = Helpers.fastMod(gb, createAuthKeyState.getA(), Constant.DH_PRIME);
 
-        stringRedisTemplate.delete(AES_PARAMS + nonce + "-" + serverNonce);
+        stringRedisTemplate.delete(AES_KEY_IV + nonce + "-" + serverNonce);
         stringRedisTemplate.delete(CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce);
 
         Api.DhGenOk dhGenOk = new Api.DhGenOk();
@@ -245,8 +250,18 @@ public class ApiService {
         BigInteger newNonceHash1 = Helpers.readBigIntegerFromBytes(shaData, true, true);
         dhGenOk.setNewNonceHash1(newNonceHash1);
 
-        stringRedisTemplate.opsForValue().set(Constant.AUTH_KEY_ID + authKeyId, s);
-        stringRedisTemplate.opsForValue().set(Constant.AUTH_KEY + authKeyId, gab.toString());
+//        stringRedisTemplate.opsForValue().set(Constant.AUTH_KEY_ID + authKeyId, s);
+//        stringRedisTemplate.opsForValue().set(Constant.AUTH_KEY + authKeyId, gab.toString());
+
+        sessionManager.setSessionInfo(authKeyId.toString(), "authKey", gab.toString());
+        sessionManager.setSessionInfo(authKeyId.toString(), "channelId", channel.id().asLongText());
+        sessionManager.setSessionInfo(authKeyId.toString(), "isLogin", Boolean.FALSE);
+        sessionManager.setSessionInfo(authKeyId.toString(), "readyLogin", Boolean.FALSE);
+
+        stringRedisTemplate
+                .opsForValue()
+                .set(KeyPrefix.CHANNEL_ID_AUTH_KEY_ID + channel.id().asLongText(), authKeyId.toString());
+
         return dhGenOk;
     }
 
@@ -293,6 +308,7 @@ public class ApiService {
 //
     public Object invokeWithLayer(Api.InvokeWithLayer invokeWithLayer) {
         System.out.println(invokeWithLayer);
+
         return invokeWithLayer.getQuery();
     }
 //

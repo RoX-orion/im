@@ -25,9 +25,13 @@ public class SerializeResponse {
             for (int i = 0; i < length; i++) {
                 NodeConfig nodeConfig = TLObject.getTLObject(componentType.getSimpleName());
                 serializedData.writeInt(nodeConfig.getConstructorId());
-                objectToBytes(nodeConfig, serializedData, componentType, response);
+                objectToBytes(nodeConfig, serializedData, componentType, Array.get(response, i));
             }
         } else {
+            if (response instanceof Boolean) {
+                argToBytes(serializedData, response, "Bool");
+                return;
+            }
             String responseName = clazz.getSimpleName();
             NodeConfig nodeConfig = TLObject.getTLObject(responseName);
             serializedData.writeInt(nodeConfig.getConstructorId());
@@ -133,15 +137,11 @@ public class SerializeResponse {
     public static boolean argToBytes(SerializedDataBak serializedData, Object x, String type) {
         boolean isFunction = false;
         switch (type) {
-            case "int" -> {
-                serializedData.writeInt((int) x);
-            }
+            case "int" -> serializedData.writeInt((int) x);
             case "long" -> toSignedLittleserializedData(serializedData, x, 8);
             case "int128" -> toSignedLittleserializedData(serializedData, x, 16);
             case "int256" -> toSignedLittleserializedData(serializedData, x, 32);
-            case "double" -> {
-                serializedData.writeDouble((double) x);
-            }
+            case "double" -> serializedData.writeDouble((double) x);
             case "string", "bytes" -> serializeBytes(serializedData, x);
             case "Bool" -> {
                 if ((boolean) x) {
@@ -172,6 +172,19 @@ public class SerializeResponse {
             serializedData.writeByte(bigNumber.shiftRight(8 * i)
                     .and(BigInteger.valueOf(255)).byteValue());
         }
+    }
+
+    public static byte[] toSignedLittleserializedData(Object x, int number) {
+        BigInteger bigNumber = new BigInteger(String.valueOf(x));
+        byte[] bytes = new byte[number];
+        for (int i = 0; i < number; i++) {
+            bytes[i] = bigNumber
+                    .shiftRight(8 * i)
+                    .and(BigInteger.valueOf(255))
+                    .byteValue();
+        }
+
+        return bytes;
     }
 
     private static void serializeBytes(SerializedDataBak serializedData, Object data) {

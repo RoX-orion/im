@@ -7,7 +7,7 @@ import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 
-import static com.im.config.Constant.ENABLE_LOGS;
+import static com.im.lib.Constant.ENABLE_LOGS;
 
 @Slf4j
 public class NativeByteBuffer extends AbstractSerializedData {

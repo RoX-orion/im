@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AesParams {
+public class AesKeyIv {
     private byte[] key;
     private byte[] iv;
 }

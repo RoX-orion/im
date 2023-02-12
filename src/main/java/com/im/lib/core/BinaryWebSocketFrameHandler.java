@@ -4,7 +4,7 @@ import com.im.lib.entity.RequestData;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.net.DispatcherWebsocket;
 import com.im.lib.net.MTProto;
-import com.im.lib.net.TransportManager;
+import com.im.redis.SessionManager;
 import com.im.service.ChatService;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
@@ -47,7 +47,8 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     @Resource
     private MTProto mtproto;
 
-    private final TransportManager transportManager = new TransportManager();
+    @Resource
+    private SessionManager sessionManager;
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, BinaryWebSocketFrame binaryWebSocketFrame) throws NoSuchFieldException, IllegalAccessException {
@@ -84,8 +85,6 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     public void handlerAdded(ChannelHandlerContext ctx) {
         Channel channel = ctx.channel();
         channels.add(channel);
-
-//        serverContext.addChannel(channel.id().asShortText(), channel);
     }
 
     /**
@@ -105,8 +104,7 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
         String address = ctx.channel().remoteAddress().toString();
         log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 下线 ");
         ChannelId id = ctx.channel().id();
-//        chatService.offline(id);
-//        serverContext.removeChannel(id.asShortText());
+        sessionManager.removeTempSessionInfo(id.asLongText());
     }
 
     /**

@@ -93,7 +93,7 @@ public class DispatcherWebsocket implements ApplicationContextAware {
         Class<?> returnType = response.getClass();
 
         BigInteger authKeyId = requestData.getAuthKeyId();
-        return WsApiResult.ok(constructorId, authKeyId, returnType, response);
+        return WsApiResult.ok(constructorId, authKeyId, returnType, response, requestData.getSessionId());
     }
 
     public static <T> T get(Class<T> clz,Object o){

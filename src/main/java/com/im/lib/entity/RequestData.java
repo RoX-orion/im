@@ -13,13 +13,13 @@ public class RequestData {
 
     private int constructorId;
 
-    private long salt;
+    private String salt;
 
     private long sessionId;
 
     private BigInteger msgId;
 
-    private long seqNo;
+    private String seqNo;
 
     private byte[] data;
 }

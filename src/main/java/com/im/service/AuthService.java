@@ -1,7 +1,7 @@
 package com.im.service;
 
-import com.im.config.Constant;
 import com.im.entity.User;
+import com.im.lib.Constant;
 import com.im.lib.entity.WsApiResult;
 import com.im.utils.CommonUtil;
 import io.netty.channel.Channel;

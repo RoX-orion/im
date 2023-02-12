@@ -1,6 +1,6 @@
 package com.im.lib.net;
 
-import com.im.lib.entity.MsgInfo;
+import com.im.lib.entity.SessionInfo;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.annotation.Resource;
@@ -18,11 +18,10 @@ public class TransportManager {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    public void setMsgInfo(BigInteger authKeyId, MsgInfo msgInfo) {
+    public void setMsgInfo(BigInteger authKeyId, SessionInfo sessionInfo) {
         String key = "authKeyId-msgInfo:" + authKeyId.toString();
-        stringRedisTemplate.opsForHash().put(key, "msgId", msgInfo.getMsgId());
-        stringRedisTemplate.opsForHash().put(key, "seqNo", msgInfo.getSeqNo());
-        stringRedisTemplate.opsForHash().put(key, "salt", msgInfo.getSalt());
+        stringRedisTemplate.opsForHash().put(key, "seqNo", sessionInfo.getSeqNo());
+        stringRedisTemplate.opsForHash().put(key, "salt", sessionInfo.getSalt());
     }
 
     public void setChannel() {

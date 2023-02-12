@@ -1,8 +1,8 @@
 package com.im.service;
 
-import com.im.config.Constant;
 import com.im.entity.UserGroup;
-import com.im.lib.core.ServerContext;
+import com.im.lib.Constant;
+import com.im.lib.core.ChannelManager;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.net.WriteData;
 import io.netty.channel.Channel;
@@ -21,7 +21,7 @@ public class SendMessageService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     @Resource
-    private ServerContext serverContext;
+    private ChannelManager channelManager;
 
 
     @Async
@@ -31,7 +31,7 @@ public class SendMessageService {
         if (Objects.equals(state, Constant.ONLINE)) {// 在线
             String channelId = stringRedisTemplate.opsForValue().get(Constant.UID_CHANNEL_ID + uid);
             if (channelId != null && !channelId.equals(id.asShortText())) {// 不为null并且不是自己
-                Channel channel = serverContext.getChannel(channelId);
+                Channel channel = channelManager.getChannel(channelId);
                 WriteData.write(channel, response);
             }
         }

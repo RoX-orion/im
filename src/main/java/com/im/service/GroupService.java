@@ -3,7 +3,7 @@ package com.im.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.im.entity.Group;
 import com.im.entity.UserGroup;
-import com.im.lib.core.ServerContext;
+import com.im.lib.core.ChannelManager;
 import com.im.mapper.GroupMapper;
 import com.im.mapper.GroupMessageMapper;
 import com.im.mapper.UserGroupMapper;
@@ -26,7 +26,7 @@ public class GroupService {
     private StringRedisTemplate stringRedisTemplate;
 
     @Resource
-    private ServerContext serverContext;
+    private ChannelManager channelManager;
 
     @Resource
     private GroupMessageMapper groupMessageMapper;

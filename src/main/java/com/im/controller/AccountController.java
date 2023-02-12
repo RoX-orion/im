@@ -5,9 +5,15 @@ import com.im.api.Api;
 import com.im.api.AuthApi;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
+import com.im.service.AccountService;
+
+import javax.annotation.Resource;
 
 @WebsocketHandler
 public class AccountController {
+
+	@Resource
+	private AccountService accountService;
 
 	@WebsocketHandlerMapping(value = 0xec86017a, name = "RegisterDevice")
 	public Boolean registerDevice(AccountApi.RegisterDevice registerDevice) {
@@ -41,7 +47,7 @@ public class AccountController {
 
 	@WebsocketHandlerMapping(value = 0x6628562c, name = "UpdateStatus")
 	public Boolean updateStatus(AccountApi.UpdateStatus updateStatus) {
-		return null;
+		return accountService.updateStatus(updateStatus);
 	}
 
 	@WebsocketHandlerMapping(value = 0x7967d36, name = "GetWallPapers")

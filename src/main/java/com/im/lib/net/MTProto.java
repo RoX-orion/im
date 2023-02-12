@@ -3,9 +3,11 @@ package com.im.lib.net;
 import com.im.lib.Helpers;
 import com.im.lib.core.MTProtoStateService;
 import com.im.lib.entity.RequestData;
+import com.im.lib.entity.SessionInfo;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.exception.RequestIncompleteException;
 import com.im.lib.exception.ResponseException;
+import com.im.redis.SessionManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.Channel;
@@ -31,6 +33,9 @@ public class MTProto {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
+    @Resource
+    private SessionManager sessionManager;
+
     public RequestData getRequestData(ByteBuf byteBuf, Channel channel) {
         if (byteBuf.capacity() == 0) {
             throw new RequestIncompleteException("Websocket request can't be null");
@@ -41,7 +46,7 @@ public class MTProto {
         byte[] authKeyBytes = binaryReader.readBytes(8);
 //        BigInteger authKeyId = new BigInteger(authKeyBytes);
         BigInteger authKeyId = Helpers.readBigIntegerFromBytes(authKeyBytes, true, false);
-        BigInteger bigInteger = new BigInteger(authKeyBytes);
+//        BigInteger bigInteger = new BigInteger(authKeyBytes);
         RequestData requestData = new RequestData();
         if (!isEncryptedData(authKeyId)) {// 未加密数据
             long msgId = binaryReader.readInt64();
@@ -75,6 +80,10 @@ public class MTProto {
         requestData.setData(data);
         requestData.setRequestParam(requestParam);
         requestData.setAuthKeyId(authKeyId);
+
+        if (constructorId == 0xda9b0d0d) {
+            storeSession(requestData);
+        }
 
         return requestData;
     }
@@ -124,7 +133,7 @@ public class MTProto {
         serializedData.writeBytes(randomBytes);
         byte[] data = serializedData.toByteArray();
 
-        byte[] encryptData = mtprotoStateService.encryptData(data, response.getAuthKeyId());
+        byte[] encryptData = mtprotoStateService.encryptData(data, response.getAuthKeyId(), response.getSessionId());
         byte[] prefix = tcpAbridged.encodePacket(encryptData.length);
 
         ByteBufAllocator alloc = channel.alloc();
@@ -147,5 +156,11 @@ public class MTProto {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void storeSession(RequestData requestData) {
+        sessionManager.setSessionInfo(requestData.getAuthKeyId().toString(), SessionInfo.SESSION_ID, requestData.getSessionId());
+        sessionManager.setSessionInfo(requestData.getAuthKeyId().toString(), SessionInfo.SEQ_NO, requestData.getSeqNo());
+        sessionManager.setSessionInfo(requestData.getAuthKeyId().toString(), SessionInfo.SALT, requestData.getSalt());
     }
 }

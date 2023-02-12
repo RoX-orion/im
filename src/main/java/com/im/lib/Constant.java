@@ -1,4 +1,4 @@
-package com.im.config;
+package com.im.lib;
 
 import java.math.BigInteger;
 

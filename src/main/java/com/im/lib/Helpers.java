@@ -1,6 +1,6 @@
 package com.im.lib;
 
-import com.im.lib.entity.AesParams;
+import com.im.lib.entity.AesKeyIv;
 import io.netty.buffer.ByteBuf;
 
 import java.math.BigInteger;
@@ -344,7 +344,7 @@ public class Helpers {
         return bytes;
     }
 
-    public static AesParams generateKeyDataFromNonce(BigInteger serverNonce, BigInteger newNonce) {
+    public static AesKeyIv generateKeyDataFromNonce(BigInteger serverNonce, BigInteger newNonce) {
         byte[] serverNonceBytes = Helpers.toSignedLittleBuffer(serverNonce, 16);
         byte[] newNonceBytes = Helpers.toSignedLittleBuffer(newNonce, 32);
 
@@ -354,12 +354,11 @@ public class Helpers {
 
         byte[] key = Helpers.concat(hash1, Helpers.slice(hash2, 0, 12));
         byte[] iv = Helpers.concat(Helpers.slice(hash2, 12, 20), hash3, Helpers.slice(newNonceBytes, 0, 4));
-        return new AesParams(key, iv);
+        return new AesKeyIv(key, iv);
     }
 
     public static void setBytes(byte[] dest, byte[] src, int begin, int end) {
         if (end - begin >= 0) System.arraycopy(src, 0, dest, begin, end - begin);
-
     }
 
 }
