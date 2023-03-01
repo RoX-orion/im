@@ -1,6 +1,8 @@
 package com.im.lib;
 
 import com.im.lib.entity.AesKeyIv;
+import com.im.lib.exception.CryptoException;
+import com.im.lib.net.AbstractSerializedData;
 import io.netty.buffer.ByteBuf;
 
 import java.math.BigInteger;
@@ -361,4 +363,15 @@ public class Helpers {
         if (end - begin >= 0) System.arraycopy(src, 0, dest, begin, end - begin);
     }
 
+    public static void checkAESKeyOrIv(int keyLength, int ivLength) {
+        if (keyLength != 32 && ivLength != 32) {
+            throw new CryptoException("AES-IGE key and iv must be 256 length.");
+        }
+    }
+
+    public static BigInteger readBigIntegerLE(AbstractSerializedData stream, int length, boolean exception) {
+        byte[] bytes = new byte[length];
+        stream.readData(length, false);
+        return Helpers.readBigIntegerFromBytes(bytes, true, true);
+    }
 }

@@ -1,6 +1,7 @@
 package com.im.lib.crypto;
 
 import com.im.lib.Helpers;
+import com.im.lib.exception.CryptoException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -92,7 +93,10 @@ public class AES {
     }
 
     public static byte[] igeDecrypt(final byte[] data, final byte[] key, final byte[] iv) {
-
+        if (data.length % AES_BLOCK_SIZE != 0) {
+            throw new CryptoException("The decrypted data(length:" + data.length + ") must be an integer multiple of 16");
+        }
+        Helpers.checkAESKeyOrIv(key.length, iv.length);
         final Cipher cipher;
         try {
             cipher = Cipher.getInstance("AES/ECB/NoPadding");
@@ -126,6 +130,10 @@ public class AES {
     }
 
     public static byte[] igeEncrypt(byte[] data, byte[] key, byte[] iv) {
+        if (data.length % AES_BLOCK_SIZE != 0) {
+            throw new CryptoException("Encrypted data(length:" + data.length + ") must be an integer multiple of 16");
+        }
+        Helpers.checkAESKeyOrIv(key.length, iv.length);
         final Cipher cipher;
         try {
             cipher = Cipher.getInstance("AES/ECB/NoPadding");
