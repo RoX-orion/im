@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class TLObject {
+public class TLUtil {
     private static final ConcurrentHashMap<Integer, NodeConfig> allTLObject = new ConcurrentHashMap<>();
 
     private static final ConcurrentHashMap<String, NodeConfig> nameTLObject = new ConcurrentHashMap<>();

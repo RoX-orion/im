@@ -5,11 +5,10 @@ import com.im.lib.exception.ParamBindException;
 import com.im.lib.tl.ArgsConfig;
 import com.im.lib.tl.NodeConfig;
 import com.im.lib.tl.TLHelpers;
-import com.im.lib.tl.TLObject;
+import com.im.lib.tl.TLUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -20,9 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class BinaryReader {
-
-    @Resource
-    private TLObject tlObject;
 
     private final ByteBuf buf;
 //    private int offset;
@@ -68,11 +64,11 @@ public class BinaryReader {
     }
 
     public boolean tgReadBool() {
-        long value = buf.readUnsignedIntLE();
-        if (value == 0x997275b5L) {
+        int value = buf.readInt();
+        if (value == 0x997275b5) {
             // boolTrue
             return true;
-        } else if (value == 0xbc799737L) {
+        } else if (value == 0xbc799737) {
             // boolFalse
             return false;
         } else {
@@ -161,7 +157,7 @@ public class BinaryReader {
 
     public Object tgReadObject(int constructorId) {
         // 当前方法的参数
-        NodeConfig paramsConfig = TLObject.getTLObject(constructorId);
+        NodeConfig paramsConfig = TLUtil.getTLObject(constructorId);
         if (paramsConfig == null) {
             /*
              * The class was None, but there's still a
@@ -175,20 +171,18 @@ public class BinaryReader {
                 return false;
             } else if (constructorId == 0x1cb5c415) {
                 // Vector
-//                const temp = [];
-//                const length = this.readInt();
-//                for (let i = 0; i < length; i++) {
-//                    temp.push(this.tgReadObject());
-//                }
-//                return temp;
+                int length = this.readInt32();
+                int itemConstructorId = this.readInt32();
+                NodeConfig nodeConfig = TLUtil.getTLObject(itemConstructorId);
+                Class<?> clazz = TLUtil.getClazz(nodeConfig.getName());
+                Object array = Array.newInstance(clazz, length);
+                for (int i = 0; i < length; i++) {
+                    Array.set(array, i, this.tgReadObject(itemConstructorId));
+                }
+                return array;
             }
+            System.out.println("Can read the Object of constructorId is " + constructorId);
             throw new RuntimeException();
-//            clazz = TLObject.[constructorId];
-//
-//            if (clazz == null) {
-//                // If there was still no luck, give up
-//                throw new RuntimeException("Can read the Object of constructorId is " + constructorId);
-//            }
         }
         List<String> argsNames = paramsConfig.getArgsName();
         List<ArgsConfig> argsConfigs = paramsConfig.getArgsConfig();
@@ -196,7 +190,7 @@ public class BinaryReader {
         HashMap<String, Object> args = new HashMap<>();
         String clazzName = paramsConfig.getName();
         // 当前参数实体类的class
-        Class<?> clazz = TLObject.getClazz(clazzName);
+        Class<?> clazz = TLUtil.getClazz(clazzName);
         if (clazz == null) {
             throw new ParamBindException("can't find the request param '" + clazzName + "'");
         }
