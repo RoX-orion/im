@@ -5,13 +5,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.entity.*;
 import com.im.lib.Constant;
-import com.im.lib.core.ChannelManager;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.exception.RequestIncompleteException;
-import com.im.lib.net.WriteData;
+import com.im.lib.net.ChannelManager;
 import com.im.mapper.*;
 import com.im.utils.PageUtil;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -139,8 +137,8 @@ public class ChatService {
     }
 
     public WsApiResult sendMessageRpc(String channelId, ChatMessage chatMessage) {
-        Channel channel = channelManager.getChannel(channelId);
-        channel.writeAndFlush(chatMessage);
+//        Channel channel = channelManager.getChannel(channelId);
+//        channel.writeAndFlush(chatMessage);
 
         return null;
     }
@@ -218,10 +216,10 @@ public class ChatService {
         String channelId = stringRedisTemplate.opsForValue().get(
                 Constant.UID_CHANNEL_ID + privateChatMessage.getToUid()
         );
-        Channel channel = channelManager.getChannel(channelId);
-        if (channel != null) {
-            WriteData.write(channel, privateChatMessage);
-        }
+//        Channel channel = channelManager.getChannel(channelId);
+//        if (channel != null) {
+//            WriteData.write(channel, privateChatMessage);
+//        }
     }
 
 //    public User agreeAddUser(User user, HttpServletRequest request) {

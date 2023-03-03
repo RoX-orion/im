@@ -2,16 +2,13 @@ package com.im.lib.core;
 
 import com.im.lib.entity.RequestData;
 import com.im.lib.entity.WsApiResult;
+import com.im.lib.net.ChannelManager;
 import com.im.lib.net.DispatcherWebsocket;
 import com.im.lib.net.MTProto;
 import com.im.redis.SessionManager;
-import com.im.service.ChatService;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
-import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -25,21 +22,11 @@ import java.util.Date;
 @ChannelHandler.Sharable
 public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<BinaryWebSocketFrame> {
 
-    /**
-     * 管理全局的channel
-     * GlobalEventExecutor.INSTANCE  全局事件监听器
-     * 一旦将channel 加入 ChannelGroup 就不要用手动去
-     * 管理channel的连接失效后移除操作，他会自己移除
-     */
-    private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-
-//    @Resource
-//    private ServerContext serverContext;
-
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Resource
-    private ChatService chatService;
+    private ChannelManager channelManager;
+
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Resource
     private DispatcherWebsocket dispatcherWebsocket;
@@ -51,7 +38,7 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     private SessionManager sessionManager;
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, BinaryWebSocketFrame binaryWebSocketFrame) throws NoSuchFieldException, IllegalAccessException {
+    protected void channelRead0(ChannelHandlerContext ctx, BinaryWebSocketFrame binaryWebSocketFrame) {
         Channel channel = ctx.channel();
         ByteBuf byteBuf = binaryWebSocketFrame.content();
         int length = byteBuf.readableBytes();
@@ -84,7 +71,7 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) {
         Channel channel = ctx.channel();
-        channels.add(channel);
+        channelManager.setChannel(channel);
     }
 
     /**
@@ -93,7 +80,7 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         String address = ctx.channel().remoteAddress().toString();
-        log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 上线 " + " : " + channels.size());
+        log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 上线 " + " : " + channelManager.size());
     }
 
     /**
@@ -123,6 +110,6 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
      */
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
-        log.info("当前在线人数是:" + channels.size() + " | all:" + channels.size());
+        log.info("当前在线人数是:" + channelManager.size() + " | all:" + channelManager.size());
     }
 }

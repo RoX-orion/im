@@ -3,11 +3,10 @@ package com.im.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.im.entity.Group;
 import com.im.entity.UserGroup;
-import com.im.lib.core.ChannelManager;
+import com.im.lib.net.ChannelManager;
 import com.im.mapper.GroupMapper;
 import com.im.mapper.GroupMessageMapper;
 import com.im.mapper.UserGroupMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class GroupService {
     @Resource
     private UserGroupMapper userGroupMapper;
 
-    @Autowired
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     @Resource
