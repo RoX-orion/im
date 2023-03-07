@@ -1,7 +1,6 @@
 server:
-  port: 8888
   netty:
-    port: 9999
+    port: 7777
 spring:
   application:
     name: im-server
@@ -117,3 +116,14 @@ mybatis-plus:
       logic-not-delete-value: 0
 
   type-aliases-package: com.im.entity.*
+
+
+minio:
+  endpoint: http://127.0.0.1:9000
+  port: 9000
+  accessKey: accessKey
+  secretKey: secretKey
+  secure: false
+  bucket-name: bucket-name # 桶名
+#  image-size: 10485760 #  图片文件的最大大小
+#  file-size: 1073741824 # 文件的最大大小
