@@ -181,7 +181,7 @@ public class BinaryReader {
                 }
                 return array;
             }
-            System.out.println("Can read the Object of constructorId is " + constructorId);
+            System.out.println("Can read the Object of constructorId is " + Integer.toHexString(constructorId));
             throw new RuntimeException();
         }
         List<String> argsNames = paramsConfig.getArgsName();

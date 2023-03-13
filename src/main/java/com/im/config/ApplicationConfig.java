@@ -1,8 +1,6 @@
 package com.im.config;
 
-import com.im.lib.Constant;
 import com.im.lib.crypto.RSA;
-import com.im.mapper.UserMapper;
 import com.im.redis.KeyPrefix;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -14,7 +12,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
-import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -45,7 +42,7 @@ public class ApplicationConfig implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         RSA.computeRSAInfo();
-        removeAllConnection();
+//        removeAllConnection();
 
         deleteAllSession();
 
@@ -71,19 +68,19 @@ public class ApplicationConfig implements ApplicationRunner {
 
     public void removeAllConnection() {
 
-        Set<String> channelIdUid = stringRedisTemplate.keys(Constant.CHANNEL_ID_UID + "*");
-        if (channelIdUid != null) {
-            stringRedisTemplate.delete(channelIdUid);
-        }
-
-        Set<String> uidChannelIds = stringRedisTemplate.keys(Constant.UID_CHANNEL_ID + "*");
-        if (uidChannelIds != null) {
-            stringRedisTemplate.delete(uidChannelIds);
-        }
-
-        Set<String> userState = stringRedisTemplate.keys(Constant.USER + "*");
-        if (userState != null) {
-            stringRedisTemplate.delete(userState);
-        }
+//        Set<String> channelIdUid = stringRedisTemplate.keys(Constant.CHANNEL_ID_UID + "*");
+//        if (channelIdUid != null) {
+//            stringRedisTemplate.delete(channelIdUid);
+//        }
+//
+//        Set<String> uidChannelIds = stringRedisTemplate.keys(Constant.UID_CHANNEL_ID + "*");
+//        if (uidChannelIds != null) {
+//            stringRedisTemplate.delete(uidChannelIds);
+//        }
+//
+//        Set<String> userState = stringRedisTemplate.keys(Constant.USER + "*");
+//        if (userState != null) {
+//            stringRedisTemplate.delete(userState);
+//        }
     }
 }

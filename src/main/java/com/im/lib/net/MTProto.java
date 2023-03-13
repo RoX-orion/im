@@ -13,7 +13,6 @@ import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -31,9 +30,6 @@ public class MTProto {
     private TcpAbridged tcpAbridged;
 
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
-
-    @Resource
     private SessionManager sessionManager;
 
     public RequestData getRequestData(ByteBuf byteBuf, Channel channel) {
@@ -44,17 +40,17 @@ public class MTProto {
         ByteBuf buffer = tcpAbridged.readPacket(byteBuf);
         BinaryReader binaryReader = new BinaryReader(buffer);
         byte[] authKeyBytes = binaryReader.readBytes(8);
-//        BigInteger authKeyId = new BigInteger(authKeyBytes);
         BigInteger authKeyId = Helpers.readBigIntegerFromBytes(authKeyBytes, true, false);
 //        BigInteger bigInteger = new BigInteger(authKeyBytes);
         RequestData requestData = new RequestData();
+        requestData.setAuthKeyId(authKeyId);
         if (!isEncryptedData(authKeyId)) {// 未加密数据
             long msgId = binaryReader.readInt64();
 //            requestData.setMsgId(msgId);
             int dataLength = binaryReader.readInt32();
             byte[] data = binaryReader.readBytes(dataLength);
 //            requestData.setMsgId(msgId);
-            return readRequestData(data, dataLength, authKeyId, requestData);
+            return readRequestData(data, dataLength, requestData);
         } else {// 加密数据
             byte[] msgKey = binaryReader.readBytes(16);
             byte[] bytes = binaryReader.readAll();
@@ -63,14 +59,19 @@ public class MTProto {
 //            System.out.println("解密后的数据:" + payload.length + Arrays.toString(payload));
             BinaryReader br = new BinaryReader(payload);
             mtprotoStateService.checkEncryptedData(br, requestData);
+            checkHeader(requestData);
             int dataLength = br.readInt32();
             byte[] data = br.readBytes(dataLength);
 
-            return readRequestData(data, dataLength, authKeyId, requestData);
+            return readRequestData(data, dataLength, requestData);
         }
     }
 
-    private RequestData readRequestData(byte[] data, int dataLength, BigInteger authKeyId, RequestData requestData) {
+    private void checkHeader(RequestData requestData) {
+        requestData.getServerSalt();
+    }
+
+    private RequestData readRequestData(byte[] data, int dataLength, RequestData requestData) {
         BinaryReader binaryReader = new BinaryReader(data);
         int constructorId = binaryReader.readInt32();
         Object requestParam = binaryReader.tgReadObject(constructorId);
@@ -79,7 +80,7 @@ public class MTProto {
         requestData.setConstructorId(constructorId);
         requestData.setData(data);
         requestData.setRequestParam(requestParam);
-        requestData.setAuthKeyId(authKeyId);
+        requestData.setAuthKeyId(requestData.getAuthKeyId());
 
         if (constructorId == 0xda9b0d0d) {
             storeSession(requestData);
@@ -97,12 +98,12 @@ public class MTProto {
     }
 
     public void mtprotoPlainSender(WsApiResult response, Channel channel) {
-        System.out.println(response.getData());
+        log.info("mtprotoPlainSender返回数据:{}", response.getData());
         ByteBufAllocator alloc = channel.alloc();
         SerializedDataBak serializedData = new SerializedDataBak();
         SerializeResponse.serialize(serializedData, response);
         byte[] bytes = serializedData.toByteArray();
-        log.info("返回数据：{} {}", bytes.length, Arrays.toString(bytes));
+        log.info("mtprotoPlainSender返回Object：{} {}", bytes.length, Arrays.toString(bytes));
 //        System.out.println(bytes.length + Arrays.toString(bytes));
         BigInteger msgId = mtprotoStateService.getNewMsgId(true);
         ByteBuf byteBuf = alloc.heapBuffer(20 + bytes.length);
@@ -111,7 +112,6 @@ public class MTProto {
         byteBuf.writeIntLE(bytes.length);
         byteBuf.writeBytes(bytes);
 
-        System.out.println(byteBuf.capacity() + ":" + byteBuf.readableBytes());
         byte[] prefix = tcpAbridged.encodePacket(byteBuf.readableBytes());
         ByteBuf buffer = alloc.directBuffer(prefix.length + byteBuf.capacity());
         buffer.writeBytes(prefix);
@@ -124,12 +124,12 @@ public class MTProto {
 
 
     public void mtprotoSender(WsApiResult response, Channel channel) {
-        System.out.println(response);
+        log.info("返回的WsApiResult:{}", response);
         SerializedDataBak serializedData = new SerializedDataBak();
         SerializeResponse.serialize(serializedData, response);
-        System.out.println(Arrays.toString(serializedData.toByteArray()));
+        log.info("返回对象的字节数组：{}", Arrays.toString(serializedData.toByteArray()));
         int len = serializedData.getLen();
-        byte[] randomBytes = Helpers.getRandomBytes(Helpers.mod(-(len + 12), 16) + 12);
+        byte[] randomBytes = Helpers.getRandomBytes(16 - Helpers.mod(len, 16));
         serializedData.writeBytes(randomBytes);
         byte[] data = serializedData.toByteArray();
 
@@ -161,6 +161,6 @@ public class MTProto {
     private void storeSession(RequestData requestData) {
         sessionManager.setSessionInfo(requestData.getAuthKeyId().toString(), SessionInfo.SESSION_ID, requestData.getSessionId());
         sessionManager.setSessionInfo(requestData.getAuthKeyId().toString(), SessionInfo.SEQ_NO, requestData.getSeqNo());
-        sessionManager.setSessionInfo(requestData.getAuthKeyId().toString(), SessionInfo.SALT, requestData.getSalt());
+        sessionManager.setSessionInfo(requestData.getAuthKeyId().toString(), SessionInfo.SERVER_SALT, requestData.getServerSalt());
     }
 }

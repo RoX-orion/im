@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.tl.ArgsConfig;
 import com.im.lib.tl.NodeConfig;
-import com.im.lib.tl.TLObject;
+import com.im.lib.tl.TLHelpers;
+import com.im.lib.tl.TLUtil;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -23,19 +24,23 @@ public class SerializeResponse {
             serializedData.writeInt(0x1cb5c415);
             int length = Array.getLength(response);
             for (int i = 0; i < length; i++) {
-                NodeConfig nodeConfig = TLObject.getTLObject(componentType.getSimpleName());
-                serializedData.writeInt(nodeConfig.getConstructorId());
-                objectToBytes(nodeConfig, serializedData, componentType, Array.get(response, i));
+                if (TLHelpers.BASE_TYPE.contains(componentType.getSimpleName())) {
+                    argToBytes(serializedData, Array.get(response, i), componentType.getSimpleName());
+                } else {
+                    NodeConfig nodeConfig = TLUtil.getTLObject(componentType.getSimpleName());
+                    serializedData.writeInt(nodeConfig.getConstructorId());
+                    objectToBytes(nodeConfig, serializedData, componentType, Array.get(response, i));
+                }
             }
         } else {
-            if (response instanceof Boolean) {
-                argToBytes(serializedData, response, "Bool");
-                return;
+            if (TLHelpers.BASE_TYPE.contains(clazz.getSimpleName())) {
+                argToBytes(serializedData, response, clazz.getSimpleName());
+            } else {
+                String responseName = clazz.getSimpleName();
+                NodeConfig nodeConfig = TLUtil.getTLObject(responseName);
+                serializedData.writeInt(nodeConfig.getConstructorId());
+                objectToBytes(nodeConfig, serializedData, clazz, response);
             }
-            String responseName = clazz.getSimpleName();
-            NodeConfig nodeConfig = TLObject.getTLObject(responseName);
-            serializedData.writeInt(nodeConfig.getConstructorId());
-            objectToBytes(nodeConfig, serializedData, clazz, response);
         }
     }
 
@@ -137,13 +142,13 @@ public class SerializeResponse {
     public static boolean argToBytes(SerializedDataBak serializedData, Object x, String type) {
         boolean isFunction = false;
         switch (type) {
-            case "int" -> serializedData.writeInt((int) x);
-            case "long" -> toSignedLittleserializedData(serializedData, x, 8);
+            case "int", "Integer" -> serializedData.writeInt((int) x);
+            case "long", "Long" -> toSignedLittleserializedData(serializedData, x, 8);
             case "int128" -> toSignedLittleserializedData(serializedData, x, 16);
             case "int256" -> toSignedLittleserializedData(serializedData, x, 32);
-            case "double" -> serializedData.writeDouble((double) x);
-            case "string", "bytes" -> serializeBytes(serializedData, x);
-            case "Bool" -> {
+            case "double", "Double" -> serializedData.writeDouble((double) x);
+            case "string", "bytes", "String" -> serializeBytes(serializedData, x);
+            case "Bool", "boolean", "Boolean" -> {
                 if ((boolean) x) {
                     serializedData.writeInt(0xb5757299);
                 } else {

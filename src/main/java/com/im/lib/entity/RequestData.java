@@ -13,7 +13,7 @@ public class RequestData {
 
     private int constructorId;
 
-    private String salt;
+    private long serverSalt;
 
     private long sessionId;
 

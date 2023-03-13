@@ -5,9 +5,11 @@ package com.im;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.lib.Helpers;
-import com.im.lib.core.MTProtoStateService;
 import com.im.lib.crypto.AES;
 import com.im.lib.crypto.DH;
+import com.im.lib.net.BinaryReader;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
@@ -361,8 +363,12 @@ public class TestDemo {
 //            throw new RuntimeException(e);
 //        }
 //        System.out.println(-1099002127 & 0xffffffffL);
+
+
+
         System.out.println(Integer.toHexString(-686627650));
-        System.out.println(0xd712e4be);
+//        System.out.println(0xd712e4be);
+
     }
 
 
@@ -492,9 +498,34 @@ public class TestDemo {
     }
 
     @Test
-    public void testReverse() {
-        byte[] bytes = new byte[]{};
-        Helpers.reverse(bytes);
-        System.out.println(Arrays.toString(bytes));
+    public void testString() {
+        byte[] bytes = {21, -60, -75, 28, -10, -127, -47, -54, 4, 108, 97, 110, 103, 0, 0, 0, 2, 101, 110, 0};
+        BinaryReader binaryReader = new BinaryReader(bytes);
+        String s = binaryReader.tgReadString();
+        System.out.println(s);
+    }
+
+    @Test
+    public void testDataLength() {
+//        System.out.println(88 % 16);
+//        System.out.printf("%x", 2171268721L);
+        System.out.println(0x8af52aacL & 0xffffffffL);
+    }
+
+    @Test
+    public void testBoolean() {
+        int[] ints = new int[]{181, 117, 114, 153};
+
+//        byte[] bytes = new byte[]{ 181, 117, 114, 153 };
+        byte[] bytes = new byte[4];
+        for (int i = 0; i < ints.length; i++) {
+            bytes[i] = (byte) ints[i];
+        }
+//        Helpers.reverse(bytes);
+//        BinaryReader binaryReader = new BinaryReader(bytes);
+//        int i = binaryReader.readInt32();
+        ByteBuf byteBuf = Unpooled.wrappedBuffer(bytes);
+        int l = byteBuf.readInt();
+        System.out.println(Integer.toHexString(l));
     }
 }

@@ -20,7 +20,7 @@ public class SessionInfo {
 
     public static final String SEQ_NO = "seqNo";
 
-    public static final String SALT = "salt";
+    public static final String SERVER_SALT = "serverSalt";
 
     public static final String IS_LOGIN = "isLogin";
 

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
 @Component
@@ -61,14 +62,14 @@ public class MTProtoStateService {
             throw new RuntimeException("授权密钥不能为空");
         }
         long seqNo = Long.parseLong((String) sessionManager.getSessionInfo(authKeyId.toString(), SessionInfo.SEQ_NO));
-        long salt = Long.parseLong((String) sessionManager.getSessionInfo(authKeyId.toString(), SessionInfo.SALT));
+        long serverSalt = ((Integer) sessionManager.getSessionInfo(authKeyId.toString(), SessionInfo.SERVER_SALT)).longValue();
 
         byte[] authKeyBytes = Helpers.getByteArray(new BigInteger(authKey));
         byte[] msgLength = Helpers.readBytesFromInt(data.length);
 
         byte[] sessionIdBytes = SerializeResponse.toSignedLittleserializedData(sessionId, 8);
-        byte[] seqNoBytes = SerializeResponse.toSignedLittleserializedData(seqNo, 8);
-        byte[] saltBytes = SerializeResponse.toSignedLittleserializedData(salt, 8);
+        byte[] seqNoBytes = SerializeResponse.toSignedLittleserializedData(seqNo, 4);
+        byte[] saltBytes = SerializeResponse.toSignedLittleserializedData(serverSalt, 8);
 
         data = Helpers.concat(saltBytes, sessionIdBytes, Helpers.getByteArray(msgId), seqNoBytes, msgLength, data);
         byte[] msgKeyLarge = Helpers.SHA256(
@@ -76,7 +77,7 @@ public class MTProtoStateService {
         );
         byte[] msgKey = Helpers.slice(msgKeyLarge, 8, 24);
         AesKeyIv aesKeyIv = KDF.kdf(authKeyBytes, msgKey, false, false, false);
-        System.out.println("返回数据解密前数据" + Arrays.toString(data));
+        log.info("返回数据加密前数据:{}", Arrays.toString(data));
 //        byte[] padding = Helpers.generateRandomBytes(Helpers.mod(-(data.length + 12), 16) + 12);
 //        byte[] msgKeyLarge = Helpers.SHA256(
 //                Helpers.concat(Arrays.copyOfRange(authKey, 96, 96 + 32), data, padding)
@@ -87,13 +88,13 @@ public class MTProtoStateService {
 //        AesParams aesParams = KDF.kdf(authKey, msgKey, false, isCall, isOutgoing);
         byte[] key = aesKeyIv.getKey();
         byte[] iv = aesKeyIv.getIv();
-        System.out.println("key:iv->" + Arrays.toString(key) + "\n" + Arrays.toString(iv));
+//        System.out.println("key:iv->" + Arrays.toString(key) + "\n" + Arrays.toString(iv));
         byte[] authKeyIdBytes = Helpers.getByteArray(authKeyId);
         Helpers.reverse(authKeyIdBytes);
         return Helpers.concat(
                 authKeyIdBytes,
                 msgKey,
-                AES.igeEncrypt(Helpers.concat(data), key, iv));
+                AES.igeEncrypt(data, key, iv));
     }
 
     public BigInteger getNewMsgId(boolean isClientResponse) {
@@ -102,6 +103,11 @@ public class MTProtoStateService {
         BigInteger newMsgId = (new BigInteger(String.valueOf((long) Math.floor(now))).shiftLeft(32))
                 .or(new BigInteger(String.valueOf(nanoseconds)).shiftLeft(2));
         return isClientResponse ? newMsgId.add(ONE) : newMsgId.add(THREE);
+    }
+
+    public long getNewServerSalt() {
+        ThreadLocalRandom current = ThreadLocalRandom.current();
+        return current.nextLong();
     }
 
     public void checkEncryptedData(BinaryReader br, RequestData requestData) {
@@ -113,7 +119,7 @@ public class MTProtoStateService {
                                     .and(new BigInteger("4294967295"));
         long seqNo = br.readInt32() & 0xffffffffL;
 
-        requestData.setSalt(String.valueOf(salt));
+        requestData.setServerSalt(salt);
         requestData.setSeqNo(String.valueOf(seqNo));
         requestData.setSessionId(sessionId);
         requestData.setMsgId(msgId);

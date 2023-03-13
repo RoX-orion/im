@@ -15,7 +15,7 @@ import com.im.lib.entity.WsApiResult;
 import com.im.lib.net.BinaryReader;
 import com.im.lib.net.SerializeResponse;
 import com.im.lib.net.SerializedDataBak;
-import com.im.lib.tl.TLObject;
+import com.im.lib.tl.TLUtil;
 import com.im.redis.KeyPrefix;
 import com.im.redis.SessionManager;
 import io.netty.channel.Channel;
@@ -142,7 +142,7 @@ public class ApiService {
 
         AesKeyIv aesKeyIv = Helpers.generateKeyDataFromNonce(serverNonce, pqInnerData.getNewNonce());
         SerializedDataBak serializedData = new SerializedDataBak();
-        Integer returnConstructorId = TLObject.getTLObject(Api.ServerDHInnerData.class.getSimpleName()).getConstructorId();
+        Integer returnConstructorId = TLUtil.getTLObject(Api.ServerDHInnerData.class.getSimpleName()).getConstructorId();
         WsApiResult response = WsApiResult.ok(returnConstructorId, BigInteger.ZERO, Api.ServerDHInnerData.class, serverDHInnerData);
         SerializeResponse.serialize(serializedData, response);
         byte[] answer = serializedData.toByteArray();
@@ -309,7 +309,7 @@ public class ApiService {
     public Object invokeWithLayer(Api.InvokeWithLayer invokeWithLayer) {
         System.out.println(invokeWithLayer);
 
-        return invokeWithLayer.getQuery();
+        return true;
     }
 //
 //    public Api.X invokeWithoutUpdates(Api.InvokeWithoutUpdates invokeWithoutUpdates) {
