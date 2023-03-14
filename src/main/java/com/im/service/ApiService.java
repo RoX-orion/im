@@ -142,8 +142,7 @@ public class ApiService {
 
         AesKeyIv aesKeyIv = Helpers.generateKeyDataFromNonce(serverNonce, pqInnerData.getNewNonce());
         SerializedDataBak serializedData = new SerializedDataBak();
-        Integer returnConstructorId = TLUtil.getTLObject(Api.ServerDHInnerData.class.getSimpleName()).getConstructorId();
-        WsApiResult response = WsApiResult.ok(returnConstructorId, BigInteger.ZERO, Api.ServerDHInnerData.class, serverDHInnerData);
+        WsApiResult response = WsApiResult.ok(BigInteger.ZERO, Api.ServerDHInnerData.class, serverDHInnerData);
         SerializeResponse.serialize(serializedData, response);
         byte[] answer = serializedData.toByteArray();
         byte[] answerSHA1 = Helpers.SHA1(answer);

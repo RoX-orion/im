@@ -1,5 +1,6 @@
 package com.im.lib.net;
 
+import com.im.api.Api;
 import com.im.lib.Helpers;
 import com.im.lib.core.MTProtoStateService;
 import com.im.lib.entity.RequestData;
@@ -68,7 +69,13 @@ public class MTProto {
     }
 
     private void checkHeader(RequestData requestData) {
-        requestData.getServerSalt();
+        long serverSalt = requestData.getServerSalt();
+        if (serverSalt == 0) {
+            Api.BadServerSalt badServerSalt = new Api.BadServerSalt();
+            badServerSalt.setNewServerSalt(mtprotoStateService.getNewServerSalt());
+//            badServerSalt.setBadMsgId();
+//            WsApiResult ok = WsApiResult.ok(requestData.getAuthKeyId(), Api.BadServerSalt.class, );
+        }
     }
 
     private RequestData readRequestData(byte[] data, int dataLength, RequestData requestData) {

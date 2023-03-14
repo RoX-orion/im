@@ -438,7 +438,7 @@ public class Api {
 		private BigInteger badMsgId;
 		private int badMsgSeqno;
 		private int errorCode;
-		private BigInteger newServerSalt;
+		private long newServerSalt;
 	}
 
 	@Data
