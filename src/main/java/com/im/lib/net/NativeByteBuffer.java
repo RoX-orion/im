@@ -378,92 +378,75 @@ public class NativeByteBuffer extends AbstractSerializedData {
         return buffer.position();
     }
 
-    public int readInt32(boolean exception) {
+    public int readInt32() {
         try {
             return buffer.getInt();
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read int32 error", e);
-            } else {
-                if (ENABLE_LOGS) {
-                    log.error("read int32 error");
-                    e.printStackTrace();
-                }
+            if (ENABLE_LOGS) {
+                log.error("read int32 error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read int32 error", e);
         }
-        return 0;
     }
 
-    public boolean readBool(boolean exception) {
-        int consructor = readInt32(exception);
+    public boolean readBool() {
+        int consructor = readInt32();
         if (consructor == 0x997275b5) {
             return true;
         } else if (consructor == 0xbc799737) {
             return false;
-        }
-        if (exception) {
-            throw new RuntimeException("Not bool value!");
         } else {
             if (ENABLE_LOGS) {
                 log.error("Not bool value!");
             }
+            throw new RuntimeException("Not bool value!");
         }
-        return false;
     }
 
-    public long readInt64(boolean exception) {
+    public long readInt64() {
         try {
             return buffer.getLong();
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read int64 error", e);
-            } else {
-                if (ENABLE_LOGS) {
-                    log.error("read int64 error");
-                    e.printStackTrace();
-                }
+            if (ENABLE_LOGS) {
+                log.error("read int64 error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read int64 error", e);
         }
-        return 0;
     }
 
-    public void readBytes(byte[] b, boolean exception) {
+    public void readBytes(byte[] b) {
         try {
             buffer.get(b);
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read raw error", e);
-            } else {
-                if (ENABLE_LOGS) {
-                    log.error("read raw error");
-                    e.printStackTrace();
-                }
+            if (ENABLE_LOGS) {
+                log.error("read raw error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read raw error", e);
         }
     }
 
-    public void readBytes(byte[] b, int offset, int count, boolean exception) {
+    public void readBytes(byte[] b, int offset, int count) {
         try {
             buffer.get(b, offset, count);
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read raw error", e);
-            } else {
-                if (ENABLE_LOGS) {
-                    log.error("read raw error");
-                    e.printStackTrace();
-                }
+            if (ENABLE_LOGS) {
+                log.error("read raw error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read raw error", e);
         }
     }
 
-    public byte[] readData(int count, boolean exception) {
+    public byte[] readData(int count) {
         byte[] arr = new byte[count];
-        readBytes(arr, exception);
+        readBytes(arr);
         return arr;
     }
 
-    public String readString(boolean exception) {
+    public String readString() {
         int startReadPosition = getPosition();
         try {
             int sl = 1;
@@ -481,20 +464,16 @@ public class NativeByteBuffer extends AbstractSerializedData {
             }
             return new String(b, StandardCharsets.UTF_8);
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read string error", e);
-            } else {
-                if (ENABLE_LOGS) {
-                    log.error("read string error");
-                    e.printStackTrace();
-                }
-            }
             position(startReadPosition);
+            if (ENABLE_LOGS) {
+                log.error("read string error");
+                e.printStackTrace();
+            }
+            throw new RuntimeException("read string error", e);
         }
-        return "";
     }
 
-    public byte[] readByteArray(boolean exception) {
+    public byte[] readByteArray() {
         try {
             int sl = 1;
             int l = getIntFromByte(buffer.get());
@@ -511,19 +490,15 @@ public class NativeByteBuffer extends AbstractSerializedData {
             }
             return b;
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read byte array error", e);
-            } else {
-                if (ENABLE_LOGS) {
-                    log.error("read byte array error");
-                    e.printStackTrace();
-                }
+            if (ENABLE_LOGS) {
+                log.error("read byte array error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read byte array error", e);
         }
-        return new byte[0];
     }
 
-    public NativeByteBuffer readByteBuffer(boolean exception) {
+    public NativeByteBuffer readByteBuffer() {
         try {
             int sl = 1;
             int l = getIntFromByte(buffer.get());
@@ -544,32 +519,24 @@ public class NativeByteBuffer extends AbstractSerializedData {
             }
             return b;
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read byte array error", e);
-            } else {
-                if (ENABLE_LOGS) {
-                    log.error("read byte array error");
-                    e.printStackTrace();
-                }
+            if (ENABLE_LOGS) {
+                log.error("read byte array error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read byte array error", e);
         }
-        return null;
     }
 
-    public double readDouble(boolean exception) {
+    public double readDouble() {
         try {
-            return Double.longBitsToDouble(readInt64(exception));
+            return Double.longBitsToDouble(readInt64());
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read double error", e);
-            } else {
-                if (ENABLE_LOGS) {
-                    log.error("read double error");
-                    e.printStackTrace();
-                }
+            if (ENABLE_LOGS) {
+                log.error("read double error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read double error", e);
         }
-        return 0;
     }
 
     public void reuse() {

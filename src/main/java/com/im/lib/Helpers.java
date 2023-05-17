@@ -369,9 +369,9 @@ public class Helpers {
         }
     }
 
-    public static BigInteger readBigIntegerLE(AbstractSerializedData stream, int length, boolean exception) {
+    public static BigInteger readBigIntegerLE(AbstractSerializedData stream, int length) {
         byte[] bytes = new byte[length];
-        stream.readData(length, false);
+        stream.readData(length);
         return Helpers.readBigIntegerFromBytes(bytes, true, true);
     }
 }

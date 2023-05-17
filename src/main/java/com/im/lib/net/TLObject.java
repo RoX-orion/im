@@ -1,30 +1,24 @@
-/*
- * This is the source code of Telegram for Android v. 5.x.x.
- * It is licensed under GNU GPL v. 2 or later.
- * You should have received a copy of the license in this archive (see LICENSE).
- *
- * Copyright Nikolai Kudashov, 2013-2018.
- */
-
 package com.im.lib.net;
+
+/**
+ * Copyright (c) 2023 Andre Lina. All rights reserved.
+ *
+ * @author: Andre Lina
+ * @date: 2023-05-17
+ */
 
 public class TLObject {
 
     public int networkType;
 
     public boolean disableFree = false;
-    private static final ThreadLocal<NativeByteBuffer> sizeCalculator = new ThreadLocal<NativeByteBuffer>() {
-        @Override
-        protected NativeByteBuffer initialValue() {
-            return new NativeByteBuffer(true);
-        }
-    };
+    private static final ThreadLocal<NativeByteBuffer> sizeCalculator = ThreadLocal.withInitial(() -> new NativeByteBuffer(true));
 
     public TLObject() {
 
     }
 
-    public void readParams(AbstractSerializedData stream, boolean exception) {
+    public void readParams(AbstractSerializedData stream) {
 
     }
 
@@ -32,7 +26,7 @@ public class TLObject {
 
     }
 
-    public TLObject deserializeResponse(AbstractSerializedData stream, int constructor, boolean exception) {
+    public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
         return null;
     }
 

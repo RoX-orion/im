@@ -12,6 +12,7 @@ import com.im.lib.Constant;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public class SerializedData extends AbstractSerializedData {
@@ -251,7 +252,7 @@ public class SerializedData extends AbstractSerializedData {
 
     public void writeString(String s) {
         try {
-            writeByteArray(s.getBytes("UTF-8"));
+            writeByteArray(s.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             if (Constant.ENABLE_LOGS) {
                 log.error("write string error");
@@ -360,64 +361,54 @@ public class SerializedData extends AbstractSerializedData {
         return len;
     }
 
-    public boolean readBool(boolean exception) {
-        int consructor = readInt32(exception);
+    public boolean readBool() {
+        int consructor = readInt32();
         if (consructor == 0x997275b5) {
             return true;
         } else if (consructor == 0xbc799737) {
             return false;
-        }
-        if (exception) {
+        }  else {
+//            if (Constant.ENABLE_LOGS) {
+//                log.error("Not bool value!");
+//            }
             throw new RuntimeException("Not bool value!");
-        } else {
-            if (Constant.ENABLE_LOGS) {
-                log.error("Not bool value!");
-            }
         }
-        return false;
     }
 
-    public byte readByte(boolean exception) {
+    public byte readByte() {
         try {
             byte result = in.readByte();
             len += 1;
             return result;
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read byte error", e);
-            } else {
-                if (Constant.ENABLE_LOGS) {
-                    log.error("read byte error");
-                    e.printStackTrace();
-                }
+            if (Constant.ENABLE_LOGS) {
+                log.error("read byte error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read byte error", e);
         }
-        return 0;
     }
 
-    public void readBytes(byte[] b, boolean exception) {
+    public void readBytes(byte[] b) {
         try {
             in.read(b);
             len += b.length;
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read bytes error", e);
-            } else {
-                if (Constant.ENABLE_LOGS) {
-                    log.error("read bytes error");
-                    e.printStackTrace();
-                }
+            if (Constant.ENABLE_LOGS) {
+                log.error("read bytes error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read bytes error", e);
         }
     }
 
-    public byte[] readData(int count, boolean exception) {
+    public byte[] readData(int count) {
         byte[] arr = new byte[count];
-        readBytes(arr, exception);
+        readBytes(arr);
         return arr;
     }
 
-    public String readString(boolean exception) {
+    public String readString() {
         try {
             int sl = 1;
             int l = in.read();
@@ -436,21 +427,17 @@ public class SerializedData extends AbstractSerializedData {
                 len++;
                 i++;
             }
-            return new String(b, "UTF-8");
+            return new String(b, StandardCharsets.UTF_8);
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read string error", e);
-            } else {
-                if (Constant.ENABLE_LOGS) {
-                    log.error("read string error");
-                    e.printStackTrace();
-                }
+            if (Constant.ENABLE_LOGS) {
+                log.error("read string error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read string error", e);
         }
-        return null;
     }
 
-    public byte[] readByteArray(boolean exception) {
+    public byte[] readByteArray() {
         try {
             int sl = 1;
             int l = in.read();
@@ -471,51 +458,39 @@ public class SerializedData extends AbstractSerializedData {
             }
             return b;
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read byte array error", e);
-            } else {
-                if (Constant.ENABLE_LOGS) {
-                    log.error("read byte array error");
-                    e.printStackTrace();
-                }
+            if (Constant.ENABLE_LOGS) {
+                log.error("read byte array error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read byte array error", e);
         }
-        return null;
     }
 
-    public double readDouble(boolean exception) {
+    public double readDouble() {
         try {
-            return Double.longBitsToDouble(readInt64(exception));
+            return Double.longBitsToDouble(readInt64());
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read double error", e);
-            } else {
-                if (Constant.ENABLE_LOGS) {
-                    log.error("read double error");
-                    e.printStackTrace();
-                }
+            if (Constant.ENABLE_LOGS) {
+                log.error("read double error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read double error", e);
         }
-        return 0;
     }
 
-    public float readFloat(boolean exception) {
+    public float readFloat() {
         try {
-            return Float.intBitsToFloat(readInt32(exception));
+            return Float.intBitsToFloat(readInt32());
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read float error", e);
-            } else {
-                if (Constant.ENABLE_LOGS) {
-                    log.error("read float error");
-                    e.printStackTrace();
-                }
+            if (Constant.ENABLE_LOGS) {
+                log.error("read float error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read float error", e);
         }
-        return 0;
     }
 
-    public int readInt32(boolean exception) {
+    public int readInt32() {
         try {
             int i = 0;
             for (int j = 0; j < 4; j++) {
@@ -524,19 +499,15 @@ public class SerializedData extends AbstractSerializedData {
             }
             return i;
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read int32 error", e);
-            } else {
-                if (Constant.ENABLE_LOGS) {
-                    log.error("read int32 error");
-                    e.printStackTrace();
-                }
+            if (Constant.ENABLE_LOGS) {
+                log.error("read int32 error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read int32 error", e);
         }
-        return 0;
     }
 
-    public long readInt64(boolean exception) {
+    public long readInt64() {
         try {
             long i = 0;
             for (int j = 0; j < 8; j++) {
@@ -545,16 +516,12 @@ public class SerializedData extends AbstractSerializedData {
             }
             return i;
         } catch (Exception e) {
-            if (exception) {
-                throw new RuntimeException("read int64 error", e);
-            } else {
-                if (Constant.ENABLE_LOGS) {
-                    log.error("read int64 error");
-                    e.printStackTrace();
-                }
+            if (Constant.ENABLE_LOGS) {
+                log.error("read int64 error");
+                e.printStackTrace();
             }
+            throw new RuntimeException("read int64 error", e);
         }
-        return 0;
     }
 
     @Override
@@ -563,7 +530,7 @@ public class SerializedData extends AbstractSerializedData {
     }
 
     @Override
-    public NativeByteBuffer readByteBuffer(boolean exception) {
+    public NativeByteBuffer readByteBuffer() {
         return null;
     }
 

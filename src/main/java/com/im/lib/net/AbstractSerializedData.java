@@ -26,23 +26,23 @@ public abstract class AbstractSerializedData {
 
     public abstract void writeByteBuffer(NativeByteBuffer buffer);
 
-    public abstract int readInt32(boolean exception);
+    public abstract int readInt32();
 
-    public abstract boolean readBool(boolean exception);
+    public abstract boolean readBool();
 
-    public abstract long readInt64(boolean exception);
+    public abstract long readInt64();
 
-    public abstract void readBytes(byte[] b, boolean exception);
+    public abstract void readBytes(byte[] b);
 
-    public abstract byte[] readData(int count, boolean exception);
+    public abstract byte[] readData(int count);
 
-    public abstract String readString(boolean exception);
+    public abstract String readString();
 
-    public abstract byte[] readByteArray(boolean exception);
+    public abstract byte[] readByteArray();
 
-    public abstract NativeByteBuffer readByteBuffer(boolean exception);
+    public abstract NativeByteBuffer readByteBuffer();
 
-    public abstract double readDouble(boolean exception);
+    public abstract double readDouble();
 
     public abstract int length();
 
