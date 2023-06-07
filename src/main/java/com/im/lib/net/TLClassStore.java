@@ -12,7 +12,29 @@ package com.im.lib.net;
 //
 //import org.telegram.messenger.FileLog;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+
 public class TLClassStore {
+
+    private static final HashMap<Integer, Class<?>> classHashMap = new HashMap<>();
+
+    static {
+        Class<TLRPC> tlrpcClass = TLRPC.class;
+        Class<?>[] classList = tlrpcClass.getDeclaredClasses();
+        for (Class<?> clazz : classList) {
+            try {
+                Field constructorId = clazz.getDeclaredField("constructor");
+                classHashMap.put(constructorId.getInt(null), clazz);
+            } catch (NoSuchFieldException | IllegalAccessException ignored) {
+
+            }
+        }
+    }
+
+    public static Class<?> getClass(int constructorId) {
+        return classHashMap.get(constructorId);
+    }
 //    private SparseArray<Class> classStore;
 //
 //    public TLClassStore() {

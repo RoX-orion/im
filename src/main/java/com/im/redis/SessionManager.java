@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Copyright (c) 2023 Andre Lina. All rights reserved.
@@ -28,6 +29,26 @@ public class SessionManager {
     private RedisTemplate<String, SessionInfo> redisTemplate;
 
     private final String SESSION = "session:";
+
+    private final String PRE_AUTH_KEY = "preAuthKey:";
+
+    private final long PRE_AUTH_KEY_TIMEOUT = 1; // 1 day
+
+    private final String AUTH_KEY = "authKey:";
+
+    public void setPreAuthKey(String authKey) {
+        stringRedisTemplate.opsForValue()
+                .set(PRE_AUTH_KEY + authKey, authKey, PRE_AUTH_KEY_TIMEOUT, TimeUnit.DAYS);
+    }
+
+    public boolean setUserAuthKey(String authKey, long userId) {
+        if (Boolean.FALSE.equals(stringRedisTemplate.hasKey(PRE_AUTH_KEY + authKey))) {
+            return false;
+        }
+        stringRedisTemplate.opsForZSet()
+                .add(AUTH_KEY + userId, authKey, System.currentTimeMillis());
+        return true;
+    }
 
     public SessionInfo getMsgInfo(BigInteger authKeyId, long sessionId) {
         Object o = stringRedisTemplate

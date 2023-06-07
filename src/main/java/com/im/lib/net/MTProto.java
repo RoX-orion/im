@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
@@ -81,6 +82,14 @@ public class MTProto {
     private RequestData readRequestData(byte[] data, int dataLength, RequestData requestData) {
         BinaryReader binaryReader = new BinaryReader(data);
         int constructorId = binaryReader.readInt32();
+        Class<?> clazz = TLClassStore.getClass(constructorId);
+        try {
+            if (clazz != null) {
+                Object o = clazz.getConstructor().newInstance();
+            }
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
         Object requestParam = binaryReader.tgReadObject(constructorId);
         log.info("数据部分:{}", data);
 
