@@ -2,10 +2,10 @@ package com.im.lib.crypto;
 
 import com.im.entity.CreateAuthKeyState;
 import com.im.lib.Helpers;
+import com.im.utils.StringUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.StringUtils;
 
 import javax.crypto.Cipher;
 import java.io.FileInputStream;
@@ -61,7 +61,7 @@ public class RSA {
                     builder.append(line.trim());
                 }
                 String source = builder.toString();
-                if (StringUtils.hasLength(source)) {
+                if (!StringUtil.isEmpty(source)) {
                     String publicKeyBase64 = source.substring(
                             source.indexOf(RSA.PUBLIC_KEY_BEGIN) + RSA.PUBLIC_KEY_BEGIN.length(),
                             source.indexOf(RSA.PUBLIC_KEY_END)

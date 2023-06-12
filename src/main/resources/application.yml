@@ -7,8 +7,8 @@ spring:
 
   datasource:
     username: root
-    password: 587989ht
-    url: jdbc:mysql://192.168.64.128:3306/im?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&socketTimeout=60000&useSSL=false
+    password: 123456
+    url: jdbc:mysql:///im?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&socketTimeout=60000&useSSL=false&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -77,7 +77,7 @@ spring:
       max-file-size: 100GB
 
   redis:
-    host: 192.168.64.128          #81.70.4.209         #redis服务器地址
+    host: 127.0.0.1          #81.70.4.209         #redis服务器地址
     port: 6379                #redis服务器端口
 #    password: 521@sha256      #redis服务器密码，没有不用写
     database: 1               #redis数据库(0-15),默认为0

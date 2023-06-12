@@ -3,7 +3,6 @@ package com.im.lib.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.im.lib.net.ChannelManager;
-import com.im.service.ChatService;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +29,6 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocke
     private ChannelManager channelManager;
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    @Resource
-    private ChatService chatService;
 
     /**
      * 处理收到的消息
@@ -92,7 +88,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocke
         String address = ctx.channel().remoteAddress().toString();
         log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 下线 ");
         ChannelId id = ctx.channel().id();
-        chatService.offline(id);
+//        chatService.offline(id);
     }
 
     /**
@@ -114,4 +110,3 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocke
         log.info("当前在线人数是:" + channelManager.size() + " | all:" + channelManager.size());
     }
 }
-

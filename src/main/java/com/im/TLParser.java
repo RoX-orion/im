@@ -4,7 +4,6 @@ import com.im.lib.tl.ArgsConfig;
 import com.im.lib.tl.NodeConfig;
 import com.im.lib.tl.TLHelpers;
 import com.im.utils.StringUtil;
-import org.springframework.util.StringUtils;
 
 import java.io.*;
 import java.util.*;
@@ -442,7 +441,7 @@ public class TLParser {
             }
             text = text.trim();
             // 如果是注释直接跳过
-            if (!StringUtils.hasLength(text)) {
+            if (StringUtil.isEmpty(text)) {
                 continue;
             }
             // 判断程序是否是方法
@@ -546,7 +545,7 @@ public class TLParser {
 
     private static List<String> findAll(Pattern regex, String text) {
         List<String> list = new ArrayList<>();
-        while (StringUtils.hasLength(text)) {
+        while (!StringUtil.isEmpty(text)) {
             Matcher matcher = regex.matcher(text);
             if (matcher.find()) {
                 list.add(matcher.group());

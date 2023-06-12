@@ -1,16 +1,4 @@
-/*
- * This is the source code of Telegram for Android v. 5.x.x.
- * It is licensed under GNU GPL v. 2 or later.
- * You should have received a copy of the license in this archive (see LICENSE).
- *
- * Copyright Nikolai Kudashov, 2013-2018.
- */
-
 package com.im.lib.net;
-
-//import android.util.SparseArray;
-//
-//import org.telegram.messenger.FileLog;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
