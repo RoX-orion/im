@@ -1,5 +1,6 @@
 package com.im.lib.entity;
 
+import com.im.lib.net.TLObject;
 import lombok.Data;
 
 import java.math.BigInteger;
@@ -22,4 +23,6 @@ public class RequestData {
     private String seqNo;
 
     private byte[] data;
+
+    private TLObject tlObject;
 }

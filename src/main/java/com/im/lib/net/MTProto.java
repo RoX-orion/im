@@ -83,13 +83,20 @@ public class MTProto {
         BinaryReader binaryReader = new BinaryReader(data);
         int constructorId = binaryReader.readInt32();
         Class<?> clazz = TLClassStore.getClass(constructorId);
-        try {
-            if (clazz != null) {
-                Object o = clazz.getConstructor().newInstance();
+        TLObject tlObject = null;
+        if (clazz != null) {
+            try {
+                tlObject = (TLObject) clazz.getConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
+                throw new RuntimeException(e);
             }
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
         }
+        if (tlObject != null) {
+            SerializedData serializedData = new SerializedData(data);
+            tlObject.readParams(serializedData);
+        }
+        System.out.println(tlObject);
         Object requestParam = binaryReader.tgReadObject(constructorId);
         log.info("数据部分:{}", data);
 
@@ -97,6 +104,7 @@ public class MTProto {
         requestData.setData(data);
         requestData.setRequestParam(requestParam);
         requestData.setAuthKeyId(requestData.getAuthKeyId());
+        requestData.setTlObject(tlObject);
 
         if (constructorId == 0xda9b0d0d) {
             storeSession(requestData);

@@ -15,7 +15,7 @@ import com.im.lib.entity.WsApiResult;
 import com.im.lib.net.BinaryReader;
 import com.im.lib.net.SerializeResponse;
 import com.im.lib.net.SerializedDataBak;
-import com.im.lib.tl.TLUtil;
+import com.im.lib.net.TLRPC;
 import com.im.redis.KeyPrefix;
 import com.im.redis.SessionManager;
 import io.netty.channel.Channel;
@@ -48,8 +48,8 @@ public class ApiService {
         return null;
     }
 
-    public Api.ResPQ reqPqMulti(Api.ReqPqMulti reqPqMulti) throws JsonProcessingException {
-        BigInteger nonce = reqPqMulti.getNonce();
+    public Api.ResPQ reqPqMulti(TLRPC.TL_ReqPqMulti reqPqMulti) throws JsonProcessingException {
+        BigInteger nonce = new BigInteger(reqPqMulti.nonce);
         BigInteger serverNonce = Helpers.readBigIntegerFromBytes(Helpers.getRandomBytes(16), true, true);
 
         Api.ResPQ resPQ = new Api.ResPQ();

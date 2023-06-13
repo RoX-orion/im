@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Copyright (c) 2023 Andre Lina. All rights reserved.
@@ -61815,7 +61816,7 @@ public class TLRPC {
     }
 
     //
-    public static class TL_PqMulti extends TLObject {
+    public static class TL_ReqPqMulti extends TLObject {
         public static int constructor = 0xbe7e8ef1;
 
         public byte[] nonce;
@@ -61850,4 +61851,29 @@ public class TLRPC {
             stream.readBytes(nonce);
         }
     }
+
+    public static class TL_ResPq extends TLObject {
+        public static int constructor = 0x05162463;
+        //resPQ#05162463 nonce:int128 server_nonce:int128 pq:string resPQ#05162463 nonce:int128 server_nonce:int128 pq:string server_public_key_fingerprints:Vector<long> = ResPQ;:Vector<long> = ResPQ;
+        public byte[] nonce;
+        public byte[] server_nonce;
+        public String pq;
+        public List<Long> server_public_key_fingerprints;
+
+        @Override
+        public void serializeToStream(AbstractSerializedData stream) {
+            stream.writeInt32(constructor);
+            stream.writeByteArray(nonce);
+            stream.writeByteArray(server_nonce);
+            stream.writeString(pq);
+
+            stream.writeInt32(Vector.constructor);
+            int count = document_id.size();
+            stream.writeInt32(count);
+            for (int i = 0; i < count; i++) {
+                stream.writeInt64(server_public_key_fingerprints.get(i));
+            }
+        }
+    }
+
 }

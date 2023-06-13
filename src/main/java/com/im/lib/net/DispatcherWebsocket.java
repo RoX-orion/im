@@ -7,6 +7,7 @@ import com.im.lib.entity.RequestData;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.exception.WebsocketHandlerMappingException;
 import io.netty.channel.Channel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -21,6 +22,7 @@ import java.math.BigInteger;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Component
 public class DispatcherWebsocket implements ApplicationContextAware {
 
@@ -71,8 +73,9 @@ public class DispatcherWebsocket implements ApplicationContextAware {
      */
     public WsApiResult dispatcherRequest(RequestData requestData, Channel channel) throws InvocationTargetException, IllegalAccessException {
         int constructorId = requestData.getConstructorId();
-        System.out.println(requestData);
-        Object requestParam = requestData.getRequestParam();
+        log.info("request data: {}", requestData);
+//        Object requestParam = requestData.getRequestParam();
+        TLObject tlObject = requestData.getTlObject();
         HandlerMeta handlerMeta = handlerContainer.get(constructorId);
         if (handlerMeta == null) {
             throw new WebsocketHandlerMappingException("current websocket request didn't config handler!");
@@ -81,7 +84,7 @@ public class DispatcherWebsocket implements ApplicationContextAware {
 //        Class<?> returnType = method.getReturnType();
         Parameter[] parameters = method.getParameters();
         Object handlerObject = handlerMeta.getHandlerObject();
-        Object[] invokeParam = bindParam.bind(parameters, requestParam, channel, requestData);
+        Object[] invokeParam = bindParam.bind(parameters, tlObject, channel, requestData);
         Object response = method.invoke(handlerObject, invokeParam);
         if (response == null) {
 //            System.out.println("方法未实现！");

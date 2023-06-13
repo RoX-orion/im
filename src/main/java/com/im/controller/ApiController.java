@@ -5,6 +5,7 @@ import com.im.api.Api;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
 import com.im.lib.annotation.WebsocketRequestParam;
+import com.im.lib.net.TLRPC;
 import com.im.service.ApiService;
 import io.netty.channel.Channel;
 
@@ -23,7 +24,7 @@ public class ApiController {
 	}
 
 	@WebsocketHandlerMapping(value = 0xbe7e8ef1, name = "ReqPqMulti")
-	public Api.ResPQ reqPqMulti(Api.ReqPqMulti reqPqMulti) throws JsonProcessingException {
+	public Api.ResPQ reqPqMulti(TLRPC.TL_ReqPqMulti reqPqMulti) throws JsonProcessingException {
 		return apiService.reqPqMulti(reqPqMulti);
 	}
 
