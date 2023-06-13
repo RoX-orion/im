@@ -1,11 +1,10 @@
 package com.im;
 
 import com.im.lib.core.NettyServer;
+import jakarta.annotation.Resource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
-
-import javax.annotation.Resource;
 
 @EnableAsync
 @SpringBootApplication

@@ -1,14 +1,13 @@
 package com.im.lib.core;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.im.lib.net.ChannelManager;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

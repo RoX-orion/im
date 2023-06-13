@@ -2,12 +2,12 @@ package com.im.redis;
 
 import com.im.lib.entity.SessionInfo;
 import com.im.lib.storage.JacksonSerialize;
+import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;

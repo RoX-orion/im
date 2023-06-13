@@ -61868,7 +61868,7 @@ public class TLRPC {
             stream.writeString(pq);
 
             stream.writeInt32(Vector.constructor);
-            int count = document_id.size();
+            int count = server_public_key_fingerprints.size();
             stream.writeInt32(count);
             for (int i = 0; i < count; i++) {
                 stream.writeInt64(server_public_key_fingerprints.get(i));

@@ -2,6 +2,8 @@ package com.im.config;
 
 import com.im.lib.crypto.RSA;
 import com.im.redis.KeyPrefix;
+import jakarta.annotation.PreDestroy;
+import jakarta.annotation.Resource;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -10,8 +12,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import javax.annotation.PreDestroy;
-import javax.annotation.Resource;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 

@@ -9,10 +9,10 @@ import com.im.redis.SessionManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;

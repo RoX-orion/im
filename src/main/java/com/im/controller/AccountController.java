@@ -6,8 +6,7 @@ import com.im.api.AuthApi;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
 import com.im.service.AccountService;
-
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @WebsocketHandler
 public class AccountController {

@@ -8,8 +8,8 @@ import com.im.lib.annotation.WebsocketRequestParam;
 import com.im.lib.net.TLRPC;
 import com.im.service.ApiService;
 import io.netty.channel.Channel;
+import jakarta.annotation.Resource;
 
-import javax.annotation.Resource;
 import java.math.BigInteger;
 
 @WebsocketHandler

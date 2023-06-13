@@ -19,11 +19,11 @@ import com.im.lib.net.TLRPC;
 import com.im.redis.KeyPrefix;
 import com.im.redis.SessionManager;
 import io.netty.channel.Channel;
+import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;

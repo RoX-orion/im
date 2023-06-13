@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -17,15 +17,20 @@ import java.util.Date;
 public class GroupMessage {
     @TableId
     private Long groupMessageId;
+
     @NotNull
     private Long groupId;
+
     @NotBlank
     private String content;
+
     @NotNull
     private Long uid;
+
     @NotBlank
     @TableField(exist = false)
     private String username;
+
 //    @NotBlank
     private String sendStatus;
 

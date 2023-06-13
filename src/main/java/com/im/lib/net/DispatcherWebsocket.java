@@ -7,14 +7,14 @@ import com.im.lib.entity.RequestData;
 import com.im.lib.entity.WsApiResult;
 import com.im.lib.exception.WebsocketHandlerMappingException;
 import io.netty.channel.Channel;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.validation.constraints.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -58,7 +58,7 @@ public class DispatcherWebsocket implements ApplicationContextAware {
     }
 
     @Override
-    public void setApplicationContext(@NotNull ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(@Nullable ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
 

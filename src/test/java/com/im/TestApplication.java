@@ -1,27 +1,20 @@
 package com.im;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.im.api.Api;
 import com.im.lib.Helpers;
 import com.im.lib.core.MTProtoStateService;
 import com.im.lib.crypto.AES;
 import com.im.lib.crypto.RSA;
-import com.im.vo.TestArray;
+import jakarta.annotation.Resource;
 import org.junit.Test;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import javax.annotation.Resource;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Date;
 
 public class TestApplication {
-
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
 
     @Test
     public void testSha1() {

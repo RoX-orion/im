@@ -4,8 +4,7 @@ import com.im.api.UpdatesApi;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
 import com.im.service.UpdatesService;
-
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @WebsocketHandler
 public class UpdatesController {

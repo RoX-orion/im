@@ -1,9 +1,9 @@
 package com.im.lib.net;
 
 import com.im.lib.entity.SessionInfo;
+import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import javax.annotation.Resource;
 import java.math.BigInteger;
 
 /**

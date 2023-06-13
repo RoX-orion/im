@@ -5,8 +5,7 @@ import com.im.api.LangpackApi;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
 import com.im.service.LangpackService;
-
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @WebsocketHandler
 public class LangpackController {
