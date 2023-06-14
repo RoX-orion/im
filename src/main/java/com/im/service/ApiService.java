@@ -1,7 +1,6 @@
 package com.im.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.api.Api;
 import com.im.entity.CreateAuthKeyState;
 import com.im.lib.Constant;
@@ -12,10 +11,7 @@ import com.im.lib.crypto.RSA;
 import com.im.lib.entity.AesKeyIv;
 import com.im.lib.entity.DHResult;
 import com.im.lib.entity.WsApiResult;
-import com.im.lib.net.BinaryReader;
-import com.im.lib.net.SerializeResponse;
-import com.im.lib.net.SerializedDataBak;
-import com.im.lib.net.TLRPC;
+import com.im.lib.net.*;
 import com.im.redis.KeyPrefix;
 import com.im.redis.SessionManager;
 import io.netty.channel.Channel;
@@ -27,22 +23,22 @@ import org.springframework.util.StringUtils;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class ApiService {
 
     public static final String CREATE_AUTH_KEY_STATE    = "create-authKey-state:";
 
-    public static final String AES_KEY_IV = "aes-key-iv:";
+    public static final String AES_KEY_IV               = "aes-key-iv:";
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     @Resource
-    private SessionManager sessionManager;
+    private HandShakeDataCache handShakeDataCache;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    @Resource
+    private SessionManager sessionManager;
 
     public Api.ResPQ reqPq(Api.ReqPq reqPq) {
         return null;
@@ -65,12 +61,7 @@ public class ApiService {
         }
         resPQ.setServerPublicKeyFingerprints(fingerprints);
 
-        String s = new ObjectMapper().writeValueAsString(createAuthKeyState);
-        stringRedisTemplate.opsForValue().set(
-                CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce,
-                s, 10, TimeUnit.MINUTES
-        );
-        System.out.println("createAuthKeyState:" + createAuthKeyState);
+        handShakeDataCache.store(CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce, createAuthKeyState);
         return resPQ;
     }
 
@@ -109,13 +100,11 @@ public class ApiService {
         if (!(o instanceof Api.PQInnerData pqInnerData)) {
             throw new RuntimeException("obj must be Api.PQInnerData!");
         }
-        if (Boolean.FALSE.equals(stringRedisTemplate.hasKey(CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce))) {
+        String key = CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce;
+        if (!handShakeDataCache.hasKey(key)) {
             return serverDHParamsFail(nonce, serverNonce, pqInnerData.getNewNonce());
         }
-        CreateAuthKeyState createAuthKeyState = objectMapper.readValue(
-                stringRedisTemplate.opsForValue().get(CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce),
-                CreateAuthKeyState.class
-        );
+        CreateAuthKeyState createAuthKeyState = (CreateAuthKeyState) handShakeDataCache.get(key);
         if (!Arrays.equals(p, Helpers.getByteArray(createAuthKeyState.getP()))
                 && !Arrays.equals(q, Helpers.getByteArray(createAuthKeyState.getQ()))
                 && !Arrays.equals(p, pqInnerData.getP())
@@ -156,20 +145,13 @@ public class ApiService {
         BigInteger igeKey = Helpers.readBigIntegerFromBytes(aesKeyIv.getKey(), false, true);
         BigInteger igeIv = Helpers.readBigIntegerFromBytes(aesKeyIv.getIv(), false, true);
         String s = igeKey + ":" + igeIv;
-        stringRedisTemplate.opsForValue().set(
-                AES_KEY_IV + nonce + "-" + serverNonce,
-                s, 10, TimeUnit.MINUTES
-        );
+        handShakeDataCache.store(AES_KEY_IV + nonce + "-" + serverNonce, s);
 
         server_dh_params_ok.setEncryptedAnswer(encryptedAnswer);
 
         createAuthKeyState.setA(a);
         createAuthKeyState.setNewNonce(pqInnerData.getNewNonce());
-        String createAuthKeyStateStr = objectMapper.writeValueAsString(createAuthKeyState);
-        stringRedisTemplate.opsForValue().set(
-                CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce,
-                createAuthKeyStateStr, 10, TimeUnit.MINUTES
-        );
+        handShakeDataCache.store(key, createAuthKeyState);
 
         return server_dh_params_ok;
     }
@@ -190,11 +172,12 @@ public class ApiService {
     public Api.TypeSet_client_DH_params_answer setClientDHParams(Api.SetClientDHParams setClientDHParams, Channel channel) {
         BigInteger nonce = setClientDHParams.getNonce();
         BigInteger serverNonce = setClientDHParams.getServerNonce();
-        if (Boolean.FALSE.equals(stringRedisTemplate.hasKey(CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce))) {
+        String createAuthKeyStateKey = CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce;
+        if (!handShakeDataCache.hasKey(createAuthKeyStateKey)) {
             return new Api.DhGenFail();
         }
-        String s = stringRedisTemplate.opsForValue().get(AES_KEY_IV + nonce + "-" + serverNonce);
-        if (!StringUtils.hasLength(s)) {
+        String s = (String) handShakeDataCache.get(AES_KEY_IV + nonce + "-" + serverNonce);
+        if (!StringUtils.hasText(s)) {
             return new Api.DhGenFail();
         }
         String[] split = s.split(":");
@@ -211,21 +194,15 @@ public class ApiService {
                 && !clientDHInnerData.getServerNonce().equals(setClientDHParams.getServerNonce())) {
             return new Api.DhGenFail();
         }
-        String s1 = stringRedisTemplate.opsForValue().get(CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce);
-        CreateAuthKeyState createAuthKeyState;
-        try {
-            createAuthKeyState = objectMapper.readValue(s1, CreateAuthKeyState.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        CreateAuthKeyState createAuthKeyState = (CreateAuthKeyState) handShakeDataCache.get(createAuthKeyStateKey);
 
         byte[] gbBytes = clientDHInnerData.getGB();
 
         BigInteger gb = Helpers.readBigIntegerFromBytes(gbBytes, false, false);
         BigInteger gab = Helpers.fastMod(gb, createAuthKeyState.getA(), Constant.DH_PRIME);
 
-        stringRedisTemplate.delete(AES_KEY_IV + nonce + "-" + serverNonce);
-        stringRedisTemplate.delete(CREATE_AUTH_KEY_STATE + nonce + "-" + serverNonce);
+        handShakeDataCache.removeKey(AES_KEY_IV + nonce + "-" + serverNonce);
+        handShakeDataCache.removeKey(createAuthKeyStateKey);
 
         Api.DhGenOk dhGenOk = new Api.DhGenOk();
         dhGenOk.setNonce(nonce);

@@ -10,6 +10,7 @@ import com.im.lib.crypto.DH;
 import com.im.lib.net.BinaryReader;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
@@ -527,5 +528,14 @@ public class TestDemo {
         ByteBuf byteBuf = Unpooled.wrappedBuffer(bytes);
         int l = byteBuf.readInt();
         System.out.println(Integer.toHexString(l));
+    }
+
+    @Test
+    public void testNotNull() {
+        print(null);
+    }
+
+    public void print(@NonNull String str) {
+        System.out.println(str);
     }
 }
