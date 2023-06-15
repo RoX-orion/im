@@ -182,24 +182,43 @@ public class Helpers {
      * @param little 给定字节数组是小端字节序
      */
     public static BigInteger readBigIntegerFromBytes(byte[] bytes, boolean little, boolean signed) {
-        int length = bytes.length;
-        int[] buffer = toUnsignedInt(bytes);
-        BigInteger result = BigInteger.ZERO;
-
+//        int length = bytes.length;
+//        int[] buffer = toUnsignedInt(bytes);
+//        BigInteger result = BigInteger.ZERO;
+//
+//        if (little) {
+//            for (int i = buffer.length - 1; i >= 0; i--) {
+//                result = result.shiftLeft(8).or(new BigInteger(String.valueOf(buffer[i])));
+//            }
+//        } else {
+//            for (int b : buffer) {
+//                result = result.shiftLeft(8).or(new BigInteger(String.valueOf(b)));
+//            }
+//        }
+//        if (signed && (result.toString(2).length() >> 3) >= length) {
+//            result = result.subtract(BigInteger.TWO.pow(length * 8));
+//        }
+//
+//        return result;
+        byte[] randBuffer = bytes.clone();
+        int bytesNumber = randBuffer.length;
         if (little) {
-            for (int i = buffer.length - 1; i >= 0; i--) {
-                result = result.shiftLeft(8).or(new BigInteger(String.valueOf(buffer[i])));
-            }
-        } else {
-            for (int b : buffer) {
-                result = result.shiftLeft(8).or(new BigInteger(String.valueOf(b)));
-            }
+            reverse(randBuffer);
         }
-        if (signed && (result.toString(2).length() >> 3) >= length) {
-            result = result.subtract(BigInteger.TWO.pow(length * 8));
+        BigInteger bigInt = new BigInteger(bytesToHex(randBuffer), 16);
+        if (signed && bigInt.toString(2).length() / 8 >= bytesNumber) {
+            bigInt = bigInt.subtract(BigInteger.valueOf(2)
+                    .pow(bytesNumber * 8));
         }
+        return bigInt;
+    }
 
-        return result;
+    private static String bytesToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
     }
 
     public static int[] toUnsignedInt(byte[] bytes) {

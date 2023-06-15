@@ -21,10 +21,24 @@ public class DH {
 
     private byte[] secretKey;
 
-    private LinkedHashMap<String, BigInteger> privateKeyMap = new LinkedHashMap<>();
+    private final LinkedHashMap<String, BigInteger> privateKeyMap = new LinkedHashMap<>();
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    public static final BigInteger DH_BASE = new BigInteger("3");
+
+    public static final BigInteger DH_PRIME = new BigInteger(
+            "32317006071311007300338913926423828248817941241140239112842009" +
+                "7514007417066343542226196894173635693471179017379097041917" +
+                "5460587320919502885375898618562215321217541251490177452027" +
+                "0235796078236248884246189477587641105928646099411723245426" +
+                "6225221932305409190376805242355191256797158701170010580558" +
+                "7765103886184728025797605490356973256152616708133936179954" +
+                "1336476559160368317896729073178384589680639671900977202194" +
+                "1686472258710314113364293195361934716365332097170774482279" +
+                "8858856536920864529663607725026895550592836275112117409697" +
+                "2998068410554359584866583291642136218231078990999448652468" +
+                "262416972035911852507045361090559"
+    );
+
 
     // 生成本地KeyPair(RsaKey + privateKey)
     public synchronized static KeyPair generateKeyPair() {
@@ -107,7 +121,7 @@ public class DH {
     }
 
     /**
-     * 获取 g^a % p
+     * get g ^ a % p
      * @param base 底数g
      * @return 指数index以及g^a % p结果result
      */

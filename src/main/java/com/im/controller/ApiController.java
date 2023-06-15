@@ -24,7 +24,7 @@ public class ApiController {
 	}
 
 	@WebsocketHandlerMapping(value = 0xbe7e8ef1, name = "ReqPqMulti")
-	public Api.ResPQ reqPqMulti(TLRPC.TL_ReqPqMulti reqPqMulti) throws JsonProcessingException {
+	public Api.ResPQ reqPqMulti(TLRPC.TL_reqPqMulti reqPqMulti) throws JsonProcessingException {
 		return apiService.reqPqMulti(reqPqMulti);
 	}
 
@@ -34,7 +34,7 @@ public class ApiController {
 	}
 
 	@WebsocketHandlerMapping(value = 0xd712e4be, name = "ReqDHParams")
-	public Api.TypeServer_DH_Params reqDHParams(Api.ReqDHParams reqDHParams) throws Exception {
+	public Api.TypeServer_DH_Params reqDHParams(TLRPC.TL_reqDHParams reqDHParams) throws Exception {
 		return apiService.reqDHParams(reqDHParams);
 	}
 

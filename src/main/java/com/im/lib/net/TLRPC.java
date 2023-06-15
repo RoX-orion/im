@@ -61816,7 +61816,7 @@ public class TLRPC {
     }
 
     //
-    public static class TL_ReqPqMulti extends TLObject {
+    public static class TL_reqPqMulti extends TLObject {
         public static int constructor = 0xbe7e8ef1;
 
         public byte[] nonce;
@@ -61828,7 +61828,7 @@ public class TLRPC {
         }
     }
 
-    public static class TL_ReqPqMultiNew extends TLObject {
+    public static class TL_reqPqMultiNew extends TLObject {
         public static int constructor = 0x51b410fd;
 
         public byte[] nonce;
@@ -61840,21 +61840,29 @@ public class TLRPC {
         }
     }
 
-    public static class TL_ReqDHParams extends TLObject {
-        public static int constructor = 0x51b410fd;
+    public static class TL_reqDHParams extends TLObject {
+        public static int constructor = 0xd712e4be;
 
-        public byte[] nonce;
+        public byte[] nonce = new byte[16];
+        public byte[] server_nonce = new byte[16];
+        public byte[] p;
+        public byte[] q;
+        public long public_key_fingerprint;
+        public byte[] encrypted_data;
 
         @Override
         public void readParams(AbstractSerializedData stream) {
-            nonce = new byte[16];
             stream.readBytes(nonce);
+            stream.readBytes(server_nonce);
+            p = stream.readByteArray();
+            q = stream.readByteArray();
+            public_key_fingerprint = stream.readInt64();
+            encrypted_data = stream.readByteArray();
         }
     }
 
-    public static class TL_ResPq extends TLObject {
+    public static class TL_resPq extends TLObject {
         public static int constructor = 0x05162463;
-        //resPQ#05162463 nonce:int128 server_nonce:int128 pq:string resPQ#05162463 nonce:int128 server_nonce:int128 pq:string server_public_key_fingerprints:Vector<long> = ResPQ;:Vector<long> = ResPQ;
         public byte[] nonce;
         public byte[] server_nonce;
         public String pq;

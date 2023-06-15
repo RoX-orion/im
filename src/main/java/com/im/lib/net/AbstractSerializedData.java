@@ -38,6 +38,10 @@ public abstract class AbstractSerializedData {
 
     public abstract String readString();
 
+    /**
+     * read byte array which is not sure length(The first 4 bytes are the length)
+     * @return byte array
+     */
     public abstract byte[] readByteArray();
 
     public abstract NativeByteBuffer readByteBuffer();

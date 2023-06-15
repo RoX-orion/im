@@ -16,9 +16,8 @@ public class Application {
         Application.nettyServer = nettyServer;
     }
 
-    public static void main(String[] args) throws Exception {
-        System.setProperty("druid.mysql.usePingMethod", "false");
+    public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-        nettyServer.init();
+        new Thread(nettyServer).start();
     }
 }

@@ -25,15 +25,12 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class NettyServer {
+public class NettyServer implements Runnable{
 
     @Value("${server.netty.port}")
     private Integer port;
 
     private Channel channel;
-
-    @Resource
-    private NettyServerHandler nettyServerHandler;
 
     @Resource
     private BinaryWebSocketFrameHandler binaryWebSocketFrameHandler;
@@ -97,6 +94,15 @@ public class NettyServer {
             }
             boss.shutdownGracefully();
             work.shutdownGracefully();
+        }
+    }
+
+    @Override
+    public void run() {
+        try {
+            init();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

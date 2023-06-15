@@ -6,8 +6,10 @@ import com.im.lib.core.MTProtoStateService;
 import com.im.lib.entity.RequestData;
 import com.im.lib.entity.SessionInfo;
 import com.im.lib.entity.WsApiResult;
+import com.im.lib.exception.HandShakeException;
 import com.im.lib.exception.RequestIncompleteException;
 import com.im.lib.exception.ResponseException;
+import com.im.lib.exception.TLException;
 import com.im.redis.SessionManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
@@ -50,9 +52,10 @@ public class MTProto {
             long msgId = binaryReader.readInt64();
 //            requestData.setMsgId(msgId);
             int dataLength = binaryReader.readInt32();
-            byte[] data = binaryReader.readBytes(dataLength);
+            int constructorId = binaryReader.readInt32();
+            byte[] data = binaryReader.readBytes(dataLength - 4);
 //            requestData.setMsgId(msgId);
-            return readRequestData(data, dataLength, requestData);
+            return readRequestData(constructorId, data, dataLength, requestData);
         } else {// 加密数据
             byte[] msgKey = binaryReader.readBytes(16);
             byte[] bytes = binaryReader.readAll();
@@ -63,9 +66,10 @@ public class MTProto {
             mtprotoStateService.checkEncryptedData(br, requestData);
             checkHeader(requestData);
             int dataLength = br.readInt32();
-            byte[] data = br.readBytes(dataLength);
+            int constructorId = binaryReader.readInt32();
+            byte[] data = br.readBytes(dataLength - 4);
 
-            return readRequestData(data, dataLength, requestData);
+            return readRequestData(constructorId, data, dataLength, requestData);
         }
     }
 
@@ -79,9 +83,8 @@ public class MTProto {
         }
     }
 
-    private RequestData readRequestData(byte[] data, int dataLength, RequestData requestData) {
+    private RequestData readRequestData(int constructorId, byte[] data, int dataLength, RequestData requestData) {
         BinaryReader binaryReader = new BinaryReader(data);
-        int constructorId = binaryReader.readInt32();
         Class<?> clazz = TLClassStore.getClass(constructorId);
         TLObject tlObject = null;
         if (clazz != null) {
@@ -95,6 +98,9 @@ public class MTProto {
         if (tlObject != null) {
             SerializedData serializedData = new SerializedData(data);
             tlObject.readParams(serializedData);
+        } else {
+            System.out.println(Integer.toHexString(constructorId));
+            throw new TLException("read null TL object!");
         }
         System.out.println(tlObject);
         Object requestParam = binaryReader.tgReadObject(constructorId);

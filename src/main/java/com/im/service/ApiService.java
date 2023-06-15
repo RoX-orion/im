@@ -1,9 +1,7 @@
 package com.im.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.im.api.Api;
 import com.im.entity.CreateAuthKeyState;
-import com.im.lib.Constant;
 import com.im.lib.Helpers;
 import com.im.lib.crypto.AES;
 import com.im.lib.crypto.DH;
@@ -44,8 +42,8 @@ public class ApiService {
         return null;
     }
 
-    public Api.ResPQ reqPqMulti(TLRPC.TL_ReqPqMulti reqPqMulti) throws JsonProcessingException {
-        BigInteger nonce = new BigInteger(reqPqMulti.nonce);
+    public Api.ResPQ reqPqMulti(TLRPC.TL_reqPqMulti reqPqMulti) {
+        BigInteger nonce = Helpers.readBigIntegerFromBytes(reqPqMulti.nonce, true, true);
         BigInteger serverNonce = Helpers.readBigIntegerFromBytes(Helpers.getRandomBytes(16), true, true);
 
         Api.ResPQ resPQ = new Api.ResPQ();
@@ -69,19 +67,19 @@ public class ApiService {
         return null;
     }
 
-    public Api.TypeServer_DH_Params reqDHParams(Api.ReqDHParams reqDHParams) throws Exception {
-        BigInteger nonce = reqDHParams.getNonce();
-        BigInteger serverNonce = reqDHParams.getServerNonce();
-        byte[] p = reqDHParams.getP();
-        byte[] q = reqDHParams.getQ();
-        BigInteger publicKeyFingerprint = reqDHParams.getPublicKeyFingerprint();
-        byte[] encryptedData = reqDHParams.getEncryptedData();
+    public Api.TypeServer_DH_Params reqDHParams(TLRPC.TL_reqDHParams reqDHParams) throws Exception {
+        BigInteger nonce = Helpers.readBigIntegerFromBytes(reqDHParams.nonce, true, true);
+        BigInteger serverNonce = Helpers.readBigIntegerFromBytes(reqDHParams.server_nonce, true, true);
+        byte[] p = reqDHParams.p;
+        byte[] q = reqDHParams.q;
+        long publicKeyFingerprint = reqDHParams.public_key_fingerprint;
+        byte[] encryptedData = reqDHParams.encrypted_data;
         BigInteger bigInteger = Helpers.readBigIntegerFromBytes(encryptedData, false, false);
-        BigInteger d = RSA.getD(publicKeyFingerprint.longValue());
+        BigInteger d = RSA.getD(publicKeyFingerprint);
         BigInteger keyAesEncryptedInt = Helpers.fastMod(
                 bigInteger,
                 d,
-                new BigInteger(RSA.getN(publicKeyFingerprint.longValue()))
+                new BigInteger(RSA.getN(publicKeyFingerprint))
         );
         byte[] bytes = Helpers.getByteArray(keyAesEncryptedInt);
 
@@ -115,13 +113,13 @@ public class ApiService {
 
         byte[] randomBytes = Helpers.getRandomBytes(32);
         BigInteger a = Helpers.readBigIntegerFromBytes(randomBytes, false, false);
-        DHResult result = DH.getResult(Constant.DH_BASE, a, Constant.DH_PRIME);
+        DHResult result = DH.getResult(DH.DH_BASE, a, DH.DH_PRIME);
 
         Api.ServerDHInnerData serverDHInnerData = new Api.ServerDHInnerData();
         serverDHInnerData.setNonce(nonce);
         serverDHInnerData.setServerNonce(serverNonce);
-        serverDHInnerData.setG(Constant.DH_BASE.intValue());
-        serverDHInnerData.setDhPrime(Helpers.getByteArray(Constant.DH_PRIME));
+        serverDHInnerData.setG(DH.DH_BASE.intValue());
+        serverDHInnerData.setDhPrime(Helpers.getByteArray(DH.DH_PRIME));
         serverDHInnerData.setServerTime((int) (System.currentTimeMillis()));
         serverDHInnerData.setGA(Helpers.getByteArray(result.getResult()));
 
@@ -199,7 +197,7 @@ public class ApiService {
         byte[] gbBytes = clientDHInnerData.getGB();
 
         BigInteger gb = Helpers.readBigIntegerFromBytes(gbBytes, false, false);
-        BigInteger gab = Helpers.fastMod(gb, createAuthKeyState.getA(), Constant.DH_PRIME);
+        BigInteger gab = Helpers.fastMod(gb, createAuthKeyState.getA(), DH.DH_PRIME);
 
         handShakeDataCache.removeKey(AES_KEY_IV + nonce + "-" + serverNonce);
         handShakeDataCache.removeKey(createAuthKeyStateKey);
