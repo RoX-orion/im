@@ -1,8 +1,5 @@
 package com.im.lib.net;
 
-//import android.graphics.drawable.BitmapDrawable;
-//import android.os.Build;
-
 import com.im.utils.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -265,9 +262,7 @@ public class TLRPC {
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in EmailVerification", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            result.readParams(stream);
             return result;
         }
     }
@@ -17020,9 +17015,6 @@ public class TLRPC {
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 PageBlock object = PageBlock.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 blocks.add(object);
             }
             magic = stream.readInt32();
@@ -17033,9 +17025,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 Photo object = Photo.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 photos.add(object);
             }
             magic = stream.readInt32();
@@ -17046,9 +17035,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 Document object = Document.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 documents.add(object);
             }
         }
@@ -17089,9 +17075,6 @@ public class TLRPC {
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 PageBlock object = PageBlock.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 blocks.add(object);
             }
             magic = stream.readInt32();
@@ -17102,9 +17085,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 Photo object = Photo.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 photos.add(object);
             }
             magic = stream.readInt32();
@@ -17115,9 +17095,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 Document object = Document.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 documents.add(object);
             }
         }
@@ -17171,9 +17148,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 Photo object = Photo.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 photos.add(object);
             }
             magic = stream.readInt32();
@@ -17184,9 +17158,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 Document object = Document.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 documents.add(object);
             }
         }
@@ -20291,21 +20262,15 @@ public class TLRPC {
     public static abstract class help_TermsOfServiceUpdate extends TLObject {
 
         public static help_TermsOfServiceUpdate TLdeserialize(AbstractSerializedData stream, int constructor) {
-            help_TermsOfServiceUpdate result = null;
-            switch (constructor) {
-                case 0x28ecf961:
-                    result = new TL_help_termsOfServiceUpdate();
-                    break;
-                case 0xe3309f7f:
-                    result = new TL_help_termsOfServiceUpdateEmpty();
-                    break;
-            }
+            help_TermsOfServiceUpdate result = switch (constructor) {
+                case 0x28ecf961 -> new TL_help_termsOfServiceUpdate();
+                case 0xe3309f7f -> new TL_help_termsOfServiceUpdateEmpty();
+                default -> null;
+            };
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in help_TermsOfServiceUpdate", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            result.readParams(stream);
             return result;
         }
     }
@@ -20363,14 +20328,10 @@ public class TLRPC {
             int magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 TL_chatAdminWithInvites object = TL_chatAdminWithInvites.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 admins.add(object);
             }
             magic = stream.readInt32();
@@ -20381,9 +20342,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 User object = User.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 users.add(object);
             }
         }
@@ -20429,14 +20387,10 @@ public class TLRPC {
             int magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 TL_groupCallParticipant object = TL_groupCallParticipant.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 participants.add(object);
             }
             participants_next_offset = stream.readString();
@@ -20448,9 +20402,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 Chat object = Chat.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 chats.add(object);
             }
             magic = stream.readInt32();
@@ -20461,9 +20412,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 User object = User.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 users.add(object);
             }
         }
@@ -20517,33 +20465,19 @@ public class TLRPC {
         public int receive_date;
 
         public static PhoneCall TLdeserialize(AbstractSerializedData stream, int constructor) {
-            PhoneCall result = null;
-            switch (constructor) {
-                case 0x14b0ed0c:
-                    result = new TL_phoneCallRequested();
-                    break;
-                case 0x967f7c67:
-                    result = new TL_phoneCall();
-                    break;
-                case 0x5366c915:
-                    result = new TL_phoneCallEmpty();
-                    break;
-                case 0x3660c311:
-                    result = new TL_phoneCallAccepted();
-                    break;
-                case 0xc5226f17:
-                    result = new TL_phoneCallWaiting();
-                    break;
-                case 0x50ca4de1:
-                    result = new TL_phoneCallDiscarded();
-                    break;
-            }
+            PhoneCall result = switch (constructor) {
+                case 0x14b0ed0c -> new TL_phoneCallRequested();
+                case 0x967f7c67 -> new TL_phoneCall();
+                case 0x5366c915 -> new TL_phoneCallEmpty();
+                case 0x3660c311 -> new TL_phoneCallAccepted();
+                case 0xc5226f17 -> new TL_phoneCallWaiting();
+                case 0x50ca4de1 -> new TL_phoneCallDiscarded();
+                default -> null;
+            };
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in PhoneCall", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            result.readParams(stream);
             return result;
         }
     }
@@ -20602,9 +20536,6 @@ public class TLRPC {
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 PhoneConnection object = PhoneConnection.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 connections.add(object);
             }
             start_date = stream.readInt32();
@@ -20748,21 +20679,15 @@ public class TLRPC {
     public static abstract class help_CountriesList extends TLObject {
 
         public static help_CountriesList TLdeserialize(AbstractSerializedData stream, int constructor) {
-            help_CountriesList result = null;
-            switch (constructor) {
-                case 0x93cc1f32:
-                    result = new TL_help_countriesListNotModified();
-                    break;
-                case 0x87d0759e:
-                    result = new TL_help_countriesList();
-                    break;
-            }
+            help_CountriesList result = switch (constructor) {
+                case 0x93cc1f32 -> new TL_help_countriesListNotModified();
+                case 0x87d0759e -> new TL_help_countriesList();
+                default -> null;
+            };
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in help_CountriesList", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            result.readParams(stream);
             return result;
         }
     }
@@ -20791,9 +20716,6 @@ public class TLRPC {
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 TL_help_country object = TL_help_country.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 countries.add(object);
             }
             hash = stream.readInt32();
@@ -20851,75 +20773,33 @@ public class TLRPC {
         public ArrayList<TL_username> usernames = new ArrayList<>();
 
         public static User TLdeserialize(AbstractSerializedData stream, int constructor) {
-            User result = null;
-            switch (constructor) {
-                case 0xcab35e18:
-                    result = new TL_userContact_old2();
-                    break;
-                case 0xf2fb8319:
-                    result = new TL_userContact_old();
-                    break;
-                case 0xd3bc4b7a:
-                    result = new TL_userEmpty();
-                    break;
-                case 0x8f97c628:
-                    result = new TL_user();
-                    break;
-                case 0x5d99adee:
-                    result = new TL_user_layer147();
-                    break;
-                case 0x3ff6ecb0:
-                    result = new TL_user_layer144();
-                    break;
-                case 0x938458c1:
-                    result = new TL_user_layer131();
-                    break;
-                case 0x2e13f4c3:
-                    result = new TL_user_layer104();
-                    break;
-                case 0x720535ec:
-                    result = new TL_userSelf_old();
-                    break;
-                case 0x1c60e608:
-                    result = new TL_userSelf_old3();
-                    break;
-                case 0xd6016d7a:
-                    result = new TL_userDeleted_old2();
-                    break;
-                case 0x200250ba:
-                    result = new TL_userEmpty_layer131();
-                    break;
-                case 0x22e8ceb0:
-                    result = new TL_userRequest_old();
-                    break;
-                case 0x5214c89d:
-                    result = new TL_userForeign_old();
-                    break;
-                case 0x75cf7a8:
-                    result = new TL_userForeign_old2();
-                    break;
-                case 0xd9ccc4ef:
-                    result = new TL_userRequest_old2();
-                    break;
-                case 0xb29ad7cc:
-                    result = new TL_userDeleted_old();
-                    break;
-                case 0xd10d979a:
-                    result = new TL_user_layer65();
-                    break;
-                case 0x22e49072:
-                    result = new TL_user_old();
-                    break;
-                case 0x7007b451:
-                    result = new TL_userSelf_old2();
-                    break;
-            }
+            User result = switch (constructor) {
+                case 0xcab35e18 -> new TL_userContact_old2();
+                case 0xf2fb8319 -> new TL_userContact_old();
+                case 0xd3bc4b7a -> new TL_userEmpty();
+                case 0x8f97c628 -> new TL_user();
+                case 0x5d99adee -> new TL_user_layer147();
+                case 0x3ff6ecb0 -> new TL_user_layer144();
+                case 0x938458c1 -> new TL_user_layer131();
+                case 0x2e13f4c3 -> new TL_user_layer104();
+                case 0x720535ec -> new TL_userSelf_old();
+                case 0x1c60e608 -> new TL_userSelf_old3();
+                case 0xd6016d7a -> new TL_userDeleted_old2();
+                case 0x200250ba -> new TL_userEmpty_layer131();
+                case 0x22e8ceb0 -> new TL_userRequest_old();
+                case 0x5214c89d -> new TL_userForeign_old();
+                case 0x75cf7a8 -> new TL_userForeign_old2();
+                case 0xd9ccc4ef -> new TL_userRequest_old2();
+                case 0xb29ad7cc -> new TL_userDeleted_old();
+                case 0xd10d979a -> new TL_user_layer65();
+                case 0x22e49072 -> new TL_user_old();
+                case 0x7007b451 -> new TL_userSelf_old2();
+                default -> null;
+            };
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in User", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            result.readParams(stream);
             return result;
         }
     }
@@ -47010,9 +46890,6 @@ public class TLRPC {
             int size = stream.readInt32();
             for (int a = 0; a < size; a++) {
                 User object = User.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return vector;
-                }
                 vector.objects.add(object);
             }
             return vector;
@@ -47153,9 +47030,6 @@ public class TLRPC {
             int size = stream.readInt32();
             for (int a = 0; a < size; a++) {
                 TL_contactStatus object = TL_contactStatus.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return vector;
-                }
                 vector.objects.add(object);
             }
             return vector;
@@ -54139,7 +54013,6 @@ public class TLRPC {
         public static TL_groupCallStreamChannel TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_groupCallStreamChannel.constructor != constructor) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_groupCallStreamChannel", constructor));
-
             }
             TL_groupCallStreamChannel result = new TL_groupCallStreamChannel();
             result.readParams(stream);
@@ -54837,63 +54710,29 @@ public class TLRPC {
         public RichText parentRichText;
 
         public static RichText TLdeserialize(AbstractSerializedData stream, int constructor) {
-            RichText result = null;
-            switch (constructor) {
-                case 0x1ccb966a:
-                    result = new TL_textPhone();
-                    break;
-                case 0xc7fb5e01:
-                    result = new TL_textSuperscript();
-                    break;
-                case 0x81ccf4f:
-                    result = new TL_textImage();
-                    break;
-                case 0xc12622c4:
-                    result = new TL_textUnderline();
-                    break;
-                case 0xed6a8504:
-                    result = new TL_textSubscript();
-                    break;
-                case 0x3c2884c1:
-                    result = new TL_textUrl();
-                    break;
-                case 0x35553762:
-                    result = new TL_textAnchor();
-                    break;
-                case 0xdc3d824f:
-                    result = new TL_textEmpty();
-                    break;
-                case 0xde5a0dd6:
-                    result = new TL_textEmail();
-                    break;
-                case 0x744694e0:
-                    result = new TL_textPlain();
-                    break;
-                case 0x6724abc4:
-                    result = new TL_textBold();
-                    break;
-                case 0x9bf8bb95:
-                    result = new TL_textStrike();
-                    break;
-                case 0x7e6260d7:
-                    result = new TL_textConcat();
-                    break;
-                case 0xd912a59c:
-                    result = new TL_textItalic();
-                    break;
-                case 0x34b8621:
-                    result = new TL_textMarked();
-                    break;
-                case 0x6c3f19b9:
-                    result = new TL_textFixed();
-                    break;
-            }
+            RichText result = switch (constructor) {
+                case 0x1ccb966a -> new TL_textPhone();
+                case 0xc7fb5e01 -> new TL_textSuperscript();
+                case 0x81ccf4f -> new TL_textImage();
+                case 0xc12622c4 -> new TL_textUnderline();
+                case 0xed6a8504 -> new TL_textSubscript();
+                case 0x3c2884c1 -> new TL_textUrl();
+                case 0x35553762 -> new TL_textAnchor();
+                case 0xdc3d824f -> new TL_textEmpty();
+                case 0xde5a0dd6 -> new TL_textEmail();
+                case 0x744694e0 -> new TL_textPlain();
+                case 0x6724abc4 -> new TL_textBold();
+                case 0x9bf8bb95 -> new TL_textStrike();
+                case 0x7e6260d7 -> new TL_textConcat();
+                case 0xd912a59c -> new TL_textItalic();
+                case 0x34b8621 -> new TL_textMarked();
+                case 0x6c3f19b9 -> new TL_textFixed();
+                default -> null;
+            };
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in RichText", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            result.readParams(stream);
             return result;
         }
     }
@@ -55465,51 +55304,25 @@ public class TLRPC {
         public byte[] future_auth_key; //custom
 
         public static EncryptedChat TLdeserialize(AbstractSerializedData stream, int constructor) {
-            EncryptedChat result = null;
-            switch (constructor) {
-                case 0xfda9a7b7:
-                    result = new TL_encryptedChatRequested_old();
-                    break;
-                case 0xc878527e:
-                    result = new TL_encryptedChatRequested_layer115();
-                    break;
-                case 0xfa56ce36:
-                    result = new TL_encryptedChat_layer131();
-                    break;
-                case 0x62718a82:
-                    result = new TL_encryptedChatRequested_layer131();
-                    break;
-                case 0x6601d14f:
-                    result = new TL_encryptedChat_old();
-                    break;
-                case 0xab7ec0a0:
-                    result = new TL_encryptedChatEmpty();
-                    break;
-                case 0x3bf703dc:
-                    result = new TL_encryptedChatWaiting_layer131();
-                    break;
-                case 0x13d6dd27:
-                    result = new TL_encryptedChatDiscarded_layer122();
-                    break;
-                case 0x1e1c7c45:
-                    result = new TL_encryptedChatDiscarded();
-                    break;
-                case 0x66b25953:
-                    result = new TL_encryptedChatWaiting();
-                    break;
-                case 0x48f1d94c:
-                    result = new TL_encryptedChatRequested();
-                    break;
-                case 0x61f0d4c7:
-                    result = new TL_encryptedChat();
-                    break;
-            }
+            EncryptedChat result = switch (constructor) {
+                case 0xfda9a7b7 -> new TL_encryptedChatRequested_old();
+                case 0xc878527e -> new TL_encryptedChatRequested_layer115();
+                case 0xfa56ce36 -> new TL_encryptedChat_layer131();
+                case 0x62718a82 -> new TL_encryptedChatRequested_layer131();
+                case 0x6601d14f -> new TL_encryptedChat_old();
+                case 0xab7ec0a0 -> new TL_encryptedChatEmpty();
+                case 0x3bf703dc -> new TL_encryptedChatWaiting_layer131();
+                case 0x13d6dd27 -> new TL_encryptedChatDiscarded_layer122();
+                case 0x1e1c7c45 -> new TL_encryptedChatDiscarded();
+                case 0x66b25953 -> new TL_encryptedChatWaiting();
+                case 0x48f1d94c -> new TL_encryptedChatRequested();
+                case 0x61f0d4c7 -> new TL_encryptedChat();
+                default -> null;
+            };
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in EncryptedChat", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            result.readParams(stream);
             return result;
         }
     }
@@ -55580,113 +55393,47 @@ public class TLRPC {
         public boolean premiumEffectWasPlayed; //custom
 
         public static Message TLdeserialize(AbstractSerializedData stream, int constructor) {
-            Message result = null;
-            switch (constructor) {
-                case 0x1d86f70e:
-                    result = new TL_messageService_old2();
-                    break;
-                case 0xa7ab1991:
-                    result = new TL_message_old3();
-                    break;
-                case 0xc3060325:
-                    result = new TL_message_old4();
-                    break;
-                case 0x555555fa:
-                    result = new TL_message_secret();
-                    break;
-                case 0x555555f9:
-                    result = new TL_message_secret_layer72();
-                    break;
-                case 0x90dddc11:
-                    result = new TL_message_layer72();
-                    break;
-                case 0xc09be45f:
-                    result = new TL_message_layer68();
-                    break;
-                case 0xc992e15c:
-                    result = new TL_message_layer47();
-                    break;
-                case 0x5ba66c13:
-                    result = new TL_message_old7();
-                    break;
-                case 0xc06b9607:
-                    result = new TL_messageService_layer48();
-                    break;
-                case 0x83e5de54:
-                    result = new TL_messageEmpty_layer122();
-                    break;
-                case 0x2bebfa86:
-                    result = new TL_message_old6();
-                    break;
-                case 0x44f9b43d:
-                    result = new TL_message_layer104();
-                    break;
-                case 0x90a6ca84:
-                    result = new TL_messageEmpty();
-                    break;
-                case 0x1c9b1027:
-                    result = new TL_message_layer104_2();
-                    break;
-                case 0xa367e716:
-                    result = new TL_messageForwarded_old2();
-                    break;
-                case 0x5f46804:
-                    result = new TL_messageForwarded_old();
-                    break;
-                case 0x567699b3:
-                    result = new TL_message_old2();
-                    break;
-                case 0x9f8d60bb:
-                    result = new TL_messageService_old();
-                    break;
-                case 0x22eb6aba:
-                    result = new TL_message_old();
-                    break;
-                case 0x555555F8:
-                    result = new TL_message_secret_old();
-                    break;
-                case 0x9789dac4:
-                    result = new TL_message_layer104_3();
-                    break;
-                case 0x452c0e65:
-                    result = new TL_message_layer117();
-                    break;
-                case 0xf52e6b7f:
-                    result = new TL_message_layer118();
-                    break;
-                case 0x58ae39c9:
-                    result = new TL_message_layer123();
-                    break;
-                case 0xbce383d2:
-                    result = new TL_message_layer131();
-                    break;
-                case 0x85d6cbe2:
-                    result = new TL_message_layer135();
-                    break;
-                case 0x38116ee0:
-                    result = new TL_message();
-                    break;
-                case 0x9e19a1f6:
-                    result = new TL_messageService_layer118();
-                    break;
-                case 0x286fa604:
-                    result = new TL_messageService_layer123();
-                    break;
-                case 0x2b085862:
-                    result = new TL_messageService();
-                    break;
-                case 0xf07814c8:
-                    result = new TL_message_old5();
-                    break;
-            }
+            Message result = switch (constructor) {
+                case 0x1d86f70e -> new TL_messageService_old2();
+                case 0xa7ab1991 -> new TL_message_old3();
+                case 0xc3060325 -> new TL_message_old4();
+                case 0x555555fa -> new TL_message_secret();
+                case 0x555555f9 -> new TL_message_secret_layer72();
+                case 0x90dddc11 -> new TL_message_layer72();
+                case 0xc09be45f -> new TL_message_layer68();
+                case 0xc992e15c -> new TL_message_layer47();
+                case 0x5ba66c13 -> new TL_message_old7();
+                case 0xc06b9607 -> new TL_messageService_layer48();
+                case 0x83e5de54 -> new TL_messageEmpty_layer122();
+                case 0x2bebfa86 -> new TL_message_old6();
+                case 0x44f9b43d -> new TL_message_layer104();
+                case 0x90a6ca84 -> new TL_messageEmpty();
+                case 0x1c9b1027 -> new TL_message_layer104_2();
+                case 0xa367e716 -> new TL_messageForwarded_old2();
+                case 0x5f46804 -> new TL_messageForwarded_old();
+                case 0x567699b3 -> new TL_message_old2();
+                case 0x9f8d60bb -> new TL_messageService_old();
+                case 0x22eb6aba -> new TL_message_old();
+                case 0x555555F8 -> new TL_message_secret_old();
+                case 0x9789dac4 -> new TL_message_layer104_3();
+                case 0x452c0e65 -> new TL_message_layer117();
+                case 0xf52e6b7f -> new TL_message_layer118();
+                case 0x58ae39c9 -> new TL_message_layer123();
+                case 0xbce383d2 -> new TL_message_layer131();
+                case 0x85d6cbe2 -> new TL_message_layer135();
+                case 0x38116ee0 -> new TL_message();
+                case 0x9e19a1f6 -> new TL_messageService_layer118();
+                case 0x286fa604 -> new TL_messageService_layer123();
+                case 0x2b085862 -> new TL_messageService();
+                case 0xf07814c8 -> new TL_message_old5();
+                default -> null;
+            };
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in Message", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-                if (result.from_id == null) {
-                    result.from_id = result.peer_id;
-                }
+            result.readParams(stream);
+            if (result.from_id == null) {
+                result.from_id = result.peer_id;
             }
             return result;
         }
@@ -55895,9 +55642,6 @@ public class TLRPC {
                 int count = stream.readInt32();
                 for (int a = 0; a < count; a++) {
                     MessageEntity object = MessageEntity.TLdeserialize(stream, stream.readInt32());
-                    if (object == null) {
-                        return;
-                    }
                     entities.add(object);
                 }
             }
@@ -56015,9 +55759,6 @@ public class TLRPC {
                 int count = stream.readInt32();
                 for (int a = 0; a < count; a++) {
                     MessageEntity object = MessageEntity.TLdeserialize(stream, stream.readInt32());
-                    if (object == null) {
-                        return;
-                    }
                     entities.add(object);
                 }
             }
@@ -56100,10 +55841,8 @@ public class TLRPC {
             if ((flags & 4) != 0) {
                 fwd_from = new TL_messageFwdHeader();
                 Peer peer = Peer.TLdeserialize(stream, stream.readInt32());
-                if (peer != null) {
-                    fwd_from.from_id = peer;
-                    fwd_from.flags |= 1;
-                }
+                fwd_from.from_id = peer;
+                fwd_from.flags |= 1;
                 fwd_from.date = stream.readInt32();
             }
             if ((flags & 2048) != 0) {
@@ -56134,9 +55873,6 @@ public class TLRPC {
                 int count = stream.readInt32();
                 for (int a = 0; a < count; a++) {
                     MessageEntity object = MessageEntity.TLdeserialize(stream, stream.readInt32());
-                    if (object == null) {
-                        return;
-                    }
                     entities.add(object);
                 }
             }
@@ -61070,24 +60806,16 @@ public class TLRPC {
     public static abstract class ForumTopic extends TLObject {
 
         public static ForumTopic TLdeserialize(AbstractSerializedData stream, int constructor) {
-            ForumTopic result = null;
-            switch (constructor) {
-                case 0x23f109b:
-                    result = new TL_forumTopicDeleted();
-                    break;
-                case 0x5920d6dc:
-                    result = new TL_forumTopic_layer147();
-                    break;
-                case 0x71701da9:
-                    result = new TL_forumTopic();
-                    break;
-            }
+            ForumTopic result = switch (constructor) {
+                case 0x23f109b -> new TL_forumTopicDeleted();
+                case 0x5920d6dc -> new TL_forumTopic_layer147();
+                case 0x71701da9 -> new TL_forumTopic();
+                default -> null;
+            };
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in ForumTopic", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            result.readParams(stream);
             return result;
         }
     }
@@ -61303,9 +61031,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 Message object = Message.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 messages.add(object);
             }
             magic = stream.readInt32();
@@ -61316,9 +61041,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 Chat object = Chat.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 chats.add(object);
             }
             magic = stream.readInt32();
@@ -61329,9 +61051,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 User object = User.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 users.add(object);
             }
             pts = stream.readInt32();
@@ -61861,8 +61580,103 @@ public class TLRPC {
         }
     }
 
+    public static class TL_set_client_DH_params extends TLObject {
+        public static int constructor = 0xf5045f1f;
+
+        public byte[] nonce = new byte[16];
+        public byte[] server_nonce = new byte[16];
+        public byte[] encrypted_data;
+
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            stream.readBytes(nonce);
+            stream.readBytes(server_nonce);
+            encrypted_data = stream.readByteArray();
+        }
+    }
+
+    public static class TL_initConnection extends TLObject {
+        public static int constructor = 0xc1cd5ea9;
+
+        public int flags;
+        public int api_id;
+        public String device_model;
+        public String system_version;
+        public String app_version;
+        public String system_lang_code;
+        public String lang_pack;
+        public String lang_code;
+        public TL_inputClientProxy clientProxy;
+        public JSONValue params;
+        public Object query;
+
+        public static TL_initConnection TLdeserialize(AbstractSerializedData stream, int constructor) {
+            if (TL_initConnection.constructor != constructor) {
+                throw new RuntimeException(String.format("can't parse magic %x in TL_initConnection", constructor));
+            }
+            TL_initConnection result = new TL_initConnection();
+            result.readParams(stream);
+            return result;
+        }
+
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            flags = stream.readInt32();
+            api_id = stream.readInt32();
+            device_model = stream.readString();
+            system_version = stream.readString();
+            app_version = stream.readString();
+            system_lang_code = stream.readString();
+            lang_pack = stream.readString();
+            lang_code = stream.readString();
+            if ((flags & 1) != 0) {
+                clientProxy = TL_inputClientProxy.TLdeserialize(stream, stream.readInt32());
+            }
+            if ((flags & 2) != 0) {
+                params = JSONValue.TLdeserialize(stream, stream.readInt32());
+            }
+        }
+    }
+
+    // inputClientProxy#75588b3f address:string port:int = InputClientProxy;
+    public static class TL_inputClientProxy extends TLObject {
+        public static int constructor = 0x75588b3f;
+
+        public String address;
+        public int port;
+
+        public static TL_inputClientProxy TLdeserialize(AbstractSerializedData stream, int constructor) {
+            if (TL_inputClientProxy.constructor != constructor) {
+                throw new RuntimeException(String.format("can't parse magic %x in TL_inputClientProxy", constructor));
+            }
+            TL_inputClientProxy result = new TL_inputClientProxy();
+            result.readParams(stream);
+            return result;
+        }
+
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            address = stream.readString();
+            port = stream.readInt32();
+        }
+    }
+
+    public static class TL_invokeWithLayer extends TLObject {
+        public static int constructor = 0xda9b0d0d;
+
+        public int layer;
+        public TL_initConnection initConnection;
+
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            layer = stream.readInt32();
+            initConnection = TL_initConnection.TLdeserialize(stream, stream.readInt32());
+        }
+    }
+
     public static class TL_resPq extends TLObject {
         public static int constructor = 0x05162463;
+
         public byte[] nonce;
         public byte[] server_nonce;
         public String pq;
