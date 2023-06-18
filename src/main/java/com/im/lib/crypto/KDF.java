@@ -15,8 +15,8 @@ import java.util.Arrays;
 public class KDF {
     public static AesKeyIv kdf(byte[] authKey, byte[] msgKey, boolean client, boolean isCall, boolean isOutgoing) {
         int x = (isCall ? 128 + ((isOutgoing ^ client) ? 8 : 0) : (client ? 0 : 8));
-        byte[] sha256a = Helpers.SHA256(Helpers.concat(msgKey, Arrays.copyOfRange(authKey, x, x + 36)));
-        byte[] sha256b = Helpers.SHA256(Helpers.concat(Arrays.copyOfRange(authKey, x + 40, x + 76), msgKey));
+        byte[] sha256a = Helpers.SHA256(msgKey, Arrays.copyOfRange(authKey, x, x + 36));
+        byte[] sha256b = Helpers.SHA256(Arrays.copyOfRange(authKey, x + 40, x + 76), msgKey);
 
         byte[] key = Helpers.concat(
                 Arrays.copyOfRange(sha256a, 0, 8),

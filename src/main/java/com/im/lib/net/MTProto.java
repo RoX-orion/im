@@ -4,12 +4,13 @@ import com.im.api.Api;
 import com.im.lib.Helpers;
 import com.im.lib.core.MTProtoStateService;
 import com.im.lib.entity.RequestData;
+import com.im.lib.entity.RpcResult;
 import com.im.lib.entity.SessionInfo;
-import com.im.lib.entity.WsApiResult;
-import com.im.lib.exception.HandShakeException;
 import com.im.lib.exception.RequestIncompleteException;
 import com.im.lib.exception.ResponseException;
 import com.im.lib.exception.TLException;
+import com.im.lib.tl.TLClassStore;
+import com.im.lib.tl.TLObject;
 import com.im.redis.SessionManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
@@ -48,7 +49,7 @@ public class MTProto {
 //        BigInteger bigInteger = new BigInteger(authKeyBytes);
         RequestData requestData = new RequestData();
         requestData.setAuthKeyId(authKeyId);
-        if (!isEncryptedData(authKeyId)) {// 未加密数据
+        if (!isEncryptedData(authKeyId)) { // 未加密数据
             long msgId = binaryReader.readInt64();
 //            requestData.setMsgId(msgId);
             int dataLength = binaryReader.readInt32();
@@ -56,7 +57,7 @@ public class MTProto {
             byte[] data = binaryReader.readBytes(dataLength - 4);
 //            requestData.setMsgId(msgId);
             return readRequestData(constructorId, data, dataLength, requestData);
-        } else {// 加密数据
+        } else { // 加密数据
             byte[] msgKey = binaryReader.readBytes(16);
             byte[] bytes = binaryReader.readAll();
             byte[] payload = mtprotoStateService.decryptData(msgKey, bytes, authKeyId);
@@ -66,7 +67,7 @@ public class MTProto {
             mtprotoStateService.checkEncryptedData(br, requestData);
             checkHeader(requestData);
             int dataLength = br.readInt32();
-            int constructorId = binaryReader.readInt32();
+            int constructorId = br.readInt32();
             byte[] data = br.readBytes(dataLength - 4);
 
             return readRequestData(constructorId, data, dataLength, requestData);
@@ -103,12 +104,12 @@ public class MTProto {
             throw new TLException("read null TL object!");
         }
         System.out.println(tlObject);
-        Object requestParam = binaryReader.tgReadObject(constructorId);
-        log.info("数据部分:{}", data);
+//        Object requestParam = binaryReader.tgReadObject(constructorId);
+        log.info("数据部分:{}{}", data.length, data);
 
         requestData.setConstructorId(constructorId);
         requestData.setData(data);
-        requestData.setRequestParam(requestParam);
+//        requestData.setRequestParam(requestParam);
         requestData.setAuthKeyId(requestData.getAuthKeyId());
         requestData.setTlObject(tlObject);
 
@@ -127,13 +128,12 @@ public class MTProto {
         return authKeyId.compareTo(BigInteger.ZERO) != 0;
     }
 
-    public void mtprotoPlainSender(WsApiResult response, Channel channel) {
-        log.info("mtprotoPlainSender返回数据:{}", response.getData());
+    public void mtprotoPlainSender(byte[] bytes, Channel channel) {
         ByteBufAllocator alloc = channel.alloc();
-        SerializedDataBak serializedData = new SerializedDataBak();
-        SerializeResponse.serialize(serializedData, response);
-        byte[] bytes = serializedData.toByteArray();
-        log.info("mtprotoPlainSender返回Object：{} {}", bytes.length, Arrays.toString(bytes));
+//        SerializedDataBak serializedData = new SerializedDataBak();
+//        SerializeResponse.serialize(serializedData, response);
+//        byte[] bytes = serializedData.toByteArray();
+//        log.info("mtprotoPlainSender返回Object：{} {}", bytes.length, Arrays.toString(bytes));
 //        System.out.println(bytes.length + Arrays.toString(bytes));
         BigInteger msgId = mtprotoStateService.getNewMsgId(true);
         ByteBuf byteBuf = alloc.heapBuffer(20 + bytes.length);
@@ -153,17 +153,15 @@ public class MTProto {
     }
 
 
-    public void mtprotoSender(WsApiResult response, Channel channel) {
-        log.info("返回的WsApiResult:{}", response);
-        SerializedDataBak serializedData = new SerializedDataBak();
-        SerializeResponse.serialize(serializedData, response);
-        log.info("返回对象的字节数组：{}", Arrays.toString(serializedData.toByteArray()));
-        int len = serializedData.getLen();
-        byte[] randomBytes = Helpers.getRandomBytes(16 - Helpers.mod(len, 16));
-        serializedData.writeBytes(randomBytes);
-        byte[] data = serializedData.toByteArray();
+    public void mtprotoSender(byte[] bytes, Channel channel, BigInteger authKeyId, long sessionId) {
+//        SerializedDataBak serializedData = new SerializedDataBak();
+//        SerializeResponse.serialize(serializedData, response);
+//        int len = serializedData.getLen();
+//        byte[] randomBytes = Helpers.getRandomBytes(16 - Helpers.mod(bytes.length, 16));
+//        serializedData.writeBytes(randomBytes);
+//        byte[] data = serializedData.toByteArray();
 
-        byte[] encryptData = mtprotoStateService.encryptData(data, response.getAuthKeyId(), response.getSessionId());
+        byte[] encryptData = mtprotoStateService.encryptData(bytes, authKeyId, sessionId);
         byte[] prefix = tcpAbridged.encodePacket(encryptData.length);
 
         ByteBufAllocator alloc = channel.alloc();
@@ -173,15 +171,23 @@ public class MTProto {
         channel.writeAndFlush(new BinaryWebSocketFrame(byteBuf));
     }
 
-    public void sendData(WsApiResult response, Channel channel) {
+    public void sendData(RpcResult response, Channel channel) {
         if (response == null) {
             throw new ResponseException("response can't be null");
         }
+        log.info("返回的RpcResult:{}", response);
+        SerializedData stream = new SerializedData();
+        response.getResponse().serializeToStream(stream);
+
+        byte[] randomBytes = Helpers.getRandomBytes(16 - Helpers.mod(stream.length(), 16));
+        stream.writeBytes(randomBytes);
+        byte[] byteArray = stream.toByteArray();
+        log.info("返回对象的字节数组：{}{}", byteArray.length, Arrays.toString(byteArray));
         try {
-            if (response.getAuthKeyId().compareTo(BigInteger.ZERO) != 0) { // 加密数据
-                this.mtprotoSender(response, channel);
-            } else {// 未加密数据
-                this.mtprotoPlainSender(response, channel);
+            if (response.getAuthKeyId().compareTo(BigInteger.ZERO) != 0) { // Encrypted data
+                this.mtprotoSender(byteArray, channel, response.getAuthKeyId(), response.getSessionId());
+            } else { // Unencrypted data
+                this.mtprotoPlainSender(byteArray, channel);
             }
         } catch (Exception e) {
             e.printStackTrace();

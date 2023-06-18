@@ -1,18 +1,30 @@
 package com.im.lib;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.im.lib.entity.AesKeyIv;
 import com.im.lib.exception.CryptoException;
 import com.im.lib.net.AbstractSerializedData;
 import io.netty.buffer.ByteBuf;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Stack;
 
 public class Helpers {
 
     private Helpers() {}
+
+    private static ObjectMapper mapper;
+
+    static  {
+        Helpers.mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
 
     //compute a^b mod p fastly
     public static BigInteger fastMod(BigInteger a, BigInteger b, BigInteger p) {
@@ -30,12 +42,16 @@ public class Helpers {
         return result;
     }
 
-    public static byte[] SHA1(byte[] data) {
-        return sha("SHA").digest(data);
+    public static byte[] SHA1(byte[] ...data) {
+        return sha("SHA").digest( concat(data));
     }
 
-    public static byte[] SHA256(byte[] data) {
-        return sha("SHA-256").digest(data);
+    public static byte[] SHA256(byte[] ...data) {
+        return sha("SHA-256").digest(Helpers.concat(data));
+    }
+
+    public static String sha256Str(byte[]... data) {
+        return byteArrayToHexString(SHA256(data));
     }
 
     private static MessageDigest sha(String type) {
@@ -92,7 +108,6 @@ public class Helpers {
         BigInteger tmp;
         for (char c : binaryString.toCharArray()) {
             tmp = c == '1' ? new BigInteger("1") : new BigInteger("0");
-
             result = result.multiply(new BigInteger("2")).add(tmp);
         }
 
@@ -144,6 +159,8 @@ public class Helpers {
     }
 
     public static synchronized byte[] concat(byte[]... bytes) {
+        if (bytes.length == 1)
+            return bytes[0];
         int length = 0;
 
         for (byte[] b : bytes) {
@@ -365,16 +382,13 @@ public class Helpers {
         return bytes;
     }
 
-    public static AesKeyIv generateKeyDataFromNonce(BigInteger serverNonce, BigInteger newNonce) {
-        byte[] serverNonceBytes = Helpers.toSignedLittleBuffer(serverNonce, 16);
-        byte[] newNonceBytes = Helpers.toSignedLittleBuffer(newNonce, 32);
-
-        byte[] hash1 = Helpers.SHA1(Helpers.concat(newNonceBytes, serverNonceBytes));
-        byte[] hash2 = Helpers.SHA1(Helpers.concat(serverNonceBytes, newNonceBytes));
-        byte[] hash3 = Helpers.SHA1(Helpers.concat(newNonceBytes, newNonceBytes));
+    public static AesKeyIv generateKeyDataFromNonce(byte[] serverNonce, byte[] newNonce) {
+        byte[] hash1 = Helpers.SHA1(newNonce, serverNonce);
+        byte[] hash2 = Helpers.SHA1(serverNonce, newNonce);
+        byte[] hash3 = Helpers.SHA1(newNonce, newNonce);
 
         byte[] key = Helpers.concat(hash1, Helpers.slice(hash2, 0, 12));
-        byte[] iv = Helpers.concat(Helpers.slice(hash2, 12, 20), hash3, Helpers.slice(newNonceBytes, 0, 4));
+        byte[] iv = Helpers.concat(Helpers.slice(hash2, 12, 20), hash3, Helpers.slice(newNonce, 0, 4));
         return new AesKeyIv(key, iv);
     }
 
@@ -393,4 +407,30 @@ public class Helpers {
         stream.readData(length);
         return Helpers.readBigIntegerFromBytes(bytes, true, true);
     }
+    public static <T> List<T> parseList(String str, Class<T> clazz) {
+        try {
+            JavaType javaType = mapper.getTypeFactory().constructCollectionType(List.class, clazz);
+            return mapper.readValue(str, javaType);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Data deserialization failed!");
+        }
+    }
+
+    public static byte[] toSignedLittleserializedData(long x, int number) {
+        BigInteger bigNumber = new BigInteger(String.valueOf(x));
+        byte[] bytes = new byte[number];
+        for (int i = 0; i < number; i++) {
+            bytes[i] = bigNumber
+                    .shiftRight(8 * i)
+                    .and(BigInteger.valueOf(255))
+                    .byteValue();
+        }
+
+        return bytes;
+    }
+
+//    public static String writeValueAsStringWithoutException(Object value) {
+//        mapper.writeValueAsString(value);
+//    }
 }

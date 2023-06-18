@@ -2,8 +2,6 @@ package com.im.lib.crypto;
 
 import com.im.lib.Helpers;
 import com.im.lib.entity.DHResult;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyAgreement;
@@ -26,19 +24,16 @@ public class DH {
     public static final BigInteger DH_BASE = new BigInteger("3");
 
     public static final BigInteger DH_PRIME = new BigInteger(
-            "32317006071311007300338913926423828248817941241140239112842009" +
-                "7514007417066343542226196894173635693471179017379097041917" +
-                "5460587320919502885375898618562215321217541251490177452027" +
-                "0235796078236248884246189477587641105928646099411723245426" +
-                "6225221932305409190376805242355191256797158701170010580558" +
-                "7765103886184728025797605490356973256152616708133936179954" +
-                "1336476559160368317896729073178384589680639671900977202194" +
-                "1686472258710314113364293195361934716365332097170774482279" +
-                "8858856536920864529663607725026895550592836275112117409697" +
-                "2998068410554359584866583291642136218231078990999448652468" +
-                "262416972035911852507045361090559"
-    );
-
+                "c71caeb9c6b1c9048e6c522f70f13f73980d40238e3e21c14934d03" +
+                    "7563d930f48198a0aa7c14058229493d22530f4dbfa336f6e0ac925" +
+                    "139543aed44cce7c3720fd51f69458705ac68cd4fe6b6b13abdc974" +
+                    "6512969328454f18faf8c595f642477fe96bb2a941d5bcd1d4ac8cc" +
+                    "49880708fa9b378e3c4f3a9060bee67cf9a4a4a695811051907e162" +
+                    "753b56b0f6b410dba74d8a84b2a14b3144e0ef1284754fd17ed950d" +
+                    "5965b4b9dd46582db1178d169c6bc465b0d6ff9ca3928fef5b9ae4e" +
+                    "418fc15e83ebea0f87fa9ff5eed70050ded2849f47bf959d956850c" +
+                    "e929851f0d8115f635b105ee2e4e15d04b2454bf6f4fadf034b1040" +
+                    "3119cd8e3b92fcc5b", 16);
 
     // 生成本地KeyPair(RsaKey + privateKey)
     public synchronized static KeyPair generateKeyPair() {

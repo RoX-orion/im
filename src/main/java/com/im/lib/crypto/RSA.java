@@ -132,9 +132,9 @@ public class RSA {
             break;
         }
 
-        createAuthKeyState.setP(p);
-        createAuthKeyState.setQ(q);
-        createAuthKeyState.setPq(p.multiply(q));
+        createAuthKeyState.setP(Helpers.getByteArray(p));
+        createAuthKeyState.setQ(Helpers.getByteArray(q));
+        createAuthKeyState.setPq(Helpers.getByteArray(p.multiply(q)));
         return createAuthKeyState;
     }
 
@@ -157,7 +157,8 @@ public class RSA {
     }
 
     public static List<Long> getFingerprintList() {
-        return new ArrayList<>(RSAKey.keySet());
+        Set<Long> keySet = RSAKey.keySet();
+        return new ArrayList<>(keySet);
     }
 
     public static HashMap<Long, RSAKeyPair> getRSAKey() {

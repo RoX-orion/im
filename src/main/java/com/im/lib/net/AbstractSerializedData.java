@@ -20,6 +20,9 @@ public abstract class AbstractSerializedData {
 
     public abstract void writeByteArray(byte[] b, int offset, int count);
 
+    /**
+     * write byte array by TL standard
+     */
     public abstract void writeByteArray(byte[] b);
 
     public abstract void writeDouble(double d);

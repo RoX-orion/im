@@ -7,7 +7,6 @@ import com.im.lib.entity.AesKeyIv;
 import com.im.lib.entity.RequestData;
 import com.im.lib.entity.SessionInfo;
 import com.im.lib.net.BinaryReader;
-import com.im.lib.net.SerializeResponse;
 import com.im.redis.SessionManager;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -67,14 +66,12 @@ public class MTProtoStateService {
         byte[] authKeyBytes = Helpers.getByteArray(new BigInteger(authKey));
         byte[] msgLength = Helpers.readBytesFromInt(data.length);
 
-        byte[] sessionIdBytes = SerializeResponse.toSignedLittleserializedData(sessionId, 8);
-        byte[] seqNoBytes = SerializeResponse.toSignedLittleserializedData(seqNo, 4);
-        byte[] saltBytes = SerializeResponse.toSignedLittleserializedData(serverSalt, 8);
+        byte[] sessionIdBytes = Helpers.toSignedLittleserializedData(sessionId, 8);
+        byte[] seqNoBytes = Helpers.toSignedLittleserializedData(seqNo, 4);
+        byte[] saltBytes = Helpers.toSignedLittleserializedData(serverSalt, 8);
 
         data = Helpers.concat(saltBytes, sessionIdBytes, Helpers.getByteArray(msgId), seqNoBytes, msgLength, data);
-        byte[] msgKeyLarge = Helpers.SHA256(
-                Helpers.concat(Helpers.slice(authKeyBytes, 96, 96 + 32), data)
-        );
+        byte[] msgKeyLarge = Helpers.SHA256(Helpers.slice(authKeyBytes, 96, 96 + 32), data);
         byte[] msgKey = Helpers.slice(msgKeyLarge, 8, 24);
         AesKeyIv aesKeyIv = KDF.kdf(authKeyBytes, msgKey, false, false, false);
         log.info("返回数据加密前数据:{}", Arrays.toString(data));

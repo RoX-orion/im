@@ -1,7 +1,5 @@
 package com.im.lib;
 
-import java.math.BigInteger;
-
 public class Constant {
 
     public static final boolean ENABLE_LOGS = true;

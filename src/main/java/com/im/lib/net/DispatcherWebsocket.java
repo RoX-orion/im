@@ -4,8 +4,9 @@ import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
 import com.im.lib.entity.HandlerMeta;
 import com.im.lib.entity.RequestData;
-import com.im.lib.entity.WsApiResult;
+import com.im.lib.entity.RpcResult;
 import com.im.lib.exception.WebsocketHandlerMappingException;
+import com.im.lib.tl.TLObject;
 import io.netty.channel.Channel;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -71,32 +72,33 @@ public class DispatcherWebsocket implements ApplicationContextAware {
      * @param channel Netty channel
      * @return 处理方法返回数据
      */
-    public WsApiResult dispatcherRequest(RequestData requestData, Channel channel) throws InvocationTargetException, IllegalAccessException {
+    public RpcResult dispatcherRequest(RequestData requestData, Channel channel) throws InvocationTargetException, IllegalAccessException {
         int constructorId = requestData.getConstructorId();
         log.info("request data: {}", requestData);
-//        Object requestParam = requestData.getRequestParam();
         TLObject tlObject = requestData.getTlObject();
         HandlerMeta handlerMeta = handlerContainer.get(constructorId);
         if (handlerMeta == null) {
             throw new WebsocketHandlerMappingException("current websocket request didn't config handler!");
         }
         Method method = handlerMeta.getMethod();
-//        Class<?> returnType = method.getReturnType();
         Parameter[] parameters = method.getParameters();
         Object handlerObject = handlerMeta.getHandlerObject();
         Object[] invokeParam = bindParam.bind(parameters, tlObject, channel, requestData);
-        Object response = method.invoke(handlerObject, invokeParam);
+        TLObject response = null;
+        try {
+            response = (TLObject) method.invoke(handlerObject, invokeParam);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+            log.error("ClassCastException");
+        }
         if (response == null) {
-//            System.out.println("方法未实现！");
             throw new RuntimeException(handlerObject.getClass().getSimpleName()
                     + ":" + handlerMeta.getMethod().getName()
                     + "方法未实现！");
         }
-        System.out.println("返回对象:" + response);
-        Class<?> returnType = response.getClass();
 
         BigInteger authKeyId = requestData.getAuthKeyId();
-        return WsApiResult.ok(authKeyId, returnType, response, requestData.getSessionId());
+        return RpcResult.ok(authKeyId, response, requestData.getSessionId());
     }
 
     public static <T> T get(Class<T> clz,Object o){

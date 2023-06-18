@@ -1,7 +1,7 @@
 package com.im.lib.core;
 
 import com.im.lib.entity.RequestData;
-import com.im.lib.entity.WsApiResult;
+import com.im.lib.entity.RpcResult;
 import com.im.lib.net.ChannelManager;
 import com.im.lib.net.DispatcherWebsocket;
 import com.im.lib.net.MTProto;
@@ -49,7 +49,7 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
         }
         System.out.println("接收到的字节数组: " + length + Arrays.toString(unsignedInt8Array));
 
-        WsApiResult response = null;
+        RpcResult response = null;
         try {
             byteBuf.resetReaderIndex();
             RequestData requestData = mtproto.getRequestData(byteBuf, channel);

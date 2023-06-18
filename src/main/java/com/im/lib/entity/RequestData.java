@@ -1,6 +1,6 @@
 package com.im.lib.entity;
 
-import com.im.lib.net.TLObject;
+import com.im.lib.tl.TLObject;
 import lombok.Data;
 
 import java.math.BigInteger;
@@ -10,7 +10,7 @@ public class RequestData {
 
     private BigInteger authKeyId;
 
-    private Object requestParam;
+//    private Object requestParam;
 
     private int constructorId;
 
