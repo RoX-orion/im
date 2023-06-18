@@ -10,6 +10,8 @@ import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
+import io.netty.util.concurrent.EventExecutorGroup;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +40,7 @@ public class NettyServer implements Runnable{
     public void init() throws Exception {
         EventLoopGroup boss = new NioEventLoopGroup(1);
         EventLoopGroup work = new NioEventLoopGroup(16);
+        final EventExecutorGroup eventExecutorGroup = new DefaultEventExecutorGroup(16);
         try {
             ServerBootstrap boot = new ServerBootstrap();
             boot.group(boss, work)
@@ -55,8 +58,8 @@ public class NettyServer implements Runnable{
                             pipeline.addLast(new ChunkedWriteHandler());//处理文件流
                             pipeline.addLast(new WebSocketServerCompressionHandler());
                             //WebSocket协议支持
-                            pipeline.addLast(new WebSocketServerProtocolHandler(
-                                    "/apiws", "binary", true, 10485760)
+                            pipeline.addLast(eventExecutorGroup,
+                                    new WebSocketServerProtocolHandler("/apiws", "binary", true, 10485760)
                             );
                             pipeline.addLast(binaryWebSocketFrameHandler);
 //                            pipeline.addLast(nettyServerHandler);//Netty Server Handler来处理消息
