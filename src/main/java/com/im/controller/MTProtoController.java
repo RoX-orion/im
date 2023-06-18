@@ -1,31 +1,28 @@
 package com.im.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.im.api.Api;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
 import com.im.lib.annotation.WebsocketRequestParam;
-import com.im.lib.net.TLRPC;
-import com.im.service.ApiService;
+import com.im.lib.tl.MTProtoApi;
+import com.im.lib.tl.TLRPC;
+import com.im.service.MTProtoService;
 import io.netty.channel.Channel;
-import jakarta.annotation.Resource;
 
 import java.math.BigInteger;
 
 @WebsocketHandler
-public class ApiController {
+public class MTProtoController {
 
-	@Resource
-	private ApiService apiService;
+	private final MTProtoService mtprotoService;
 
-	@WebsocketHandlerMapping(value = 0x60469778, name = "ReqPq")
-	public Api.ResPQ reqPq(Api.ReqPq reqPq) {
-		return apiService.reqPq(reqPq);
+	public MTProtoController(final MTProtoService mtprotoService) {
+		this.mtprotoService = mtprotoService;
 	}
 
 	@WebsocketHandlerMapping(value = 0xbe7e8ef1, name = "ReqPqMulti")
-	public Api.ResPQ reqPqMulti(TLRPC.TL_reqPqMulti reqPqMulti) throws JsonProcessingException {
-		return apiService.reqPqMulti(reqPqMulti);
+	public MTProtoApi.ResPQ reqPqMulti(MTProtoApi.ReqPqMulti reqPqMulti) {
+		return mtprotoService.reqPqMulti(reqPqMulti);
 	}
 
 	@WebsocketHandlerMapping(value = 0x51b410fd, name = "ReqPqMultiNew")
@@ -34,14 +31,14 @@ public class ApiController {
 	}
 
 	@WebsocketHandlerMapping(value = 0xd712e4be, name = "ReqDHParams")
-	public Api.TypeServer_DH_Params reqDHParams(TLRPC.TL_reqDHParams reqDHParams) throws Exception {
-		return apiService.reqDHParams(reqDHParams);
+	public MTProtoApi.Server_DH_params reqDHParams(MTProtoApi.ReqDHParams reqDHParams) throws Exception {
+		return mtprotoService.reqDHParams(reqDHParams);
 	}
 
 	@WebsocketHandlerMapping(value = 0xf5045f1f, name = "SetClientDHParams")
-	public Api.TypeSet_client_DH_params_answer setClientDHParams(Api.SetClientDHParams setClientDHParams,
+	public MTProtoApi.Set_client_DH_params_answer setClientDHParams(MTProtoApi.SetClientDHParams setClientDHParams,
 	                                                             Channel channel) {
-		return apiService.setClientDHParams(setClientDHParams, channel);
+		return mtprotoService.setClientDHParams(setClientDHParams, channel);
 	}
 
 	@WebsocketHandlerMapping(value = 0xd1435160, name = "DestroyAuthKey")
@@ -67,7 +64,7 @@ public class ApiController {
 	@WebsocketHandlerMapping(value = 0xf3427b8c, name = "PingDelayDisconnect")
 	public Api.Pong pingDelayDisconnect(Api.PingDelayDisconnect pingDelayDisconnect,
 	                                    @WebsocketRequestParam("msgId") BigInteger msgId) {
-		return apiService.pingDelayDisconnect(pingDelayDisconnect, msgId);
+		return mtprotoService.pingDelayDisconnect(pingDelayDisconnect, msgId);
 	}
 
 	@WebsocketHandlerMapping(value = 0xe7512126, name = "DestroySession")
@@ -76,7 +73,7 @@ public class ApiController {
 	}
 
 	@WebsocketHandlerMapping(value = 0xda9b0d0d, name = "invokeWithLayer")
-	public Object invokeWithLayer(Api.InvokeWithLayer invokeWithLayer) {
-		return apiService.invokeWithLayer(invokeWithLayer);
+	public Object invokeWithLayer(TLRPC.TL_invokeWithLayer invokeWithLayer) {
+		return mtprotoService.invokeWithLayer(invokeWithLayer);
 	}
 }
