@@ -15,10 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.math.BigInteger;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -54,8 +51,8 @@ public class TestDemo {
         }
         int len = hex.length() / 2;
         byte[] bytes = new byte[len];
-        byte high = 0;//字节高四位
-        byte low = 0;//字节低四位
+        byte high;//字节高四位
+        byte low;//字节低四位
         for (int i = 0; i < len; i++) {
             //右移四位得到高位
             high = (byte) ((hex.indexOf(hex.charAt(2 * i))) << 4);
@@ -80,7 +77,7 @@ public class TestDemo {
                 "      DE2BCBF6 95581718 3995497C EA956AE5 15D22618 98FA0510" +
                 "      15728E5A 8AACAA68 FFFFFFFF FFFFFFFF";
         StringBuilder sb = new StringBuilder();
-        String[] split = hex.split("\s+");
+        String[] split = hex.split(" +");
         for (String s : split) {
             sb.append(s);
         }
@@ -256,7 +253,7 @@ public class TestDemo {
     }
 
     @Test
-    public void testTL() throws NoSuchAlgorithmException, InvalidKeySpecException, FileNotFoundException {
+    public void testTL() {
 //        int a = 2936858557;
 //        System.out.println(Long.parseLong("83C95aEc", 16));
 //        System.out.println(TLHelpers.hexToLong("05162463"));// 85337187

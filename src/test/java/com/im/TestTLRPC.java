@@ -1,6 +1,6 @@
 package com.im;
 
-import com.im.lib.net.TLRPC;
+import com.im.lib.tl.TLRPC;
 import org.junit.Test;
 
 import java.lang.reflect.Field;

@@ -5,9 +5,7 @@ import com.im.lib.Helpers;
 import com.im.lib.core.MTProtoStateService;
 import com.im.lib.crypto.AES;
 import com.im.lib.crypto.RSA;
-import jakarta.annotation.Resource;
 import org.junit.Test;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;

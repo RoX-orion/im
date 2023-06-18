@@ -1,7 +1,7 @@
 server:
   netty:
-    port: 7777
-  port: 9999
+    port: 12345
+  port: 8888
 spring:
   application:
     name: im-server
