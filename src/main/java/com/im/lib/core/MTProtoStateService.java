@@ -1,5 +1,6 @@
 package com.im.lib.core;
 
+import com.im.lib.BinaryHelpers;
 import com.im.lib.Helpers;
 import com.im.lib.crypto.AES;
 import com.im.lib.crypto.KDF;
@@ -12,6 +13,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -41,27 +43,31 @@ public class MTProtoStateService {
      * @param encryptData Encrypt data
      * @param authKeyId authKeyId
      */
-    public byte[] decryptData(byte[] msgKey, byte[] encryptData, BigInteger authKeyId) {
-        String authKey = (String) sessionManager.getSessionInfo(authKeyId.toString(), SessionInfo.AUTH_KEY);
+    public byte[] decryptData(byte[] msgKey, byte[] encryptData, long authKeyId) {
+        String authKey = (String) sessionManager.getSessionInfo(String.valueOf(authKeyId), SessionInfo.AUTH_KEY);
 //        String s = stringRedisTemplate.opsForValue().get(Constant.AUTH_KEY + authKeyId.toString());
+        if (!StringUtils.hasText(authKey)) {
+            // TODO
+        }
         byte[] authKeyBytes = Helpers.getByteArray(new BigInteger(authKey));
 
         AesKeyIv aesKeyIv = KDF.kdf(authKeyBytes, msgKey, true, isCall, isOutgoing);
         return AES.igeDecrypt(encryptData, aesKeyIv.getKey(), aesKeyIv.getIv());
     }
 
-    public byte[] encryptData(byte[] data, BigInteger authKeyId, long sessionId) {
+    public byte[] encryptData(byte[] data, long authKeyId, long sessionId) {
         /*
          * auth_key_id  msg_key encrypted_data(salt session_id  msg_id  seq_no  msg_length  data  padding)
          */
+        String authKeyIdKey = String.valueOf(authKeyId);
         BigInteger msgId = this.getNewMsgId(true);
-        String authKey = (String) sessionManager.getSessionInfo(authKeyId.toString(), SessionInfo.AUTH_KEY);
-        if (authKey == null) {
+        String authKey = (String) sessionManager.getSessionInfo(authKeyIdKey, SessionInfo.AUTH_KEY);
+        if (!StringUtils.hasText(authKey)) {
             // TODO process exception
             throw new RuntimeException("授权密钥不能为空");
         }
-        long seqNo = Long.parseLong((String) sessionManager.getSessionInfo(authKeyId.toString(), SessionInfo.SEQ_NO));
-        long serverSalt = ((Integer) sessionManager.getSessionInfo(authKeyId.toString(), SessionInfo.SERVER_SALT)).longValue();
+        long seqNo = Long.parseLong((String) sessionManager.getSessionInfo(authKeyIdKey, SessionInfo.SEQ_NO));
+        long serverSalt = ((Integer) sessionManager.getSessionInfo(authKeyIdKey, SessionInfo.SERVER_SALT)).longValue();
 
         byte[] authKeyBytes = Helpers.getByteArray(new BigInteger(authKey));
         byte[] msgLength = Helpers.readBytesFromInt(data.length);
@@ -86,8 +92,8 @@ public class MTProtoStateService {
         byte[] key = aesKeyIv.getKey();
         byte[] iv = aesKeyIv.getIv();
 //        System.out.println("key:iv->" + Arrays.toString(key) + "\n" + Arrays.toString(iv));
-        byte[] authKeyIdBytes = Helpers.getByteArray(authKeyId);
-        Helpers.reverse(authKeyIdBytes);
+        byte[] authKeyIdBytes = BinaryHelpers.readBytesLE(authKeyId);
+//        byte[] authKeyIdIdBytes = Helpers.getByteArray(authKeyId);
         return Helpers.concat(
                 authKeyIdBytes,
                 msgKey,
@@ -112,8 +118,7 @@ public class MTProtoStateService {
         long sessionId = br.readInt64();
         log.info("sessionId: {}", sessionId);
         System.out.println("sessionId:" + sessionId);
-        BigInteger msgId = BigInteger.valueOf(br.readInt64())
-                                    .and(new BigInteger("4294967295"));
+        long msgId = br.readInt64() & 4294967295L;
         long seqNo = br.readInt32() & 0xffffffffL;
 
         requestData.setServerSalt(salt);

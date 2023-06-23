@@ -44,8 +44,9 @@ public class MTProto {
 
         ByteBuf buffer = tcpAbridged.readPacket(byteBuf);
         BinaryReader binaryReader = new BinaryReader(buffer);
-        byte[] authKeyBytes = binaryReader.readBytes(8);
-        BigInteger authKeyId = Helpers.readBigIntegerFromBytes(authKeyBytes, true, false);
+        long authKeyId = binaryReader.readInt64();
+//        byte[] authKeyBytes = binaryReader.readBytes(8);
+//        BigInteger authKeyId = Helpers.readBigIntegerFromBytes(authKeyBytes, true, false);
 //        BigInteger bigInteger = new BigInteger(authKeyBytes);
         RequestData requestData = new RequestData();
         requestData.setAuthKeyId(authKeyId);
@@ -124,8 +125,8 @@ public class MTProto {
      * 判断是否是加密数据
      * @param authKeyId 授权密钥id
      */
-    public boolean isEncryptedData(BigInteger authKeyId) {
-        return authKeyId.compareTo(BigInteger.ZERO) != 0;
+    public boolean isEncryptedData(long authKeyId) {
+        return authKeyId != 0;
     }
 
     public void mtprotoPlainSender(byte[] bytes, Channel channel) {
@@ -153,7 +154,7 @@ public class MTProto {
     }
 
 
-    public void mtprotoSender(byte[] bytes, Channel channel, BigInteger authKeyId, long sessionId) {
+    public void mtprotoSender(byte[] bytes, Channel channel, long authKeyId, long sessionId) {
 //        SerializedDataBak serializedData = new SerializedDataBak();
 //        SerializeResponse.serialize(serializedData, response);
 //        int len = serializedData.getLen();
@@ -184,7 +185,7 @@ public class MTProto {
         byte[] byteArray = stream.toByteArray();
         log.info("返回对象的字节数组：{}{}", byteArray.length, Arrays.toString(byteArray));
         try {
-            if (response.getAuthKeyId().compareTo(BigInteger.ZERO) != 0) { // Encrypted data
+            if (isEncryptedData(response.getAuthKeyId())) { // Encrypted data
                 this.mtprotoSender(byteArray, channel, response.getAuthKeyId(), response.getSessionId());
             } else { // Unencrypted data
                 this.mtprotoPlainSender(byteArray, channel);
@@ -195,8 +196,9 @@ public class MTProto {
     }
 
     private void storeSession(RequestData requestData) {
-        sessionManager.setSessionInfo(requestData.getAuthKeyId().toString(), SessionInfo.SESSION_ID, requestData.getSessionId());
-        sessionManager.setSessionInfo(requestData.getAuthKeyId().toString(), SessionInfo.SEQ_NO, requestData.getSeqNo());
-        sessionManager.setSessionInfo(requestData.getAuthKeyId().toString(), SessionInfo.SERVER_SALT, requestData.getServerSalt());
+        String key = String.valueOf(requestData.getAuthKeyId());
+        sessionManager.setSessionInfo(key, SessionInfo.SESSION_ID, requestData.getSessionId());
+        sessionManager.setSessionInfo(key, SessionInfo.SEQ_NO, requestData.getSeqNo());
+        sessionManager.setSessionInfo(key, SessionInfo.SERVER_SALT, requestData.getServerSalt());
     }
 }

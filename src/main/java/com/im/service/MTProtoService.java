@@ -21,6 +21,7 @@ import com.im.redis.SessionManager;
 import com.im.utils.TimeUtil;
 import io.netty.channel.Channel;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -44,6 +45,13 @@ public class MTProtoService {
 
     @Resource
     private SessionManager sessionManager;
+
+    private final DcService dcService;
+
+    @Autowired
+    public MTProtoService(final DcService dcService) {
+        this.dcService = dcService;
+    }
 
     public MTProtoApi.ResPQ reqPqMulti(MTProtoApi.ReqPqMulti reqPqMulti) {
         byte[] serverNonce = Helpers.getRandomBytes(16);
@@ -202,21 +210,23 @@ public class MTProtoService {
         BinaryReader br = new BinaryReader(hash);
         BigInteger auxHash = br.readLargeInt(64, false);
         br.read(4);
-        BigInteger authKeyId = br.readLargeInt(64, false);
+//        BigInteger authKeyId = br.readLargeInt(64, false);
+        long authKeyId = br.readInt64();
 
         byte[] n = new byte[]{1};
         dhGenOk.new_nonce_hash1 = Arrays.copyOfRange(
                 Helpers.SHA1(newNonce, n, Helpers.toSignedLittleBuffer(auxHash, 8)), 4, 20
         );
 
-        sessionManager.setSessionInfo(authKeyId.toString(), "authKey", gab.toString());
-        sessionManager.setSessionInfo(authKeyId.toString(), "channelId", channel.id().asLongText());
-        sessionManager.setSessionInfo(authKeyId.toString(), "isLogin", Boolean.FALSE);
-        sessionManager.setSessionInfo(authKeyId.toString(), "readyLogin", Boolean.FALSE);
+        String authKeyIdKey = String.valueOf(authKeyId);
+        sessionManager.setSessionInfo(authKeyIdKey, "authKey", gab.toString());
+        sessionManager.setSessionInfo(authKeyIdKey, "channelId", channel.id().asLongText());
+        sessionManager.setSessionInfo(authKeyIdKey, "isLogin", Boolean.FALSE);
+        sessionManager.setSessionInfo(authKeyIdKey, "readyLogin", Boolean.FALSE);
 
         stringRedisTemplate
                 .opsForValue()
-                .set(KeyPrefix.CHANNEL_ID_AUTH_KEY_ID + channel.id().asLongText(), authKeyId.toString());
+                .set(KeyPrefix.CHANNEL_ID_AUTH_KEY_ID + channel.id().asLongText(), authKeyIdKey);
 
         return dhGenOk;
     }
@@ -237,11 +247,11 @@ public class MTProtoService {
         return null;
     }
 
-    public Api.Pong pingDelayDisconnect(Api.PingDelayDisconnect pingDelayDisconnect, BigInteger msgId) {
+    public MTProtoApi.Pong pingDelayDisconnect(MTProtoApi.Ping_delay_disconnect pingDelayDisconnect, long msgId) {
         System.out.println(msgId);
-        Api.Pong pong = new Api.Pong();
-        pong.setMsgId(msgId);
-        pong.setPingId(pingDelayDisconnect.getPingId());
+        MTProtoApi.Pong pong = new MTProtoApi.Pong();
+        pong.msg_id = msgId;
+        pong.ping_id = pingDelayDisconnect.ping_id;
 
         return pong;
     }
@@ -273,7 +283,7 @@ public class MTProtoService {
         config.expires = TimeUtil.getTheTimeAfterNDays(10);
         config.test_mode = false;
         config.this_dc = 2;
-//        config.dc_options
+        config.dc_options = dcService.getDcOptionList();
         config.dc_txt_domain_name = "apv3.stel.com";
         config.chat_size_max = 200;
         config.megagroup_size_max = 200000;
@@ -282,33 +292,37 @@ public class MTProtoService {
         config.offline_blur_timeout_ms = 5000;
         config.offline_idle_timeout_ms = 30000;
         config.online_cloud_timeout_ms = 300000;
-        config.notify_cloud_delay_ms = 1500;
-//        config.notify_default_delay_ms
-//        config.edit_time_limit
-//        config.revoke_time_limit =
-//        config.revoke_pm_time_limit
-//        config.rating_e_decay
-//        config.stickers_recent_limit
-//        config.channels_read_media_period
-//        config.tmp_sessions
-//        config.call_receive_timeout_ms =
-//        config.call_ring_timeout_ms =
-//        config.call_connect_timeout_ms =
-//        config.call_packet_timeout_ms
-//        config.me_url_prefix
-//        config.autoupdate_url_prefix
-//        config.gif_search_username
-//        config.venue_search_username
-//        config.img_search_username
-//        config.static_maps_provider
-//        config.caption_length_max
-//        config.message_length_max
-//        config.webfile_dc_id
-//        config.suggested_lang_code
-//        config.lang_pack_version
-//        config.base_lang_pack_version
+        config.notify_cloud_delay_ms = 30000;
+        config.notify_default_delay_ms = 1500;
+        config.push_chat_period_ms = 60000;
+        config.push_chat_limit = 2;
+        config.edit_time_limit = 172800;
+        config.revoke_time_limit = 2147483647;
+        config.revoke_pm_time_limit = 2147483647;
+        config.rating_e_decay = 2419200;
+        config.stickers_recent_limit = 200;
+        config.channels_read_media_period = 604800;
+//        config.tmp_sessions =
+        config.call_receive_timeout_ms = 20000;
+        config.call_ring_timeout_ms = 90000;
+        config.call_connect_timeout_ms = 30000;
+        config.call_packet_timeout_ms = 10000;
+        config.me_url_prefix = "https://t.me/";
+//        config.autoupdate_url_prefix =
+        config.gif_search_username = "gif";
+        config.venue_search_username = "foursquare";
+        config.img_search_username = "bing";
+//        config.static_maps_provider =
+        config.caption_length_max = 1024;
+        config.message_length_max = 4096;
+        config.webfile_dc_id = 4;
+        config.flags = TLRPC.FLAG_9 | TLRPC.FLAG_10 | TLRPC.FLAG_11;
+//        config.suggested_lang_code =
+//        config.lang_pack_version =
+//        config.base_lang_pack_version =
 //        config.reactions_default =
 //        config.autologin_token =
+
         return config;
     }
 //
