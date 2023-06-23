@@ -20,6 +20,7 @@
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <scylla.driver.version>4.15.0.0</scylla.driver.version>
         <skipTests>true</skipTests>
         <minio>8.5.2</minio>
     </properties>
@@ -106,7 +107,26 @@
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.scylladb</groupId>
+            <artifactId>java-driver-core</artifactId>
+            <version>${scylla.driver.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.scylladb</groupId>
+            <artifactId>java-driver-query-builder</artifactId>
+            <version>${scylla.driver.version}</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.scylladb</groupId>-->
+<!--            <artifactId>scylla-driver-core</artifactId>-->
+<!--            <version>3.11.2.0</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>com.scylladb</groupId>
+            <artifactId>scylla-driver-mapping</artifactId>
+            <version>3.11.2.0</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,7 +1,7 @@
 server:
   netty:
-    port: 12345
-  port: 8888
+    port: 12344
+  port: 8989
 spring:
   application:
     name: im-server
@@ -128,3 +128,9 @@ minio:
   bucket-name: bucket-name # 桶名
 #  image-size: 10485760 #  图片文件的最大大小
 #  file-size: 1073741824 # 文件的最大大小
+
+scylla:
+  host: 127.0.0.1
+  port: 9042
+  datacenter: datacenter1
+  keyspace: im
