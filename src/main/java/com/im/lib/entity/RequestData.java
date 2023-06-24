@@ -3,12 +3,10 @@ package com.im.lib.entity;
 import com.im.lib.tl.TLObject;
 import lombok.Data;
 
-import java.math.BigInteger;
-
 @Data
 public class RequestData {
 
-    private BigInteger authKeyId;
+    private long authKeyId;
 
 //    private Object requestParam;
 
@@ -18,7 +16,7 @@ public class RequestData {
 
     private long sessionId;
 
-    private BigInteger msgId;
+    private long msgId;
 
     private String seqNo;
 

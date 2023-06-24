@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -45,6 +46,17 @@ public class DcService {
         this.systemConfigMapper = systemConfigMapper;
     }
 
+    public void initDcOptions() {
+        SystemConfig dcOptionsConfig = systemConfigMapper.selectOne(
+                new QueryWrapper<SystemConfig>().eq("config_key", DC_OPTIONS_CONFIG_KEY)
+        );
+        List<TLRPC.TL_dcOption> dcOptionList = Optional.ofNullable(dcOptionsConfig)
+                .map(item -> Helpers.parseList(item.getConfigValue(), TLRPC.TL_dcOption.class))
+                .orElse(List.of());
+        clearDcOptions();
+        setDcOptions(dcOptionList);
+    }
+
     public void setDcOptions(List<TLRPC.TL_dcOption> dcOptionList) {
         Map<String, String> collect = dcOptionList.stream()
                 .map(e -> {
@@ -62,15 +74,18 @@ public class DcService {
         stringRedisTemplate.delete(DC_OPTIONS_KEY);
     }
 
-    public void initDcOptions() {
-        SystemConfig dcOptionsConfig = systemConfigMapper.selectOne(
-                new QueryWrapper<SystemConfig>().eq("config_key", DC_OPTIONS_CONFIG_KEY)
-        );
-        List<TLRPC.TL_dcOption> dcOptionList = Optional.ofNullable(dcOptionsConfig)
-                .map(item -> Helpers.parseList(item.getConfigValue(), TLRPC.TL_dcOption.class))
-                .orElse(List.of());
-        clearDcOptions();
-        setDcOptions(dcOptionList);
+    public ArrayList<TLRPC.TL_dcOption> getDcOptionList() {
+        List<Object> dcOptions = stringRedisTemplate.opsForHash()
+                .values(DC_OPTIONS_KEY);
+        ArrayList<TLRPC.TL_dcOption> dcOptionList = new ArrayList<>();
+        for (Object o : dcOptions) {
+            try {
+                TLRPC.TL_dcOption tlDcOption = mapper.readValue((String) o, TLRPC.TL_dcOption.class);
+                dcOptionList.add(tlDcOption);
+            } catch (JsonProcessingException ignored) {
+            }
+        }
+        return dcOptionList;
     }
 
     public void addDcOption(TLRPC.TL_dcOption dcOption) {
@@ -92,7 +107,7 @@ public class DcService {
             throw new RuntimeException(e);
         }
         if (dcOptionsConfig.getId() == null) {
-            systemConfigMapper.updateById(dcOptionsConfig);
+            systemConfigMapper.insert(dcOptionsConfig);
         } else {
             systemConfigMapper.updateById(dcOptionsConfig);
         }
