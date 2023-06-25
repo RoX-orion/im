@@ -259,4 +259,72 @@ public class MTProtoApi {
         }
     }
 
+    public static class Bad_msg_notification extends TLObject {
+        public static int constructor = 0xa7eff811;
+
+        public long bad_msg_id;
+        public long bad_msg_seqno;
+        public int error_code;
+
+
+        @Override
+        public void serializeToStream(AbstractSerializedData stream) {
+            stream.writeInt32(constructor);
+            stream.writeInt64(bad_msg_id);
+            stream.writeInt64(bad_msg_seqno);
+            stream.writeInt32(error_code);
+        }
+    }
+
+    public static class Bad_server_salt extends Bad_msg_notification {
+        public static int constructor = 0xedab447b;
+
+        public long new_server_salt;
+
+        @Override
+        public void serializeToStream(AbstractSerializedData stream) {
+            super.serializeToStream(stream);
+            stream.writeInt64(new_server_salt);
+        }
+    }
+
+    public static class Rpc_error extends TLObject {
+        public static int constructor = 0x2144ca19;
+
+        public int error_code;
+        public String error_message;
+
+        @Override
+        public void serializeToStream(AbstractSerializedData stream) {
+            stream.writeInt32(constructor);
+            stream.writeInt32(error_code);
+            stream.writeString(error_message);
+        }
+    }
+
+    public static class Ping_delay_disconnect extends TLObject {
+        public static int constructor = 0xf3427b8c;
+
+        public long ping_id;
+        public int disconnect_delay;
+
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            ping_id = stream.readInt64();
+            disconnect_delay = stream.readInt32();
+        }
+    }
+
+    public static class Pong extends TLObject {
+        public static int constructor = 0x347773c5;
+
+        public long msg_id;
+        public long ping_id;
+
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            msg_id = stream.readInt64();
+            ping_id = stream.readInt64();
+        }
+    }
 }
