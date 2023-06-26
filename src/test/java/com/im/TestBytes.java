@@ -1,6 +1,8 @@
 package com.im;
 
 import com.im.lib.Helpers;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.junit.Test;
 
 import java.math.BigInteger;
@@ -47,5 +49,15 @@ public class TestBytes {
         BigInteger dhPrime = new BigInteger(hex, 16);
         System.out.println(dhPrime);
         System.out.println(dhPrime.isProbablePrime(5));
+    }
+
+    @Test
+    public void byteBuf() {
+        ByteBuf buffer = Unpooled.buffer(12);
+        buffer.writeBytes(new byte[12]);
+        System.out.println(buffer.capacity());
+        buffer.readIntLE();
+        System.out.println(buffer.readableBytes());
+        System.out.println(buffer.capacity());
     }
 }

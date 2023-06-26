@@ -1,5 +1,8 @@
 package com.im.lib.tl;
 
+import com.im.lib.net.SerializedData;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class TLHelpers {
@@ -87,5 +90,22 @@ public class TLHelpers {
             crc = crcTable[(crc ^ b) & 0xff] ^ crc >>> 8;
         }
         return ~crc;
+    }
+
+    public static TLObject getTLObject(byte[] data) {
+        SerializedData stream = new SerializedData(data);
+        try {
+            TLObject tlObject = (TLObject) TLClassStore.getClass(stream.readInt32()).getConstructor().newInstance();
+            tlObject.readParams(stream);
+            return tlObject;
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static byte[] getBytes(TLObject tlObject) {
+        SerializedData stream = new SerializedData();
+        tlObject.serializeToStream(stream);
+        return stream.toByteArray();
     }
 }

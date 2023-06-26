@@ -1,9 +1,6 @@
 package com.im.lib.tl;
 
-import com.im.lib.net.SerializedData;
-
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,17 +27,6 @@ public class TLClassStore {
 
     public static Class<?> getClass(int constructorId) {
         return classHashMap.get(constructorId);
-    }
-
-    public static TLObject getTLObject(byte[] data) {
-        SerializedData stream = new SerializedData(data);
-        try {
-            TLObject tlObject = (TLObject) getClass(stream.readInt32()).getConstructor().newInstance();
-            tlObject.readParams(stream);
-            return tlObject;
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
     }
 //    private SparseArray<Class> classStore;
 //

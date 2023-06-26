@@ -15,6 +15,8 @@ public class TLObject {
     public int networkType;
 
     public boolean disableFree = false;
+
+//    public int
     private static final ThreadLocal<NativeByteBuffer> sizeCalculator = ThreadLocal.withInitial(() -> new NativeByteBuffer(true));
 
     public TLObject() {
