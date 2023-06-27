@@ -283,7 +283,10 @@ public class MTProtoApi {
 
         @Override
         public void serializeToStream(AbstractSerializedData stream) {
-            super.serializeToStream(stream);
+            stream.writeInt32(constructor);
+            stream.writeInt64(bad_msg_id);
+            stream.writeInt64(bad_msg_seqno);
+            stream.writeInt32(error_code);
             stream.writeInt64(new_server_salt);
         }
     }
@@ -322,9 +325,10 @@ public class MTProtoApi {
         public long ping_id;
 
         @Override
-        public void readParams(AbstractSerializedData stream) {
-            msg_id = stream.readInt64();
-            ping_id = stream.readInt64();
+        public void serializeToStream(AbstractSerializedData stream) {
+            stream.writeInt32(constructor);
+            stream.writeInt64(msg_id);
+            stream.writeInt64(ping_id);
         }
     }
 }

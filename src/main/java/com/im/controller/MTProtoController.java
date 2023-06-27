@@ -9,8 +9,6 @@ import com.im.lib.tl.TLRPC;
 import com.im.service.MTProtoService;
 import io.netty.channel.Channel;
 
-import java.math.BigInteger;
-
 @WebsocketHandler
 public class MTProtoController {
 
@@ -62,8 +60,8 @@ public class MTProtoController {
 	}
 
 	@WebsocketHandlerMapping(value = 0xf3427b8c, name = "PingDelayDisconnect")
-	public Api.Pong pingDelayDisconnect(Api.PingDelayDisconnect pingDelayDisconnect,
-	                                    @WebsocketRequestParam("msgId") BigInteger msgId) {
+	public MTProtoApi.Pong pingDelayDisconnect(MTProtoApi.Ping_delay_disconnect pingDelayDisconnect,
+	                                           @WebsocketRequestParam("msgId") long msgId) {
 		return mtprotoService.pingDelayDisconnect(pingDelayDisconnect, msgId);
 	}
 

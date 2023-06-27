@@ -13,7 +13,7 @@ import com.im.lib.net.BinaryReader;
 import com.im.lib.net.HandShakeDataCache;
 import com.im.lib.net.SerializedData;
 import com.im.lib.tl.MTProtoApi;
-import com.im.lib.tl.TLClassStore;
+import com.im.lib.tl.TLHelpers;
 import com.im.lib.tl.TLObject;
 import com.im.lib.tl.TLRPC;
 import com.im.redis.KeyPrefix;
@@ -92,7 +92,7 @@ public class MTProtoService {
         byte[] dataPadBytes = Arrays.copyOfRange(dataWithHash, 0, 192);
         Helpers.reverse(dataPadBytes);
 
-        TLObject tlObject = TLClassStore.getTLObject(dataPadBytes);
+        TLObject tlObject = TLHelpers.getTLObject(dataPadBytes);
         if (!(tlObject instanceof MTProtoApi.P_q_inner_data p_q_inner_data)) {
             throw new TLException("object must be MTProtoApi.P_q_inner_data!");
         }
@@ -184,7 +184,7 @@ public class MTProtoService {
         byte[] bytes = AES.igeDecrypt(setClientDHParams.encrypted_data, key, iv);
 
 
-        TLObject tlObject = TLClassStore.getTLObject(Arrays.copyOfRange(bytes, 20, bytes.length));
+        TLObject tlObject = TLHelpers.getTLObject(Arrays.copyOfRange(bytes, 20, bytes.length));
         if (!(tlObject instanceof MTProtoApi.Client_DH_inner_data clientDhInnerData)) {
             throw new TLException("object must be MTProtoApi.Client_DH_inner_data!");
         }
@@ -248,7 +248,6 @@ public class MTProtoService {
     }
 
     public MTProtoApi.Pong pingDelayDisconnect(MTProtoApi.Ping_delay_disconnect pingDelayDisconnect, long msgId) {
-        System.out.println(msgId);
         MTProtoApi.Pong pong = new MTProtoApi.Pong();
         pong.msg_id = msgId;
         pong.ping_id = pingDelayDisconnect.ping_id;
