@@ -20,16 +20,16 @@ import java.util.List;
 
 public class BinaryReader {
 
-    private final ByteBuf buf;
+    private final ByteBuf buffer;
 //    private int offset;
 
-    public BinaryReader(ByteBuf buf) {
-        this.buf = buf;
+    public BinaryReader(ByteBuf buffer) {
+        this.buffer = buffer;
 //        this.offset = 0;
     }
 
     public BinaryReader(byte[] bytes) {
-        this.buf = Unpooled.wrappedBuffer(bytes);
+        this.buffer = Unpooled.wrappedBuffer(bytes);
     }
 
     /**
@@ -37,7 +37,7 @@ public class BinaryReader {
      * @return int64
      */
     public long readInt64() {
-        return buf.readLongLE();
+        return buffer.readLongLE();
     }
 
     /**
@@ -56,15 +56,15 @@ public class BinaryReader {
 //        }
 //
 //        return result;
-        return buf.readIntLE();
+        return buffer.readIntLE();
     }
 
     public BigInteger readInt128() {
-        return readBigIntegerLE(buf, 16);
+        return readBigIntegerLE(buffer, 16);
     }
 
     public boolean tgReadBool() {
-        int value = buf.readInt();
+        int value = buffer.readInt();
         if (value == 0x997275b5) {
             // boolTrue
             return true;
@@ -96,16 +96,16 @@ public class BinaryReader {
 
     public byte[] read(int length) {
         if (length == -1) {
-            length = buf.readableBytes();
+            length = buffer.readableBytes();
         }
         byte[] result = new byte[length];
-        buf.readBytes(result);
+        buffer.readBytes(result);
 //        this._last = result;
         return result;
     }
 
     public int readByte() {
-        return buf.readByte() & 0xff;
+        return buffer.readByte() & 0xff;
     }
 
     public byte[] readBytes(int length) {
@@ -114,14 +114,14 @@ public class BinaryReader {
 //            result[i] = buf[offset++];
 //        }
 //        return result;
-        buf.readBytes(result);
+        buffer.readBytes(result);
         return result;
     }
 
     public byte[] readAll() {
-        int i = buf.readableBytes();
+        int i = buffer.readableBytes();
         byte[] result = new byte[i];
-        buf.readBytes(result);
+        buffer.readBytes(result);
         return result;
     }
 
@@ -151,7 +151,7 @@ public class BinaryReader {
     }
 
     public Date tgReadDate() {
-        int value = buf.readIntLE();
+        int value = buffer.readIntLE();
         return new Date(value * 1000L);
     }
 
@@ -212,7 +212,7 @@ public class BinaryReader {
                     continue;
                 }
                 if (flagValue != 0) {
-                    args.put(argName, getArgFromReader(buf, argsConfig, clazz));
+                    args.put(argName, getArgFromReader(buffer, argsConfig, clazz));
                 } else {
                     args.put(argName, null);
                 }
@@ -220,7 +220,7 @@ public class BinaryReader {
 //                if (arg.isFlagIndicator()) {
 //                    args.put("name", "flags");
 //                }
-                args.put(argName, getArgFromReader(buf, argsConfig, clazz));
+                args.put(argName, getArgFromReader(buffer, argsConfig, clazz));
             }
         }
         System.out.println(args);
@@ -331,6 +331,10 @@ public class BinaryReader {
         byte[] bytes = new byte[length];
         buf.readBytes(bytes);
         return Helpers.readBigIntegerFromBytes(bytes, true, true);
+    }
+
+    public int size() {
+        return buffer.readableBytes();
     }
 
     public BigInteger readBigIntegerLE(byte[] bytes) {

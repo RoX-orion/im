@@ -1,26 +1,22 @@
 package com.im.lib.entity;
 
 import com.im.lib.tl.TLObject;
-import lombok.Data;
 
-@Data
 public class RequestData {
 
-    private long authKeyId;
+    public long authKeyId = -1;
 
-//    private Object requestParam;
+    public int constructorId;
 
-    private int constructorId;
+    public long serverSalt;
 
-    private long serverSalt;
+    public long sessionId = -1;
 
-    private long sessionId;
+    public long msgId;
 
-    private long msgId;
+    public int seqNo;
 
-    private String seqNo;
+    public byte[] data;
 
-    private byte[] data;
-
-    private TLObject tlObject;
+    public TLObject tlObject;
 }

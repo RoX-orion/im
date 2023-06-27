@@ -22,6 +22,8 @@ public class SessionInfo {
 
     public static final String SERVER_SALT = "serverSalt";
 
+    public static final String SALT_EXPIRE = "expire";
+
     public static final String IS_LOGIN = "isLogin";
 
     public static final String READY_LOGIN = "readyLogin";
