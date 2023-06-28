@@ -1,5 +1,8 @@
 package com.im.lib;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.util.ReferenceCountUtil;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -17,5 +20,9 @@ public class BinaryHelpers {
                 .order(ByteOrder.LITTLE_ENDIAN)
                 .putLong(value)
                 .array();
+    }
+
+    public static void releaseBuffer(ByteBuf buffer) {
+        ReferenceCountUtil.release(buffer);
     }
 }

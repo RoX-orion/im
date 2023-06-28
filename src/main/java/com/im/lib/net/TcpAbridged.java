@@ -1,5 +1,6 @@
 package com.im.lib.net;
 
+import com.im.lib.BinaryHelpers;
 import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +30,9 @@ public class TcpAbridged {
             byteBuf.readBytes(bytes);
             length = readLengthLE(bytes);
         }
-        return byteBuf.readBytes(length << 2);
+        ByteBuf result = byteBuf.readBytes(length << 2);
+        BinaryHelpers.releaseBuffer(byteBuf);
+        return result;
     }
 
     public int readLengthLE(byte[] bytes) {
