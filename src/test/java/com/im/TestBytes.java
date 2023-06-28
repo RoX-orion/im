@@ -6,6 +6,7 @@ import io.netty.buffer.Unpooled;
 import org.junit.Test;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * Copyright (c) 2023 Andre Lina. All rights reserved.
@@ -32,15 +33,18 @@ public class TestBytes {
         System.out.println(bigInteger);
     }
 
+    // [-91, 14, -83, -91, 35, 1]
     @Test
     public void testPq() {
-        int[] ints = new int[]{152, 130, 61};
-        byte[] bytes = new byte[ints.length];
-        for (int i = 0; i < ints.length; i++) {
-            bytes[i] = (byte) ints[i];
-        }
-        BigInteger bigInteger = Helpers.readBigIntegerFromBytes(bytes, false, false);
+        byte[] bytes = new byte[]{0, -91, 14, -83, -91, 35, 1};
+        int[] unsignedInt = Helpers.toUnsignedInt(bytes);
+        System.out.println(Arrays.toString(unsignedInt));
+
+        BigInteger bigInteger = Helpers.readBigIntegerFromBytes(bytes, false, true);
+
         System.out.println(bigInteger);
+        System.out.println(Arrays.toString(Helpers.getByteArray(new BigInteger("181482461405953"))));
+        System.out.println(Arrays.toString(new BigInteger("181482461405953").toByteArray()));
     }
 
     @Test

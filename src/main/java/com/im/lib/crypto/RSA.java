@@ -132,9 +132,9 @@ public class RSA {
             break;
         }
 
-        createAuthKeyState.setP(Helpers.getByteArray(p));
-        createAuthKeyState.setQ(Helpers.getByteArray(q));
-        createAuthKeyState.setPq(Helpers.getByteArray(p.multiply(q)));
+        createAuthKeyState.setP(p.toByteArray());
+        createAuthKeyState.setQ(q.toByteArray());
+        createAuthKeyState.setPq(p.multiply(q).toByteArray());
         return createAuthKeyState;
     }
 

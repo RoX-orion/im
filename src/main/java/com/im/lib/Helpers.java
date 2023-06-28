@@ -181,8 +181,6 @@ public class Helpers {
     }
 
     public static byte[] getByteArray(BigInteger bigInteger) {
-//        var bits = bigInteger.toString(2).length();
-//        int byteLength = (int) Math.floor((bits + 8 - 1) >> 2);
         byte[] array = bigInteger.toByteArray();
         if (array[0] == 0) {
             byte[] tmp = new byte[array.length - 1];
