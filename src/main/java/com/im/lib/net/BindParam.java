@@ -25,7 +25,7 @@ public class BindParam {
             WebsocketRequestParam websocketRequestParam = parameters[i].getDeclaredAnnotation(WebsocketRequestParam.class);
             if (websocketRequestParam != null
                     && "msgId".equals(websocketRequestParam.value())) {
-                methodParams[i] = requestData.getMsgId();
+                methodParams[i] = requestData.msgId;
                 continue;
             }
             methodParams[i] = castObject(type, param);

@@ -23,4 +23,8 @@ public class TimeUtil {
     public static ZoneOffset getLocalTimeZoneOffset() {
          return OffsetDateTime.now().getOffset();
     }
+
+    public static long getTimestampOfAfterHalfAnHour() {
+        return System.currentTimeMillis() + 1800000;
+    }
 }

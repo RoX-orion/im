@@ -72,9 +72,9 @@ public class DispatcherWebsocket implements ApplicationContextAware {
      * @return 处理方法返回数据
      */
     public RpcResult dispatcherRequest(RequestData requestData, Channel channel) throws InvocationTargetException, IllegalAccessException {
-        int constructorId = requestData.getConstructorId();
+        int constructorId = requestData.constructorId;
         log.info("request data: {}", requestData);
-        TLObject tlObject = requestData.getTlObject();
+        TLObject tlObject = requestData.tlObject;
         HandlerMeta handlerMeta = handlerContainer.get(constructorId);
         if (handlerMeta == null) {
             throw new WebsocketHandlerMappingException("current websocket request didn't config handler!");
@@ -96,8 +96,8 @@ public class DispatcherWebsocket implements ApplicationContextAware {
                     + "方法未实现！");
         }
 
-        long authKeyId = requestData.getAuthKeyId();
-        return RpcResult.ok(authKeyId, response, requestData.getSessionId());
+        long authKeyId = requestData.authKeyId;
+        return RpcResult.ok(authKeyId, response, requestData.sessionId);
     }
 
     public static <T> T get(Class<T> clz,Object o){

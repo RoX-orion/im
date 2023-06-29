@@ -82,4 +82,14 @@ public class TestTLRPC {
         System.out.println(subclassOfId);
         System.out.println();
     }
+
+    @Test
+    public void pong() {
+        long msgId = 72057598203698276L;
+    }
+
+    @Test
+    public void constructorId() {
+        System.out.println(0xf2f2330aL);
+    }
 }

@@ -1,16 +1,13 @@
 package com.im.lib.core;
 
-import com.im.lib.entity.RequestData;
-import com.im.lib.entity.RpcResult;
 import com.im.lib.net.ChannelManager;
-import com.im.lib.net.DispatcherWebsocket;
 import com.im.lib.net.MTProto;
 import com.im.redis.SessionManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -22,20 +19,19 @@ import java.util.Date;
 @ChannelHandler.Sharable
 public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<BinaryWebSocketFrame> {
 
-
-    @Resource
-    private ChannelManager channelManager;
-
+    private final ChannelManager channelManager;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private final MTProto mtproto;
+    private final SessionManager sessionManager;
 
-    @Resource
-    private DispatcherWebsocket dispatcherWebsocket;
-
-    @Resource
-    private MTProto mtproto;
-
-    @Resource
-    private SessionManager sessionManager;
+    @Autowired
+    public BinaryWebSocketFrameHandler(final ChannelManager channelManager,
+                                       final MTProto mtproto,
+                                       final SessionManager sessionManager) {
+        this.channelManager = channelManager;
+        this.mtproto = mtproto;
+        this.sessionManager = sessionManager;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, BinaryWebSocketFrame binaryWebSocketFrame) {
@@ -49,20 +45,8 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
         }
         System.out.println("接收到的字节数组: " + length + Arrays.toString(unsignedInt8Array));
 
-        RpcResult response = null;
-        try {
-            byteBuf.resetReaderIndex();
-            RequestData requestData = mtproto.getRequestData(byteBuf, channel);
-
-            response = dispatcherWebsocket.dispatcherRequest(requestData, channel);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        try {
-            mtproto.sendData(response, channel);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        byteBuf.resetReaderIndex();
+        mtproto.processRequest(byteBuf, channel);
     }
 
     /**

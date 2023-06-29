@@ -61,7 +61,30 @@ public class TLRPC {
     public static final int MESSAGE_FLAG_HAS_BOT_ID         = 0x00000800;
     public static final int MESSAGE_FLAG_EDITED             = 0x00008000;
 
-    public static final int LAYER = 150;
+    public static final int FLAG_1 = 0x00000002; // 2
+    public static final int FLAG_2 = 0x00000004; // 4
+    public static final int FLAG_3 = 0x00000008; // 8
+    public static final int FLAG_4 = 0x00000010; // 16
+    public static final int FLAG_5 = 0x00000020; // 32
+    public static final int FLAG_6 = 0x00000040; // 64
+    public static final int FLAG_7 = 0x00000080; // 128
+    public static final int FLAG_8 = 0x00000100; // 256
+    public static final int FLAG_9 = 0x00000200; // 512
+    public static final int FLAG_10 = 0x00000400; // 1024
+    public static final int FLAG_11 = 0x00000800; // 2048
+    public static final int FLAG_12 = 0x00001000; // 4096
+    public static final int FLAG_13 = 0x00002000; // 8192
+    public static final int FLAG_14 = 0x00004000; // 16384
+    public static final int FLAG_15 = 0x00008000; // 32768
+    public static final int FLAG_16 = 0x00010000; // 65536
+    public static final int FLAG_17 = 0x00020000; // 131072
+    public static final int FLAG_18 = 0x00040000; // 262144
+    public static final int FLAG_19 = 0x00080000; // 524288
+    public static final int FLAG_20 = 0x00100000; // 1048576
+
+
+
+    public static final int LAYER = 158;
 
     public static class TL_stats_megagroupStats extends TLObject {
         public static int constructor = 0xef7ff916;
@@ -8949,14 +8972,10 @@ public class TLRPC {
             int magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 MessageEntity object = MessageEntity.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 entities.add(object);
             }
             author = stream.readString();
@@ -9022,9 +9041,7 @@ public class TLRPC {
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in messages_StickerSet", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            result.readParams(stream);
             return result;
         }
     }
@@ -9042,9 +9059,6 @@ public class TLRPC {
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 TL_stickerPack object = TL_stickerPack.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 packs.add(object);
             }
             magic = stream.readInt32();
@@ -9055,9 +9069,6 @@ public class TLRPC {
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 Document object = Document.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 documents.add(object);
             }
         }
@@ -9093,35 +9104,24 @@ public class TLRPC {
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 TL_stickerPack object = TL_stickerPack.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 packs.add(object);
             }
             magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 TL_stickerKeyword object = TL_stickerKeyword.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 keywords.add(object);
             }
             magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 Document object = Document.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 documents.add(object);
             }
         }
@@ -9182,7 +9182,6 @@ public class TLRPC {
 
     public static class TL_inputGeoPoint extends InputGeoPoint {
         public static int constructor = 0x48222faf;
-
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -26921,9 +26920,6 @@ public class TLRPC {
                 int count = stream.readInt32();
                 for (int a = 0; a < count; a++) {
                     InputDocument object = InputDocument.TLdeserialize(stream, stream.readInt32());
-                    if (object == null) {
-                        return;
-                    }
                     stickers.add(object);
                 }
             }
@@ -29208,14 +29204,10 @@ public class TLRPC {
             int magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 MessageEntity object = MessageEntity.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 entities.add(object);
             }
         }
@@ -29755,14 +29747,10 @@ public class TLRPC {
             int magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 PeerLocated object = PeerLocated.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 peers.add(object);
             }
         }
@@ -32709,16 +32697,13 @@ public class TLRPC {
     }
 
     public static class TL_config extends TLObject {
-        public static int constructor = 0x232566ac;
+        public static int constructor = 0xcc1a241e;
 
         public int flags;
-        public boolean phonecalls_enabled;
         public boolean default_p2p_contacts;
         public boolean preload_featured_stickers;
-        public boolean ignore_phone_entities;
         public boolean revoke_pm_inbox;
         public boolean blocked_mode;
-        public boolean pfs_enabled;
         public boolean force_try_ipv6;
         public int date;
         public int expires;
@@ -32737,17 +32722,13 @@ public class TLRPC {
         public int notify_default_delay_ms;
         public int push_chat_period_ms;
         public int push_chat_limit;
-        public int saved_gifs_limit;
         public int edit_time_limit;
         public int revoke_time_limit;
         public int revoke_pm_time_limit;
         public int rating_e_decay;
         public int stickers_recent_limit;
-        public int stickers_faved_limit;
         public int channels_read_media_period;
         public int tmp_sessions;
-        public int pinned_dialogs_count_max;
-        public int pinned_infolder_count_max;
         public int call_receive_timeout_ms;
         public int call_ring_timeout_ms;
         public int call_connect_timeout_ms;
@@ -32778,13 +32759,10 @@ public class TLRPC {
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
-            phonecalls_enabled = (flags & 2) != 0;
             default_p2p_contacts = (flags & 8) != 0;
             preload_featured_stickers = (flags & 16) != 0;
-            ignore_phone_entities = (flags & 32) != 0;
             revoke_pm_inbox = (flags & 64) != 0;
             blocked_mode = (flags & 256) != 0;
-            pfs_enabled = (flags & 8192) != 0;
             force_try_ipv6 = (flags & 16384) != 0;
             date = stream.readInt32();
             expires = stream.readInt32();
@@ -32811,19 +32789,15 @@ public class TLRPC {
             notify_default_delay_ms = stream.readInt32();
             push_chat_period_ms = stream.readInt32();
             push_chat_limit = stream.readInt32();
-            saved_gifs_limit = stream.readInt32();
             edit_time_limit = stream.readInt32();
             revoke_time_limit = stream.readInt32();
             revoke_pm_time_limit = stream.readInt32();
             rating_e_decay = stream.readInt32();
             stickers_recent_limit = stream.readInt32();
-            stickers_faved_limit = stream.readInt32();
             channels_read_media_period = stream.readInt32();
             if ((flags & 1) != 0) {
                 tmp_sessions = stream.readInt32();
             }
-            pinned_dialogs_count_max = stream.readInt32();
-            pinned_infolder_count_max = stream.readInt32();
             call_receive_timeout_ms = stream.readInt32();
             call_ring_timeout_ms = stream.readInt32();
             call_connect_timeout_ms = stream.readInt32();
@@ -32866,13 +32840,10 @@ public class TLRPC {
 
         public void serializeToStream(AbstractSerializedData stream) {
             stream.writeInt32(constructor);
-            flags = phonecalls_enabled ? (flags | 2) : (flags &~ 2);
             flags = default_p2p_contacts ? (flags | 8) : (flags &~ 8);
             flags = preload_featured_stickers ? (flags | 16) : (flags &~ 16);
-            flags = ignore_phone_entities ? (flags | 32) : (flags &~ 32);
             flags = revoke_pm_inbox ? (flags | 64) : (flags &~ 64);
             flags = blocked_mode ? (flags | 256) : (flags &~ 256);
-            flags = pfs_enabled ? (flags | 8192) : (flags &~ 8192);
             flags = force_try_ipv6 ? (flags | 16384) : (flags &~ 16384);
             stream.writeInt32(flags);
             stream.writeInt32(date);
@@ -32897,19 +32868,15 @@ public class TLRPC {
             stream.writeInt32(notify_default_delay_ms);
             stream.writeInt32(push_chat_period_ms);
             stream.writeInt32(push_chat_limit);
-            stream.writeInt32(saved_gifs_limit);
             stream.writeInt32(edit_time_limit);
             stream.writeInt32(revoke_time_limit);
             stream.writeInt32(revoke_pm_time_limit);
             stream.writeInt32(rating_e_decay);
             stream.writeInt32(stickers_recent_limit);
-            stream.writeInt32(stickers_faved_limit);
             stream.writeInt32(channels_read_media_period);
             if ((flags & 1) != 0) {
                 stream.writeInt32(tmp_sessions);
             }
-            stream.writeInt32(pinned_dialogs_count_max);
-            stream.writeInt32(pinned_infolder_count_max);
             stream.writeInt32(call_receive_timeout_ms);
             stream.writeInt32(call_ring_timeout_ms);
             stream.writeInt32(call_connect_timeout_ms);
@@ -43375,7 +43342,6 @@ public class TLRPC {
         public static TL_stickerPack TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_stickerPack.constructor != constructor) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_stickerPack", constructor));
-
             }
             TL_stickerPack result = new TL_stickerPack();
             result.readParams(stream);
@@ -44454,7 +44420,6 @@ public class TLRPC {
         public static TL_dcOption TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_dcOption.constructor != constructor) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_dcOption", constructor));
-
             }
             TL_dcOption result = new TL_dcOption();
             result.readParams(stream);

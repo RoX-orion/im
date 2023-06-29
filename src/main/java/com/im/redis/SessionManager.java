@@ -8,7 +8,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.math.BigInteger;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -50,47 +49,45 @@ public class SessionManager {
         return true;
     }
 
-    public SessionInfo getMsgInfo(BigInteger authKeyId, long sessionId) {
+    public SessionInfo getMsgInfo(String authKeyId, long sessionId) {
         Object o = stringRedisTemplate
                 .opsForHash()
-                .get(SESSION + authKeyId.toString(), String.valueOf(sessionId));
+                .get(SESSION + authKeyId, String.valueOf(sessionId));
 
         return JacksonSerialize.getObject(String.valueOf(o), SessionInfo.class);
     }
 
-    public void setSessionId(BigInteger authKeyId,long sessionId, SessionInfo sessionInfo) {
+    public void setSessionId(String authKeyId,long sessionId, SessionInfo sessionInfo) {
 //        stringRedisTemplate
 //                .opsForList()
 //                .rightPush(AUTH_KEY_ID_SESSION_ID + authKeyId.toString(), String.valueOf(sessionId));
         stringRedisTemplate
                 .opsForHash()
-                .put(SESSION + authKeyId.toString(), String.valueOf(sessionId), Objects.requireNonNull(JacksonSerialize.getObjectString(sessionInfo)));
+                .put(SESSION + authKeyId, String.valueOf(sessionId), Objects.requireNonNull(JacksonSerialize.getObjectString(sessionInfo)));
     }
 
-    public boolean hasSessionId(BigInteger authKeyId, long sessionId) {
-        return redisTemplate
-                .opsForHash()
-                .hasKey(SESSION + authKeyId.toString(), String.valueOf(sessionId));
+    public boolean hasSession(String sessionId) {
+        return Boolean.TRUE.equals(redisTemplate.hasKey(SESSION + sessionId));
     }
 
-    public void removeSessionId(BigInteger authKeyId, long sessionId) {
+    public void removeSessionId(String authKeyId, long sessionId) {
         redisTemplate
                 .opsForHash()
-                .delete(SESSION + authKeyId.toString(), String.valueOf(sessionId));
+                .delete(SESSION + authKeyId, String.valueOf(sessionId));
 
 //        redisTemplate.opsForZSet().remove(AUTH_KEY_ID_SESSION_ID + authKeyId.toString(), sessionId);
     }
 
-    public void setSessionInfo(String authKeyId, String key, Object value) {
+    public void setSessionInfo(String key, String hashKey, Object value) {
         redisTemplate
                 .opsForHash()
-                .put(SESSION + authKeyId, key, value);
+                .put(SESSION + key, hashKey, value);
     }
 
-    public Object getSessionInfo(String authKeyId, String key) {
+    public Object getSessionInfo(String key, String hashKey) {
         return redisTemplate
                 .opsForHash()
-                .get(SESSION + authKeyId, key);
+                .get(SESSION + key, hashKey);
     }
 
     public void removeTempSessionInfo(String channelId) {
