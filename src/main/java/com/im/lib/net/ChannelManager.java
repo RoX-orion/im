@@ -36,4 +36,8 @@ public class ChannelManager {
     public int size() {
         return channels.size();
     }
+
+    public ChannelGroup getChannelGroup() {
+        return channels;
+    }
 }

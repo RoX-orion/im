@@ -46,7 +46,7 @@ public class MTProtoStateService {
      * @param authKeyId authKeyId
      */
     public byte[] decryptData(byte[] msgKey, byte[] encryptData, long authKeyId) {
-        String authKey = (String) sessionManager.getSessionInfo(String.valueOf(authKeyId), SessionInfo.AUTH_KEY);
+        String authKey = sessionManager.getAuthKey(String.valueOf(authKeyId));
 //        String s = stringRedisTemplate.opsForValue().get(Constant.AUTH_KEY + authKeyId.toString());
         if (!StringUtils.hasText(authKey)) {
             throw new UnauthorizedException(ErrorInfo.AUTH_KEY_UNREGISTERED.code, ErrorInfo.AUTH_KEY_UNREGISTERED.name());
@@ -61,10 +61,9 @@ public class MTProtoStateService {
         /*
          * auth_key_id  msg_key encrypted_data(salt session_id  msg_id  seq_no  msg_length  data  padding)
          */
-        String authKeyIdKey = String.valueOf(authKeyId);
         String sessionIdKey = String.valueOf(sessionId);
         BigInteger msgId = this.getNewMsgId(true);
-        String authKey = (String) sessionManager.getSessionInfo(authKeyIdKey, SessionInfo.AUTH_KEY);
+        String authKey = sessionManager.getAuthKey(String.valueOf(authKeyId));
         if (!StringUtils.hasText(authKey)) {
             throw new UnauthorizedException(ErrorInfo.AUTH_KEY_UNREGISTERED.code, ErrorInfo.AUTH_KEY_UNREGISTERED.name());
         }

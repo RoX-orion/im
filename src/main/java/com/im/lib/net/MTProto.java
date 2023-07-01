@@ -21,6 +21,7 @@ import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
@@ -36,18 +37,21 @@ public class MTProto {
     private final SessionManager sessionManager;
     private final DispatcherWebsocket dispatcherWebsocket;
     private final ResultHandler resultHandler;
+    private final StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     public MTProto(final MTProtoStateService mtprotoStateService,
                    final TcpAbridged tcpAbridged,
                    final SessionManager sessionManager,
                    final DispatcherWebsocket dispatcherWebsocket,
-                   ResultHandler resultHandler) {
+                   ResultHandler resultHandler,
+                   final StringRedisTemplate stringRedisTemplate) {
         this.mtprotoStateService = mtprotoStateService;
         this.tcpAbridged = tcpAbridged;
         this.sessionManager = sessionManager;
         this.dispatcherWebsocket = dispatcherWebsocket;
         this.resultHandler = resultHandler;
+        this.stringRedisTemplate = stringRedisTemplate;
     }
 
     public void processRequest(ByteBuf byteBuf, Channel channel) {
@@ -78,7 +82,7 @@ public class MTProto {
                 System.out.println("解密后的数据:" + payload.length + Arrays.toString(payload));
                 BinaryReader br = new BinaryReader(payload);
                 mtprotoStateService.readEncryptedDataHeader(br, requestData);
-                storeSession(requestData);
+                storeSession(requestData, channel.id().asLongText());
                 MTProtoApi.Bad_server_salt badServerSalt = checkHeader(requestData);
                 if (badServerSalt != null) {
                     sendData(RpcResult.ok(authKeyId, badServerSalt, requestData.sessionId, requestData.msgId), channel);
@@ -230,13 +234,20 @@ public class MTProto {
         }
     }
 
-    private void storeSession(RequestData requestData) {
+    private void storeSession(RequestData requestData, String channelId) {
         String key = String.valueOf(requestData.sessionId);
         if (!sessionManager.hasSession(key)) {
-            sessionManager.setSessionInfo(key, SessionInfo.SALT_EXPIRE, TimeUtil.getTimestampOfAfterHalfAnHour());
+            sessionManager.setSessionId(channelId, requestData.sessionId);
+            sessionManager.setSessionInfo(key, SessionInfo.SERVER_SALT_EXPIRE, TimeUtil.getTimestampOfAfterHalfAnHour());
+            sessionManager.setSessionInfo(key, SessionInfo.CHANNEL_ID, channelId);
+            sessionManager.setSessionInfo(key, SessionInfo.IS_LOGIN, Boolean.FALSE);
+            sessionManager.setSessionInfo(key, SessionInfo.READY_LOGIN, Boolean.FALSE);
+            sessionManager.setSessionInfo(key, SessionInfo.AUTH_KEY, sessionManager.getAuthKey(String.valueOf(requestData.authKeyId)));
+            sessionManager.setSessionInfo(key, SessionInfo.SERVER_SALT, String.valueOf(requestData.serverSalt));
         }
+
+//        sessionManager.setSessionInfo(key, "authKey", gab.toString());
         sessionManager.setSessionInfo(key, SessionInfo.SEQ_NO, String.valueOf(requestData.seqNo));
-        sessionManager.setSessionInfo(key, SessionInfo.SERVER_SALT, String.valueOf(requestData.serverSalt));
     }
 
     public void errorHandling(Exception exception, RpcResult rpcResult, Channel channel) {

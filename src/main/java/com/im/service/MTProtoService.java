@@ -16,13 +16,10 @@ import com.im.lib.tl.MTProtoApi;
 import com.im.lib.tl.TLHelpers;
 import com.im.lib.tl.TLObject;
 import com.im.lib.tl.TLRPC;
-import com.im.redis.KeyPrefix;
 import com.im.redis.SessionManager;
 import com.im.utils.TimeUtil;
 import io.netty.channel.Channel;
-import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -37,20 +34,19 @@ public class MTProtoService {
 
     public static final String AES_KEY_IV               = "aesKeyIv:";
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
-
-    @Resource
-    private HandShakeDataCache handShakeDataCache;
-
-    @Resource
-    private SessionManager sessionManager;
+    private final HandShakeDataCache handShakeDataCache;
 
     private final DcService dcService;
 
+    private final SessionManager sessionManager;
+
     @Autowired
-    public MTProtoService(final DcService dcService) {
+    public MTProtoService(final HandShakeDataCache handShakeDataCache,
+                          final DcService dcService,
+                          final SessionManager sessionManager) {
+        this.handShakeDataCache = handShakeDataCache;
         this.dcService = dcService;
+        this.sessionManager = sessionManager;
     }
 
     public MTProtoApi.ResPQ reqPqMulti(MTProtoApi.ReqPqMulti reqPqMulti) {
@@ -210,23 +206,13 @@ public class MTProtoService {
         BinaryReader br = new BinaryReader(hash);
         BigInteger auxHash = br.readLargeInt(64, false);
         br.read(4);
-//        BigInteger authKeyId = br.readLargeInt(64, false);
         long authKeyId = br.readInt64();
 
         byte[] n = new byte[]{1};
         dhGenOk.new_nonce_hash1 = Arrays.copyOfRange(
                 Helpers.SHA1(newNonce, n, Helpers.toSignedLittleBuffer(auxHash, 8)), 4, 20
         );
-
-        String authKeyIdKey = String.valueOf(authKeyId);
-        sessionManager.setSessionInfo(authKeyIdKey, "authKey", gab.toString());
-        sessionManager.setSessionInfo(authKeyIdKey, "channelId", channel.id().asLongText());
-        sessionManager.setSessionInfo(authKeyIdKey, "isLogin", Boolean.FALSE);
-        sessionManager.setSessionInfo(authKeyIdKey, "readyLogin", Boolean.FALSE);
-
-        stringRedisTemplate
-                .opsForValue()
-                .set(KeyPrefix.CHANNEL_ID_AUTH_KEY_ID + channel.id().asLongText(), authKeyIdKey);
+        sessionManager.setAuthKey(String.valueOf(authKeyId), gab.toString(), true);
 
         return dhGenOk;
     }

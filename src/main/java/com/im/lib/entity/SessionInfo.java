@@ -22,7 +22,7 @@ public class SessionInfo {
 
     public static final String SERVER_SALT = "serverSalt";
 
-    public static final String SALT_EXPIRE = "expire";
+    public static final String SERVER_SALT_EXPIRE = "expire";
 
     public static final String IS_LOGIN = "isLogin";
 
@@ -30,7 +30,7 @@ public class SessionInfo {
 
     public static final String CHANNEL_ID = "channelId";
 
-    private BigInteger authKey;// gab
+    private BigInteger authKey; // gab
 
     private long sessionId;
 

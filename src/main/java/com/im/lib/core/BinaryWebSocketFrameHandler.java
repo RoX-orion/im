@@ -4,7 +4,10 @@ import com.im.lib.net.ChannelManager;
 import com.im.lib.net.MTProto;
 import com.im.redis.SessionManager;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,8 +77,9 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     public void channelInactive(ChannelHandlerContext ctx) {
         String address = ctx.channel().remoteAddress().toString();
         log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 下线 ");
-        ChannelId id = ctx.channel().id();
-        sessionManager.removeTempSessionInfo(id.asLongText());
+        String channelId = ctx.channel().id().asLongText();
+        sessionManager.removeSessionInfo(channelId);
+        sessionManager.destroySessionInfo(channelId);
     }
 
     /**

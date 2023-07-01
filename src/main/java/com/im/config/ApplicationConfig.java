@@ -1,7 +1,9 @@
 package com.im.config;
 
 import com.im.lib.crypto.RSA;
-import com.im.redis.KeyPrefix;
+import com.im.lib.net.ChannelManager;
+import com.im.redis.SessionManager;
+import io.netty.channel.group.ChannelGroup;
 import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Resource;
 import org.springframework.boot.ApplicationArguments;
@@ -9,7 +11,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
@@ -19,10 +20,17 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class ApplicationConfig implements ApplicationRunner {
 
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
-
-    @Resource
     private RedisTemplate<String, Object> redisTemplate;
+
+    private final ChannelManager channelManager;
+
+    private final SessionManager sessionManager;
+
+    public ApplicationConfig(final ChannelManager channelManager,
+                             final SessionManager sessionManager) {
+        this.channelManager = channelManager;
+        this.sessionManager = sessionManager;
+    }
 
     @Bean
     public Executor asyncServiceExecutor() {
@@ -44,7 +52,7 @@ public class ApplicationConfig implements ApplicationRunner {
         RSA.computeRSAInfo();
 //        removeAllConnection();
 
-        deleteAllSession();
+//        deleteAllSession();
 
         // set all users state
 //        List<User> users = userMapper.selectList(null);
@@ -57,30 +65,12 @@ public class ApplicationConfig implements ApplicationRunner {
     }
 
     private void deleteAllSession() {
-        redisTemplate.delete(KeyPrefix.SESSION + "*");
-        stringRedisTemplate.delete(KeyPrefix.CHANNEL_ID_AUTH_KEY_ID + "*");
+        redisTemplate.delete(SessionManager.SESSION + "*");
     }
 
     @PreDestroy
     public void destroyAllConnection() {
-        removeAllConnection();
-    }
-
-    public void removeAllConnection() {
-
-//        Set<String> channelIdUid = stringRedisTemplate.keys(Constant.CHANNEL_ID_UID + "*");
-//        if (channelIdUid != null) {
-//            stringRedisTemplate.delete(channelIdUid);
-//        }
-//
-//        Set<String> uidChannelIds = stringRedisTemplate.keys(Constant.UID_CHANNEL_ID + "*");
-//        if (uidChannelIds != null) {
-//            stringRedisTemplate.delete(uidChannelIds);
-//        }
-//
-//        Set<String> userState = stringRedisTemplate.keys(Constant.USER + "*");
-//        if (userState != null) {
-//            stringRedisTemplate.delete(userState);
-//        }
+        ChannelGroup channelGroup = channelManager.getChannelGroup();
+        channelGroup.forEach((e -> sessionManager.destroySessionInfo(e.id().asLongText())));
     }
 }
