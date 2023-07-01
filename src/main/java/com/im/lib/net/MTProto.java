@@ -82,7 +82,7 @@ public class MTProto {
                 System.out.println("解密后的数据:" + payload.length + Arrays.toString(payload));
                 BinaryReader br = new BinaryReader(payload);
                 mtprotoStateService.readEncryptedDataHeader(br, requestData);
-                storeSession(requestData, channel.id().asLongText());
+                storeSession(requestData, channel);
                 MTProtoApi.Bad_server_salt badServerSalt = checkHeader(requestData);
                 if (badServerSalt != null) {
                     sendData(RpcResult.ok(authKeyId, badServerSalt, requestData.sessionId, requestData.msgId), channel);
@@ -234,9 +234,10 @@ public class MTProto {
         }
     }
 
-    private void storeSession(RequestData requestData, String channelId) {
+    private void storeSession(RequestData requestData, Channel channel) {
         String key = String.valueOf(requestData.sessionId);
         if (!sessionManager.hasSession(key)) {
+            String channelId = channel.id().asLongText();
             sessionManager.setSessionId(channelId, requestData.sessionId);
             sessionManager.setSessionInfo(key, SessionInfo.SERVER_SALT_EXPIRE, TimeUtil.getTimestampOfAfterHalfAnHour());
             sessionManager.setSessionInfo(key, SessionInfo.CHANNEL_ID, channelId);
@@ -244,6 +245,14 @@ public class MTProto {
             sessionManager.setSessionInfo(key, SessionInfo.READY_LOGIN, Boolean.FALSE);
             sessionManager.setSessionInfo(key, SessionInfo.AUTH_KEY, sessionManager.getAuthKey(String.valueOf(requestData.authKeyId)));
             sessionManager.setSessionInfo(key, SessionInfo.SERVER_SALT, String.valueOf(requestData.serverSalt));
+
+            MTProtoApi.New_session_create newSessionCreate = new MTProtoApi.New_session_create();
+            newSessionCreate.first_msg_id = requestData.msgId;
+            newSessionCreate.unique_id = Helpers.getRandomInt64();
+            newSessionCreate.server_salt = requestData.serverSalt;
+
+            RpcResult rpcResult = RpcResult.ok(requestData.authKeyId, newSessionCreate, requestData.sessionId, requestData.msgId);
+            sendData(rpcResult, channel);
         }
 
 //        sessionManager.setSessionInfo(key, "authKey", gab.toString());

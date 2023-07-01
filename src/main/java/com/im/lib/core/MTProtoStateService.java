@@ -13,20 +13,15 @@ import com.im.lib.net.ErrorInfo;
 import com.im.redis.SessionManager;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.math.BigInteger;
 import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
 @Component
 public class MTProtoStateService {
-
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
 
     @Resource
     private SessionManager sessionManager;
@@ -34,10 +29,6 @@ public class MTProtoStateService {
     private final boolean isCall = false;
 
     private final boolean isOutgoing = false;
-
-    private final BigInteger THREE = new BigInteger("3");
-
-    private final BigInteger ONE = BigInteger.ONE;
 
     /**
      *
@@ -111,8 +102,7 @@ public class MTProtoStateService {
     }
 
     public long getNewServerSalt() {
-        ThreadLocalRandom current = ThreadLocalRandom.current();
-        return current.nextLong();
+        return Helpers.getRandomInt64();
     }
 
     public void readEncryptedDataHeader(BinaryReader br, RequestData requestData) {

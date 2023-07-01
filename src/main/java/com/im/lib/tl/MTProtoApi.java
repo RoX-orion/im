@@ -319,6 +319,22 @@ public class MTProtoApi {
         }
     }
 
+    public static class New_session_create extends TLObject {
+        public static int constructor = 0x9ec20908;
+
+        public long first_msg_id;
+        public long unique_id;
+        public long server_salt;
+
+        @Override
+        public void serializeToStream(AbstractSerializedData stream) {
+            stream.writeInt32(constructor);
+            stream.writeInt64(first_msg_id);
+            stream.writeInt64(unique_id);
+            stream.writeInt64(server_salt);
+        }
+    }
+
     public static class Ping_delay_disconnect extends TLObject {
         public static int constructor = 0xf3427b8c;
 

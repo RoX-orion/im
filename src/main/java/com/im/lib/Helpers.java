@@ -14,6 +14,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Helpers {
 
@@ -428,6 +429,10 @@ public class Helpers {
         return bytes;
     }
 
+    public static long getRandomInt64() {
+        ThreadLocalRandom current = ThreadLocalRandom.current();
+        return current.nextLong();
+    }
 //    public static String writeValueAsStringWithoutException(Object value) {
 //        mapper.writeValueAsString(value);
 //    }
