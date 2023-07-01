@@ -11,6 +11,7 @@ import com.im.lib.exception.TLException;
 import com.im.lib.exception.UnauthorizedException;
 import com.im.lib.tl.MTProtoApi;
 import com.im.lib.tl.TLClassStore;
+import com.im.lib.tl.TLHelpers;
 import com.im.lib.tl.TLObject;
 import com.im.redis.SessionManager;
 import com.im.utils.TimeUtil;
@@ -34,16 +35,19 @@ public class MTProto {
     private final TcpAbridged tcpAbridged;
     private final SessionManager sessionManager;
     private final DispatcherWebsocket dispatcherWebsocket;
+    private final ResultHandler resultHandler;
 
     @Autowired
     public MTProto(final MTProtoStateService mtprotoStateService,
                    final TcpAbridged tcpAbridged,
                    final SessionManager sessionManager,
-                   final DispatcherWebsocket dispatcherWebsocket) {
+                   final DispatcherWebsocket dispatcherWebsocket,
+                   ResultHandler resultHandler) {
         this.mtprotoStateService = mtprotoStateService;
         this.tcpAbridged = tcpAbridged;
         this.sessionManager = sessionManager;
         this.dispatcherWebsocket = dispatcherWebsocket;
+        this.resultHandler = resultHandler;
     }
 
     public void processRequest(ByteBuf byteBuf, Channel channel) {
@@ -77,7 +81,7 @@ public class MTProto {
                 storeSession(requestData);
                 MTProtoApi.Bad_server_salt badServerSalt = checkHeader(requestData);
                 if (badServerSalt != null) {
-                    sendData(RpcResult.ok(authKeyId, badServerSalt, requestData.sessionId), channel);
+                    sendData(RpcResult.ok(authKeyId, badServerSalt, requestData.sessionId, requestData.msgId), channel);
                     return;
                 }
                 int dataLength = br.readInt32();
@@ -100,7 +104,7 @@ public class MTProto {
             rpcResult = dispatcherWebsocket.dispatcherRequest(requestData, channel);
             this.sendData(rpcResult, channel);
         } catch (Exception exception) {
-            rpcResult = RpcResult.ok(requestData.authKeyId, null, requestData.sessionId);
+            rpcResult = RpcResult.ok(requestData.authKeyId, null, requestData.sessionId, requestData.msgId);
             errorHandling(exception, rpcResult, channel);
         }
     }
@@ -108,7 +112,7 @@ public class MTProto {
     private MTProtoApi.Bad_server_salt checkHeader(RequestData requestData) {
         if (requestData.serverSalt == 0) {
             MTProtoApi.Bad_server_salt badServerSalt = new MTProtoApi.Bad_server_salt();
-            badServerSalt.bad_msg_id = requestData.serverSalt;
+            badServerSalt.bad_msg_id = requestData.msgId;
             badServerSalt.bad_msg_seqno = requestData.seqNo;
             badServerSalt.error_code = ErrorInfo.BAD_SERVER_SALT.code;
             badServerSalt.new_server_salt = mtprotoStateService.getNewServerSalt();
@@ -199,17 +203,25 @@ public class MTProto {
             throw new ResponseException("response can't be null");
         }
         log.info("返回的RpcResult:{}", rpcResult);
-        SerializedData stream = new SerializedData();
-        rpcResult.getResponse().serializeToStream(stream);
-
-        byte[] randomBytes = Helpers.getRandomBytes(16 - Helpers.mod(stream.length(), 16));
-        stream.writeBytes(randomBytes);
-        byte[] byteArray = stream.toByteArray();
-        log.info("返回对象的字节数组：{}{}", byteArray.length, Arrays.toString(byteArray));
         try {
             if (isEncryptedData(rpcResult.getAuthKeyId())) { // Encrypted data
+                SerializedData stream = new SerializedData();
+                if (!TLHelpers.handlerSet.contains(rpcResult.getTlObject().getClass())) {
+                    byte[] bytes = resultHandler.rpcResultHandling(rpcResult.getMsgId(), rpcResult.getTlObject());
+                    System.out.println("RPCResult Bytes: " + Arrays.toString(bytes));
+                    stream.writeBytes(bytes);
+                } else {
+                    rpcResult.getTlObject().serializeToStream(stream);
+                }
+
+                byte[] randomBytes = Helpers.getRandomBytes(16 - Helpers.mod(stream.length(), 16));
+                stream.writeBytes(randomBytes);
+                byte[] byteArray = stream.toByteArray();
+                log.info("返回对象的字节数组：{}{}", byteArray.length, Arrays.toString(byteArray));
                 this.mtprotoSender(byteArray, channel, rpcResult.getAuthKeyId(), rpcResult.getSessionId());
             } else { // Unencrypted data
+                TLObject tlObject = rpcResult.getTlObject();
+                byte[] byteArray = TLHelpers.getBytes(tlObject);
                 this.mtprotoPlainSender(byteArray, channel);
             }
         } catch (Exception e) {
@@ -230,7 +242,7 @@ public class MTProto {
     public void errorHandling(Exception exception, RpcResult rpcResult, Channel channel) {
         MTProtoApi.Rpc_error rpcError = new MTProtoApi.Rpc_error();
         if (exception instanceof UnauthorizedException) {
-            mtprotoSender(new byte[]{108, -2, -1, -1}, channel);
+            mtprotoSender(new byte[]{108, -2, -1, -1}, channel); // -404
             return;
         } else if (exception instanceof BadRequestException) {
 
@@ -238,7 +250,7 @@ public class MTProto {
             exception.printStackTrace();
         }
 
-        rpcResult.setResponse(rpcError);
+        rpcResult.setTlObject(rpcError);
 //        sendData(rpcResult, channel);
     }
 }

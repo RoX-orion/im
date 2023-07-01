@@ -291,6 +291,20 @@ public class MTProtoApi {
         }
     }
 
+    public static class Rpc_result extends TLObject {
+        public static int constructor = 0xf35c6d01;
+
+        public long req_msg_id;
+        public byte[] result;
+
+        @Override
+        public void serializeToStream(AbstractSerializedData stream) {
+            stream.writeInt32(constructor);
+            stream.writeInt64(req_msg_id);
+            stream.writeBytes(result);
+        }
+    }
+
     public static class Rpc_error extends TLObject {
         public static int constructor = 0x2144ca19;
 

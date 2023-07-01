@@ -1,11 +1,14 @@
 package com.im;
 
 import com.im.lib.tl.TLRPC;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -91,5 +94,26 @@ public class TestTLRPC {
     @Test
     public void constructorId() {
         System.out.println(0xf2f2330aL);
+        System.out.println(Long.toHexString(4082920705L));
     }
+
+    @Test
+    public void config() {
+        System.out.println(Long.toHexString(3542493770L));
+    }
+
+    @Test
+    public void rpcResult() {
+//        0xf35c6d01
+        ByteBuf buffer = Unpooled.directBuffer(4);
+        // constructor = 0xcc1a241e   0xa00e67d6
+        buffer.writeIntLE(0xcc1a241e);
+        byte[] bytes = new byte[4];
+        buffer.readBytes(bytes);
+        System.out.println(Arrays.toString(bytes));
+//        ByteBuffer.allocate(4).putInt(0xf35c6d01);
+    }
+    /**
+     * [1, 109, 92, -13, 72, 97, -2, -51, -79, 14, -97, 100, -44, 30, 36, 26, -52, 72, 14, 0, 0, -50, 102, 81, 13, -79, 61, -84, 100, 55, -105, 121, -68, 2, 0, 0, 0, 21, -60, -75, 28, 1, 0, 0, 0, 13, -95, -73, 24, 0, 0, 0, 0, 1, 0, 0, 0, 9, 49, 50, 55, 46, 48, 46, 48, 46, 49, 0, 0, 57, 48, 0, 0, 13, 97, 112, 118, 51, 46, 115, 116, 101, 108, 46, 99, 111, 109, 0, 0, -56, 0, 0, 0, 64, 13, 3, 0, 100, 0, 0, 0, 80, 52, 3, 0, -120, 19, 0, 0, 48, 117, 0, 0, -32, -109, 4, 0, 48, 117, 0, 0, -36, 5, 0, 0, 96, -22, 0, 0, 2, 0, 0, 0, 0, -93, 2, 0, -1, -1, -1, 127, -1, -1, -1, 127, 0, -22, 36, 0, -56, 0, 0, 0, -128, 58, 9, 0, 32, 78, 0, 0, -112, 95, 1, 0, 48, 117, 0, 0, 16, 39, 0, 0, 13, 104, 116, 116, 112, 115, 58, 47, 47, 116, 46, 109, 101, 47, 0, 0, 3, 103, 105, 102, 10, 102, 111, 117, 114, 115, 113, 117, 97, 114, 101, 0, 4, 98, 105, 110, 103, 0, 0, 0, 0, 4, 0, 0, 0, 16, 0, 0, 4, 0, 0, 0, 0, 0, 0]
+     */
 }

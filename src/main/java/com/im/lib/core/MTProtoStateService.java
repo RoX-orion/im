@@ -104,11 +104,11 @@ public class MTProtoStateService {
     }
 
     public BigInteger getNewMsgId(boolean isClientResponse) {
-        long now = System.currentTimeMillis() / 1000;
+        double now = System.currentTimeMillis() / 1000.0;
         long nanoseconds = (long) Math.floor((now - Math.floor(now)) * 1e9);
-        BigInteger newMsgId = (new BigInteger(String.valueOf((long) Math.floor(now))).shiftLeft(32))
-                .or(new BigInteger(String.valueOf(nanoseconds)).shiftLeft(2));
-        return isClientResponse ? newMsgId.add(ONE) : newMsgId.add(THREE);
+        long newMsgId = ((long) Math.floor(now) << 32) | (nanoseconds << 2);
+        long msgId = isClientResponse ? newMsgId + 1 : newMsgId + 3;
+        return BigInteger.valueOf(msgId);
     }
 
     public long getNewServerSalt() {

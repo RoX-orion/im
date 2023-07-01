@@ -47,6 +47,11 @@ public class TLHelpers {
     public static final String suffix = "Suffix";
     private static int[] crcTable;
 
+    public static final HashSet<Class<?>> handlerSet = new HashSet<>(Arrays.asList(
+            MTProtoApi.Pong.class, MTProtoApi.Bad_server_salt.class
+    ));
+
+
     public static long hexToLong(String hexString) {
         long result = 0;
         char c;
@@ -108,4 +113,5 @@ public class TLHelpers {
         tlObject.serializeToStream(stream);
         return stream.toByteArray();
     }
+
 }

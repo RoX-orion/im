@@ -97,7 +97,7 @@ public class DispatcherWebsocket implements ApplicationContextAware {
         }
 
         long authKeyId = requestData.authKeyId;
-        return RpcResult.ok(authKeyId, response, requestData.sessionId);
+        return RpcResult.ok(authKeyId, response, requestData.sessionId, requestData.msgId);
     }
 
     public static <T> T get(Class<T> clz,Object o){
