@@ -23,12 +23,15 @@ public class BindParam {
                 continue;
             }
             WebsocketRequestParam websocketRequestParam = parameters[i].getDeclaredAnnotation(WebsocketRequestParam.class);
-            if (websocketRequestParam != null
-                    && "msgId".equals(websocketRequestParam.value())) {
+            if (websocketRequestParam != null && "msgId".equals(websocketRequestParam.value())) {
                 methodParams[i] = requestData.msgId;
-                continue;
+            } else if (websocketRequestParam != null && "authKeyId".equals(websocketRequestParam.value())) {
+                methodParams[i] = requestData.authKeyId;
+            } else if (websocketRequestParam != null && "sessionId".equals(websocketRequestParam.value())) {
+                methodParams[i] = requestData.sessionId;
+            } else {
+                methodParams[i] = castObject(type, param);
             }
-            methodParams[i] = castObject(type, param);
         }
         return methodParams;
     }

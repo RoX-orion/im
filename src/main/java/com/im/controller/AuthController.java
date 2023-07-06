@@ -4,13 +4,25 @@ import com.im.api.Api;
 import com.im.api.AuthApi;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
+import com.im.lib.annotation.WebsocketRequestParam;
+import com.im.lib.tl.TLRPC;
+import com.im.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @WebsocketHandler
 public class AuthController {
 
+	private final AuthService authService;
+
+	@Autowired
+	public AuthController(final AuthService authService) {
+		this.authService = authService;
+	}
+
 	@WebsocketHandlerMapping(value = 0xa677244f, name = "SendCode")
-	public AuthApi.SentCode sendCode(AuthApi.SendCode sendCode) {
-		return null;
+	public TLRPC.TL_auth_sentCode sendCode(TLRPC.TL_auth_sendCode sendCode,
+	                                       @WebsocketRequestParam("authKeyId") long authKeyId) {
+		return authService.sendCode(sendCode, authKeyId);
 	}
 
 	@WebsocketHandlerMapping(value = 0x80eee427, name = "SignUp")
@@ -84,8 +96,8 @@ public class AuthController {
 	}
 
 	@WebsocketHandlerMapping(value = 0xb7e085fe, name = "ExportLoginToken")
-	public AuthApi.LoginToken exportLoginToken(AuthApi.ExportLoginToken exportLoginToken) {
-		return null;
+	public TLRPC.TL_auth_loginToken exportLoginToken(TLRPC.TL_auth_exportLoginToken exportLoginToken) {
+		return authService.exportLoginToken(exportLoginToken);
 	}
 
 	@WebsocketHandlerMapping(value = 0x95ac5ce4, name = "ImportLoginToken")

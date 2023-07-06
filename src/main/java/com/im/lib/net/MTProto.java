@@ -239,12 +239,13 @@ public class MTProto {
         if (!sessionManager.hasSession(key)) {
             String channelId = channel.id().asLongText();
             sessionManager.setSessionId(channelId, requestData.sessionId);
-            sessionManager.setSessionInfo(key, SessionInfo.SERVER_SALT_EXPIRE, TimeUtil.getTimestampOfAfterHalfAnHour());
+            sessionManager.setSessionInfo(key, SessionInfo.SERVER_SALT_EXPIRE, TimeUtil.getFeatureTimestamp(1800000)); // 30 min
             sessionManager.setSessionInfo(key, SessionInfo.CHANNEL_ID, channelId);
             sessionManager.setSessionInfo(key, SessionInfo.IS_LOGIN, Boolean.FALSE);
             sessionManager.setSessionInfo(key, SessionInfo.READY_LOGIN, Boolean.FALSE);
             sessionManager.setSessionInfo(key, SessionInfo.AUTH_KEY, sessionManager.getAuthKey(String.valueOf(requestData.authKeyId)));
             sessionManager.setSessionInfo(key, SessionInfo.SERVER_SALT, String.valueOf(requestData.serverSalt));
+            sessionManager.setSessionInfo(key, SessionInfo.SEQ_NO, String.valueOf(requestData.seqNo));
 
             MTProtoApi.New_session_create newSessionCreate = new MTProtoApi.New_session_create();
             newSessionCreate.first_msg_id = requestData.msgId;
@@ -254,9 +255,8 @@ public class MTProto {
             RpcResult rpcResult = RpcResult.ok(requestData.authKeyId, newSessionCreate, requestData.sessionId, requestData.msgId);
             sendData(rpcResult, channel);
         }
-
-//        sessionManager.setSessionInfo(key, "authKey", gab.toString());
         sessionManager.setSessionInfo(key, SessionInfo.SEQ_NO, String.valueOf(requestData.seqNo));
+//        sessionManager.setSessionInfo(key, "authKey", gab.toString());
     }
 
     public void errorHandling(Exception exception, RpcResult rpcResult, Channel channel) {
