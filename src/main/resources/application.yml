@@ -82,6 +82,12 @@ spring:
           max-idle: 8     #连接池最大空闲连接
           min-idle: 0     #连接池最小空闲连接
         shutdown-timeout: 100   #关闭超时时间
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    producer:
+      acks: all
+    consumer:
+      enable-auto-commit: true
   servlet:
     multipart:
       #单个文件最大值
