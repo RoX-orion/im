@@ -4,9 +4,19 @@ import com.im.api.Api;
 import com.im.api.HelpApi;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
+import com.im.lib.tl.TLRPC;
+import com.im.service.HelpService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @WebsocketHandler
 public class HelpController {
+
+	private final HelpService helpService;
+
+	@Autowired
+	public HelpController(final HelpService helpService) {
+		this.helpService = helpService;
+	}
 
 	@WebsocketHandlerMapping(value = 0xc4f9186b, name = "GetConfig")
 	public Api.Config getConfig(HelpApi.GetConfig getConfig) {
@@ -14,8 +24,8 @@ public class HelpController {
 	}
 
 	@WebsocketHandlerMapping(value = 0x1fb33026, name = "GetNearestDc")
-	public Api.NearestDc getNearestDc(HelpApi.GetNearestDc getNearestDc) {
-		return null;
+	public TLRPC.TL_nearestDc getNearestDc() {
+		return helpService.getNearestDc();
 	}
 
 	@WebsocketHandlerMapping(value = 0x522d5a7d, name = "GetAppUpdate")
@@ -114,8 +124,8 @@ public class HelpController {
 	}
 
 	@WebsocketHandlerMapping(value = 0x735787a8, name = "GetCountriesList")
-	public HelpApi.CountriesList getCountriesList(HelpApi.GetCountriesList getCountriesList) {
-		return null;
+	public TLRPC.help_CountriesList getCountriesList(TLRPC.TL_help_getCountriesList getCountriesList) {
+		return helpService.getCountriesList(getCountriesList);
 	}
 
 	@WebsocketHandlerMapping(value = 0xb81b93d4, name = "GetPremiumPromo")

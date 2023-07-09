@@ -16,7 +16,7 @@ public class RequestData {
 
     public int seqNo;
 
-    public byte[] data;
+    public String channelId;
 
     public TLObject tlObject;
 }

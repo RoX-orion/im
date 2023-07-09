@@ -433,6 +433,17 @@ public class Helpers {
         ThreadLocalRandom current = ThreadLocalRandom.current();
         return current.nextLong();
     }
+
+    public static long getHash(List<Long> ids) {
+        long hash = 0;
+        for (long id : ids) {
+            hash = hash ^ (id >> 21);
+            hash = hash ^ (id << 35);
+            hash = hash ^ (id >> 4);
+            hash = hash + id;
+        }
+        return hash;
+    }
 //    public static String writeValueAsStringWithoutException(Object value) {
 //        mapper.writeValueAsString(value);
 //    }
