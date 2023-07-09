@@ -34,8 +34,8 @@ public class TcpAbridged {
 
     public int readLengthLE(byte[] bytes) {
         int sum = 0;
-        for (int i = 0; i < 4; i++) {
-            sum |= (bytes[i] << (i * 8));
+        for (int i = 0; i < 3; i++) {
+            sum |= ((bytes[i] & 0xff) << (i * 8));
         }
         return sum;
     }
