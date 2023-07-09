@@ -1,6 +1,6 @@
 package com.im.service;
 
-import com.im.api.AccountApi;
+import com.im.lib.tl.TLRPC;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,9 +12,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AccountService {
-    public Boolean updateStatus(AccountApi.UpdateStatus updateStatus) {
+    public TLRPC.Bool updateStatus(TLRPC.TL_account_updateStatus updateStatus) {
         System.out.println(updateStatus);
-
-        return Boolean.TRUE;
+        return new TLRPC.TL_boolFalse();
     }
 }

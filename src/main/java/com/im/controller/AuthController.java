@@ -31,8 +31,8 @@ public class AuthController {
 	}
 
 	@WebsocketHandlerMapping(value = 0x8d52a951, name = "SignIn")
-	public Api.Authorization signIn(AuthApi.SignIn signIn) {
-		return null;
+	public TLRPC.auth_Authorization signIn(TLRPC.TL_auth_signIn signIn) {
+		return authService.signIn(signIn);
 	}
 
 	@WebsocketHandlerMapping(value = 0x3e72ba19, name = "LogOut")

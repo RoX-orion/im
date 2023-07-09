@@ -756,8 +756,13 @@ public class TLRPC {
         public boolean popup;
         public TL_dataJSON id;
         public String text;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
-        public int min_age_confirm;
+        public List<MessageEntity> entities = new ArrayList<>();
+        private int min_age_confirm;
+
+        public void setMin_age_confirm(int min_age_confirm) {
+            flags |= FLAG_1;
+            this.min_age_confirm = min_age_confirm;
+        }
 
         public static TL_help_termsOfService TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_help_termsOfService.constructor != constructor) {
@@ -2504,13 +2509,11 @@ public class TLRPC {
         public static int constructor = 0x44747e9a;
 
         public int flags;
-        public TL_help_termsOfService terms_of_service;
+        private TL_help_termsOfService terms_of_service;
 
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            if ((flags & 1) != 0) {
-                terms_of_service = TL_help_termsOfService.TLdeserialize(stream, stream.readInt32());
-            }
+        public void setTerms_of_service(TL_help_termsOfService terms_of_service) {
+            flags |= 1;
+            this.terms_of_service = terms_of_service;
         }
 
         public void serializeToStream(AbstractSerializedData stream) {
@@ -2523,24 +2526,28 @@ public class TLRPC {
     }
 
     public static class TL_auth_authorization extends auth_Authorization {
-        public static int constructor = 0x33fb7bb8;
+        public static int constructor = 0x2ea2c0d4;
 
         public int flags;
         public boolean setup_password_required;
-        public int otherwise_relogin_days;
-        public int tmp_sessions;
+        private int otherwise_relogin_days;
+        private int tmp_sessions;
+        private byte[] future_auth_token;
         public User user;
 
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            setup_password_required = (flags & 2) != 0;
-            if ((flags & 2) != 0) {
-                otherwise_relogin_days = stream.readInt32();
-            }
-            if ((flags & 1) != 0) {
-                tmp_sessions = stream.readInt32();
-            }
-            user = User.TLdeserialize(stream, stream.readInt32());
+        public void setOtherwise_relogin_days(int otherwise_relogin_days) {
+            flags |= FLAG_1;
+            this.otherwise_relogin_days = otherwise_relogin_days;
+        }
+
+        public void setTmp_sessions(int tmp_sessions) {
+            flags |= 1;
+            this.tmp_sessions = tmp_sessions;
+        }
+
+        public void setFuture_auth_token(byte[] future_auth_token) {
+            flags |= FLAG_2;
+            this.future_auth_token = future_auth_token;
         }
 
         public void serializeToStream(AbstractSerializedData stream) {
@@ -2552,6 +2559,9 @@ public class TLRPC {
             }
             if ((flags & 1) != 0) {
                 stream.writeInt32(tmp_sessions);
+            }
+            if ((flags & 4) != 0) {
+                stream.writeByteArray(future_auth_token);
             }
             user.serializeToStream(stream);
         }
@@ -2566,7 +2576,6 @@ public class TLRPC {
         public static TL_pollAnswer TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_pollAnswer.constructor != constructor) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_pollAnswer", constructor));
-
             }
             TL_pollAnswer result = new TL_pollAnswer();
             result.readParams(stream);
@@ -20477,35 +20486,26 @@ public class TLRPC {
         public String lang_code;
         public boolean inactive;
         public boolean explicit_content;
-        public ArrayList<TL_restrictionReason> restriction_reason = new ArrayList<>();
+        public List<TL_restrictionReason> restriction_reason = new ArrayList<>();
         public boolean bot_attach_menu;
         public boolean bot_menu_webview;
         public boolean attach_menu_enabled;
         public EmojiStatus emoji_status;
-        public ArrayList<TL_username> usernames = new ArrayList<>();
+        public List<TL_username> usernames = new ArrayList<>();
 
         public static User TLdeserialize(AbstractSerializedData stream, int constructor) {
             User result = switch (constructor) {
                 case 0xcab35e18 -> new TL_userContact_old2();
-                case 0xf2fb8319 -> new TL_userContact_old();
                 case 0xd3bc4b7a -> new TL_userEmpty();
                 case 0x8f97c628 -> new TL_user();
-                case 0x5d99adee -> new TL_user_layer147();
-                case 0x3ff6ecb0 -> new TL_user_layer144();
-                case 0x938458c1 -> new TL_user_layer131();
-                case 0x2e13f4c3 -> new TL_user_layer104();
                 case 0x720535ec -> new TL_userSelf_old();
                 case 0x1c60e608 -> new TL_userSelf_old3();
                 case 0xd6016d7a -> new TL_userDeleted_old2();
-                case 0x200250ba -> new TL_userEmpty_layer131();
                 case 0x22e8ceb0 -> new TL_userRequest_old();
                 case 0x5214c89d -> new TL_userForeign_old();
                 case 0x75cf7a8 -> new TL_userForeign_old2();
                 case 0xd9ccc4ef -> new TL_userRequest_old2();
                 case 0xb29ad7cc -> new TL_userDeleted_old();
-                case 0xd10d979a -> new TL_user_layer65();
-                case 0x22e49072 -> new TL_user_old();
-                case 0x7007b451 -> new TL_userSelf_old2();
                 default -> null;
             };
             if (result == null) {
@@ -20518,7 +20518,6 @@ public class TLRPC {
 
     public static class TL_userContact_old2 extends User {
         public static int constructor = 0xcab35e18;
-
 
         public void readParams(AbstractSerializedData stream) {
             id = stream.readInt32();
@@ -20544,35 +20543,9 @@ public class TLRPC {
         }
     }
 
-    public static class TL_userContact_old extends TL_userContact_old2 {
-        public static int constructor = 0xf2fb8319;
-
-
-        public void readParams(AbstractSerializedData stream) {
-            id = stream.readInt32();
-            first_name = stream.readString();
-            last_name = stream.readString();
-            access_hash = stream.readInt64();
-            phone = stream.readString();
-            photo = UserProfilePhoto.TLdeserialize(stream, stream.readInt32());
-            status = UserStatus.TLdeserialize(stream, stream.readInt32());
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            stream.writeInt32((int) id);
-            stream.writeString(first_name);
-            stream.writeString(last_name);
-            stream.writeInt64(access_hash);
-            stream.writeString(phone);
-            photo.serializeToStream(stream);
-            status.serializeToStream(stream);
-        }
-    }
 
     public static class TL_userEmpty extends User {
         public static int constructor = 0xd3bc4b7a;
-
 
         public void readParams(AbstractSerializedData stream) {
             id = stream.readInt64();
@@ -20744,506 +20717,8 @@ public class TLRPC {
         }
     }
 
-    public static class TL_user_layer147 extends User {
-        public static int constructor = 0x5d99adee;
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            self = (flags & 1024) != 0;
-            contact = (flags & 2048) != 0;
-            mutual_contact = (flags & 4096) != 0;
-            deleted = (flags & 8192) != 0;
-            bot = (flags & 16384) != 0;
-            bot_chat_history = (flags & 32768) != 0;
-            bot_nochats = (flags & 65536) != 0;
-            verified = (flags & 131072) != 0;
-            restricted = (flags & 262144) != 0;
-            min = (flags & 1048576) != 0;
-            bot_inline_geo = (flags & 2097152) != 0;
-            support = (flags & 8388608) != 0;
-            scam = (flags & 16777216) != 0;
-            apply_min_photo = (flags & 33554432) != 0;
-            fake = (flags & 67108864) != 0;
-            bot_attach_menu = (flags & 134217728) != 0;
-            premium = (flags & 268435456) != 0;
-            attach_menu_enabled = (flags & 536870912) != 0;
-            id = stream.readInt64();
-            if ((flags & 1) != 0) {
-                access_hash = stream.readInt64();
-            }
-            if ((flags & 2) != 0) {
-                first_name = stream.readString();
-            }
-            if ((flags & 4) != 0) {
-                last_name = stream.readString();
-            }
-            if ((flags & 8) != 0) {
-                username = stream.readString();
-            }
-            if ((flags & 16) != 0) {
-                phone = stream.readString();
-            }
-            if ((flags & 32) != 0) {
-                photo = UserProfilePhoto.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                status = UserStatus.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 16384) != 0) {
-                bot_info_version = stream.readInt32();
-            }
-            if ((flags & 262144) != 0) {
-                int magic = stream.readInt32();
-                if (magic != 0x1cb5c415) {
-                    throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-                }
-                int count = stream.readInt32();
-                for (int a = 0; a < count; a++) {
-                    TL_restrictionReason object = TL_restrictionReason.TLdeserialize(stream, stream.readInt32());
-                    restriction_reason.add(object);
-                }
-            }
-            if ((flags & 524288) != 0) {
-                bot_inline_placeholder = stream.readString();
-            }
-            if ((flags & 4194304) != 0) {
-                lang_code = stream.readString();
-            }
-            if ((flags & 1073741824) != 0) {
-                emoji_status = EmojiStatus.TLdeserialize(stream, stream.readInt32());
-            }
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = self ? (flags | 1024) : (flags &~ 1024);
-            flags = contact ? (flags | 2048) : (flags &~ 2048);
-            flags = mutual_contact ? (flags | 4096) : (flags &~ 4096);
-            flags = deleted ? (flags | 8192) : (flags &~ 8192);
-            flags = bot ? (flags | 16384) : (flags &~ 16384);
-            flags = bot_chat_history ? (flags | 32768) : (flags &~ 32768);
-            flags = bot_nochats ? (flags | 65536) : (flags &~ 65536);
-            flags = verified ? (flags | 131072) : (flags &~ 131072);
-            flags = restricted ? (flags | 262144) : (flags &~ 262144);
-            flags = min ? (flags | 1048576) : (flags &~ 1048576);
-            flags = bot_inline_geo ? (flags | 2097152) : (flags &~ 2097152);
-            flags = support ? (flags | 8388608) : (flags &~ 8388608);
-            flags = scam ? (flags | 16777216) : (flags &~ 16777216);
-            flags = apply_min_photo ? (flags | 33554432) : (flags &~ 33554432);
-            flags = fake ? (flags | 67108864) : (flags &~ 67108864);
-            flags = bot_attach_menu ? (flags | 134217728) : (flags &~ 134217728);
-            flags = premium ? (flags | 268435456) : (flags &~ 268435456);
-            flags = attach_menu_enabled ? (flags | 536870912) : (flags &~ 536870912);
-            stream.writeInt32(flags);
-            stream.writeInt64(id);
-            if ((flags & 1) != 0) {
-                stream.writeInt64(access_hash);
-            }
-            if ((flags & 2) != 0) {
-                stream.writeString(first_name);
-            }
-            if ((flags & 4) != 0) {
-                stream.writeString(last_name);
-            }
-            if ((flags & 8) != 0) {
-                stream.writeString(username);
-            }
-            if ((flags & 16) != 0) {
-                stream.writeString(phone);
-            }
-            if ((flags & 32) != 0) {
-                photo.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                status.serializeToStream(stream);
-            }
-            if ((flags & 16384) != 0) {
-                stream.writeInt32(bot_info_version);
-            }
-            if ((flags & 262144) != 0) {
-                stream.writeInt32(0x1cb5c415);
-                int count = restriction_reason.size();
-                stream.writeInt32(count);
-                for (int a = 0; a < count; a++) {
-                    restriction_reason.get(a).serializeToStream(stream);
-                }
-            }
-            if ((flags & 524288) != 0) {
-                stream.writeString(bot_inline_placeholder);
-            }
-            if ((flags & 4194304) != 0) {
-                stream.writeString(lang_code);
-            }
-            if ((flags & 1073741824) != 0) {
-                emoji_status.serializeToStream(stream);
-            }
-        }
-    }
-
-    public static class TL_user_layer144 extends User {
-        public static int constructor = 0x3ff6ecb0;
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            self = (flags & 1024) != 0;
-            contact = (flags & 2048) != 0;
-            mutual_contact = (flags & 4096) != 0;
-            deleted = (flags & 8192) != 0;
-            bot = (flags & 16384) != 0;
-            bot_chat_history = (flags & 32768) != 0;
-            bot_nochats = (flags & 65536) != 0;
-            verified = (flags & 131072) != 0;
-            restricted = (flags & 262144) != 0;
-            min = (flags & 1048576) != 0;
-            bot_inline_geo = (flags & 2097152) != 0;
-            support = (flags & 8388608) != 0;
-            scam = (flags & 16777216) != 0;
-            apply_min_photo = (flags & 33554432) != 0;
-            fake = (flags & 67108864) != 0;
-            bot_attach_menu = (flags & 134217728) != 0;
-            premium = (flags & 268435456) != 0;
-            id = stream.readInt64();
-            if ((flags & 1) != 0) {
-                access_hash = stream.readInt64();
-            }
-            if ((flags & 2) != 0) {
-                first_name = stream.readString();
-            }
-            if ((flags & 4) != 0) {
-                last_name = stream.readString();
-            }
-            if ((flags & 8) != 0) {
-                username = stream.readString();
-            }
-            if ((flags & 16) != 0) {
-                phone = stream.readString();
-            }
-            if ((flags & 32) != 0) {
-                photo = UserProfilePhoto.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                status = UserStatus.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 16384) != 0) {
-                bot_info_version = stream.readInt32();
-            }
-            if ((flags & 262144) != 0) {
-                int magic = stream.readInt32();
-                if (magic != 0x1cb5c415) {
-                    throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-                }
-                int count = stream.readInt32();
-                for (int a = 0; a < count; a++) {
-                    TL_restrictionReason object = TL_restrictionReason.TLdeserialize(stream, stream.readInt32());
-                    restriction_reason.add(object);
-                }
-            }
-            if ((flags & 524288) != 0) {
-                bot_inline_placeholder = stream.readString();
-            }
-            if ((flags & 4194304) != 0) {
-                lang_code = stream.readString();
-            }
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = self ? (flags | 1024) : (flags &~ 1024);
-            flags = contact ? (flags | 2048) : (flags &~ 2048);
-            flags = mutual_contact ? (flags | 4096) : (flags &~ 4096);
-            flags = deleted ? (flags | 8192) : (flags &~ 8192);
-            flags = bot ? (flags | 16384) : (flags &~ 16384);
-            flags = bot_chat_history ? (flags | 32768) : (flags &~ 32768);
-            flags = bot_nochats ? (flags | 65536) : (flags &~ 65536);
-            flags = verified ? (flags | 131072) : (flags &~ 131072);
-            flags = restricted ? (flags | 262144) : (flags &~ 262144);
-            flags = min ? (flags | 1048576) : (flags &~ 1048576);
-            flags = bot_inline_geo ? (flags | 2097152) : (flags &~ 2097152);
-            flags = support ? (flags | 8388608) : (flags &~ 8388608);
-            flags = scam ? (flags | 16777216) : (flags &~ 16777216);
-            flags = apply_min_photo ? (flags | 33554432) : (flags &~ 33554432);
-            flags = fake ? (flags | 67108864) : (flags &~ 67108864);
-            flags = bot_attach_menu ? (flags | 134217728) : (flags &~ 134217728);
-            flags = premium ? (flags | 268435456) : (flags &~ 268435456);
-            stream.writeInt32(flags);
-            stream.writeInt64(id);
-            if ((flags & 1) != 0) {
-                stream.writeInt64(access_hash);
-            }
-            if ((flags & 2) != 0) {
-                stream.writeString(first_name);
-            }
-            if ((flags & 4) != 0) {
-                stream.writeString(last_name);
-            }
-            if ((flags & 8) != 0) {
-                stream.writeString(username);
-            }
-            if ((flags & 16) != 0) {
-                stream.writeString(phone);
-            }
-            if ((flags & 32) != 0) {
-                photo.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                status.serializeToStream(stream);
-            }
-            if ((flags & 16384) != 0) {
-                stream.writeInt32(bot_info_version);
-            }
-            if ((flags & 262144) != 0) {
-                stream.writeInt32(0x1cb5c415);
-                int count = restriction_reason.size();
-                stream.writeInt32(count);
-                for (int a = 0; a < count; a++) {
-                    restriction_reason.get(a).serializeToStream(stream);
-                }
-            }
-            if ((flags & 524288) != 0) {
-                stream.writeString(bot_inline_placeholder);
-            }
-            if ((flags & 4194304) != 0) {
-                stream.writeString(lang_code);
-            }
-        }
-    }
-
-    public static class TL_user_layer131 extends TL_user {
-        public static int constructor = 0x938458c1;
-
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            self = (flags & 1024) != 0;
-            contact = (flags & 2048) != 0;
-            mutual_contact = (flags & 4096) != 0;
-            deleted = (flags & 8192) != 0;
-            bot = (flags & 16384) != 0;
-            bot_chat_history = (flags & 32768) != 0;
-            bot_nochats = (flags & 65536) != 0;
-            verified = (flags & 131072) != 0;
-            restricted = (flags & 262144) != 0;
-            min = (flags & 1048576) != 0;
-            bot_inline_geo = (flags & 2097152) != 0;
-            support = (flags & 8388608) != 0;
-            scam = (flags & 16777216) != 0;
-            apply_min_photo = (flags & 33554432) != 0;
-            fake = (flags & 67108864) != 0;
-            id = stream.readInt32();
-            if ((flags & 1) != 0) {
-                access_hash = stream.readInt64();
-            }
-            if ((flags & 2) != 0) {
-                first_name = stream.readString();
-            }
-            if ((flags & 4) != 0) {
-                last_name = stream.readString();
-            }
-            if ((flags & 8) != 0) {
-                username = stream.readString();
-            }
-            if ((flags & 16) != 0) {
-                phone = stream.readString();
-            }
-            if ((flags & 32) != 0) {
-                photo = UserProfilePhoto.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                status = UserStatus.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 16384) != 0) {
-                bot_info_version = stream.readInt32();
-            }
-            if ((flags & 262144) != 0) {
-                int magic = stream.readInt32();
-                if (magic != 0x1cb5c415) {
-                    throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-                }
-                int count = stream.readInt32();
-                for (int a = 0; a < count; a++) {
-                    TL_restrictionReason object = TL_restrictionReason.TLdeserialize(stream, stream.readInt32());
-                    restriction_reason.add(object);
-                }
-            }
-            if ((flags & 524288) != 0) {
-                bot_inline_placeholder = stream.readString();
-            }
-            if ((flags & 4194304) != 0) {
-                lang_code = stream.readString();
-            }
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = self ? (flags | 1024) : (flags &~ 1024);
-            flags = contact ? (flags | 2048) : (flags &~ 2048);
-            flags = mutual_contact ? (flags | 4096) : (flags &~ 4096);
-            flags = deleted ? (flags | 8192) : (flags &~ 8192);
-            flags = bot ? (flags | 16384) : (flags &~ 16384);
-            flags = bot_chat_history ? (flags | 32768) : (flags &~ 32768);
-            flags = bot_nochats ? (flags | 65536) : (flags &~ 65536);
-            flags = verified ? (flags | 131072) : (flags &~ 131072);
-            flags = restricted ? (flags | 262144) : (flags &~ 262144);
-            flags = min ? (flags | 1048576) : (flags &~ 1048576);
-            flags = bot_inline_geo ? (flags | 2097152) : (flags &~ 2097152);
-            flags = support ? (flags | 8388608) : (flags &~ 8388608);
-            flags = scam ? (flags | 16777216) : (flags &~ 16777216);
-            flags = apply_min_photo ? (flags | 33554432) : (flags &~ 33554432);
-            flags = fake ? (flags | 67108864) : (flags &~ 67108864);
-            stream.writeInt32(flags);
-            stream.writeInt32((int) id);
-            if ((flags & 1) != 0) {
-                stream.writeInt64(access_hash);
-            }
-            if ((flags & 2) != 0) {
-                stream.writeString(first_name);
-            }
-            if ((flags & 4) != 0) {
-                stream.writeString(last_name);
-            }
-            if ((flags & 8) != 0) {
-                stream.writeString(username);
-            }
-            if ((flags & 16) != 0) {
-                stream.writeString(phone);
-            }
-            if ((flags & 32) != 0) {
-                photo.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                status.serializeToStream(stream);
-            }
-            if ((flags & 16384) != 0) {
-                stream.writeInt32(bot_info_version);
-            }
-            if ((flags & 262144) != 0) {
-                stream.writeInt32(0x1cb5c415);
-                int count = restriction_reason.size();
-                stream.writeInt32(count);
-                for (int a = 0; a < count; a++) {
-                    restriction_reason.get(a).serializeToStream(stream);
-                }
-            }
-            if ((flags & 524288) != 0) {
-                stream.writeString(bot_inline_placeholder);
-            }
-            if ((flags & 4194304) != 0) {
-                stream.writeString(lang_code);
-            }
-        }
-    }
-
-    public static class TL_user_layer104 extends TL_user {
-        public static int constructor = 0x2e13f4c3;
-
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            self = (flags & 1024) != 0;
-            contact = (flags & 2048) != 0;
-            mutual_contact = (flags & 4096) != 0;
-            deleted = (flags & 8192) != 0;
-            bot = (flags & 16384) != 0;
-            bot_chat_history = (flags & 32768) != 0;
-            bot_nochats = (flags & 65536) != 0;
-            verified = (flags & 131072) != 0;
-            restricted = (flags & 262144) != 0;
-            min = (flags & 1048576) != 0;
-            bot_inline_geo = (flags & 2097152) != 0;
-            support = (flags & 8388608) != 0;
-            scam = (flags & 16777216) != 0;
-            id = stream.readInt32();
-            if ((flags & 1) != 0) {
-                access_hash = stream.readInt64();
-            }
-            if ((flags & 2) != 0) {
-                first_name = stream.readString();
-            }
-            if ((flags & 4) != 0) {
-                last_name = stream.readString();
-            }
-            if ((flags & 8) != 0) {
-                username = stream.readString();
-            }
-            if ((flags & 16) != 0) {
-                phone = stream.readString();
-            }
-            if ((flags & 32) != 0) {
-                photo = UserProfilePhoto.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                status = UserStatus.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 16384) != 0) {
-                bot_info_version = stream.readInt32();
-            }
-            if ((flags & 262144) != 0) {
-                stream.readString();
-            }
-            if ((flags & 524288) != 0) {
-                bot_inline_placeholder = stream.readString();
-            }
-            if ((flags & 4194304) != 0) {
-                lang_code = stream.readString();
-            }
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = self ? (flags | 1024) : (flags &~ 1024);
-            flags = contact ? (flags | 2048) : (flags &~ 2048);
-            flags = mutual_contact ? (flags | 4096) : (flags &~ 4096);
-            flags = deleted ? (flags | 8192) : (flags &~ 8192);
-            flags = bot ? (flags | 16384) : (flags &~ 16384);
-            flags = bot_chat_history ? (flags | 32768) : (flags &~ 32768);
-            flags = bot_nochats ? (flags | 65536) : (flags &~ 65536);
-            flags = verified ? (flags | 131072) : (flags &~ 131072);
-            flags = restricted ? (flags | 262144) : (flags &~ 262144);
-            flags = min ? (flags | 1048576) : (flags &~ 1048576);
-            flags = bot_inline_geo ? (flags | 2097152) : (flags &~ 2097152);
-            flags = support ? (flags | 8388608) : (flags &~ 8388608);
-            flags = scam ? (flags | 16777216) : (flags &~ 16777216);
-            stream.writeInt32(flags);
-            stream.writeInt32((int) id);
-            if ((flags & 1) != 0) {
-                stream.writeInt64(access_hash);
-            }
-            if ((flags & 2) != 0) {
-                stream.writeString(first_name);
-            }
-            if ((flags & 4) != 0) {
-                stream.writeString(last_name);
-            }
-            if ((flags & 8) != 0) {
-                stream.writeString(username);
-            }
-            if ((flags & 16) != 0) {
-                stream.writeString(phone);
-            }
-            if ((flags & 32) != 0) {
-                photo.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                status.serializeToStream(stream);
-            }
-            if ((flags & 16384) != 0) {
-                stream.writeInt32(bot_info_version);
-            }
-            if ((flags & 262144) != 0) {
-                stream.writeString("");
-            }
-            if ((flags & 524288) != 0) {
-                stream.writeString(bot_inline_placeholder);
-            }
-            if ((flags & 4194304) != 0) {
-                stream.writeString(lang_code);
-            }
-        }
-    }
-
     public static class TL_userSelf_old extends TL_userSelf_old3 {
         public static int constructor = 0x720535ec;
-
 
         public void readParams(AbstractSerializedData stream) {
             id = stream.readInt32();
@@ -21310,20 +20785,6 @@ public class TLRPC {
             stream.writeString(first_name);
             stream.writeString(last_name);
             stream.writeString(username);
-        }
-    }
-
-    public static class TL_userEmpty_layer131 extends TL_userEmpty {
-        public static int constructor = 0x200250ba;
-
-
-        public void readParams(AbstractSerializedData stream) {
-            id = stream.readInt32();
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            stream.writeInt32((int) id);
         }
     }
 
@@ -21446,214 +20907,6 @@ public class TLRPC {
             stream.writeInt32((int) id);
             stream.writeString(first_name);
             stream.writeString(last_name);
-        }
-    }
-
-    public static class TL_user_layer65 extends TL_user {
-        public static int constructor = 0xd10d979a;
-
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            self = (flags & 1024) != 0;
-            contact = (flags & 2048) != 0;
-            mutual_contact = (flags & 4096) != 0;
-            deleted = (flags & 8192) != 0;
-            bot = (flags & 16384) != 0;
-            bot_chat_history = (flags & 32768) != 0;
-            bot_nochats = (flags & 65536) != 0;
-            verified = (flags & 131072) != 0;
-            restricted = (flags & 262144) != 0;
-            min = (flags & 1048576) != 0;
-            bot_inline_geo = (flags & 2097152) != 0;
-            id = stream.readInt32();
-            if ((flags & 1) != 0) {
-                access_hash = stream.readInt64();
-            }
-            if ((flags & 2) != 0) {
-                first_name = stream.readString();
-            }
-            if ((flags & 4) != 0) {
-                last_name = stream.readString();
-            }
-            if ((flags & 8) != 0) {
-                username = stream.readString();
-            }
-            if ((flags & 16) != 0) {
-                phone = stream.readString();
-            }
-            if ((flags & 32) != 0) {
-                photo = UserProfilePhoto.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                status = UserStatus.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 16384) != 0) {
-                bot_info_version = stream.readInt32();
-            }
-            if ((flags & 262144) != 0) {
-                stream.readString();
-            }
-            if ((flags & 524288) != 0) {
-                bot_inline_placeholder = stream.readString();
-            }
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = self ? (flags | 1024) : (flags &~ 1024);
-            flags = contact ? (flags | 2048) : (flags &~ 2048);
-            flags = mutual_contact ? (flags | 4096) : (flags &~ 4096);
-            flags = deleted ? (flags | 8192) : (flags &~ 8192);
-            flags = bot ? (flags | 16384) : (flags &~ 16384);
-            flags = bot_chat_history ? (flags | 32768) : (flags &~ 32768);
-            flags = bot_nochats ? (flags | 65536) : (flags &~ 65536);
-            flags = verified ? (flags | 131072) : (flags &~ 131072);
-            flags = restricted ? (flags | 262144) : (flags &~ 262144);
-            flags = min ? (flags | 1048576) : (flags &~ 1048576);
-            flags = bot_inline_geo ? (flags | 2097152) : (flags &~ 2097152);
-            stream.writeInt32(flags);
-            stream.writeInt32((int) id);
-            if ((flags & 1) != 0) {
-                stream.writeInt64(access_hash);
-            }
-            if ((flags & 2) != 0) {
-                stream.writeString(first_name);
-            }
-            if ((flags & 4) != 0) {
-                stream.writeString(last_name);
-            }
-            if ((flags & 8) != 0) {
-                stream.writeString(username);
-            }
-            if ((flags & 16) != 0) {
-                stream.writeString(phone);
-            }
-            if ((flags & 32) != 0) {
-                photo.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                status.serializeToStream(stream);
-            }
-            if ((flags & 16384) != 0) {
-                stream.writeInt32(bot_info_version);
-            }
-            if ((flags & 262144) != 0) {
-                stream.writeString("");
-            }
-            if ((flags & 524288) != 0) {
-                stream.writeString(bot_inline_placeholder);
-            }
-        }
-    }
-
-    public static class TL_user_old extends TL_user {
-        public static int constructor = 0x22e49072;
-
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            self = (flags & 1024) != 0;
-            contact = (flags & 2048) != 0;
-            mutual_contact = (flags & 4096) != 0;
-            deleted = (flags & 8192) != 0;
-            bot = (flags & 16384) != 0;
-            bot_chat_history = (flags & 32768) != 0;
-            bot_nochats = (flags & 65536) != 0;
-            verified = (flags & 131072) != 0;
-            explicit_content = (flags & 262144) != 0;
-            id = stream.readInt32();
-            if ((flags & 1) != 0) {
-                access_hash = stream.readInt64();
-            }
-            if ((flags & 2) != 0) {
-                first_name = stream.readString();
-            }
-            if ((flags & 4) != 0) {
-                last_name = stream.readString();
-            }
-            if ((flags & 8) != 0) {
-                username = stream.readString();
-            }
-            if ((flags & 16) != 0) {
-                phone = stream.readString();
-            }
-            if ((flags & 32) != 0) {
-                photo = UserProfilePhoto.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                status = UserStatus.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 16384) != 0) {
-                bot_info_version = stream.readInt32();
-            }
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = self ? (flags | 1024) : (flags &~ 1024);
-            flags = contact ? (flags | 2048) : (flags &~ 2048);
-            flags = mutual_contact ? (flags | 4096) : (flags &~ 4096);
-            flags = deleted ? (flags | 8192) : (flags &~ 8192);
-            flags = bot ? (flags | 16384) : (flags &~ 16384);
-            flags = bot_chat_history ? (flags | 32768) : (flags &~ 32768);
-            flags = bot_nochats ? (flags | 65536) : (flags &~ 65536);
-            flags = verified ? (flags | 131072) : (flags &~ 131072);
-            flags = explicit_content ? (flags | 262144) : (flags &~ 262144);
-            stream.writeInt32(flags);
-            stream.writeInt32((int) id);
-            if ((flags & 1) != 0) {
-                stream.writeInt64(access_hash);
-            }
-            if ((flags & 2) != 0) {
-                stream.writeString(first_name);
-            }
-            if ((flags & 4) != 0) {
-                stream.writeString(last_name);
-            }
-            if ((flags & 8) != 0) {
-                stream.writeString(username);
-            }
-            if ((flags & 16) != 0) {
-                stream.writeString(phone);
-            }
-            if ((flags & 32) != 0) {
-                photo.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                status.serializeToStream(stream);
-            }
-            if ((flags & 16384) != 0) {
-                stream.writeInt32(bot_info_version);
-            }
-        }
-    }
-
-    public static class TL_userSelf_old2 extends TL_userSelf_old3 {
-        public static int constructor = 0x7007b451;
-
-
-        public void readParams(AbstractSerializedData stream) {
-            id = stream.readInt32();
-            first_name = stream.readString();
-            last_name = stream.readString();
-            username = stream.readString();
-            phone = stream.readString();
-            photo = UserProfilePhoto.TLdeserialize(stream, stream.readInt32());
-            status = UserStatus.TLdeserialize(stream, stream.readInt32());
-            inactive = stream.readBool();
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            stream.writeInt32((int) id);
-            stream.writeString(first_name);
-            stream.writeString(last_name);
-            stream.writeString(username);
-            stream.writeString(phone);
-            photo.serializeToStream(stream);
-            status.serializeToStream(stream);
-            stream.writeBool(inactive);
         }
     }
 
@@ -31400,16 +30653,13 @@ public class TLRPC {
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in MessageEntity", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            result.readParams(stream);
             return result;
         }
     }
 
     public static class TL_messageEntityTextUrl extends MessageEntity {
         public static int constructor = 0x76a6d327;
-
 
         public void readParams(AbstractSerializedData stream) {
             offset = stream.readInt32();
@@ -45310,20 +44560,16 @@ public class TLRPC {
         public String phone_code;
         public EmailVerification email_verification;
 
-        public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
-            return auth_Authorization.TLdeserialize(stream, constructor);
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            stream.writeInt32(flags);
-            stream.writeString(phone_number);
-            stream.writeString(phone_code_hash);
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            flags = stream.readInt32();
+            phone_number = stream.readString();
+            phone_code_hash = stream.readString();
             if ((flags & 1) != 0) {
-                stream.writeString(phone_code);
+                phone_code = stream.readString();
             }
             if ((flags & 2) != 0) {
-                email_verification.serializeToStream(stream);
+                email_verification = EmailVerification.TLdeserialize(stream, stream.readInt32());
             }
         }
     }

@@ -5,6 +5,7 @@ import com.im.api.Api;
 import com.im.api.AuthApi;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
+import com.im.lib.tl.TLRPC;
 import com.im.service.AccountService;
 import jakarta.annotation.Resource;
 
@@ -45,7 +46,7 @@ public class AccountController {
 	}
 
 	@WebsocketHandlerMapping(value = 0x6628562c, name = "UpdateStatus")
-	public Boolean updateStatus(AccountApi.UpdateStatus updateStatus) {
+	public TLRPC.Bool updateStatus(TLRPC.TL_account_updateStatus updateStatus) {
 		return accountService.updateStatus(updateStatus);
 	}
 
