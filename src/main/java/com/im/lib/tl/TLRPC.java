@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Copyright (c) 2023 Andre Lina. All rights reserved.
@@ -6058,9 +6059,7 @@ public class TLRPC {
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in auth_SentCodeType", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            result.readParams(stream);
             return result;
         }
     }
@@ -6095,7 +6094,6 @@ public class TLRPC {
 
     public static class TL_auth_sentCodeTypeEmailCode extends auth_SentCodeType {
         public static int constructor = 0x5a159841;
-
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -7911,21 +7909,15 @@ public class TLRPC {
         public long query_id;
 
         public static BotInlineResult TLdeserialize(AbstractSerializedData stream, int constructor) {
-            BotInlineResult result = null;
-            switch (constructor) {
-                case 0x11965f3a:
-                    result = new TL_botInlineResult();
-                    break;
-                case 0x17db940b:
-                    result = new TL_botInlineMediaResult();
-                    break;
-            }
+            BotInlineResult result = switch (constructor) {
+                case 0x11965f3a -> new TL_botInlineResult();
+                case 0x17db940b -> new TL_botInlineMediaResult();
+                default -> null;
+            };
             if (result == null) {
                 throw new RuntimeException(String.format("can't parse magic %x in BotInlineResult", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            result.readParams(stream);
             return result;
         }
     }
@@ -9410,7 +9402,7 @@ public class TLRPC {
         public String iso2;
         public String default_name;
         public String name;
-        public ArrayList<TL_help_countryCode> country_codes = new ArrayList<>();
+        public List<TL_help_countryCode> country_codes = new ArrayList<>();
 
         public static TL_help_country TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_help_country.constructor != constructor) {
@@ -16484,7 +16476,7 @@ public class TLRPC {
     }
 
     public static class TL_codeSettings extends TLObject {
-        public static int constructor = 0x8a6469c2;
+        public static int constructor = 0xad253d78;
 
         public int flags;
         public boolean allow_flashcall;
@@ -16496,7 +16488,6 @@ public class TLRPC {
         public static TL_codeSettings TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_codeSettings.constructor != constructor) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_codeSettings", constructor));
-
             }
             TL_codeSettings result = new TL_codeSettings();
             result.readParams(stream);
@@ -20425,7 +20416,7 @@ public class TLRPC {
     public static class TL_help_countriesList extends help_CountriesList {
         public static int constructor = 0x87d0759e;
 
-        public ArrayList<TL_help_country> countries = new ArrayList<>();
+        public List<TL_help_country> countries = new ArrayList<>();
         public int hash;
 
         public void readParams(AbstractSerializedData stream) {
@@ -32604,8 +32595,8 @@ public class TLRPC {
 
         public int flags;
         public String country_code;
-        public ArrayList<String> prefixes = new ArrayList<>();
-        public ArrayList<String> patterns = new ArrayList<>();
+        public List<String> prefixes = new ArrayList<>();
+        public List<String> patterns = new ArrayList<>();
 
         public static TL_help_countryCode TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_help_countryCode.constructor != constructor) {
@@ -43552,22 +43543,7 @@ public class TLRPC {
         public int this_dc;
         public int nearest_dc;
 
-        public static TL_nearestDc TLdeserialize(AbstractSerializedData stream, int constructor) {
-            if (TL_nearestDc.constructor != constructor) {
-                throw new RuntimeException(String.format("can't parse magic %x in TL_nearestDc", constructor));
-
-            }
-            TL_nearestDc result = new TL_nearestDc();
-            result.readParams(stream);
-            return result;
-        }
-
-        public void readParams(AbstractSerializedData stream) {
-            country = stream.readString();
-            this_dc = stream.readInt32();
-            nearest_dc = stream.readInt32();
-        }
-
+        @Override
         public void serializeToStream(AbstractSerializedData stream) {
             stream.writeInt32(constructor);
             stream.writeString(country);
@@ -45276,12 +45252,12 @@ public class TLRPC {
             return TL_auth_sentCode.TLdeserialize(stream, constructor);
         }
 
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            stream.writeString(phone_number);
-            stream.writeInt32(api_id);
-            stream.writeString(api_hash);
-            settings.serializeToStream(stream);
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            phone_number = stream.readString();
+            api_id = stream.readInt32();
+            api_hash = stream.readString();
+            settings = TL_codeSettings.TLdeserialize(stream, stream.readInt32());
         }
     }
 
@@ -46593,7 +46569,6 @@ public class TLRPC {
         public static TL_messages_deleteMessages TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_deleteMessages.constructor != constructor) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_messages_deleteMessages", constructor));
-
             }
             TL_messages_deleteMessages result = new TL_messages_deleteMessages();
             result.readParams(stream);
@@ -46610,7 +46585,6 @@ public class TLRPC {
             int magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
@@ -47244,11 +47218,7 @@ public class TLRPC {
     public static class TL_help_getNearestDc extends TLObject {
         public static int constructor = 0x1fb33026;
 
-
-        public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
-            return TL_nearestDc.TLdeserialize(stream, constructor);
-        }
-
+        @Override
         public void serializeToStream(AbstractSerializedData stream) {
             stream.writeInt32(constructor);
         }
@@ -49956,9 +49926,6 @@ public class TLRPC {
             int size = stream.readInt32();
             for (int a = 0; a < size; a++) {
                 TL_emojiLanguage object = TL_emojiLanguage.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return vector;
-                }
                 vector.objects.add(object);
             }
             return vector;
@@ -50176,7 +50143,6 @@ public class TLRPC {
         public static TL_messages_deleteScheduledMessages TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_deleteScheduledMessages.constructor != constructor) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_messages_deleteScheduledMessages", constructor));
-
             }
             TL_messages_deleteScheduledMessages result = new TL_messages_deleteScheduledMessages();
             result.readParams(stream);
@@ -50192,7 +50158,6 @@ public class TLRPC {
             int magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
@@ -50485,20 +50450,15 @@ public class TLRPC {
             int magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 TL_searchResultsCalendarPeriod object = TL_searchResultsCalendarPeriod.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 periods.add(object);
             }
             magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             count = stream.readInt32();
             for (int a = 0; a < count; a++) {
@@ -51472,7 +51432,6 @@ public class TLRPC {
             int magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
@@ -52807,14 +52766,10 @@ public class TLRPC {
             int magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {
                 TL_groupCallStreamChannel object = TL_groupCallStreamChannel.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return;
-                }
                 channels.add(object);
             }
         }
@@ -53188,17 +53143,19 @@ public class TLRPC {
     }
 
     public static class TL_langpack_getLangPack extends TLObject {
-        public static int constructor = 0x9ab5c58e;
+        public static int constructor = 0xf2f2330a;
 
+        public String lang_pack;
         public String lang_code;
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return TL_langPackDifference.TLdeserialize(stream, constructor);
         }
 
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            stream.writeString(lang_code);
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            lang_pack = stream.readString();
+            lang_code = stream.readString();
         }
     }
 
@@ -53436,7 +53393,6 @@ public class TLRPC {
     public static class TL_photoPathSize extends PhotoSize {
         public static int constructor = 0xd8214d41;
 
-
         public void readParams(AbstractSerializedData stream) {
             type = stream.readString();
             bytes = stream.readByteArray();
@@ -53489,13 +53445,11 @@ public class TLRPC {
     public static class TL_pageBlockList_layer82 extends TL_pageBlockList {
         public static int constructor = 0x3a58c7f4;
 
-
         public void readParams(AbstractSerializedData stream) {
             ordered = stream.readBool();
             int magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
-
             }
             int count = stream.readInt32();
             for (int a = 0; a < count; a++) {

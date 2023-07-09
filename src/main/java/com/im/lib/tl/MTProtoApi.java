@@ -1,7 +1,10 @@
 package com.im.lib.tl;
 
+import com.im.lib.entity.RequestData;
 import com.im.lib.net.AbstractSerializedData;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,9 +14,11 @@ import java.util.List;
  * @date: 2023-06-18
  */
 
+@Slf4j
 public class MTProtoApi {
 
-    private MTProtoApi() {}
+    private MTProtoApi() {
+    }
 
     // resPQ#05162463 nonce:int128 server_nonce:int128
     // pq:string server_public_key_fingerprints:Vector<long> = ResPQ;
@@ -169,6 +174,7 @@ public class MTProtoApi {
         public byte[] nonce;
         public byte[] server_nonce;
         public byte[] new_nonce_hash2;
+
         @Override
         public void serializeToStream(AbstractSerializedData stream) {
             stream.writeInt32(constructor);
@@ -199,6 +205,7 @@ public class MTProtoApi {
             stream.writeBytes(new_nonce_hash3);
         }
     }
+
     //
     public static class ReqPqMulti extends TLObject {
         public static int constructor = 0xbe7e8ef1;
@@ -256,6 +263,25 @@ public class MTProtoApi {
             stream.readBytes(nonce);
             stream.readBytes(server_nonce);
             encrypted_data = stream.readByteArray();
+        }
+    }
+
+    // msgs_ack#62d6b459 msg_ids:Vector<long> = MsgsAck;
+    public static class Msgs_ack extends TLObject {
+        public static int constructor = 0x62d6b459;
+
+        public List<Long> msg_ids = new ArrayList<>();
+
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            int magic = stream.readInt32();
+            if (magic != 0x1cb5c415) {
+                throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
+            }
+            int count = stream.readInt32();
+            for (int a = 0; a < count; a++) {
+                msg_ids.add(stream.readInt64());
+            }
         }
     }
 
@@ -332,6 +358,35 @@ public class MTProtoApi {
             stream.writeInt64(first_msg_id);
             stream.writeInt64(unique_id);
             stream.writeInt64(server_salt);
+        }
+    }
+
+    public static class Msg_container extends TLObject {
+        public static int constructor = 0x73f1f8dc;
+
+        public List<RequestData> messages = new ArrayList<>();
+
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            int count = stream.readInt32();
+            for (int i = 0; i < count; i++) {
+                RequestData requestData = new RequestData();
+                requestData.msgId = stream.readInt64();
+                requestData.seqNo = stream.readInt32();
+                int dataLength = stream.readInt32();
+                requestData.constructorId = stream.readInt32();
+                TLObject tlObject;
+                try {
+                    tlObject = (TLObject) TLClassStore.getClass(requestData.constructorId).getConstructor().newInstance();
+                } catch (Exception e) {
+                    log.error("TLObject({}) is null!",  Integer.toHexString(requestData.constructorId));
+                    throw new RuntimeException(e);
+                }
+//                SerializedData serializedData = new SerializedData();
+                tlObject.readParams(stream);
+                requestData.tlObject = tlObject;
+                messages.add(requestData);
+            }
         }
     }
 

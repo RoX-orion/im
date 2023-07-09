@@ -6,13 +6,8 @@ import com.im.lib.entity.RequestData;
 import com.im.lib.entity.RpcResult;
 import com.im.lib.entity.SessionInfo;
 import com.im.lib.exception.BadRequestException;
-import com.im.lib.exception.ResponseException;
-import com.im.lib.exception.TLException;
 import com.im.lib.exception.UnauthorizedException;
-import com.im.lib.tl.MTProtoApi;
-import com.im.lib.tl.TLClassStore;
-import com.im.lib.tl.TLHelpers;
-import com.im.lib.tl.TLObject;
+import com.im.lib.tl.*;
 import com.im.redis.SessionManager;
 import com.im.utils.TimeUtil;
 import io.netty.buffer.ByteBuf;
@@ -24,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
@@ -40,12 +34,13 @@ public class MTProto {
     private final StringRedisTemplate stringRedisTemplate;
 
     @Autowired
-    public MTProto(final MTProtoStateService mtprotoStateService,
-                   final TcpAbridged tcpAbridged,
-                   final SessionManager sessionManager,
-                   final DispatcherWebsocket dispatcherWebsocket,
-                   ResultHandler resultHandler,
-                   final StringRedisTemplate stringRedisTemplate) {
+    public MTProto(
+            final MTProtoStateService mtprotoStateService,
+            final TcpAbridged tcpAbridged,
+            final SessionManager sessionManager,
+            final DispatcherWebsocket dispatcherWebsocket,
+            final ResultHandler resultHandler,
+            final StringRedisTemplate stringRedisTemplate) {
         this.mtprotoStateService = mtprotoStateService;
         this.tcpAbridged = tcpAbridged;
         this.sessionManager = sessionManager;
@@ -66,10 +61,9 @@ public class MTProto {
             BinaryReader binaryReader = new BinaryReader(buffer);
             long authKeyId = binaryReader.readInt64();
             requestData.authKeyId = authKeyId;
-            /*
-              Unencrypted data only appears during the handshake, so this case is likely to be hit
-              encrypted data, greater than 48 bytes
-             */
+            requestData.channelId = channel.id().asLongText();
+            // Unencrypted data only appears during the handshake, so this case is likely to be hit.
+            // encrypted data, greater than 48 bytes.
             if (isEncryptedData(authKeyId)) {
                 if (binaryReader.size() < 48) { // client error, ignore it.
                     log.error("unencrypted data length can't less than 48");
@@ -85,14 +79,16 @@ public class MTProto {
                 storeSession(requestData, channel);
                 MTProtoApi.Bad_server_salt badServerSalt = checkHeader(requestData);
                 if (badServerSalt != null) {
-                    sendData(RpcResult.ok(authKeyId, badServerSalt, requestData.sessionId, requestData.msgId), channel);
+                    rpcResult = RpcResult.ok(authKeyId, badServerSalt, requestData.sessionId, requestData.msgId, requestData.channelId);
+                    sendData(rpcResult, channel);
+//                    messageQueue.sendResponseToKafka(rpcResult);
                     return;
                 }
                 int dataLength = br.readInt32();
                 int constructorId = br.readInt32();
                 byte[] data = br.readBytes(dataLength - 4);
 
-                readRequestData(constructorId, data, requestData);
+                readRequestData(constructorId, data, requestData, channel);
             } else { // unencrypted data, greater than 12 bytes
                 if (binaryReader.size() < 12) { // client error, ignore it.
                     log.error("unencrypted data length can't less than 12");
@@ -102,13 +98,10 @@ public class MTProto {
                 int dataLength = binaryReader.readInt32();
                 int constructorId = binaryReader.readInt32();
                 byte[] data = binaryReader.readBytes(dataLength - 4);
-                readRequestData(constructorId, data, requestData);
+                readRequestData(constructorId, data, requestData, channel);
             }
-
-            rpcResult = dispatcherWebsocket.dispatcherRequest(requestData, channel);
-            this.sendData(rpcResult, channel);
         } catch (Exception exception) {
-            rpcResult = RpcResult.ok(requestData.authKeyId, null, requestData.sessionId, requestData.msgId);
+            rpcResult = RpcResult.ok(requestData.authKeyId, null, requestData.sessionId, requestData.msgId, channel.id().asLongText());
             errorHandling(exception, rpcResult, channel);
         }
     }
@@ -126,38 +119,63 @@ public class MTProto {
         return null;
     }
 
-    private void readRequestData(int constructorId, byte[] data, RequestData requestData) {
-        Class<?> clazz = TLClassStore.getClass(constructorId);
-        TLObject tlObject = null;
-        if (clazz != null) {
-            try {
-                tlObject = (TLObject) clazz.getConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                     NoSuchMethodException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        if (tlObject != null) {
-            SerializedData serializedData = new SerializedData(data);
-            tlObject.readParams(serializedData);
-        } else {
-            System.out.println(Integer.toHexString(constructorId));
-            throw new TLException("read null TL object!");
-        }
-        System.out.println(tlObject);
+    private void readRequestData(int constructorId, byte[] data, RequestData requestData, Channel channel) {
         log.info("数据部分:{}{}", data.length, data);
+        if (constructorId == 0x73f1f8dc) { // msg_container
+            MTProtoApi.Msg_container msgContainer = MsgContainer.read(data);
+            for (RequestData message : msgContainer.messages) {
+                message.authKeyId = requestData.authKeyId;
+                message.serverSalt = requestData.serverSalt;
+                message.sessionId = requestData.sessionId;
+                System.out.println(message.tlObject);
+                dispatcherWebsocket(message, channel);
+//                messageQueue.sendRequestToKafka(message);
+            }
+        } else {
+            TLObject tlObject;
+            try {
+                tlObject = (TLObject) TLClassStore.getClass(constructorId).getConstructor().newInstance();
+                SerializedData serializedData = new SerializedData(data);
+                tlObject.readParams(serializedData);
+            } catch (Exception e) {
+                log.error("read null TL object({})!", Integer.toHexString(constructorId));
+                return;
+            }
+            System.out.println(tlObject);
 
-        requestData.constructorId = constructorId;
-        requestData.data = data;
-        requestData.tlObject = tlObject;
+            requestData.constructorId = constructorId;
+            requestData.tlObject = tlObject;
+
+            dispatcherWebsocket(requestData, channel);
+//            messageQueue.sendRequestToKafka(requestData);
+        }
     }
 
     /**
-     * 判断是否是加密数据
-     * @param authKeyId 授权密钥id
+     * Is it encrypted data
+     * @param authKeyId authKeyId
      */
     public boolean isEncryptedData(long authKeyId) {
         return authKeyId != 0;
+    }
+
+//    @KafkaListener(topics = Constant.WS_REQUEST_TOPIC, groupId = "ws")
+    public void dispatcherWebsocket(RequestData requestData, Channel channel) {
+        if (channel == null) {
+            log.error("未找到channel！");
+            return;
+        }
+        log.debug("MsgId = {}, TL Object = {}", requestData.msgId, requestData.tlObject);
+        RpcResult rpcResult = RpcResult.ok(requestData.authKeyId, null, requestData.sessionId, requestData.msgId, requestData.channelId);
+        try {
+            rpcResult = dispatcherWebsocket.dispatcherRequest(requestData, channel);
+            if (rpcResult.getTlObject() != null) {
+                sendData(rpcResult, channel);
+            }
+//            kafkaTemplate.send(Constant.WS_RESPONSE_TOPIC, rpcResult);
+        } catch (Exception exception) {
+            errorHandling(exception, rpcResult, channel);
+        }
     }
 
     public void mtprotoPlainSender(byte[] bytes, Channel channel) {
@@ -202,10 +220,8 @@ public class MTProto {
         channel.writeAndFlush(new BinaryWebSocketFrame(byteBuf));
     }
 
+//    @KafkaListener(topics = Constant.WS_RESPONSE_TOPIC, groupId = "ws")
     public void sendData(RpcResult rpcResult, Channel channel) {
-        if (rpcResult == null) {
-            throw new ResponseException("response can't be null");
-        }
         log.info("返回的RpcResult:{}", rpcResult);
         try {
             if (isEncryptedData(rpcResult.getAuthKeyId())) { // Encrypted data
@@ -252,7 +268,8 @@ public class MTProto {
             newSessionCreate.unique_id = Helpers.getRandomInt64();
             newSessionCreate.server_salt = requestData.serverSalt;
 
-            RpcResult rpcResult = RpcResult.ok(requestData.authKeyId, newSessionCreate, requestData.sessionId, requestData.msgId);
+            RpcResult rpcResult = RpcResult.ok(requestData.authKeyId, newSessionCreate, requestData.sessionId, requestData.msgId, requestData.channelId);
+//            messageQueue.sendResponseToKafka(rpcResult);
             sendData(rpcResult, channel);
         }
         sessionManager.setSessionInfo(key, SessionInfo.SEQ_NO, String.valueOf(requestData.seqNo));

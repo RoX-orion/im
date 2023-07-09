@@ -91,13 +91,14 @@ public class DispatcherWebsocket implements ApplicationContextAware {
             log.error("ClassCastException");
         }
         if (response == null) {
-            throw new RuntimeException(handlerObject.getClass().getSimpleName()
+            log.error(handlerObject.getClass().getSimpleName()
                     + ":" + handlerMeta.getMethod().getName()
                     + "方法未实现！");
+            return RpcResult.ok(requestData.authKeyId, null, requestData.sessionId, requestData.msgId, requestData.channelId);
         }
 
         long authKeyId = requestData.authKeyId;
-        return RpcResult.ok(authKeyId, response, requestData.sessionId, requestData.msgId);
+        return RpcResult.ok(authKeyId, response, requestData.sessionId, requestData.msgId, requestData.channelId);
     }
 
     public static <T> T get(Class<T> clz,Object o){

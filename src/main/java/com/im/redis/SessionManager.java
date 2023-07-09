@@ -30,7 +30,7 @@ public class SessionManager {
 
     private final String TEMP_AUTH_KEY = "tempAuthKey:";
 
-    private final String AUTH_KEY = "authKey:";
+    public static final String AUTH_KEY = "authKey:";
 
     public final String CHANNEL_SESSION = "channelId-SessionId:";
 
@@ -134,5 +134,9 @@ public class SessionManager {
 
         removeSessionInfo(channelId);
         removeSessionIdByChannelId(channelId);
+    }
+
+    public void setUserIdAuthKeyId(long userId) {
+
     }
 }
