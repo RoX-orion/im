@@ -29,7 +29,7 @@ public class BindParam {
                 methodParams[i] = requestData.authKeyId;
             } else if (websocketRequestParam != null && "sessionId".equals(websocketRequestParam.value())) {
                 methodParams[i] = requestData.sessionId;
-            } else {
+            } else if (type.isInstance(param)) {
                 methodParams[i] = castObject(type, param);
             }
         }

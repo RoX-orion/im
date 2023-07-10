@@ -3,6 +3,8 @@ package com.im.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.im.entity.User;
 import com.im.lib.Helpers;
+import com.im.lib.exception.RpcError;
+import com.im.lib.net.Errors;
 import com.im.lib.tl.TLRPC;
 import com.im.mapper.UserMapper;
 import com.im.utils.TimeUtil;
@@ -85,6 +87,9 @@ public class AuthService {
         User user = userMapper.selectOne(
                 new QueryWrapper<User>().eq("phone", signIn.phone_number)
         );
+        if (user == null) {
+            throw new RpcError(Errors.PHONE_NUMBER_UNOCCUPIED);
+        }
         String phoneCode = stringRedisTemplate.opsForValue()
                 .get(PHONE_CODE + signIn.phone_code_hash);
         TLRPC.TL_auth_authorization authorization = new TLRPC.TL_auth_authorization();

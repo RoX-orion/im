@@ -1,6 +1,5 @@
 package com.im.controller;
 
-import com.im.api.Api;
 import com.im.lib.annotation.WebsocketHandler;
 import com.im.lib.annotation.WebsocketHandlerMapping;
 import com.im.lib.annotation.WebsocketRequestParam;
@@ -24,7 +23,7 @@ public class MTProtoController {
 	}
 
 	@WebsocketHandlerMapping(value = 0x51b410fd, name = "ReqPqMultiNew")
-	public Api.ResPQ reqPqMultiNew(Api.ReqPqMultiNew reqPqMultiNew) {
+	public MTProtoApi.ResPQ reqPqMultiNew(MTProtoApi.ReqPqMultiNew reqPqMultiNew) {
 		return null;
 	}
 
@@ -39,25 +38,20 @@ public class MTProtoController {
 		return mtprotoService.setClientDHParams(setClientDHParams, channel);
 	}
 
-	@WebsocketHandlerMapping(value = 0xd1435160, name = "DestroyAuthKey")
-	public Api.TypeDestroyAuthKeyRes destroyAuthKey(Api.DestroyAuthKey destroyAuthKey) {
-		return null;
-	}
+//	@WebsocketHandlerMapping(value = 0xd1435160, name = "DestroyAuthKey")
+//	public Api.TypeDestroyAuthKeyRes destroyAuthKey(Api.DestroyAuthKey destroyAuthKey) {
+//		return null;
+//	}
+//
+//	@WebsocketHandlerMapping(value = 0x58e4a740, name = "RpcDropAnswer")
+//	public Api.TypeRpcDropAnswer rpcDropAnswer(Api.RpcDropAnswer rpcDropAnswer) {
+//		return null;
+//	}
 
-	@WebsocketHandlerMapping(value = 0x58e4a740, name = "RpcDropAnswer")
-	public Api.TypeRpcDropAnswer rpcDropAnswer(Api.RpcDropAnswer rpcDropAnswer) {
-		return null;
-	}
-
-	@WebsocketHandlerMapping(value = 0xb921bd04, name = "GetFutureSalts")
-	public Api.FutureSalts getFutureSalts(Api.GetFutureSalts getFutureSalts) {
-		return null;
-	}
-
-	@WebsocketHandlerMapping(value = 0x7abe77ec, name = "Ping")
-	public Api.Pong ping(Api.Ping ping) {
-		return null;
-	}
+//	@WebsocketHandlerMapping(value = 0xb921bd04, name = "GetFutureSalts")
+//	public MTProtoApi.FutureSalts getFutureSalts(Api.GetFutureSalts getFutureSalts) {
+//		return null;
+//	}
 
 	@WebsocketHandlerMapping(value = 0xf3427b8c, name = "PingDelayDisconnect")
 	public MTProtoApi.Pong pingDelayDisconnect(MTProtoApi.Ping_delay_disconnect pingDelayDisconnect,
@@ -65,13 +59,19 @@ public class MTProtoController {
 		return mtprotoService.pingDelayDisconnect(pingDelayDisconnect, msgId);
 	}
 
-	@WebsocketHandlerMapping(value = 0xe7512126, name = "DestroySession")
-	public Api.TypeDestroySessionRes destroySession(Api.DestroySession destroySession) {
-		return null;
-	}
+//	@WebsocketHandlerMapping(value = 0xe7512126, name = "DestroySession")
+//	public Api.TypeDestroySessionRes destroySession(Api.DestroySession destroySession) {
+//		return null;
+//	}
 
 	@WebsocketHandlerMapping(value = 0xda9b0d0d, name = "invokeWithLayer")
 	public Object invokeWithLayer(TLRPC.TL_invokeWithLayer invokeWithLayer) {
 		return mtprotoService.invokeWithLayer(invokeWithLayer);
+	}
+
+	@WebsocketHandlerMapping(value = 0x62d6b459, name = "msgsAck")
+	public void msgsAck(MTProtoApi.Msgs_ack msgsAck,
+	                    @WebsocketRequestParam("sessionId") long sessionId) {
+		mtprotoService.msgsAck(msgsAck, sessionId);
 	}
 }

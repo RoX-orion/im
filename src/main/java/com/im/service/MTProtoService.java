@@ -1,6 +1,5 @@
 package com.im.service;
 
-import com.im.api.Api;
 import com.im.entity.CreateAuthKeyState;
 import com.im.lib.Helpers;
 import com.im.lib.crypto.AES;
@@ -151,18 +150,18 @@ public class MTProtoService {
         return server_dh_params_ok;
     }
 
-    public Api.ServerDHParamsFail serverDHParamsFail(BigInteger nonce, BigInteger serverNonce, BigInteger newNonce) {
-        Api.ServerDHParamsFail serverDHParamsFail = new Api.ServerDHParamsFail();
-        serverDHParamsFail.setNonce(nonce);
-        serverDHParamsFail.setServerNonce(serverNonce);
-        byte[] slice = Arrays.copyOfRange(
-                Helpers.SHA1(Helpers.getByteArray(newNonce)),
-                4, 20
-        );
-        serverDHParamsFail.setNewNonceHash(Helpers.readBigIntegerFromBytes(slice, false, true));
-
-        return serverDHParamsFail;
-    }
+//    public Api.ServerDHParamsFail serverDHParamsFail(BigInteger nonce, BigInteger serverNonce, BigInteger newNonce) {
+//        Api.ServerDHParamsFail serverDHParamsFail = new Api.ServerDHParamsFail();
+//        serverDHParamsFail.setNonce(nonce);
+//        serverDHParamsFail.setServerNonce(serverNonce);
+//        byte[] slice = Arrays.copyOfRange(
+//                Helpers.SHA1(Helpers.getByteArray(newNonce)),
+//                4, 20
+//        );
+//        serverDHParamsFail.setNewNonceHash(Helpers.readBigIntegerFromBytes(slice, false, true));
+//
+//        return serverDHParamsFail;
+//    }
 
     public MTProtoApi.Set_client_DH_params_answer setClientDHParams(MTProtoApi.SetClientDHParams setClientDHParams, Channel channel) {
         String nonceServerNonceKey = Helpers.sha256Str(setClientDHParams.nonce, setClientDHParams.server_nonce);
@@ -217,21 +216,21 @@ public class MTProtoService {
         return dhGenOk;
     }
 
-    public Api.TypeDestroyAuthKeyRes destroyAuthKey(Api.DestroyAuthKey destroyAuthKey) {
-        return null;
-    }
-
-    public Api.TypeRpcDropAnswer rpcDropAnswer(Api.RpcDropAnswer rpcDropAnswer) {
-        return null;
-    }
-
-    public Api.FutureSalts getFutureSalts(Api.GetFutureSalts getFutureSalts) {
-        return null;
-    }
-
-    public Api.Pong ping(Api.Ping ping) {
-        return null;
-    }
+//    public Api.TypeDestroyAuthKeyRes destroyAuthKey(Api.DestroyAuthKey destroyAuthKey) {
+//        return null;
+//    }
+//
+//    public Api.TypeRpcDropAnswer rpcDropAnswer(Api.RpcDropAnswer rpcDropAnswer) {
+//        return null;
+//    }
+//
+//    public Api.FutureSalts getFutureSalts(Api.GetFutureSalts getFutureSalts) {
+//        return null;
+//    }
+//
+//    public Api.Pong ping(Api.Ping ping) {
+//        return null;
+//    }
 
     public MTProtoApi.Pong pingDelayDisconnect(MTProtoApi.Ping_delay_disconnect pingDelayDisconnect, long msgId) {
         MTProtoApi.Pong pong = new MTProtoApi.Pong();
@@ -241,9 +240,9 @@ public class MTProtoService {
         return pong;
     }
 
-    public Api.TypeDestroySessionRes destroySession(Api.DestroySession destroySession) {
-        return null;
-    }
+//    public Api.TypeDestroySessionRes destroySession(Api.DestroySession destroySession) {
+//        return null;
+//    }
 
 //    public Object invokeAfterMsg(Api.InvokeAfterMsg invokeAfterMsg) {
 //        return null;
@@ -309,6 +308,10 @@ public class MTProtoService {
 //        config.autologin_token =
 
         return config;
+    }
+
+    public void msgsAck(MTProtoApi.Msgs_ack msgsAck, long sessionId) {
+        System.out.println("msgsAck: " + msgsAck.msg_ids);
     }
 //
 //    public Api.X invokeWithoutUpdates(Api.InvokeWithoutUpdates invokeWithoutUpdates) {

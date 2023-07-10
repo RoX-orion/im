@@ -1,6 +1,5 @@
 package com.im.service;
 
-import com.im.api.UpdatesApi;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,14 +11,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UpdatesService {
-    public UpdatesApi.State getState(UpdatesApi.GetState getState) {
-        UpdatesApi.State state = new UpdatesApi.State();
-        state.setDate(0);
-        state.setQts(0);
-        state.setPts(0);
-        state.setSeq(0);
-        state.setUnreadCount(0);
-
-        return state;
-    }
+//    public UpdatesApi.State getState(UpdatesApi.GetState getState) {
+//        UpdatesApi.State state = new UpdatesApi.State();
+//        state.setDate(0);
+//        state.setQts(0);
+//        state.setPts(0);
+//        state.setSeq(0);
+//        state.setUnreadCount(0);
+//
+//        return state;
+//    }
 }
