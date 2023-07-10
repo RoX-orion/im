@@ -102,10 +102,10 @@ public class TLRPC {
         public StatsGraph actions_graph;
         public StatsGraph top_hours_graph;
         public StatsGraph weekdays_graph;
-        public ArrayList<TL_statsGroupTopPoster> top_posters = new ArrayList<>();
-        public ArrayList<TL_statsGroupTopAdmin> top_admins = new ArrayList<>();
-        public ArrayList<TL_statsGroupTopInviter> top_inviters = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_statsGroupTopPoster> top_posters = new ArrayList<>();
+        public List<TL_statsGroupTopAdmin> top_admins = new ArrayList<>();
+        public List<TL_statsGroupTopInviter> top_inviters = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_stats_megagroupStats TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_stats_megagroupStats.constructor != constructor) {
@@ -486,7 +486,7 @@ public class TLRPC {
         public boolean no_webpage;
         public int reply_to_msg_id;
         public String message;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
         public int date;
 
         public static DraftMessage TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -829,7 +829,7 @@ public class TLRPC {
         public String currency;
         public long total_amount;
         public String credentials_title;
-        public ArrayList<User> users = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_payments_paymentReceipt TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_payments_paymentReceipt.constructor != constructor) {
@@ -996,9 +996,9 @@ public class TLRPC {
     public static class TL_phone_joinAsPeers extends TLObject {
         public static int constructor = 0xafe5623f;
 
-        public ArrayList<Peer> peers = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Peer> peers = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_phone_joinAsPeers TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_phone_joinAsPeers.constructor != constructor) {
@@ -1081,7 +1081,7 @@ public class TLRPC {
         public String lang_code;
         public int from_version;
         public int version;
-        public ArrayList<EmojiKeyword> keywords = new ArrayList<>();
+        public List<EmojiKeyword> keywords = new ArrayList<>();
 
         public static TL_emojiKeywordsDifference TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_emojiKeywordsDifference.constructor != constructor) {
@@ -1359,8 +1359,8 @@ public class TLRPC {
         public static int constructor = 0xe5d7d19c;
 
         public ChatFull full_chat;
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_messages_chatFull TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_chatFull.constructor != constructor) {
@@ -2657,7 +2657,7 @@ public class TLRPC {
     public static class TL_jsonArray extends JSONValue {
         public static int constructor = 0xf7444763;
 
-        public ArrayList<JSONValue> value = new ArrayList<>();
+        public List<JSONValue> value = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -2686,7 +2686,7 @@ public class TLRPC {
     public static class TL_jsonObject extends JSONValue {
         public static int constructor = 0x99c1d49d;
 
-        public ArrayList<TL_jsonObjectValue> value = new ArrayList<>();
+        public List<TL_jsonObjectValue> value = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -2879,17 +2879,17 @@ public class TLRPC {
     }
 
     public static abstract class messages_Messages extends TLObject {
-        public ArrayList<Message> messages = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
-        public ArrayList<TL_forumTopic> topics = new ArrayList<>();
+        public List<Message> messages = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
+        public List<TL_forumTopic> topics = new ArrayList<>();
         public int flags;
         public boolean inexact;
         public int pts;
         public int count;
         public int next_rate;
         public int offset_id_offset;
-        public ArrayList<Document> animatedEmoji;
+        public List<Document> animatedEmoji;
 
         public static messages_Messages TLdeserialize(AbstractSerializedData stream, int constructor) {
             messages_Messages result = switch (constructor) {
@@ -3222,10 +3222,10 @@ public class TLRPC {
         public String url;
         public String native_provider;
         public TL_dataJSON native_params;
-        public ArrayList<TL_paymentFormMethod> additional_methods = new ArrayList<>();
+        public List<TL_paymentFormMethod> additional_methods = new ArrayList<>();
         public TL_paymentRequestedInfo saved_info;
-        public ArrayList<TL_paymentSavedCredentialsCard> saved_credentials = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_paymentSavedCredentialsCard> saved_credentials = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_payments_paymentForm TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_payments_paymentForm.constructor != constructor) {
@@ -3662,8 +3662,8 @@ public class TLRPC {
         public static int constructor = 0xbdc62dcc;
 
         public int count;
-        public ArrayList<ExportedChatInvite> invites = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<ExportedChatInvite> invites = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_messages_exportedChatInvites TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_exportedChatInvites.constructor != constructor) {
@@ -3758,7 +3758,7 @@ public class TLRPC {
         public String lang_code;
         public int from_version;
         public int version;
-        public ArrayList<LangPackString> strings = new ArrayList<>();
+        public List<LangPackString> strings = new ArrayList<>();
 
         public static TL_langPackDifference TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_langPackDifference.constructor != constructor) {
@@ -3831,7 +3831,7 @@ public class TLRPC {
         public int flags;
         public boolean update_app;
         public String message;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -3959,11 +3959,11 @@ public class TLRPC {
 
         public int flags;
         public boolean min;
-        public ArrayList<TL_pollAnswerVoters> results = new ArrayList<>();
+        public List<TL_pollAnswerVoters> results = new ArrayList<>();
         public int total_voters;
-        public ArrayList<Long> recent_voters = new ArrayList<>();
+        public List<Long> recent_voters = new ArrayList<>();
         public String solution;
-        public ArrayList<MessageEntity> solution_entities = new ArrayList<>();
+        public List<MessageEntity> solution_entities = new ArrayList<>();
 
         public static PollResults TLdeserialize(AbstractSerializedData stream, int constructor) {
             PollResults result = switch (constructor) {
@@ -4362,8 +4362,8 @@ public class TLRPC {
         public static int constructor = 0x81b6b00a;
 
         public int count;
-        public ArrayList<TL_chatInviteImporter> importers = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_chatInviteImporter> importers = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_messages_chatInviteImporters TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_chatInviteImporters.constructor != constructor) {
@@ -4458,8 +4458,8 @@ public class TLRPC {
         public static int constructor = 0xdfb80317;
 
         public ChannelParticipant participant;
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_channels_channelParticipant TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_channels_channelParticipant.constructor != constructor) {
@@ -4693,11 +4693,11 @@ public class TLRPC {
     }
 
     public static abstract class updates_Difference extends TLObject {
-        public ArrayList<Message> new_messages = new ArrayList<>();
-        public ArrayList<EncryptedMessage> new_encrypted_messages = new ArrayList<>();
-        public ArrayList<Update> other_updates = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Message> new_messages = new ArrayList<>();
+        public List<EncryptedMessage> new_encrypted_messages = new ArrayList<>();
+        public List<Update> other_updates = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
         public TL_updates_state state;
         public TL_updates_state intermediate_state;
         public int pts;
@@ -5164,9 +5164,9 @@ public class TLRPC {
     public static class TL_account_privacyRules extends TLObject {
         public static int constructor = 0x50a04e45;
 
-        public ArrayList<PrivacyRule> rules = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<PrivacyRule> rules = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_account_privacyRules TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_account_privacyRules.constructor != constructor) {
@@ -5251,7 +5251,7 @@ public class TLRPC {
         public String about;
         public Photo photo;
         public int participants_count;
-        public ArrayList<User> participants = new ArrayList<>();
+        public List<User> participants = new ArrayList<>();
         public Chat chat;
         public int expires;
 
@@ -5411,7 +5411,7 @@ public class TLRPC {
         public int id;
         public String version;
         public String text;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
         public Document document;
         public String url;
         public Document sticker;
@@ -5485,7 +5485,7 @@ public class TLRPC {
         public int pts;
         public int pts_count;
         public int offset;
-        public ArrayList<Integer> messages = new ArrayList<>();
+        public List<Integer> messages = new ArrayList<>();
 
         public static TL_messages_affectedFoundMessages TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_affectedFoundMessages.constructor != constructor) {
@@ -5560,8 +5560,8 @@ public class TLRPC {
 
     public static abstract class messages_FavedStickers extends TLObject {
         public long hash;
-        public ArrayList<TL_stickerPack> packs = new ArrayList<>();
-        public ArrayList<Document> stickers = new ArrayList<>();
+        public List<TL_stickerPack> packs = new ArrayList<>();
+        public List<Document> stickers = new ArrayList<>();
 
         public static messages_FavedStickers TLdeserialize(AbstractSerializedData stream, int constructor) {
             messages_FavedStickers result = switch (constructor) {
@@ -6205,7 +6205,7 @@ public class TLRPC {
     }
 
     public static abstract class messages_StickerSetInstallResult extends TLObject {
-        public ArrayList<StickerSetCovered> sets = new ArrayList<>();
+        public List<StickerSetCovered> sets = new ArrayList<>();
 
         public static messages_StickerSetInstallResult TLdeserialize(AbstractSerializedData stream, int constructor) {
             messages_StickerSetInstallResult result = switch (constructor) {
@@ -6463,9 +6463,9 @@ public class TLRPC {
     public static class TL_channels_adminLogResults extends TLObject {
         public static int constructor = 0xed8af74d;
 
-        public ArrayList<TL_channelAdminLogEvent> events = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_channelAdminLogEvent> events = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_channels_adminLogResults TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_channels_adminLogResults.constructor != constructor) {
@@ -6583,7 +6583,7 @@ public class TLRPC {
         public BaseTheme base_theme;
         public int accent_color;
         public int outbox_accent_color;
-        public ArrayList<Integer> message_colors = new ArrayList<>();
+        public List<Integer> message_colors = new ArrayList<>();
         public WallPaper wallpaper;
 
         public static ThemeSettings TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -6825,7 +6825,7 @@ public class TLRPC {
     public static class TL_privacyValueDisallowUsers extends PrivacyRule {
         public static int constructor = 0xe4621141;
 
-        public ArrayList<Long> users = new ArrayList<>();
+        public List<Long> users = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -6853,7 +6853,7 @@ public class TLRPC {
     public static class TL_privacyValueAllowChatParticipants extends PrivacyRule {
         public static int constructor = 0x6b134e8e;
 
-        public ArrayList<Long> chats = new ArrayList<>();
+        public List<Long> chats = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -6881,7 +6881,7 @@ public class TLRPC {
     public static class TL_privacyValueDisallowChatParticipants extends PrivacyRule {
         public static int constructor = 0x41c87565;
 
-        public ArrayList<Long> chats = new ArrayList<>();
+        public List<Long> chats = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -6927,7 +6927,7 @@ public class TLRPC {
     public static class TL_privacyValueAllowUsers extends PrivacyRule {
         public static int constructor = 0xb8905fb2;
 
-        public ArrayList<Long> users = new ArrayList<>();
+        public List<Long> users = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -8279,9 +8279,9 @@ public class TLRPC {
 
     public static abstract class contacts_Blocked extends TLObject {
 
-        public ArrayList<TL_peerBlocked> blocked = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_peerBlocked> blocked = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
         public int count;
 
         public static contacts_Blocked TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -8446,8 +8446,8 @@ public class TLRPC {
         public InputSecureFile front_side;
         public InputSecureFile reverse_side;
         public InputSecureFile selfie;
-        public ArrayList<InputSecureFile> translation = new ArrayList<>();
-        public ArrayList<InputSecureFile> files = new ArrayList<>();
+        public List<InputSecureFile> translation = new ArrayList<>();
+        public List<InputSecureFile> files = new ArrayList<>();
         public SecurePlainData plain_data;
 
         public static TL_inputSecureValue TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -8793,11 +8793,11 @@ public class TLRPC {
         public static int constructor = 0x5334759c;
 
         public String status_text;
-        public ArrayList<MessageEntity> status_entities = new ArrayList<>();
-        public ArrayList<String> video_sections = new ArrayList<>();
-        public ArrayList<Document> videos = new ArrayList<>();
-        public ArrayList<TL_premiumSubscriptionOption> period_options = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<MessageEntity> status_entities = new ArrayList<>();
+        public List<String> video_sections = new ArrayList<>();
+        public List<Document> videos = new ArrayList<>();
+        public List<TL_premiumSubscriptionOption> period_options = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
         public String currency;
         public long monthly_amount;
 
@@ -8964,7 +8964,7 @@ public class TLRPC {
         public static int constructor = 0x1eb3758;
 
         public String message;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
         public String author;
         public int date;
 
@@ -9028,9 +9028,9 @@ public class TLRPC {
     public static abstract class messages_StickerSet extends TLObject {
 
         public StickerSet set;
-        public ArrayList<TL_stickerPack> packs = new ArrayList<>();
-        public ArrayList<TL_stickerKeyword> keywords = new ArrayList<>();
-        public ArrayList<Document> documents = new ArrayList<>();
+        public List<TL_stickerPack> packs = new ArrayList<>();
+        public List<TL_stickerKeyword> keywords = new ArrayList<>();
+        public List<Document> documents = new ArrayList<>();
 
         public static TL_messages_stickerSet TLdeserialize(AbstractSerializedData stream, int constructor) {
             TL_messages_stickerSet result = switch (constructor) {
@@ -9556,7 +9556,7 @@ public class TLRPC {
     public static abstract class BotInfo extends TLObject {
         public long user_id;
         public String description;
-        public ArrayList<TL_botCommand> commands = new ArrayList<>();
+        public List<TL_botCommand> commands = new ArrayList<>();
         public int version;
         public BotMenuButton menu_button;
         public int flags;
@@ -9874,7 +9874,7 @@ public class TLRPC {
         public boolean comments;
         public int replies;
         public int replies_pts;
-        public ArrayList<Peer> recent_repliers = new ArrayList<>();
+        public List<Peer> recent_repliers = new ArrayList<>();
         public long channel_id;
         public int max_id;
         public int read_max_id;
@@ -10019,9 +10019,9 @@ public class TLRPC {
     public static abstract class messages_SponsoredMessages extends TLObject {
         public int flags;
         public int posts_between;
-        public ArrayList<TL_sponsoredMessage> messages = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_sponsoredMessage> messages = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static messages_SponsoredMessages TLdeserialize(AbstractSerializedData stream, int constructor) {
             messages_SponsoredMessages result = switch (constructor) {
@@ -10232,7 +10232,7 @@ public class TLRPC {
         public boolean single_use;
         public boolean selective;
         public String placeholder;
-        public ArrayList<TL_keyboardButtonRow> rows = new ArrayList<>();
+        public List<TL_keyboardButtonRow> rows = new ArrayList<>();
 
 
         public static ReplyMarkup TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -10424,7 +10424,7 @@ public class TLRPC {
         public static int constructor = 0x54b56617;
 
         public int flags;
-        public ArrayList<Document> documents = new ArrayList<>();
+        public List<Document> documents = new ArrayList<>();
         public ThemeSettings settings;
 
         public static TL_webPageAttributeTheme TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -10475,9 +10475,9 @@ public class TLRPC {
     }
 
     public static abstract class contacts_Contacts extends TLObject {
-        public ArrayList<TL_contact> contacts = new ArrayList<>();
+        public List<TL_contact> contacts = new ArrayList<>();
         public int saved_count;
-        public ArrayList<User> users = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static contacts_Contacts TLdeserialize(AbstractSerializedData stream, int constructor) {
             contacts_Contacts result = null;
@@ -10605,7 +10605,7 @@ public class TLRPC {
     public static class TL_secureRequiredTypeOneOf extends SecureRequiredType {
         public static int constructor = 0x27477b4;
 
-        public ArrayList<SecureRequiredType> types = new ArrayList<>();
+        public List<SecureRequiredType> types = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -10740,7 +10740,7 @@ public class TLRPC {
     public static abstract class messages_ExportedChatInvite extends TLObject {
 
         public ExportedChatInvite invite;
-        public ArrayList<User> users = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static messages_ExportedChatInvite TLdeserialize(AbstractSerializedData stream, int constructor) {
             messages_ExportedChatInvite result = null;
@@ -10882,8 +10882,8 @@ public class TLRPC {
     }
 
     public static abstract class photos_Photos extends TLObject {
-        public ArrayList<Photo> photos = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Photo> photos = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
         public int count;
 
         public static photos_Photos TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -11014,7 +11014,7 @@ public class TLRPC {
         public Photo chat_photo;
         public PeerNotifySettings notify_settings;
         public TL_chatInviteExported exported_invite;
-        public ArrayList<BotInfo> bot_info = new ArrayList<>();
+        public List<BotInfo> bot_info = new ArrayList<>();
         public int flags;
         public boolean can_view_participants;
         public boolean can_set_username;
@@ -11049,13 +11049,13 @@ public class TLRPC {
         public int pts;
         public TL_inputGroupCall call;
         public int ttl_period;
-        public ArrayList<String> pending_suggestions = new ArrayList<>();
+        public List<String> pending_suggestions = new ArrayList<>();
         public Peer groupcall_default_join_as;
-        public ArrayList<Long> recent_requesters = new ArrayList<>();
+        public List<Long> recent_requesters = new ArrayList<>();
         public String theme_emoticon;
         public int requests_pending;
         public Peer default_send_as;
-        public ArrayList<String> available_reactions_legacy = new ArrayList<>();
+        public List<String> available_reactions_legacy = new ArrayList<>();
         public int flags2;
         public boolean can_delete_channel;
         public boolean antispam;
@@ -16492,7 +16492,7 @@ public class TLRPC {
         public boolean current_number;
         public boolean allow_app_hash;
         public boolean allow_missed_call;
-        public ArrayList<byte[]> logout_tokens = new ArrayList<>();
+        public List<byte[]> logout_tokens = new ArrayList<>();
 
         public static TL_codeSettings TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_codeSettings.constructor != constructor) {
@@ -16542,7 +16542,7 @@ public class TLRPC {
     public static abstract class account_EmojiStatuses extends TLObject {
 
         public long hash;
-        public ArrayList<EmojiStatus> statuses = new ArrayList<>();
+        public List<EmojiStatus> statuses = new ArrayList<>();
 
         public static account_EmojiStatuses TLdeserialize(AbstractSerializedData stream, int constructor) {
             account_EmojiStatuses result = null;
@@ -16731,9 +16731,9 @@ public class TLRPC {
         public boolean part;
         public boolean rtl;
         public String url;
-        public ArrayList<PageBlock> blocks = new ArrayList<>();
-        public ArrayList<Photo> photos = new ArrayList<>();
-        public ArrayList<Document> documents = new ArrayList<>();
+        public List<PageBlock> blocks = new ArrayList<>();
+        public List<Photo> photos = new ArrayList<>();
+        public List<Document> documents = new ArrayList<>();
         public boolean v2;
         public int views;
 
@@ -17140,7 +17140,7 @@ public class TLRPC {
 
         public TopPeerCategory category;
         public int count;
-        public ArrayList<TL_topPeer> peers = new ArrayList<>();
+        public List<TL_topPeer> peers = new ArrayList<>();
 
         public static TL_topPeerCategoryPeers TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_topPeerCategoryPeers.constructor != constructor) {
@@ -17658,7 +17658,7 @@ public class TLRPC {
         public String venue_type;
         public ReplyMarkup reply_markup;
         public String message;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
         public String phone_number;
         public String first_name;
         public String last_name;
@@ -18038,7 +18038,7 @@ public class TLRPC {
     public static class TL_keyboardButtonRow extends TLObject {
         public static int constructor = 0x77608b83;
 
-        public ArrayList<KeyboardButton> buttons = new ArrayList<>();
+        public List<KeyboardButton> buttons = new ArrayList<>();
 
         public static TL_keyboardButtonRow TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_keyboardButtonRow.constructor != constructor) {
@@ -18108,13 +18108,13 @@ public class TLRPC {
         public static int constructor = 0xa6341782;
 
         public int flags;
-        public ArrayList<Message> messages = new ArrayList<>();
+        public List<Message> messages = new ArrayList<>();
         public int max_id;
         public int read_inbox_max_id;
         public int read_outbox_max_id;
         public int unread_count;
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_messages_discussionMessage TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_discussionMessage.constructor != constructor) {
@@ -18319,7 +18319,7 @@ public class TLRPC {
         public Document document;
         public Page cached_page;
         public int date;
-        public ArrayList<TL_webPageAttributeTheme> attributes = new ArrayList<>();
+        public List<TL_webPageAttributeTheme> attributes = new ArrayList<>();
 
         public static WebPage TLdeserialize(AbstractSerializedData stream, int constructor) {
             WebPage result = null;
@@ -18974,8 +18974,8 @@ public class TLRPC {
         public boolean premium;
         public long hash;
         public int count;
-        public ArrayList<StickerSetCovered> sets = new ArrayList<>();
-        public ArrayList<Long> unread = new ArrayList<>();
+        public List<StickerSetCovered> sets = new ArrayList<>();
+        public List<Long> unread = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -19124,7 +19124,7 @@ public class TLRPC {
         public static int constructor = 0x666220e9;
 
         public SecureValueType type;
-        public ArrayList<byte[]> file_hash = new ArrayList<>();
+        public List<byte[]> file_hash = new ArrayList<>();
         public String text;
 
         public void readParams(AbstractSerializedData stream) {
@@ -19245,7 +19245,7 @@ public class TLRPC {
         public static int constructor = 0x34636dd8;
 
         public SecureValueType type;
-        public ArrayList<byte[]> file_hash = new ArrayList<>();
+        public List<byte[]> file_hash = new ArrayList<>();
         public String text;
 
         public void readParams(AbstractSerializedData stream) {
@@ -19305,8 +19305,8 @@ public class TLRPC {
         public SecureFile front_side;
         public SecureFile reverse_side;
         public SecureFile selfie;
-        public ArrayList<SecureFile> translation = new ArrayList<>();
-        public ArrayList<SecureFile> files = new ArrayList<>();
+        public List<SecureFile> translation = new ArrayList<>();
+        public List<SecureFile> files = new ArrayList<>();
         public SecurePlainData plain_data;
         public byte[] hash;
 
@@ -19471,9 +19471,9 @@ public class TLRPC {
         public int id;
         public String title;
         public String emoticon;
-        public ArrayList<InputPeer> pinned_peers = new ArrayList<>();
-        public ArrayList<InputPeer> include_peers = new ArrayList<>();
-        public ArrayList<InputPeer> exclude_peers = new ArrayList<>();
+        public List<InputPeer> pinned_peers = new ArrayList<>();
+        public List<InputPeer> include_peers = new ArrayList<>();
+        public List<InputPeer> exclude_peers = new ArrayList<>();
 
         public static DialogFilter TLdeserialize(AbstractSerializedData stream, int constructor) {
             DialogFilter result = switch (constructor) {
@@ -19942,7 +19942,7 @@ public class TLRPC {
         public static int constructor = 0x20212ca8;
 
         public Photo photo;
-        public ArrayList<User> users = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_photos_photo TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_photos_photo.constructor != constructor) {
@@ -20032,8 +20032,8 @@ public class TLRPC {
     public static class TL_messages_chatAdminsWithInvites extends TLObject {
         public static int constructor = 0xb69b72d7;
 
-        public ArrayList<TL_chatAdminWithInvites> admins = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_chatAdminWithInvites> admins = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_messages_chatAdminsWithInvites TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_chatAdminsWithInvites.constructor != constructor) {
@@ -20088,10 +20088,10 @@ public class TLRPC {
         public static int constructor = 0x9e727aad;
 
         public GroupCall call;
-        public ArrayList<TL_groupCallParticipant> participants = new ArrayList<>();
+        public List<TL_groupCallParticipant> participants = new ArrayList<>();
         public String participants_next_offset;
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_phone_groupCall TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_phone_groupCall.constructor != constructor) {
@@ -20174,7 +20174,7 @@ public class TLRPC {
         public byte[] g_a_or_b;
         public long key_fingerprint;
         public PhoneCallProtocol protocol;
-        public ArrayList<PhoneConnection> connections = new ArrayList<>();
+        public List<PhoneConnection> connections = new ArrayList<>();
         public int start_date;
         public boolean need_rating;
         public boolean need_debug;
@@ -21100,7 +21100,7 @@ public class TLRPC {
         public static int constructor = 0x3e24e573;
 
         public String title;
-        public ArrayList<TL_bankCardOpenUrl> open_urls = new ArrayList<>();
+        public List<TL_bankCardOpenUrl> open_urls = new ArrayList<>();
 
         public static TL_payments_bankCardData TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_payments_bankCardData.constructor != constructor) {
@@ -21139,8 +21139,8 @@ public class TLRPC {
     public static class TL_messages_highScores extends TLObject {
         public static int constructor = 0x9a3bfd99;
 
-        public ArrayList<TL_highScore> scores = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_highScore> scores = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_messages_highScores TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_highScores.constructor != constructor) {
@@ -21194,7 +21194,7 @@ public class TLRPC {
         public static int constructor = 0xec82e140;
 
         public PhoneCall phone_call;
-        public ArrayList<User> users = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_phone_phoneCall TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_phone_phoneCall.constructor != constructor) {
@@ -21368,7 +21368,7 @@ public class TLRPC {
         public String address;
         public DecryptedMessageAction encryptedAction;
         public String message;
-        public ArrayList<Long> users = new ArrayList<>();
+        public List<Long> users = new ArrayList<>();
         public TL_inputGroupCall call;
         public long channel_id;
         public Photo photo;
@@ -21637,7 +21637,7 @@ public class TLRPC {
         public static int constructor = 0x84f80814;
 
         public InputPeer peer;
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Updates.TLdeserialize(stream, constructor);
@@ -22118,7 +22118,7 @@ public class TLRPC {
     public static class TL_messageActionSecureValuesSent extends MessageAction {
         public static int constructor = 0xd95c6154;
 
-        public ArrayList<SecureValueType> types = new ArrayList<>();
+        public List<SecureValueType> types = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -22520,7 +22520,7 @@ public class TLRPC {
         public static int constructor = 0x4fcba9c8;
 
         public int count;
-        public ArrayList<StickerSetCovered> sets = new ArrayList<>();
+        public List<StickerSetCovered> sets = new ArrayList<>();
 
         public static TL_messages_archivedStickers TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_archivedStickers.constructor != constructor) {
@@ -22565,7 +22565,7 @@ public class TLRPC {
         public DecryptedMessageAction action;
         public byte[] random_bytes;
         public int flags;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
         public String via_bot_name;
         public long reply_to_random_id;
         public long grouped_id;
@@ -22804,7 +22804,7 @@ public class TLRPC {
         public static int constructor = 0x9a3d8c6d;
 
         public long hash;
-        public ArrayList<TL_theme> themes = new ArrayList<>();
+        public List<TL_theme> themes = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             hash = stream.readInt64();
@@ -22855,9 +22855,9 @@ public class TLRPC {
         public boolean email_to_provider;
         public boolean recurring;
         public String currency;
-        public ArrayList<TL_labeledPrice> prices = new ArrayList<>();
+        public List<TL_labeledPrice> prices = new ArrayList<>();
         public long max_tip_amount;
-        public ArrayList<Long> suggested_tip_amounts = new ArrayList<>();
+        public List<Long> suggested_tip_amounts = new ArrayList<>();
         public String recurring_terms_url;
 
         public static TL_invoice TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -22974,7 +22974,7 @@ public class TLRPC {
         public static int constructor = 0xcdc3858c;
 
         public long hash;
-        public ArrayList<WallPaper> wallpapers = new ArrayList<>();
+        public List<WallPaper> wallpapers = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             hash = stream.readInt64();
@@ -23008,7 +23008,7 @@ public class TLRPC {
         public String url;
         public int size;
         public String mime_type;
-        public ArrayList<DocumentAttribute> attributes = new ArrayList<>();
+        public List<DocumentAttribute> attributes = new ArrayList<>();
 
         public static TL_inputWebDocument TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_inputWebDocument.constructor != constructor) {
@@ -23055,8 +23055,8 @@ public class TLRPC {
         public int flags;
         public boolean min;
         public boolean can_see_list;
-        public ArrayList<ReactionCount> results = new ArrayList<>();
-        public ArrayList<MessagePeerReaction> recent_reactions = new ArrayList<>();
+        public List<ReactionCount> results = new ArrayList<>();
+        public List<MessagePeerReaction> recent_reactions = new ArrayList<>();
 
         public static TL_messageReactions TLdeserialize(AbstractSerializedData stream, int constructor) {
             TL_messageReactions result = switch (constructor) {
@@ -23535,7 +23535,7 @@ public class TLRPC {
         public int flags;
         public boolean paused;
         public String endpoint;
-        public ArrayList<TL_groupCallParticipantVideoSourceGroup> source_groups = new ArrayList<>();
+        public List<TL_groupCallParticipantVideoSourceGroup> source_groups = new ArrayList<>();
         public int audio_source;
 
         public static TL_groupCallParticipantVideo TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -23731,7 +23731,7 @@ public class TLRPC {
 
         public int flags;
         public String id;
-        public ArrayList<TL_shippingOption> shipping_options = new ArrayList<>();
+        public List<TL_shippingOption> shipping_options = new ArrayList<>();
 
         public static TL_payments_validatedRequestedInfo TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_payments_validatedRequestedInfo.constructor != constructor) {
@@ -23808,9 +23808,9 @@ public class TLRPC {
     public static class TL_users_userFull extends TLObject {
         public static int constructor = 0x3b6d152e;
 
-        public UserFull full_user;
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public TL_userFull full_user;
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_users_userFull TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_users_userFull.constructor != constructor) {
@@ -23822,7 +23822,7 @@ public class TLRPC {
         }
 
         public void readParams(AbstractSerializedData stream) {
-            full_user = UserFull.TLdeserialize(stream, stream.readInt32());
+            full_user = TL_userFull.TLdeserialize(stream, stream.readInt32());
             int magic = stream.readInt32();
             if (magic != 0x1cb5c415) {
                 throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
@@ -23866,7 +23866,7 @@ public class TLRPC {
 
         public String id;
         public String title;
-        public ArrayList<TL_labeledPrice> prices = new ArrayList<>();
+        public List<TL_labeledPrice> prices = new ArrayList<>();
 
         public static TL_shippingOption TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_shippingOption.constructor != constructor) {
@@ -23997,7 +23997,7 @@ public class TLRPC {
         public StatsGraph views_by_source_graph;
         public StatsGraph new_followers_by_source_graph;
         public StatsGraph languages_graph;
-        public ArrayList<TL_messageInteractionCounters> recent_message_interactions = new ArrayList<>();
+        public List<TL_messageInteractionCounters> recent_message_interactions = new ArrayList<>();
 
         public static TL_stats_broadcastStats TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_stats_broadcastStats.constructor != constructor) {
@@ -24258,13 +24258,13 @@ public class TLRPC {
         public String file_name;
         public String mime_type;
         public long size;
-        public ArrayList<PhotoSize> thumbs = new ArrayList<>();
-        public ArrayList<VideoSize> video_thumbs = new ArrayList<>();
+        public List<PhotoSize> thumbs = new ArrayList<>();
+        public List<VideoSize> video_thumbs = new ArrayList<>();
         public int version;
         public int dc_id;
         public byte[] key;
         public byte[] iv;
-        public ArrayList<DocumentAttribute> attributes = new ArrayList<>();
+        public List<DocumentAttribute> attributes = new ArrayList<>();
         public String file_name_fixed; //custom
         public String localPath; //custom
 
@@ -24873,7 +24873,7 @@ public class TLRPC {
     public static class TL_pageBlockOrderedList extends PageBlock {
         public static int constructor = 0x9a8ae1e1;
 
-        public ArrayList<PageListOrderedItem> items = new ArrayList<>();
+        public List<PageListOrderedItem> items = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -24906,7 +24906,7 @@ public class TLRPC {
         public long author_photo_id;
         public String author;
         public int date;
-        public ArrayList<PageBlock> blocks = new ArrayList<>();
+        public List<PageBlock> blocks = new ArrayList<>();
         public TL_pageCaption caption;
 
         public void readParams(AbstractSerializedData stream) {
@@ -25026,7 +25026,7 @@ public class TLRPC {
         public static int constructor = 0x16115a96;
 
         public RichText title;
-        public ArrayList<TL_pageRelatedArticle> articles = new ArrayList<>();
+        public List<TL_pageRelatedArticle> articles = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             title = RichText.TLdeserialize(stream, stream.readInt32());
@@ -25072,7 +25072,7 @@ public class TLRPC {
     public static class TL_pageBlockSlideshow extends PageBlock {
         public static int constructor = 0x31f9590;
 
-        public ArrayList<PageBlock> items = new ArrayList<>();
+        public List<PageBlock> items = new ArrayList<>();
         public TL_pageCaption caption;
 
         public void readParams(AbstractSerializedData stream) {
@@ -25194,7 +25194,7 @@ public class TLRPC {
         public static int constructor = 0xe4e88011;
 
         public boolean ordered;
-        public ArrayList<PageListItem> items = new ArrayList<>();
+        public List<PageListItem> items = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -25235,7 +25235,7 @@ public class TLRPC {
     public static class TL_pageBlockCollage extends PageBlock {
         public static int constructor = 0x65a0fa4d;
 
-        public ArrayList<PageBlock> items = new ArrayList<>();
+        public List<PageBlock> items = new ArrayList<>();
         public TL_pageCaption caption;
 
         public void readParams(AbstractSerializedData stream) {
@@ -25361,7 +25361,7 @@ public class TLRPC {
 
         public int flags;
         public boolean open;
-        public ArrayList<PageBlock> blocks = new ArrayList<>();
+        public List<PageBlock> blocks = new ArrayList<>();
         public RichText title;
 
         public void readParams(AbstractSerializedData stream) {
@@ -25526,7 +25526,7 @@ public class TLRPC {
         public boolean bordered;
         public boolean striped;
         public RichText title;
-        public ArrayList<TL_pageTableRow> rows = new ArrayList<>();
+        public List<TL_pageTableRow> rows = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -25642,7 +25642,7 @@ public class TLRPC {
     public static class TL_inputPrivacyValueDisallowUsers extends InputPrivacyRule {
         public static int constructor = 0x90110467;
 
-        public ArrayList<InputUser> users = new ArrayList<>();
+        public List<InputUser> users = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -25679,7 +25679,7 @@ public class TLRPC {
     public static class TL_inputPrivacyValueAllowChatParticipants extends InputPrivacyRule {
         public static int constructor = 0x840649cf;
 
-        public ArrayList<Long> chats = new ArrayList<>();
+        public List<Long> chats = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -25723,7 +25723,7 @@ public class TLRPC {
     public static class TL_inputPrivacyValueAllowUsers extends InputPrivacyRule {
         public static int constructor = 0x131cc67f;
 
-        public ArrayList<InputUser> users = new ArrayList<>();
+        public List<InputUser> users = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -25752,7 +25752,7 @@ public class TLRPC {
     public static class TL_inputPrivacyValueDisallowChatParticipants extends InputPrivacyRule {
         public static int constructor = 0xe94f0f86;
 
-        public ArrayList<Long> chats = new ArrayList<>();
+        public List<Long> chats = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -25814,8 +25814,8 @@ public class TLRPC {
 
         public int flags;
         public int count;
-        public ArrayList<MessageUserVote> votes = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<MessageUserVote> votes = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
         public String next_offset;
 
         public static TL_messages_votesList TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -25915,7 +25915,7 @@ public class TLRPC {
         public int ttl_seconds;
         public InputGeoPoint geo_point;
         public InputFile file;
-        public ArrayList<InputDocument> stickers = new ArrayList<>();
+        public List<InputDocument> stickers = new ArrayList<>();
         public String title;
         public String address;
         public String provider;
@@ -25928,7 +25928,7 @@ public class TLRPC {
         public boolean stopped;
         public InputFile thumb;
         public String mime_type;
-        public ArrayList<DocumentAttribute> attributes = new ArrayList<>();
+        public List<DocumentAttribute> attributes = new ArrayList<>();
         public int proximity_notification_radius;
 
         public static InputMedia TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -26087,9 +26087,9 @@ public class TLRPC {
         public static int constructor = 0xf94e5f1;
 
         public Poll poll;
-        public ArrayList<byte[]> correct_answers = new ArrayList<>();
+        public List<byte[]> correct_answers = new ArrayList<>();
         public String solution;
-        public ArrayList<MessageEntity> solution_entities = new ArrayList<>();
+        public List<MessageEntity> solution_entities = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -26372,7 +26372,7 @@ public class TLRPC {
 
     public static abstract class StickerSetCovered extends TLObject {
         public StickerSet set;
-        public ArrayList<Document> covers = new ArrayList<>();
+        public List<Document> covers = new ArrayList<>();
         public Document cover;
 
         public static StickerSetCovered TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -26427,7 +26427,7 @@ public class TLRPC {
         public static int constructor = 0xfcfeb29c;
 
         public long document_id;
-        public ArrayList<String> keyword = new ArrayList<>();
+        public List<String> keyword = new ArrayList<>();
 
         public static TL_stickerKeyword TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_stickerKeyword.constructor != constructor) {
@@ -26518,9 +26518,9 @@ public class TLRPC {
     public static class TL_stickerSetFullCovered extends StickerSetCovered {
         public static int constructor = 0x40d13c0e;
 
-        public ArrayList<TL_stickerPack> packs = new ArrayList<>();
-        public ArrayList<TL_stickerKeyword> keywords = new ArrayList<>();
-        public ArrayList<Document> documents = new ArrayList<>();
+        public List<TL_stickerPack> packs = new ArrayList<>();
+        public List<TL_stickerKeyword> keywords = new ArrayList<>();
+        public List<Document> documents = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             set = StickerSet.TLdeserialize(stream, stream.readInt32());
@@ -26958,8 +26958,8 @@ public class TLRPC {
         public static int constructor = 0x6880b94d;
 
         public TL_peerSettings settings;
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_messages_peerSettings TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_peerSettings.constructor != constructor) {
@@ -27129,7 +27129,7 @@ public class TLRPC {
     public static class TL_messageUserVoteMultiple extends MessageUserVote {
         public static int constructor = 0x8a65e557;
 
-        public ArrayList<byte[]> options = new ArrayList<>();
+        public List<byte[]> options = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             user_id = stream.readInt64();
@@ -27161,10 +27161,10 @@ public class TLRPC {
     public static class TL_contacts_importedContacts extends TLObject {
         public static int constructor = 0x77d01c3b;
 
-        public ArrayList<TL_importedContact> imported = new ArrayList<>();
-        public ArrayList<TL_popularContact> popular_invites = new ArrayList<>();
-        public ArrayList<Long> retry_contacts = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_importedContact> imported = new ArrayList<>();
+        public List<TL_popularContact> popular_invites = new ArrayList<>();
+        public List<Long> retry_contacts = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_contacts_importedContacts TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_contacts_importedContacts.constructor != constructor) {
@@ -27540,7 +27540,7 @@ public class TLRPC {
     public static class TL_updateDeleteMessages extends Update {
         public static int constructor = 0xa20db0e5;
 
-        public ArrayList<Integer> messages = new ArrayList<>();
+        public List<Integer> messages = new ArrayList<>();
         public int pts;
         public int pts_count;
 
@@ -27577,7 +27577,7 @@ public class TLRPC {
         public int flags;
         public boolean pinned;
         public long channel_id;
-        public ArrayList<Integer> messages = new ArrayList<>();
+        public List<Integer> messages = new ArrayList<>();
         public int pts;
         public int pts_count;
 
@@ -27618,7 +27618,7 @@ public class TLRPC {
         public static int constructor = 0xf2ebdb4e;
 
         public TL_inputGroupCall call;
-        public ArrayList<TL_groupCallParticipant> participants = new ArrayList<>();
+        public List<TL_groupCallParticipant> participants = new ArrayList<>();
         public int version;
 
         public void readParams(AbstractSerializedData stream) {
@@ -27914,7 +27914,7 @@ public class TLRPC {
     public static class TL_updateFolderPeers extends Update {
         public static int constructor = 0x19360dc0;
 
-        public ArrayList<TL_folderPeer> folder_peers = new ArrayList<>();
+        public List<TL_folderPeer> folder_peers = new ArrayList<>();
         public int pts;
         public int pts_count;
 
@@ -28068,7 +28068,7 @@ public class TLRPC {
 
         public Peer peer;
         public long bot_id;
-        public ArrayList<TL_botCommand> commands = new ArrayList<>();
+        public List<TL_botCommand> commands = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             peer = Peer.TLdeserialize(stream, stream.readInt32());
@@ -28434,7 +28434,7 @@ public class TLRPC {
         public String type;
         public String message;
         public MessageMedia media;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -28594,7 +28594,7 @@ public class TLRPC {
         public int flags;
         public long channel_id;
         public int top_msg_id;
-        public ArrayList<Integer> messages = new ArrayList<>();
+        public List<Integer> messages = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -28633,7 +28633,7 @@ public class TLRPC {
         public static int constructor = 0xee3b272a;
 
         public PrivacyKey key;
-        public ArrayList<PrivacyRule> rules = new ArrayList<>();
+        public List<PrivacyRule> rules = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             key = PrivacyKey.TLdeserialize(stream, stream.readInt32());
@@ -28727,7 +28727,7 @@ public class TLRPC {
         public long user_id;
         public String first_name;
         public String last_name;
-        public ArrayList<TL_username> usernames = new ArrayList<>();
+        public List<TL_username> usernames = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             user_id = stream.readInt64();
@@ -28858,7 +28858,7 @@ public class TLRPC {
         public int flags;
         public boolean pinned;
         public Peer peer;
-        public ArrayList<Integer> messages = new ArrayList<>();
+        public List<Integer> messages = new ArrayList<>();
         public int pts;
         public int pts_count;
 
@@ -28942,7 +28942,7 @@ public class TLRPC {
 
         public int flags;
         public int folder_id;
-        public ArrayList<DialogPeer> order = new ArrayList<>();
+        public List<DialogPeer> order = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -28985,7 +28985,7 @@ public class TLRPC {
     public static class TL_updatePeerLocated extends Update {
         public static int constructor = 0xb4afcfb0;
 
-        public ArrayList<PeerLocated> peers = new ArrayList<>();
+        public List<PeerLocated> peers = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -29059,7 +29059,7 @@ public class TLRPC {
     public static class TL_updateDialogFilterOrder extends Update {
         public static int constructor = 0xa5d72105;
 
-        public ArrayList<Integer> order = new ArrayList<>();
+        public List<Integer> order = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -29145,7 +29145,7 @@ public class TLRPC {
         public static int constructor = 0x90866cee;
 
         public Peer peer;
-        public ArrayList<Integer> messages = new ArrayList<>();
+        public List<Integer> messages = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             peer = Peer.TLdeserialize(stream, stream.readInt32());
@@ -29197,7 +29197,7 @@ public class TLRPC {
         public static int constructor = 0xc32d5b12;
 
         public long channel_id;
-        public ArrayList<Integer> messages = new ArrayList<>();
+        public List<Integer> messages = new ArrayList<>();
         public int pts;
         public int pts_count;
 
@@ -29277,7 +29277,7 @@ public class TLRPC {
 
         public Peer peer;
         public int requests_pending;
-        public ArrayList<Long> recent_requesters = new ArrayList<>();
+        public List<Long> recent_requesters = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             peer = Peer.TLdeserialize(stream, stream.readInt32());
@@ -29309,7 +29309,7 @@ public class TLRPC {
     public static class TL_updateDcOptions extends Update {
         public static int constructor = 0x8e5e9873;
 
-        public ArrayList<TL_dcOption> dc_options = new ArrayList<>();
+        public List<TL_dcOption> dc_options = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -29431,7 +29431,7 @@ public class TLRPC {
         public int flags;
         public boolean masks;
         public boolean emojis;
-        public ArrayList<Long> order = new ArrayList<>();
+        public List<Long> order = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -29508,7 +29508,7 @@ public class TLRPC {
     public static class TL_updateReadMessagesContents extends Update {
         public static int constructor = 0x68c13933;
 
-        public ArrayList<Integer> messages = new ArrayList<>();
+        public List<Integer> messages = new ArrayList<>();
         public int pts;
         public int pts_count;
 
@@ -29580,7 +29580,7 @@ public class TLRPC {
 
         public int flags;
         public long channel_id;
-        public ArrayList<Integer> order = new ArrayList<>();
+        public List<Integer> order = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -29752,9 +29752,9 @@ public class TLRPC {
 
     public static abstract class messages_AllStickers extends TLObject {
         public String hash;
-        public ArrayList<StickerSet> sets = new ArrayList<>();
-        public ArrayList<TL_stickerPack> packs = new ArrayList<>();
-        public ArrayList<Document> documents = new ArrayList<>();
+        public List<StickerSet> sets = new ArrayList<>();
+        public List<TL_stickerPack> packs = new ArrayList<>();
+        public List<Document> documents = new ArrayList<>();
 
         public static messages_AllStickers TLdeserialize(AbstractSerializedData stream, int constructor) {
             messages_AllStickers result = switch (constructor) {
@@ -29816,9 +29816,9 @@ public class TLRPC {
     public static class TL_messages_messageViews extends TLObject {
         public static int constructor = 0xb6c4f543;
 
-        public ArrayList<TL_messageViews> views = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_messageViews> views = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_messages_messageViews TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_messageViews.constructor != constructor) {
@@ -29898,7 +29898,7 @@ public class TLRPC {
     public static abstract class DecryptedMessageAction extends TLObject {
         public int ttl_seconds;
         public int layer;
-        public ArrayList<Long> random_ids = new ArrayList<>();
+        public List<Long> random_ids = new ArrayList<>();
         public long exchange_id;
         public long key_fingerprint;
         public SendMessageAction action;
@@ -31071,8 +31071,8 @@ public class TLRPC {
         public long access_hash;
         public byte[] file_reference;
         public int date;
-        public ArrayList<PhotoSize> sizes = new ArrayList<>();
-        public ArrayList<VideoSize> video_sizes = new ArrayList<>();
+        public List<PhotoSize> sizes = new ArrayList<>();
+        public List<VideoSize> video_sizes = new ArrayList<>();
         public int dc_id;
         public long user_id;
         public GeoPoint geo;
@@ -31740,7 +31740,7 @@ public class TLRPC {
         public static int constructor = 0x8af09dd2;
 
         public long hash;
-        public ArrayList<StickerSetCovered> sets = new ArrayList<>();
+        public List<StickerSetCovered> sets = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             hash = stream.readInt64();
@@ -31803,7 +31803,7 @@ public class TLRPC {
         public static int constructor = 0xdcb118b7;
 
         public String semantics;
-        public ArrayList<Integer> sources = new ArrayList<>();
+        public List<Integer> sources = new ArrayList<>();
 
         public static TL_groupCallParticipantVideoSourceGroup TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_groupCallParticipantVideoSourceGroup.constructor != constructor) {
@@ -31950,7 +31950,7 @@ public class TLRPC {
         public int expires;
         public boolean test_mode;
         public int this_dc;
-        public ArrayList<TL_dcOption> dc_options = new ArrayList<>();
+        public List<TL_dcOption> dc_options = new ArrayList<>();
         public String dc_txt_domain_name;
         public int chat_size_max;
         public int megagroup_size_max;
@@ -32179,9 +32179,9 @@ public class TLRPC {
     public static class TL_contacts_topPeers extends contacts_TopPeers {
         public static int constructor = 0x70b772a8;
 
-        public ArrayList<TL_topPeerCategoryPeers> categories = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_topPeerCategoryPeers> categories = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -32324,7 +32324,7 @@ public class TLRPC {
 
 
     public static abstract class messages_Chats extends TLObject {
-        public ArrayList<Chat> chats = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
         public int count;
 
         public static messages_Chats TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -32543,7 +32543,7 @@ public class TLRPC {
         public boolean multiple_choice;
         public boolean quiz;
         public String question;
-        public ArrayList<TL_pollAnswer> answers = new ArrayList<>();
+        public List<TL_pollAnswer> answers = new ArrayList<>();
         public int close_period;
         public int close_date;
 
@@ -32721,9 +32721,9 @@ public class TLRPC {
         public long query_id;
         public String next_offset;
         public TL_inlineBotSwitchPM switch_pm;
-        public ArrayList<BotInlineResult> results = new ArrayList<>();
+        public List<BotInlineResult> results = new ArrayList<>();
         public int cache_time;
-        public ArrayList<User> users = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static messages_BotResults TLdeserialize(AbstractSerializedData stream, int constructor) {
             messages_BotResults result = switch (constructor) {
@@ -33179,7 +33179,7 @@ public class TLRPC {
         public String slug;
         public String title;
         public Document document;
-        public ArrayList<ThemeSettings> settings = new ArrayList<>();
+        public List<ThemeSettings> settings = new ArrayList<>();
         public String emoticon;
         public int installs_count;
 
@@ -33335,12 +33335,12 @@ public class TLRPC {
         public boolean isFinal;
         public int pts;
         public int timeout;
-        public ArrayList<Message> new_messages = new ArrayList<>();
-        public ArrayList<Update> other_updates = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Message> new_messages = new ArrayList<>();
+        public List<Update> other_updates = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
         public Dialog dialog;
-        public ArrayList<Message> messages = new ArrayList<>();
+        public List<Message> messages = new ArrayList<>();
 
 
         public static updates_ChannelDifference TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -33554,7 +33554,7 @@ public class TLRPC {
     public static abstract class ChannelMessagesFilter extends TLObject {
         public int flags;
         public boolean exclude_new_messages;
-        public ArrayList<TL_messageRange> ranges = new ArrayList<>();
+        public List<TL_messageRange> ranges = new ArrayList<>();
 
         public static ChannelMessagesFilter TLdeserialize(AbstractSerializedData stream, int constructor) {
             ChannelMessagesFilter result = switch (constructor) {
@@ -33581,7 +33581,7 @@ public class TLRPC {
         public int channel_post;
         public String start_param;
         public String message;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
         public boolean recommended;
         public boolean show_peer_photo;
 
@@ -33669,10 +33669,10 @@ public class TLRPC {
         public static int constructor = 0xad2e1cd8;
 
         public int flags;
-        public ArrayList<SecureRequiredType> required_types = new ArrayList<>();
-        public ArrayList<TL_secureValue> values = new ArrayList<>();
-        public ArrayList<SecureValueError> errors = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<SecureRequiredType> required_types = new ArrayList<>();
+        public List<TL_secureValue> values = new ArrayList<>();
+        public List<SecureValueError> errors = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
         public String privacy_policy_url;
 
         public static TL_account_authorizationForm TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -33767,9 +33767,9 @@ public class TLRPC {
     public static class TL_help_recentMeUrls extends TLObject {
         public static int constructor = 0xe0310d7;
 
-        public ArrayList<RecentMeUrl> urls = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<RecentMeUrl> urls = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_help_recentMeUrls TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_help_recentMeUrls.constructor != constructor) {
@@ -33922,8 +33922,8 @@ public class TLRPC {
         public static int constructor = 0x7f077ad9;
 
         public Peer peer;
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_contacts_resolvedPeer TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_contacts_resolvedPeer.constructor != constructor) {
@@ -34018,7 +34018,7 @@ public class TLRPC {
         public static int constructor = 0x53b22baf;
 
         public int count;
-        public ArrayList<TL_searchResultPosition> positions = new ArrayList<>();
+        public List<TL_searchResultPosition> positions = new ArrayList<>();
 
         public static TL_messages_searchResultsPositions TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_searchResultsPositions.constructor != constructor) {
@@ -34100,7 +34100,7 @@ public class TLRPC {
         public InputMedia media;
         public long random_id;
         public String message;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
 
         public static TL_inputSingleMedia TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_inputSingleMedia.constructor != constructor) {
@@ -34183,7 +34183,7 @@ public class TLRPC {
         public long access_hash;
         public int size;
         public String mime_type;
-        public ArrayList<DocumentAttribute> attributes = new ArrayList<>();
+        public List<DocumentAttribute> attributes = new ArrayList<>();
 
         public static WebDocument TLdeserialize(AbstractSerializedData stream, int constructor) {
             WebDocument result = switch (constructor) {
@@ -34340,8 +34340,8 @@ public class TLRPC {
         public boolean proxy;
         public int expires;
         public Peer peer;
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
         public String psa_type;
         public String psa_message;
 
@@ -35007,9 +35007,9 @@ public class TLRPC {
 
     public static abstract class channels_ChannelParticipants extends TLObject {
         public int count;
-        public ArrayList<ChannelParticipant> participants = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
+        public List<ChannelParticipant> participants = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
 
         public static channels_ChannelParticipants TLdeserialize(AbstractSerializedData stream, int constructor) {
             channels_ChannelParticipants result = switch (constructor) {
@@ -35259,10 +35259,10 @@ public class TLRPC {
     public static class TL_contacts_found extends TLObject {
         public static int constructor = 0xb3134d9d;
 
-        public ArrayList<Peer> my_results = new ArrayList<>();
-        public ArrayList<Peer> results = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Peer> my_results = new ArrayList<>();
+        public List<Peer> results = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_contacts_found TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_contacts_found.constructor != constructor) {
@@ -35362,7 +35362,7 @@ public class TLRPC {
         public int flags;
         public long chat_id;
         public ChatParticipant self_participant;
-        public ArrayList<ChatParticipant> participants = new ArrayList<>();
+        public List<ChatParticipant> participants = new ArrayList<>();
         public int version;
         public long admin_id;
 
@@ -35613,7 +35613,7 @@ public class TLRPC {
         public long user_id;
         public int thumb_w;
         public int thumb_h;
-        public ArrayList<DocumentAttribute> attributes = new ArrayList<>();
+        public List<DocumentAttribute> attributes = new ArrayList<>();
         public String caption;
         public String url;
         public int w;
@@ -36084,7 +36084,7 @@ public class TLRPC {
         public static int constructor = 0x236df622;
 
         public String keyword;
-        public ArrayList<String> emoticons = new ArrayList<>();
+        public List<String> emoticons = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             keyword = stream.readString();
@@ -36115,7 +36115,7 @@ public class TLRPC {
         public static int constructor = 0xd5b3b9f9;
 
         public String keyword;
-        public ArrayList<String> emoticons = new ArrayList<>();
+        public List<String> emoticons = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             keyword = stream.readString();
@@ -37264,8 +37264,8 @@ public class TLRPC {
     public static class TL_channelAdminLogEventActionChangeUsernames extends ChannelAdminLogEventAction {
         public static int constructor = 0xf04fb3a9;
 
-        public ArrayList<String> prev_value = new ArrayList<>();
-        public ArrayList<String> new_value = new ArrayList<>();
+        public List<String> prev_value = new ArrayList<>();
+        public List<String> new_value = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -37543,9 +37543,9 @@ public class TLRPC {
     public static class TL_messages_inactiveChats extends TLObject {
         public static int constructor = 0xa927fec5;
 
-        public ArrayList<Integer> dates = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Integer> dates = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_messages_inactiveChats TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_inactiveChats.constructor != constructor) {
@@ -37704,7 +37704,7 @@ public class TLRPC {
         public boolean gigagroup;
         public boolean noforwards;
         public boolean forum;
-        public ArrayList<TL_restrictionReason> restriction_reason = new ArrayList<>();
+        public List<TL_restrictionReason> restriction_reason = new ArrayList<>();
         public TL_channelAdminRights_layer92 admin_rights_layer92;
         public TL_channelBannedRights_layer92 banned_rights_layer92;
         public TL_chatAdminRights admin_rights;
@@ -37714,7 +37714,7 @@ public class TLRPC {
         public boolean join_to_send;
         public boolean join_request;
 
-        public ArrayList<TL_username> usernames = new ArrayList<>();
+        public List<TL_username> usernames = new ArrayList<>();
 
         public static Chat TLdeserialize(AbstractSerializedData stream, int constructor) {
             Chat result = switch (constructor) {
@@ -39083,7 +39083,7 @@ public class TLRPC {
         public int count;
         public int hash;
         public int installed_date;
-        public ArrayList<PhotoSize> thumbs = new ArrayList<>();
+        public List<PhotoSize> thumbs = new ArrayList<>();
         public int thumb_dc_id;
         public int thumb_version;
         public long thumb_document_id;
@@ -39939,10 +39939,10 @@ public class TLRPC {
         public static int constructor = 0xf47751b6;
 
         public int count;
-        public ArrayList<TL_groupCallParticipant> participants = new ArrayList<>();
+        public List<TL_groupCallParticipant> participants = new ArrayList<>();
         public String next_offset;
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
         public int version;
 
         public static TL_phone_groupParticipants TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -40057,7 +40057,7 @@ public class TLRPC {
         public static int constructor = 0x98dd8936;
 
         public String num;
-        public ArrayList<PageBlock> blocks = new ArrayList<>();
+        public List<PageBlock> blocks = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             num = stream.readString();
@@ -40620,7 +40620,7 @@ public class TLRPC {
 
     public static abstract class messages_SavedGifs extends TLObject {
         public long hash;
-        public ArrayList<Document> gifs = new ArrayList<>();
+        public List<Document> gifs = new ArrayList<>();
 
         public static messages_SavedGifs TLdeserialize(AbstractSerializedData stream, int constructor) {
             messages_SavedGifs result = switch (constructor) {
@@ -40883,7 +40883,7 @@ public class TLRPC {
     public static class TL_photoSizeProgressive extends PhotoSize {
         public static int constructor = 0xfa3efb95;
 
-        public ArrayList<Integer> sizes = new ArrayList<>();
+        public List<Integer> sizes = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             type = stream.readString();
@@ -40954,7 +40954,7 @@ public class TLRPC {
         public int usage;
         public int requested;
         public String title;
-        public ArrayList<User> importers; //custom
+        public List<User> importers; //custom
         public boolean expired; //custom
 
         public void readParams(AbstractSerializedData stream) {
@@ -41194,8 +41194,8 @@ public class TLRPC {
     public static class TL_account_webAuthorizations extends TLObject {
         public static int constructor = 0xed56c9fc;
 
-        public ArrayList<TL_webAuthorization> authorizations = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_webAuthorization> authorizations = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_account_webAuthorizations TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_account_webAuthorizations.constructor != constructor) {
@@ -41362,7 +41362,7 @@ public class TLRPC {
         public static int constructor = 0x768e3aad;
 
         public int hash;
-        public ArrayList<TL_availableReaction> reactions = new ArrayList<>();
+        public List<TL_availableReaction> reactions = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             hash = stream.readInt32();
@@ -41393,7 +41393,8 @@ public class TLRPC {
         }
     }
 
-    public static abstract class UserFull extends TLObject {
+    public static class TL_userFull extends TLObject {
+        public static int constructor = 0xc4b1fc3f;
 
         public int flags;
         public boolean blocked;
@@ -41419,32 +41420,17 @@ public class TLRPC {
         public String private_forward_name;
         public TL_chatAdminRights bot_group_admin_rights;
         public TL_chatAdminRights bot_broadcast_admin_rights;
-        public ArrayList<TL_premiumGiftOption> premium_gifts = new ArrayList<>();
+        public List<TL_premiumGiftOption> premium_gifts = new ArrayList<>();
 
-        public static UserFull TLdeserialize(AbstractSerializedData stream, int constructor) {
-            UserFull result = switch (constructor) {
-                case 0xc4b1fc3f -> new TL_userFull();
-                case 0x8c72ea81 -> new TL_userFull_layer143();
-                case 0xcf366521 -> new TL_userFull_layer139();
-                case 0xd697ff05 -> new TL_userFull_layer134();
-                case 0x139a9a77 -> new TL_userFull_layer131();
-                case 0x745559cc -> new TL_userFull_layer101();
-                case 0x8ea4a881 -> new TL_userFull_layer98();
-                case 0xedf17c12 -> new TL_userFull_layer123();
-                default -> null;
-            };
-            if (result == null) {
-                throw new RuntimeException(String.format("can't parse magic %x in UserFull", constructor));
+
+        public static TL_userFull TLdeserialize(AbstractSerializedData stream, int constructor) {
+            if (TL_userFull.constructor != constructor) {
+                throw new RuntimeException(String.format("can't parse magic %x in TL_userFull", constructor));
             }
-            if (result != null) {
-                result.readParams(stream);
-            }
+            TL_userFull result = new TL_userFull();
+            result.readParams(stream);
             return result;
         }
-    }
-
-    public static class TL_userFull extends UserFull {
-        public static int constructor = 0xc4b1fc3f;
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -41560,507 +41546,10 @@ public class TLRPC {
         }
     }
 
-    public static class TL_userFull_layer143 extends TL_userFull {
-        public static int constructor = 0x8c72ea81;
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            blocked = (flags & 1) != 0;
-            phone_calls_available = (flags & 16) != 0;
-            phone_calls_private = (flags & 32) != 0;
-            can_pin_message = (flags & 128) != 0;
-            has_scheduled = (flags & 4096) != 0;
-            video_calls_available = (flags & 8192) != 0;
-            id = stream.readInt64();
-            if ((flags & 2) != 0) {
-                about = stream.readString();
-            }
-            settings = TL_peerSettings.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 4) != 0) {
-                profile_photo = Photo.TLdeserialize(stream, stream.readInt32());
-            }
-            notify_settings = PeerNotifySettings.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 8) != 0) {
-                bot_info = BotInfo.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                pinned_msg_id = stream.readInt32();
-            }
-            common_chats_count = stream.readInt32();
-            if ((flags & 2048) != 0) {
-                folder_id = stream.readInt32();
-            }
-            if ((flags & 16384) != 0) {
-                ttl_period = stream.readInt32();
-            }
-            if ((flags & 32768) != 0) {
-                theme_emoticon = stream.readString();
-            }
-            if ((flags & 65536) != 0) {
-                private_forward_name = stream.readString();
-            }
-            if ((flags & 131072) != 0) {
-                bot_group_admin_rights = TL_chatAdminRights.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 262144) != 0) {
-                bot_broadcast_admin_rights = TL_chatAdminRights.TLdeserialize(stream, stream.readInt32());
-            }
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = blocked ? (flags | 1) : (flags &~ 1);
-            flags = phone_calls_available ? (flags | 16) : (flags &~ 16);
-            flags = phone_calls_private ? (flags | 32) : (flags &~ 32);
-            flags = can_pin_message ? (flags | 128) : (flags &~ 128);
-            flags = has_scheduled ? (flags | 4096) : (flags &~ 4096);
-            flags = video_calls_available ? (flags | 8192) : (flags &~ 8192);
-            stream.writeInt32(flags);
-            stream.writeInt64(id);
-            if ((flags & 2) != 0) {
-                stream.writeString(about);
-            }
-            settings.serializeToStream(stream);
-            if ((flags & 4) != 0) {
-                profile_photo.serializeToStream(stream);
-            }
-            notify_settings.serializeToStream(stream);
-            if ((flags & 8) != 0) {
-                bot_info.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                stream.writeInt32(pinned_msg_id);
-            }
-            stream.writeInt32(common_chats_count);
-            if ((flags & 2048) != 0) {
-                stream.writeInt32(folder_id);
-            }
-            if ((flags & 16384) != 0) {
-                stream.writeInt32(ttl_period);
-            }
-            if ((flags & 32768) != 0) {
-                stream.writeString(theme_emoticon);
-            }
-            if ((flags & 65536) != 0) {
-                stream.writeString(private_forward_name);
-            }
-            if ((flags & 131072) != 0) {
-                bot_group_admin_rights.serializeToStream(stream);
-            }
-            if ((flags & 262144) != 0) {
-                bot_broadcast_admin_rights.serializeToStream(stream);
-            }
-        }
-    }
-
-    public static class TL_userFull_layer139 extends UserFull {
-        public static int constructor = 0xcf366521;
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            blocked = (flags & 1) != 0;
-            phone_calls_available = (flags & 16) != 0;
-            phone_calls_private = (flags & 32) != 0;
-            can_pin_message = (flags & 128) != 0;
-            has_scheduled = (flags & 4096) != 0;
-            video_calls_available = (flags & 8192) != 0;
-            id = stream.readInt64();
-            if ((flags & 2) != 0) {
-                about = stream.readString();
-            }
-            settings = TL_peerSettings.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 4) != 0) {
-                profile_photo = Photo.TLdeserialize(stream, stream.readInt32());
-            }
-            notify_settings = PeerNotifySettings.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 8) != 0) {
-                bot_info = BotInfo.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                pinned_msg_id = stream.readInt32();
-            }
-            common_chats_count = stream.readInt32();
-            if ((flags & 2048) != 0) {
-                folder_id = stream.readInt32();
-            }
-            if ((flags & 16384) != 0) {
-                ttl_period = stream.readInt32();
-            }
-            if ((flags & 32768) != 0) {
-                theme_emoticon = stream.readString();
-            }
-            if ((flags & 65536) != 0) {
-                private_forward_name = stream.readString();
-            }
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = blocked ? (flags | 1) : (flags &~ 1);
-            flags = phone_calls_available ? (flags | 16) : (flags &~ 16);
-            flags = phone_calls_private ? (flags | 32) : (flags &~ 32);
-            flags = can_pin_message ? (flags | 128) : (flags &~ 128);
-            flags = has_scheduled ? (flags | 4096) : (flags &~ 4096);
-            flags = video_calls_available ? (flags | 8192) : (flags &~ 8192);
-            stream.writeInt32(flags);
-            stream.writeInt64(id);
-            if ((flags & 2) != 0) {
-                stream.writeString(about);
-            }
-            settings.serializeToStream(stream);
-            if ((flags & 4) != 0) {
-                profile_photo.serializeToStream(stream);
-            }
-            notify_settings.serializeToStream(stream);
-            if ((flags & 8) != 0) {
-                bot_info.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                stream.writeInt32(pinned_msg_id);
-            }
-            stream.writeInt32(common_chats_count);
-            if ((flags & 2048) != 0) {
-                stream.writeInt32(folder_id);
-            }
-            if ((flags & 16384) != 0) {
-                stream.writeInt32(ttl_period);
-            }
-            if ((flags & 32768) != 0) {
-                stream.writeString(theme_emoticon);
-            }
-            if ((flags & 65536) != 0) {
-                stream.writeString(private_forward_name);
-            }
-        }
-    }
-
-    public static class TL_userFull_layer134 extends TL_userFull {
-        public static int constructor = 0xd697ff05;
-
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            blocked = (flags & 1) != 0;
-            phone_calls_available = (flags & 16) != 0;
-            phone_calls_private = (flags & 32) != 0;
-            can_pin_message = (flags & 128) != 0;
-            has_scheduled = (flags & 4096) != 0;
-            video_calls_available = (flags & 8192) != 0;
-            user = User.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 2) != 0) {
-                about = stream.readString();
-            }
-            settings = TL_peerSettings.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 4) != 0) {
-                profile_photo = Photo.TLdeserialize(stream, stream.readInt32());
-            }
-            notify_settings = PeerNotifySettings.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 8) != 0) {
-                bot_info = BotInfo.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                pinned_msg_id = stream.readInt32();
-            }
-            common_chats_count = stream.readInt32();
-            if ((flags & 2048) != 0) {
-                folder_id = stream.readInt32();
-            }
-            if ((flags & 16384) != 0) {
-                ttl_period = stream.readInt32();
-            }
-            if ((flags & 32768) != 0) {
-                theme_emoticon = stream.readString();
-            }
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = blocked ? (flags | 1) : (flags &~ 1);
-            flags = phone_calls_available ? (flags | 16) : (flags &~ 16);
-            flags = phone_calls_private ? (flags | 32) : (flags &~ 32);
-            flags = can_pin_message ? (flags | 128) : (flags &~ 128);
-            flags = has_scheduled ? (flags | 4096) : (flags &~ 4096);
-            flags = video_calls_available ? (flags | 8192) : (flags &~ 8192);
-            stream.writeInt32(flags);
-            user.serializeToStream(stream);
-            if ((flags & 2) != 0) {
-                stream.writeString(about);
-            }
-            settings.serializeToStream(stream);
-            if ((flags & 4) != 0) {
-                profile_photo.serializeToStream(stream);
-            }
-            notify_settings.serializeToStream(stream);
-            if ((flags & 8) != 0) {
-                bot_info.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                stream.writeInt32(pinned_msg_id);
-            }
-            stream.writeInt32(common_chats_count);
-            if ((flags & 2048) != 0) {
-                stream.writeInt32(folder_id);
-            }
-            if ((flags & 16384) != 0) {
-                stream.writeInt32(ttl_period);
-            }
-            if ((flags & 32768) != 0) {
-                stream.writeString(theme_emoticon);
-            }
-        }
-    }
-
-    public static class TL_userFull_layer101 extends TL_userFull {
-        public static int constructor = 0x745559cc;
-
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            blocked = (flags & 1) != 0;
-            phone_calls_available = (flags & 16) != 0;
-            phone_calls_private = (flags & 32) != 0;
-            can_pin_message = (flags & 128) != 0;
-            user = User.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 2) != 0) {
-                about = stream.readString();
-            }
-            link = TL_contacts_link_layer101.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 4) != 0) {
-                profile_photo = Photo.TLdeserialize(stream, stream.readInt32());
-            }
-            notify_settings = PeerNotifySettings.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 8) != 0) {
-                bot_info = BotInfo.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                pinned_msg_id = stream.readInt32();
-            }
-            common_chats_count = stream.readInt32();
-            if ((flags & 2048) != 0) {
-                folder_id = stream.readInt32();
-            }
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = blocked ? (flags | 1) : (flags &~ 1);
-            flags = phone_calls_available ? (flags | 16) : (flags &~ 16);
-            flags = phone_calls_private ? (flags | 32) : (flags &~ 32);
-            flags = can_pin_message ? (flags | 128) : (flags &~ 128);
-            stream.writeInt32(flags);
-            user.serializeToStream(stream);
-            if ((flags & 2) != 0) {
-                stream.writeString(about);
-            }
-            link.serializeToStream(stream);
-            if ((flags & 4) != 0) {
-                profile_photo.serializeToStream(stream);
-            }
-            notify_settings.serializeToStream(stream);
-            if ((flags & 8) != 0) {
-                bot_info.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                stream.writeInt32(pinned_msg_id);
-            }
-            stream.writeInt32(common_chats_count);
-            if ((flags & 2048) != 0) {
-                stream.writeInt32(folder_id);
-            }
-        }
-    }
-
-    public static class TL_userFull_layer98 extends TL_userFull {
-        public static int constructor = 0x8ea4a881;
-
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            blocked = (flags & 1) != 0;
-            phone_calls_available = (flags & 16) != 0;
-            phone_calls_private = (flags & 32) != 0;
-            can_pin_message = (flags & 128) != 0;
-            user = User.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 2) != 0) {
-                about = stream.readString();
-            }
-            link = TL_contacts_link_layer101.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 4) != 0) {
-                profile_photo = Photo.TLdeserialize(stream, stream.readInt32());
-            }
-            notify_settings = PeerNotifySettings.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 8) != 0) {
-                bot_info = BotInfo.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                pinned_msg_id = stream.readInt32();
-            }
-            common_chats_count = stream.readInt32();
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = blocked ? (flags | 1) : (flags &~ 1);
-            flags = phone_calls_available ? (flags | 16) : (flags &~ 16);
-            flags = phone_calls_private ? (flags | 32) : (flags &~ 32);
-            flags = can_pin_message ? (flags | 128) : (flags &~ 128);
-            stream.writeInt32(flags);
-            user.serializeToStream(stream);
-            if ((flags & 2) != 0) {
-                stream.writeString(about);
-            }
-            link.serializeToStream(stream);
-            if ((flags & 4) != 0) {
-                profile_photo.serializeToStream(stream);
-            }
-            notify_settings.serializeToStream(stream);
-            if ((flags & 8) != 0) {
-                bot_info.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                stream.writeInt32(pinned_msg_id);
-            }
-            stream.writeInt32(common_chats_count);
-        }
-    }
-
-    public static class TL_userFull_layer131 extends TL_userFull {
-        public static int constructor = 0x139a9a77;
-
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            blocked = (flags & 1) != 0;
-            phone_calls_available = (flags & 16) != 0;
-            phone_calls_private = (flags & 32) != 0;
-            can_pin_message = (flags & 128) != 0;
-            has_scheduled = (flags & 4096) != 0;
-            video_calls_available = (flags & 8192) != 0;
-            user = User.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 2) != 0) {
-                about = stream.readString();
-            }
-            settings = TL_peerSettings.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 4) != 0) {
-                profile_photo = Photo.TLdeserialize(stream, stream.readInt32());
-            }
-            notify_settings = PeerNotifySettings.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 8) != 0) {
-                bot_info = BotInfo.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                pinned_msg_id = stream.readInt32();
-            }
-            common_chats_count = stream.readInt32();
-            if ((flags & 2048) != 0) {
-                folder_id = stream.readInt32();
-            }
-            if ((flags & 16384) != 0) {
-                ttl_period = stream.readInt32();
-            }
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = blocked ? (flags | 1) : (flags &~ 1);
-            flags = phone_calls_available ? (flags | 16) : (flags &~ 16);
-            flags = phone_calls_private ? (flags | 32) : (flags &~ 32);
-            flags = can_pin_message ? (flags | 128) : (flags &~ 128);
-            flags = has_scheduled ? (flags | 4096) : (flags &~ 4096);
-            flags = video_calls_available ? (flags | 8192) : (flags &~ 8192);
-            stream.writeInt32(flags);
-            user.serializeToStream(stream);
-            if ((flags & 2) != 0) {
-                stream.writeString(about);
-            }
-            settings.serializeToStream(stream);
-            if ((flags & 4) != 0) {
-                profile_photo.serializeToStream(stream);
-            }
-            notify_settings.serializeToStream(stream);
-            if ((flags & 8) != 0) {
-                bot_info.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                stream.writeInt32(pinned_msg_id);
-            }
-            stream.writeInt32(common_chats_count);
-            if ((flags & 2048) != 0) {
-                stream.writeInt32(folder_id);
-            }
-            if ((flags & 16384) != 0) {
-                stream.writeInt32(ttl_period);
-            }
-        }
-    }
-
-    public static class TL_userFull_layer123 extends TL_userFull {
-        public static int constructor = 0xedf17c12;
-
-
-        public void readParams(AbstractSerializedData stream) {
-            flags = stream.readInt32();
-            blocked = (flags & 1) != 0;
-            phone_calls_available = (flags & 16) != 0;
-            phone_calls_private = (flags & 32) != 0;
-            can_pin_message = (flags & 128) != 0;
-            has_scheduled = (flags & 4096) != 0;
-            video_calls_available = (flags & 8192) != 0;
-            user = User.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 2) != 0) {
-                about = stream.readString();
-            }
-            settings = TL_peerSettings.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 4) != 0) {
-                profile_photo = Photo.TLdeserialize(stream, stream.readInt32());
-            }
-            notify_settings = PeerNotifySettings.TLdeserialize(stream, stream.readInt32());
-            if ((flags & 8) != 0) {
-                bot_info = BotInfo.TLdeserialize(stream, stream.readInt32());
-            }
-            if ((flags & 64) != 0) {
-                pinned_msg_id = stream.readInt32();
-            }
-            common_chats_count = stream.readInt32();
-            if ((flags & 2048) != 0) {
-                folder_id = stream.readInt32();
-            }
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            flags = blocked ? (flags | 1) : (flags &~ 1);
-            flags = phone_calls_available ? (flags | 16) : (flags &~ 16);
-            flags = phone_calls_private ? (flags | 32) : (flags &~ 32);
-            flags = can_pin_message ? (flags | 128) : (flags &~ 128);
-            flags = has_scheduled ? (flags | 4096) : (flags &~ 4096);
-            stream.writeInt32(flags);
-            user.serializeToStream(stream);
-            if ((flags & 2) != 0) {
-                stream.writeString(about);
-            }
-            settings.serializeToStream(stream);
-            if ((flags & 4) != 0) {
-                profile_photo.serializeToStream(stream);
-            }
-            notify_settings.serializeToStream(stream);
-            if ((flags & 8) != 0) {
-                bot_info.serializeToStream(stream);
-            }
-            if ((flags & 64) != 0) {
-                stream.writeInt32(pinned_msg_id);
-            }
-            stream.writeInt32(common_chats_count);
-            if ((flags & 2048) != 0) {
-                stream.writeInt32(folder_id);
-            }
-        }
-    }
-
     public static abstract class Updates extends TLObject {
-        public ArrayList<Update> updates = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
+        public List<Update> updates = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
         public int date;
         public int seq;
         public int flags;
@@ -42076,7 +41565,7 @@ public class TLRPC {
         public MessageFwdHeader fwd_from;
         public long via_bot_id;
         public TL_messageReplyHeader reply_to;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
         public MessageMedia media;
         public Update update;
         public long from_id;
@@ -42530,7 +42019,7 @@ public class TLRPC {
     public static class TL_pageListItemBlocks extends PageListItem {
         public static int constructor = 0x25e073fc;
 
-        public ArrayList<PageBlock> blocks = new ArrayList<>();
+        public List<PageBlock> blocks = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -42578,7 +42067,7 @@ public class TLRPC {
         public static int constructor = 0x12b299d4;
 
         public String emoticon;
-        public ArrayList<Long> documents = new ArrayList<>();
+        public List<Long> documents = new ArrayList<>();
 
         public static TL_stickerPack TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_stickerPack.constructor != constructor) {
@@ -42894,9 +42383,9 @@ public class TLRPC {
 
         public int flags;
         public int count;
-        public ArrayList<MessagePeerReaction> reactions = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<MessagePeerReaction> reactions = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
         public String next_offset;
 
         public static TL_messages_messageReactionsList TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -43063,9 +42552,9 @@ public class TLRPC {
         public static int constructor = 0x88d37c56;
 
         public long hash;
-        public ArrayList<TL_stickerPack> packs = new ArrayList<>();
-        public ArrayList<Document> stickers = new ArrayList<>();
-        public ArrayList<Integer> dates = new ArrayList<>();
+        public List<TL_stickerPack> packs = new ArrayList<>();
+        public List<Document> stickers = new ArrayList<>();
+        public List<Integer> dates = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             hash = stream.readInt64();
@@ -43259,7 +42748,7 @@ public class TLRPC {
         public static int constructor = 0x30a6ec7e;
 
         public long hash;
-        public ArrayList<Document> stickers = new ArrayList<>();
+        public List<Document> stickers = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             hash = stream.readInt64();
@@ -43687,7 +43176,7 @@ public class TLRPC {
     public static class TL_pageTableRow extends TLObject {
         public static int constructor = 0xe0c0c5e5;
 
-        public ArrayList<TL_pageTableCell> cells = new ArrayList<>();
+        public List<TL_pageTableCell> cells = new ArrayList<>();
 
         public static TL_pageTableRow TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_pageTableRow.constructor != constructor) {
@@ -43939,10 +43428,10 @@ public class TLRPC {
     public static class TL_messages_peerDialogs extends TLObject {
         public static int constructor = 0x3371c354;
 
-        public ArrayList<Dialog> dialogs = new ArrayList<>();
-        public ArrayList<Message> messages = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Dialog> dialogs = new ArrayList<>();
+        public List<Message> messages = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
         public TL_updates_state state;
 
         public static TL_messages_peerDialogs TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -44128,10 +43617,10 @@ public class TLRPC {
     public static abstract class messages_Dialogs extends TLObject {
 
         public int count;
-        public ArrayList<Dialog> dialogs = new ArrayList<>();
-        public ArrayList<Message> messages = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<Dialog> dialogs = new ArrayList<>();
+        public List<Message> messages = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static messages_Dialogs TLdeserialize(AbstractSerializedData stream, int constructor) {
             messages_Dialogs result = switch (constructor) {
@@ -44326,7 +43815,7 @@ public class TLRPC {
         public static int constructor = 0x4bff8ea0;
 
         public int authorization_ttl_days;
-        public ArrayList<TL_authorization> authorizations = new ArrayList<>();
+        public List<TL_authorization> authorizations = new ArrayList<>();
 
         public static TL_account_authorizations TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_account_authorizations.constructor != constructor) {
@@ -44637,7 +44126,7 @@ public class TLRPC {
 
         public int api_id;
         public String api_hash;
-        public ArrayList<Long> except_ids = new ArrayList<>();
+        public List<Long> except_ids = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return auth_LoginToken.TLdeserialize(stream, constructor);
@@ -44710,7 +44199,7 @@ public class TLRPC {
         public String token;
         public boolean app_sandbox;
         public byte[] secret;
-        public ArrayList<Long> other_uids = new ArrayList<>();
+        public List<Long> other_uids = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -44738,7 +44227,7 @@ public class TLRPC {
 
         public int token_type;
         public String token;
-        public ArrayList<Long> other_uids = new ArrayList<>();
+        public List<Long> other_uids = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -44862,7 +44351,7 @@ public class TLRPC {
     public static class TL_users_getUsers extends TLObject {
         public static int constructor = 0xd91a548;
 
-        public ArrayList<InputUser> id = new ArrayList<>();
+        public List<InputUser> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             Vector vector = new Vector();
@@ -45035,7 +44524,7 @@ public class TLRPC {
     public static class TL_contacts_importContacts extends TLObject {
         public static int constructor = 0x2c800be5;
 
-        public ArrayList<TL_inputPhoneContact> contacts = new ArrayList<>();
+        public List<TL_inputPhoneContact> contacts = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return TL_contacts_importedContacts.TLdeserialize(stream, constructor);
@@ -45055,7 +44544,7 @@ public class TLRPC {
     public static class TL_contacts_deleteContacts extends TLObject {
         public static int constructor = 0x96a0e00;
 
-        public ArrayList<InputUser> id = new ArrayList<>();
+        public List<InputUser> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Updates.TLdeserialize(stream, constructor);
@@ -45075,7 +44564,7 @@ public class TLRPC {
     public static class TL_contacts_deleteByPhones extends TLObject {
         public static int constructor = 0x1013fd9e;
 
-        public ArrayList<String> phones = new ArrayList<>();
+        public List<String> phones = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -45160,7 +44649,7 @@ public class TLRPC {
     public static class TL_contacts_importCard extends TLObject {
         public static int constructor = 0x4fe196fe;
 
-        public ArrayList<Integer> export_card = new ArrayList<>();
+        public List<Integer> export_card = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return User.TLdeserialize(stream, constructor);
@@ -45309,7 +44798,7 @@ public class TLRPC {
     public static class TL_messages_getMessages extends TLObject {
         public static int constructor = 0x4222fa74;
 
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return messages_Messages.TLdeserialize(stream, constructor);
@@ -45520,7 +45009,7 @@ public class TLRPC {
 
         public InputUser user_id;
         public String message;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return help_UserInfo.TLdeserialize(stream, constructor);
@@ -45590,14 +45079,10 @@ public class TLRPC {
         public String lang_code;
         public int hash;
 
-        public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
-            return help_CountriesList.TLdeserialize(stream, constructor);
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            stream.writeString(lang_code);
-            stream.writeInt32(hash);
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            lang_code = stream.readString();
+            hash = stream.readInt32();
         }
     }
 
@@ -45810,7 +45295,7 @@ public class TLRPC {
 
         public int flags;
         public boolean revoke;
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
 
         public static TL_messages_deleteMessages TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_deleteMessages.constructor != constructor) {
@@ -45914,7 +45399,7 @@ public class TLRPC {
         public String message;
         public long random_id;
         public ReplyMarkup reply_markup;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
         public int schedule_date;
         public InputPeer send_as;
 
@@ -45976,7 +45461,7 @@ public class TLRPC {
         public String message;
         public long random_id;
         public ReplyMarkup reply_markup;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
         public int schedule_date;
         public InputPeer send_as;
 
@@ -46033,8 +45518,8 @@ public class TLRPC {
         public boolean drop_media_captions;
         public boolean noforwards;
         public InputPeer from_peer;
-        public ArrayList<Integer> id = new ArrayList<>();
-        public ArrayList<Long> random_id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
+        public List<Long> random_id = new ArrayList<>();
         public InputPeer to_peer;
         public int top_msg_id;
         public int schedule_date;
@@ -46113,7 +45598,7 @@ public class TLRPC {
         public static int constructor = 0x8953ab4e;
 
         public InputPeer peer;
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
         public ReportReason reason;
         public String message;
 
@@ -46138,7 +45623,7 @@ public class TLRPC {
     public static class TL_messages_getChats extends TLObject {
         public static int constructor = 0x49e9528f;
 
-        public ArrayList<Long> id = new ArrayList<>();
+        public List<Long> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return messages_Chats.TLdeserialize(stream, constructor);
@@ -46248,7 +45733,7 @@ public class TLRPC {
         public static int constructor = 0x34a818;
 
         public int flags;
-        public ArrayList<InputUser> users = new ArrayList<>();
+        public List<InputUser> users = new ArrayList<>();
         public String title;
         public int ttl_period;
 
@@ -46401,7 +45886,7 @@ public class TLRPC {
     public static class TL_photos_deletePhotos extends TLObject {
         public static int constructor = 0x87cf7f2f;
 
-        public ArrayList<InputPhoto> id = new ArrayList<>();
+        public List<InputPhoto> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             Vector vector = new Vector();
@@ -46501,7 +45986,7 @@ public class TLRPC {
     public static class TL_help_saveAppLog extends TLObject {
         public static int constructor = 0x6f02f748;
 
-        public ArrayList<TL_inputAppEvent> events = new ArrayList<>();
+        public List<TL_inputAppEvent> events = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -46730,7 +46215,7 @@ public class TLRPC {
     public static class TL_messages_readMessageContents extends TLObject {
         public static int constructor = 0x36a73f77;
 
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return TL_messages_affectedMessages.TLdeserialize(stream, constructor);
@@ -46813,7 +46298,7 @@ public class TLRPC {
         public static int constructor = 0xc9f81ce8;
 
         public InputPrivacyKey key;
-        public ArrayList<InputPrivacyRule> rules = new ArrayList<>();
+        public List<InputPrivacyRule> rules = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return TL_account_privacyRules.TLdeserialize(stream, constructor);
@@ -47023,7 +46508,7 @@ public class TLRPC {
     public static class TL_account_getMultiWallPapers extends TLObject {
         public static int constructor = 0x65ad71dc;
 
-        public ArrayList<InputWallPaper> wallpapers = new ArrayList<>();
+        public List<InputWallPaper> wallpapers = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             Vector vector = new Vector();
@@ -47123,7 +46608,7 @@ public class TLRPC {
     public static class TL_account_getSecureValue extends TLObject {
         public static int constructor = 0x73665bc2;
 
-        public ArrayList<SecureValueType> types = new ArrayList<>();
+        public List<SecureValueType> types = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             Vector vector = new Vector();
@@ -47169,7 +46654,7 @@ public class TLRPC {
     public static class TL_account_deleteSecureValue extends TLObject {
         public static int constructor = 0xb880bc4b;
 
-        public ArrayList<SecureValueType> types = new ArrayList<>();
+        public List<SecureValueType> types = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -47211,7 +46696,7 @@ public class TLRPC {
         public long bot_id;
         public String scope;
         public String public_key;
-        public ArrayList<TL_secureValueHash> value_hashes = new ArrayList<>();
+        public List<TL_secureValueHash> value_hashes = new ArrayList<>();
         public TL_secureCredentialsEncrypted credentials;
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
@@ -47753,7 +47238,7 @@ public class TLRPC {
 
         public int flags;
         public String message;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return MessageMedia.TLdeserialize(stream, constructor);
@@ -48116,7 +47601,7 @@ public class TLRPC {
         public static int constructor = 0x5784d3e1;
 
         public InputPeer peer;
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
         public boolean increment;
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
@@ -48269,7 +47754,7 @@ public class TLRPC {
         public String message;
         public InputMedia media;
         public ReplyMarkup reply_markup;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
         public int schedule_date;
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
@@ -48366,7 +47851,7 @@ public class TLRPC {
     public static class TL_messages_getPeerDialogs extends TLObject {
         public static int constructor = 0xe470bcfd;
 
-        public ArrayList<InputDialogPeer> peers = new ArrayList<>();
+        public List<InputDialogPeer> peers = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return TL_messages_peerDialogs.TLdeserialize(stream, constructor);
@@ -48392,7 +47877,7 @@ public class TLRPC {
         public int top_msg_id;
         public InputPeer peer;
         public String message;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -48452,7 +47937,7 @@ public class TLRPC {
     public static class TL_messages_readFeaturedStickers extends TLObject {
         public static int constructor = 0x5b118126;
 
-        public ArrayList<Long> id = new ArrayList<>();
+        public List<Long> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -48698,7 +48183,7 @@ public class TLRPC {
     public static class TL_messages_getAllChats extends TLObject {
         public static int constructor = 0x875f74be;
 
-        public ArrayList<Long> except_ids = new ArrayList<>();
+        public List<Long> except_ids = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return messages_Chats.TLdeserialize(stream, constructor);
@@ -48757,7 +48242,7 @@ public class TLRPC {
         public int flags;
         public boolean force;
         public int folder_id;
-        public ArrayList<InputDialogPeer> order = new ArrayList<>();
+        public List<InputDialogPeer> order = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -48943,7 +48428,7 @@ public class TLRPC {
         public InputPeer peer;
         public int reply_to_msg_id;
         public int top_msg_id;
-        public ArrayList<TL_inputSingleMedia> multi_media = new ArrayList<>();
+        public List<TL_inputSingleMedia> multi_media = new ArrayList<>();
         public int schedule_date;
         public InputPeer send_as;
 
@@ -49024,7 +48509,7 @@ public class TLRPC {
 
         public InputPeer peer;
         public int msg_id;
-        public ArrayList<byte[]> options = new ArrayList<>();
+        public List<byte[]> options = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Updates.TLdeserialize(stream, constructor);
@@ -49165,7 +48650,7 @@ public class TLRPC {
     public static class TL_messages_getEmojiKeywordsLanguages extends TLObject {
         public static int constructor = 0x4e9963b2;
 
-        public ArrayList<String> lang_codes = new ArrayList<>();
+        public List<String> lang_codes = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             Vector vector = new Vector();
@@ -49209,7 +48694,7 @@ public class TLRPC {
         public int flags;
         public InputPeer peer;
         public int top_msg_id;
-        public ArrayList<MessagesFilter> filters = new ArrayList<>();
+        public List<MessagesFilter> filters = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             Vector vector = new Vector();
@@ -49340,7 +48825,7 @@ public class TLRPC {
         public static int constructor = 0xbdbb0464;
 
         public InputPeer peer;
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return messages_Messages.TLdeserialize(stream, constructor);
@@ -49362,7 +48847,7 @@ public class TLRPC {
         public static int constructor = 0xbd38850a;
 
         public InputPeer peer;
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Updates.TLdeserialize(stream, constructor);
@@ -49384,7 +48869,7 @@ public class TLRPC {
         public static int constructor = 0x59ae2b16;
 
         public InputPeer peer;
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
 
         public static TL_messages_deleteScheduledMessages TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_deleteScheduledMessages.constructor != constructor) {
@@ -49431,7 +48916,7 @@ public class TLRPC {
         public boolean add_to_recent;
         public InputPeer peer;
         public int msg_id;
-        public ArrayList<Reaction> reaction = new ArrayList<>();
+        public List<Reaction> reaction = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Updates.TLdeserialize(stream, constructor);
@@ -49580,7 +49065,7 @@ public class TLRPC {
         public static int constructor = 0x8bba90e6;
 
         public InputPeer peer;
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Updates.TLdeserialize(stream, constructor);
@@ -49669,10 +49154,10 @@ public class TLRPC {
         public int min_date;
         public int min_msg_id;
         public int offset_id_offset;
-        public ArrayList<TL_searchResultsCalendarPeriod> periods = new ArrayList<>();
-        public ArrayList<Message> messages = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_searchResultsCalendarPeriod> periods = new ArrayList<>();
+        public List<Message> messages = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_messages_searchResultsCalendar TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_searchResultsCalendar.constructor != constructor) {
@@ -49876,7 +49361,7 @@ public class TLRPC {
     public static class TL_messages_updateDialogFiltersOrder extends TLObject {
         public static int constructor = 0xc563c1e4;
 
-        public ArrayList<Integer> order = new ArrayList<>();
+        public List<Integer> order = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -50414,7 +49899,7 @@ public class TLRPC {
         public boolean uninstall;
         public boolean archive;
         public boolean unarchive;
-        public ArrayList<InputStickerSet> stickersets = new ArrayList<>();
+        public List<InputStickerSet> stickersets = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -50537,7 +50022,7 @@ public class TLRPC {
         public int flags;
         public boolean masks;
         public boolean emojis;
-        public ArrayList<Long> order = new ArrayList<>();
+        public List<Long> order = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -50657,7 +50142,7 @@ public class TLRPC {
         public static int constructor = 0x84c1fd4e;
 
         public InputChannel channel;
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
 
         public static TL_channels_deleteMessages TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_channels_deleteMessages.constructor != constructor) {
@@ -50719,7 +50204,7 @@ public class TLRPC {
 
         public InputChannel channel;
         public InputPeer participant;
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -50742,7 +50227,7 @@ public class TLRPC {
         public static int constructor = 0x93d7b347;
 
         public InputChannel channel;
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return messages_Messages.TLdeserialize(stream, constructor);
@@ -50803,7 +50288,7 @@ public class TLRPC {
     public static class TL_channels_getChannels extends TLObject {
         public static int constructor = 0xa7f6bbb;
 
-        public ArrayList<InputChannel> id = new ArrayList<>();
+        public List<InputChannel> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return TL_messages_chats.TLdeserialize(stream, constructor);
@@ -50991,7 +50476,7 @@ public class TLRPC {
         public static int constructor = 0x199f3a6c;
 
         public InputChannel channel;
-        public ArrayList<InputUser> users = new ArrayList<>();
+        public List<InputUser> users = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Updates.TLdeserialize(stream, constructor);
@@ -51109,7 +50594,7 @@ public class TLRPC {
         public InputChannel channel;
         public String q;
         public TL_channelAdminLogEventsFilter events_filter;
-        public ArrayList<InputUser> admins = new ArrayList<>();
+        public List<InputUser> admins = new ArrayList<>();
         public long max_id;
         public long min_id;
         public int limit;
@@ -51161,7 +50646,7 @@ public class TLRPC {
         public static int constructor = 0xeab5dc38;
 
         public InputChannel channel;
-        public ArrayList<Integer> id = new ArrayList<>();
+        public List<Integer> id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -51327,7 +50812,7 @@ public class TLRPC {
         public String title;
         public String short_name;
         public InputDocument thumb;
-        public ArrayList<TL_inputStickerSetItem> stickers = new ArrayList<>();
+        public List<TL_inputStickerSetItem> stickers = new ArrayList<>();
         public String software;
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
@@ -51641,7 +51126,7 @@ public class TLRPC {
         public static int constructor = 0x7b393160;
 
         public TL_inputGroupCall call;
-        public ArrayList<InputUser> users = new ArrayList<>();
+        public List<InputUser> users = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Updates.TLdeserialize(stream, constructor);
@@ -51718,8 +51203,8 @@ public class TLRPC {
         public static int constructor = 0xc558d8ab;
 
         public TL_inputGroupCall call;
-        public ArrayList<InputPeer> ids = new ArrayList<>();
-        public ArrayList<Integer> sources = new ArrayList<>();
+        public List<InputPeer> ids = new ArrayList<>();
+        public List<Integer> sources = new ArrayList<>();
         public String offset;
         public int limit;
 
@@ -51751,7 +51236,7 @@ public class TLRPC {
         public static int constructor = 0xb59cf977;
 
         public TL_inputGroupCall call;
-        public ArrayList<Integer> sources = new ArrayList<>();
+        public List<Integer> sources = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             Vector vector = new Vector();
@@ -51996,7 +51481,7 @@ public class TLRPC {
     public static class TL_phone_groupCallStreamChannels extends TLObject {
         public static int constructor = 0xd0e482b2;
 
-        public ArrayList<TL_groupCallStreamChannel> channels = new ArrayList<>();
+        public List<TL_groupCallStreamChannel> channels = new ArrayList<>();
 
         public static TL_phone_groupCallStreamChannels TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_phone_groupCallStreamChannels.constructor != constructor) {
@@ -52203,7 +51688,7 @@ public class TLRPC {
         public BaseTheme base_theme;
         public int accent_color;
         public int outbox_accent_color;
-        public ArrayList<Integer> message_colors = new ArrayList<>();
+        public List<Integer> message_colors = new ArrayList<>();
         public InputWallPaper wallpaper;
         public WallPaperSettings wallpaper_settings;
 
@@ -52406,32 +51891,23 @@ public class TLRPC {
     }
 
     public static class TL_langpack_getStrings extends TLObject {
-        public static int constructor = 0x2e1ee318;
+        public static int constructor = 0xefea3803;
 
+        public String lang_pack;
         public String lang_code;
-        public ArrayList<String> keys = new ArrayList<>();
+        public List<String> keys = new ArrayList<>();
 
-        public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
-            Vector vector = new Vector();
-            int size = stream.readInt32();
-            for (int a = 0; a < size; a++) {
-                LangPackString object = LangPackString.TLdeserialize(stream, stream.readInt32());
-                if (object == null) {
-                    return vector;
-                }
-                vector.objects.add(object);
+        @Override
+        public void readParams(AbstractSerializedData stream) {
+            lang_pack = stream.readString();
+            lang_code = stream.readString();
+            int magic = stream.readInt32();
+            if (magic != 0x1cb5c415) {
+                throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
             }
-            return vector;
-        }
-
-        public void serializeToStream(AbstractSerializedData stream) {
-            stream.writeInt32(constructor);
-            stream.writeString(lang_code);
-            stream.writeInt32(0x1cb5c415);
-            int count = keys.size();
-            stream.writeInt32(count);
-            for (int a = 0; a < count; a++) {
-                stream.writeString(keys.get(a));
+            int count = stream.readInt32();
+            for (int i = 0; i < count; i++) {
+                keys.add(stream.readString());
             }
         }
     }
@@ -52497,7 +51973,7 @@ public class TLRPC {
     public static class TL_folders_editPeerFolders extends TLObject {
         public static int constructor = 0x6847d0ab;
 
-        public ArrayList<TL_inputFolderPeer> folder_peers = new ArrayList<>();
+        public List<TL_inputFolderPeer> folder_peers = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Updates.TLdeserialize(stream, constructor);
@@ -52657,7 +52133,7 @@ public class TLRPC {
         public String url;
         public long webpage_id;
         public String email;
-        public ArrayList<RichText> texts = new ArrayList<>();
+        public List<RichText> texts = new ArrayList<>();
         public RichText parentRichText;
 
         public static RichText TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -52726,9 +52202,9 @@ public class TLRPC {
     public static class TL_channels_sendAsPeers extends TLObject {
         public static int constructor = 0xf496b0c6;
 
-        public ArrayList<TL_sendAsPeer> peers = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_sendAsPeer> peers = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_channels_sendAsPeers TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_channels_sendAsPeers.constructor != constructor) {
@@ -53292,7 +52768,7 @@ public class TLRPC {
         public boolean media_unread;
         public boolean out;
         public boolean unread;
-        public ArrayList<MessageEntity> entities = new ArrayList<>();
+        public List<MessageEntity> entities = new ArrayList<>();
         public String via_bot_name;
         public ReplyMarkup reply_markup;
         public int views;
@@ -53311,7 +52787,7 @@ public class TLRPC {
         public String post_author;
         public long grouped_id;
         public TL_messageReactions reactions;
-        public ArrayList<TL_restrictionReason> restriction_reason = new ArrayList<>();
+        public List<TL_restrictionReason> restriction_reason = new ArrayList<>();
         public int ttl_period;
         public boolean noforwards;
         public boolean topic_start;
@@ -56763,7 +56239,7 @@ public class TLRPC {
         public byte[] file_token;
         public byte[] encryption_key;
         public byte[] encryption_iv;
-        public ArrayList<TL_fileHash> file_hashes = new ArrayList<>();
+        public List<TL_fileHash> file_hashes = new ArrayList<>();
 
         public static upload_File TLdeserialize(AbstractSerializedData stream, int constructor) {
             upload_File result = switch (constructor) {
@@ -56910,7 +56386,7 @@ public class TLRPC {
         public boolean udp_reflector;
         public int min_layer;
         public int max_layer;
-        public ArrayList<String> library_versions = new ArrayList<>();
+        public List<String> library_versions = new ArrayList<>();
 
         public static PhoneCallProtocol TLdeserialize(AbstractSerializedData stream, int constructor) {
             PhoneCallProtocol result = switch (constructor) {
@@ -57021,8 +56497,8 @@ public class TLRPC {
     public static class TL_messages_sendEncryptedMultiMedia extends TLObject {
         public static int constructor = 0xcacacaca;
 
-        public ArrayList<TL_decryptedMessage> messages = new ArrayList<>();
-        public ArrayList<InputEncryptedFile> files = new ArrayList<>();
+        public List<TL_decryptedMessage> messages = new ArrayList<>();
+        public List<InputEncryptedFile> files = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return messages_SentEncryptedMessage.TLdeserialize(stream, constructor);
@@ -57173,8 +56649,8 @@ public class TLRPC {
         public boolean has_settings;
         public long bot_id;
         public String short_name;
-        public ArrayList<AttachMenuPeerType> peer_types = new ArrayList<>();
-        public ArrayList<TL_attachMenuBotIcon> icons = new ArrayList<>();
+        public List<AttachMenuPeerType> peer_types = new ArrayList<>();
+        public List<TL_attachMenuBotIcon> icons = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             flags = stream.readInt32();
@@ -57277,8 +56753,8 @@ public class TLRPC {
         public static int constructor = 0x3c4301c0;
 
         public long hash;
-        public ArrayList<TL_attachMenuBot> bots = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_attachMenuBot> bots = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             hash = stream.readInt64();
@@ -57341,7 +56817,7 @@ public class TLRPC {
         public static int constructor = 0xaadf159b;
 
         public BotInlineResult result;
-        public ArrayList<User> users = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_messages_webViewResult TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_messages_webViewResult.constructor != constructor) {
@@ -57611,7 +57087,7 @@ public class TLRPC {
         public static int constructor = 0x93bf667f;
 
         public TL_attachMenuBot bot;
-        public ArrayList<User> users = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
 
         public static TL_attachMenuBotsBot TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_attachMenuBotsBot.constructor != constructor) {
@@ -57783,7 +57259,7 @@ public class TLRPC {
         public static int constructor = 0xc1e92cc5;
 
         public long hash;
-        public ArrayList<Document> ringtones = new ArrayList<>();
+        public List<Document> ringtones = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             hash = stream.readInt64();
@@ -57899,7 +57375,7 @@ public class TLRPC {
         public int flags;
         public String name;
         public Document icon;
-        public ArrayList<TL_attachMenuBotIconColor> colors = new ArrayList<>();
+        public List<TL_attachMenuBotIconColor> colors = new ArrayList<>();
 
         public static TL_attachMenuBotIcon TLdeserialize(AbstractSerializedData stream, int constructor) {
             if (TL_attachMenuBotIcon.constructor != constructor) {
@@ -58436,7 +57912,7 @@ public class TLRPC {
     public static class TL_messages_getCustomEmojiDocuments extends TLObject {
         public static int constructor = 0xd9ab0f54;
 
-        public ArrayList<Long> document_id = new ArrayList<>();
+        public List<Long> document_id = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             Vector vector = new Vector();
@@ -58481,7 +57957,7 @@ public class TLRPC {
     public static class TL_chatReactionsSome extends ChatReactions {
         public static int constructor = 0x661d4037;
 
-        public ArrayList<Reaction> reactions = new ArrayList<>();
+        public List<Reaction> reactions = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             int magic = stream.readInt32();
@@ -58598,7 +58074,7 @@ public class TLRPC {
         public static int constructor = 0xeafdf716;
 
         public long hash;
-        public ArrayList<Reaction> reactions = new ArrayList<>();
+        public List<Reaction> reactions = new ArrayList<>();
 
         public void readParams(AbstractSerializedData stream) {
             hash = stream.readInt64();
@@ -58766,7 +58242,7 @@ public class TLRPC {
         public PeerNotifySettings notify_settings;
         public DraftMessage draft;
         public Message topicStartMessage; // custom
-        //        public ArrayList<MessageObject> groupedMessages; // custom
+        //        public List<MessageObject> groupedMessages; // custom
         public Message topMessage; // custom
         public String searchQuery; //custom
         public int pinnedOrder; // custom
@@ -58848,10 +58324,10 @@ public class TLRPC {
         public int flags;
         public boolean order_by_create_date;
         public int count;
-        public ArrayList<TL_forumTopic> topics = new ArrayList<>();
-        public ArrayList<Message> messages = new ArrayList<>();
-        public ArrayList<Chat> chats = new ArrayList<>();
-        public ArrayList<User> users = new ArrayList<>();
+        public List<TL_forumTopic> topics = new ArrayList<>();
+        public List<Message> messages = new ArrayList<>();
+        public List<Chat> chats = new ArrayList<>();
+        public List<User> users = new ArrayList<>();
         public int pts;
 
         public static TL_messages_forumTopics TLdeserialize(AbstractSerializedData stream, int constructor) {
@@ -59084,7 +58560,7 @@ public class TLRPC {
         public static int constructor = 0xb0831eb9;
 
         public InputChannel channel;
-        public ArrayList<Integer> topics = new ArrayList<>();
+        public List<Integer> topics = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return TL_messages_forumTopics.TLdeserialize(stream, constructor);
@@ -59155,7 +58631,7 @@ public class TLRPC {
     public static class TL_account_reorderUsernames extends TLObject {
         public static int constructor = 0xef500eab;
 
-        public ArrayList<String> order = new ArrayList<>();
+        public List<String> order = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -59193,7 +58669,7 @@ public class TLRPC {
         public static int constructor = 0xb45ced1d;
 
         public InputChannel channel;
-        public ArrayList<String> order = new ArrayList<>();
+        public List<String> order = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Bool.TLdeserialize(stream, constructor);
@@ -59251,7 +58727,7 @@ public class TLRPC {
         public int flags;
         public boolean force;
         public InputChannel channel;
-        public ArrayList<Integer> order = new ArrayList<>();
+        public List<Integer> order = new ArrayList<>();
 
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor) {
             return Updates.TLdeserialize(stream, constructor);
@@ -59389,7 +58865,7 @@ public class TLRPC {
 
     public static class Vector extends TLObject {
         public static int constructor = 0x1cb5c415;
-        public ArrayList<Object> objects = new ArrayList<>();
+        public List<Object> objects = new ArrayList<>();
     }
 
 

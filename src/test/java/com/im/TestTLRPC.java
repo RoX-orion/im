@@ -100,6 +100,8 @@ public class TestTLRPC {
         System.out.println(0xf2f2330aL);
         System.out.println(Long.toHexString(4082920705L));
         System.out.println(Long.toHexString(1945237724L));
+        System.out.println(Long.toHexString(4082920705L)); // rpc_result
+        System.out.println(Long.toHexString(558156313L)); // rpc_error
     }
 
     @Test
