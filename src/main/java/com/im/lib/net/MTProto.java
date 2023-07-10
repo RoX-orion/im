@@ -6,6 +6,7 @@ import com.im.lib.entity.RequestData;
 import com.im.lib.entity.RpcResult;
 import com.im.lib.entity.SessionInfo;
 import com.im.lib.exception.BadRequestException;
+import com.im.lib.exception.RpcError;
 import com.im.lib.exception.UnauthorizedException;
 import com.im.lib.tl.*;
 import com.im.redis.SessionManager;
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
 import java.util.Arrays;
 
 @Slf4j
@@ -173,17 +173,17 @@ public class MTProto {
                 sendData(rpcResult, channel);
             }
 //            kafkaTemplate.send(Constant.WS_RESPONSE_TOPIC, rpcResult);
-        } catch (Exception exception) {
+        } catch (RpcError exception) {
             errorHandling(exception, rpcResult, channel);
         }
     }
 
     public void mtprotoPlainSender(byte[] bytes, Channel channel) {
         ByteBufAllocator alloc = channel.alloc();
-        BigInteger msgId = mtprotoStateService.getNewMsgId(true);
+        long msgId = mtprotoStateService.getNewMsgId(true);
         ByteBuf byteBuf = alloc.heapBuffer(20 + bytes.length);
         byteBuf.writeLongLE(0);
-        byteBuf.writeLongLE(msgId.longValue());
+        byteBuf.writeLongLE(msgId);
         byteBuf.writeIntLE(bytes.length);
         byteBuf.writeBytes(bytes);
 
@@ -196,7 +196,6 @@ public class MTProto {
 
         byteBuf.release();
     }
-
 
     public void mtprotoSender(byte[] bytes, Channel channel, long authKeyId, long sessionId) {
         byte[] encryptData = mtprotoStateService.encryptData(bytes, authKeyId, sessionId);
@@ -277,17 +276,20 @@ public class MTProto {
     }
 
     public void errorHandling(Exception exception, RpcResult rpcResult, Channel channel) {
-        MTProtoApi.Rpc_error rpcError = new MTProtoApi.Rpc_error();
-        if (exception instanceof UnauthorizedException) {
+        if (exception instanceof RpcError rpcError) {
+            MTProtoApi.Rpc_error rpc_error = new MTProtoApi.Rpc_error();
+            rpc_error.error_code = rpcError.errorCode;
+            rpc_error.error_message = rpcError.errorMessage;
+            rpcResult.setTlObject(rpc_error);
+            sendData(rpcResult, channel);
+        } else if (exception instanceof UnauthorizedException) {
             mtprotoSender(new byte[]{108, -2, -1, -1}, channel); // -404
-            return;
         } else if (exception instanceof BadRequestException) {
 
         } else {
             exception.printStackTrace();
         }
 
-        rpcResult.setTlObject(rpcError);
 //        sendData(rpcResult, channel);
     }
 }

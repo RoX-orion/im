@@ -53,7 +53,7 @@ public class MTProtoStateService {
          * auth_key_id  msg_key encrypted_data(salt session_id  msg_id  seq_no  msg_length  data  padding)
          */
         String sessionIdKey = String.valueOf(sessionId);
-        BigInteger msgId = this.getNewMsgId(true);
+        long msgId = this.getNewMsgId(true);
         String authKey = sessionManager.getAuthKey(String.valueOf(authKeyId));
         if (!StringUtils.hasText(authKey)) {
             throw new UnauthorizedException(ErrorInfo.AUTH_KEY_UNREGISTERED.code, ErrorInfo.AUTH_KEY_UNREGISTERED.name());
@@ -68,8 +68,8 @@ public class MTProtoStateService {
         byte[] sessionIdBytes = Helpers.toSignedLittleserializedData(sessionId, 8);
         byte[] seqNoBytes = Helpers.toSignedLittleserializedData(seqNo, 4);
         byte[] saltBytes = Helpers.toSignedLittleserializedData(serverSalt, 8);
-
-        data = Helpers.concat(saltBytes, sessionIdBytes, Helpers.getByteArray(msgId), seqNoBytes, msgLength, data);
+        System.out.println("msgId: " + msgId);
+        data = Helpers.concat(saltBytes, sessionIdBytes, BinaryHelpers.readBytesLE(msgId), seqNoBytes, msgLength, data);
         byte[] msgKeyLarge = Helpers.SHA256(Helpers.slice(authKeyBytes, 96, 96 + 32), data);
         byte[] msgKey = Helpers.slice(msgKeyLarge, 8, 24);
         AesKeyIv aesKeyIv = KDF.kdf(authKeyBytes, msgKey, false, false, false);
@@ -93,12 +93,14 @@ public class MTProtoStateService {
                 AES.igeEncrypt(data, key, iv));
     }
 
-    public BigInteger getNewMsgId(boolean isClientResponse) {
+    public long getNewMsgId(boolean isClientResponse) {
         double now = System.currentTimeMillis() / 1000.0;
         long nanoseconds = (long) Math.floor((now - Math.floor(now)) * 1e9);
-        long newMsgId = ((long) Math.floor(now) << 32) | (nanoseconds << 2);
-        long msgId = isClientResponse ? newMsgId + 1 : newMsgId + 3;
-        return BigInteger.valueOf(msgId);
+        long newMsgId = BigInteger.valueOf((long) Math.floor(now))
+                .shiftLeft(32)
+                .or(BigInteger.valueOf(nanoseconds * 4)).longValue();
+
+        return isClientResponse ? newMsgId + 1 : newMsgId + 3;
     }
 
     public long getNewServerSalt() {
