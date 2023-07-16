@@ -1,12 +1,13 @@
 package com.im.lib.net;
 
+import com.im.lib.BinaryHelpers;
 import com.im.lib.Helpers;
 import com.im.lib.core.MTProtoStateService;
 import com.im.lib.entity.RequestData;
 import com.im.lib.entity.RpcResult;
-import com.im.lib.entity.SessionInfo;
 import com.im.lib.exception.BadRequestException;
 import com.im.lib.exception.RpcError;
+import com.im.lib.exception.ServerException;
 import com.im.lib.exception.UnauthorizedException;
 import com.im.lib.tl.*;
 import com.im.redis.SessionManager;
@@ -87,6 +88,7 @@ public class MTProto {
                 int dataLength = br.readInt32();
                 int constructorId = br.readInt32();
                 byte[] data = br.readBytes(dataLength - 4);
+                BinaryHelpers.releaseBuffer(buffer);
 
                 readRequestData(constructorId, data, requestData, channel);
             } else { // unencrypted data, greater than 12 bytes
@@ -98,6 +100,8 @@ public class MTProto {
                 int dataLength = binaryReader.readInt32();
                 int constructorId = binaryReader.readInt32();
                 byte[] data = binaryReader.readBytes(dataLength - 4);
+                BinaryHelpers.releaseBuffer(buffer);
+
                 readRequestData(constructorId, data, requestData, channel);
             }
         } catch (Exception exception) {
@@ -120,7 +124,7 @@ public class MTProto {
     }
 
     private void readRequestData(int constructorId, byte[] data, RequestData requestData, Channel channel) {
-        log.info("数据部分:{}{}", data.length, data);
+        log.debug("数据部分:{}{}", data.length, data);
         if (constructorId == 0x73f1f8dc) { // msg_container
             MTProtoApi.Msg_container msgContainer = MsgContainer.read(data);
             for (RequestData message : msgContainer.messages) {
@@ -221,7 +225,7 @@ public class MTProto {
 
 //    @KafkaListener(topics = Constant.WS_RESPONSE_TOPIC, groupId = "ws")
     public void sendData(RpcResult rpcResult, Channel channel) {
-        log.info("返回的RpcResult:{}", rpcResult);
+        log.debug("返回的RpcResult:{}", rpcResult);
         try {
             if (isEncryptedData(rpcResult.getAuthKeyId())) { // Encrypted data
                 SerializedData stream = new SerializedData();
@@ -236,7 +240,7 @@ public class MTProto {
                 byte[] randomBytes = Helpers.getRandomBytes(16 - Helpers.mod(stream.length(), 16));
                 stream.writeBytes(randomBytes);
                 byte[] byteArray = stream.toByteArray();
-                log.info("返回对象的字节数组：{}{}", byteArray.length, Arrays.toString(byteArray));
+                log.debug("返回对象的字节数组：{}{}", byteArray.length, Arrays.toString(byteArray));
                 this.mtprotoSender(byteArray, channel, rpcResult.getAuthKeyId(), rpcResult.getSessionId());
             } else { // Unencrypted data
                 TLObject tlObject = rpcResult.getTlObject();
@@ -254,13 +258,13 @@ public class MTProto {
         if (!sessionManager.hasSession(key)) {
             String channelId = channel.id().asLongText();
             sessionManager.setSessionId(channelId, requestData.sessionId);
-            sessionManager.setSessionInfo(key, SessionInfo.SERVER_SALT_EXPIRE, TimeUtil.getFeatureTimestamp(1800000)); // 30 min
-            sessionManager.setSessionInfo(key, SessionInfo.CHANNEL_ID, channelId);
-            sessionManager.setSessionInfo(key, SessionInfo.IS_LOGIN, Boolean.FALSE);
-            sessionManager.setSessionInfo(key, SessionInfo.READY_LOGIN, Boolean.FALSE);
-            sessionManager.setSessionInfo(key, SessionInfo.AUTH_KEY, sessionManager.getAuthKey(String.valueOf(requestData.authKeyId)));
-            sessionManager.setSessionInfo(key, SessionInfo.SERVER_SALT, String.valueOf(requestData.serverSalt));
-            sessionManager.setSessionInfo(key, SessionInfo.SEQ_NO, String.valueOf(requestData.seqNo));
+            sessionManager.setSessionInfo(key, SessionManager.SERVER_SALT_EXPIRE, TimeUtil.getFeatureTimestamp(1800000)); // 30 min
+            sessionManager.setSessionInfo(key, SessionManager.CHANNEL_ID, channelId);
+            sessionManager.setSessionInfo(key, SessionManager.IS_LOGIN, Boolean.FALSE);
+            sessionManager.setSessionInfo(key, SessionManager.READY_LOGIN, Boolean.FALSE);
+            sessionManager.setSessionInfo(key, SessionManager.AUTH_KEY, sessionManager.getAuthKey(String.valueOf(requestData.authKeyId)));
+            sessionManager.setSessionInfo(key, SessionManager.SERVER_SALT, String.valueOf(requestData.serverSalt));
+            sessionManager.setSessionInfo(key, SessionManager.SEQ_NO, String.valueOf(requestData.seqNo));
 
             MTProtoApi.New_session_create newSessionCreate = new MTProtoApi.New_session_create();
             newSessionCreate.first_msg_id = requestData.msgId;
@@ -271,7 +275,7 @@ public class MTProto {
 //            messageQueue.sendResponseToKafka(rpcResult);
             sendData(rpcResult, channel);
         }
-        sessionManager.setSessionInfo(key, SessionInfo.SEQ_NO, String.valueOf(requestData.seqNo));
+        sessionManager.setSessionInfo(key, SessionManager.SEQ_NO, String.valueOf(requestData.seqNo));
 //        sessionManager.setSessionInfo(key, "authKey", gab.toString());
     }
 
@@ -285,6 +289,8 @@ public class MTProto {
         } else if (exception instanceof UnauthorizedException) {
             mtprotoSender(new byte[]{108, -2, -1, -1}, channel); // -404
         } else if (exception instanceof BadRequestException) {
+
+        } else if (exception instanceof ServerException serverException) {
 
         } else {
             exception.printStackTrace();

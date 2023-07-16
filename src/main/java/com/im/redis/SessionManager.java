@@ -1,13 +1,19 @@
 package com.im.redis;
 
-import com.im.lib.entity.SessionInfo;
-import com.im.lib.storage.JacksonSerialize;
+import com.im.lib.net.ChannelManager;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,11 +26,20 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class SessionManager {
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
 
     @Resource
-    private RedisTemplate<String, SessionInfo> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
+
+    private final ChannelManager channelManager;
+
+    @Autowired
+    public SessionManager(
+            final StringRedisTemplate stringRedisTemplate,
+            final ChannelManager channelManager) {
+        this.stringRedisTemplate = stringRedisTemplate;
+        this.channelManager = channelManager;
+    }
 
     public static final String SESSION = "session:";
 
@@ -35,6 +50,54 @@ public class SessionManager {
     public final String CHANNEL_SESSION = "channelId-SessionId:";
 
     public static final String CHANNEL_ID_AUTH_KEY_ID = "channelId-authKeyId:";
+
+    public static final String SESSION_ID = "sessionId";
+
+    public static final String SEQ_NO = "seqNo";
+
+    public static final String SERVER_SALT = "serverSalt";
+
+    public static final String SERVER_SALT_EXPIRE = "expire";
+
+    public static final String IS_LOGIN = "isLogin";
+
+    public static final String READY_LOGIN = "readyLogin";
+
+    public static final String CHANNEL_ID = "channelId";
+
+    public static final String USER_ID = "userId";
+
+    @PostConstruct
+    public void deleteInvalidSession() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                List<String> channelSessionList = new ArrayList<>();
+                List<String> sessionList = new ArrayList<>();
+                ScanOptions scanOptions = ScanOptions.scanOptions()
+                        .count(10000)
+                        .match(CHANNEL_SESSION + "*")
+                        .build();
+                try (Cursor<String> cursor = stringRedisTemplate.scan(scanOptions)) {
+                    while (cursor.hasNext()) {
+                        String key = cursor.next();
+                        String channelId = key.substring(CHANNEL_SESSION.length());
+                        if (channelManager.hasChannle(channelId)) {
+                            continue;
+                        }
+                        String sessionId = stringRedisTemplate.opsForValue().get(key);
+                        channelSessionList.add(key);
+                        sessionList.add(SESSION + sessionId);
+                    }
+                    stringRedisTemplate.unlink(channelSessionList);
+                    stringRedisTemplate.unlink(sessionList);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 1, 1000 * 30); // 30s
+    }
 
     public void setAuthKey(String authKeyId, String authKey, boolean isTempKey) {
         String key = AUTH_KEY + authKeyId;
@@ -56,23 +119,6 @@ public class SessionManager {
         stringRedisTemplate.opsForZSet()
                 .add(AUTH_KEY + userId, authKey, System.currentTimeMillis());
         return true;
-    }
-
-    public SessionInfo getMsgInfo(String authKeyId, long sessionId) {
-        Object o = stringRedisTemplate
-                .opsForHash()
-                .get(SESSION + authKeyId, String.valueOf(sessionId));
-
-        return JacksonSerialize.getObject(String.valueOf(o), SessionInfo.class);
-    }
-
-    public void setSessionId(String authKeyId,long sessionId, SessionInfo sessionInfo) {
-//        stringRedisTemplate
-//                .opsForList()
-//                .rightPush(AUTH_KEY_ID_SESSION_ID + authKeyId.toString(), String.valueOf(sessionId));
-        stringRedisTemplate
-                .opsForHash()
-                .put(SESSION + authKeyId, String.valueOf(sessionId), Objects.requireNonNull(JacksonSerialize.getObjectString(sessionInfo)));
     }
 
     public boolean hasSession(String sessionId) {
@@ -104,7 +150,7 @@ public class SessionManager {
      */
     public void removeSessionInfo(String channelId) {
         long sessionId = getSessionIdByChannelId(channelId);
-        Object readyLogin = this.getSessionInfo(String.valueOf(sessionId), SessionInfo.READY_LOGIN);
+        Object readyLogin = this.getSessionInfo(String.valueOf(sessionId), READY_LOGIN);
         if (readyLogin == null)
             return;
         if (!(boolean)readyLogin) {

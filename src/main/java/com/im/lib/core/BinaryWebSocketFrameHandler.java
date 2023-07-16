@@ -67,7 +67,7 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         String address = ctx.channel().remoteAddress().toString();
-        log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 上线 " + " : " + channelManager.size());
+        log.debug(dateFormat.format(new Date()) + ":[用户] " + address + " 上线 " + " : " + channelManager.size());
     }
 
     /**
@@ -76,8 +76,9 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
         String address = ctx.channel().remoteAddress().toString();
-        log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 下线 ");
+        log.debug(dateFormat.format(new Date()) + ":[用户] " + address + " 下线 ");
         String channelId = ctx.channel().id().asLongText();
+        channelManager.removeChannel(channelId);
         sessionManager.removeSessionInfo(channelId);
         sessionManager.destroySessionInfo(channelId);
     }
@@ -88,6 +89,7 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         log.error("连接发生异常！");
+        channelManager.removeChannel(ctx.channel().id().asLongText());
         cause.printStackTrace();
         ctx.close();
     }
@@ -98,6 +100,6 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
      */
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
-        log.info("当前在线人数是:" + channelManager.size() + " | all:" + channelManager.size());
+        log.debug("当前在线人数是:" + channelManager.size() + " | all:" + channelManager.size());
     }
 }

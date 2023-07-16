@@ -5,6 +5,7 @@ import com.im.lib.annotation.WebsocketHandlerMapping;
 import com.im.lib.entity.HandlerMeta;
 import com.im.lib.entity.RequestData;
 import com.im.lib.entity.RpcResult;
+import com.im.lib.exception.RpcError;
 import com.im.lib.exception.WebsocketHandlerMappingException;
 import com.im.lib.tl.TLObject;
 import io.netty.channel.Channel;
@@ -16,7 +17,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Map;
@@ -71,13 +71,15 @@ public class DispatcherWebsocket implements ApplicationContextAware {
      * @param channel Netty channel
      * @return 处理方法返回数据
      */
-    public RpcResult dispatcherRequest(RequestData requestData, Channel channel) throws InvocationTargetException, IllegalAccessException {
+    public RpcResult dispatcherRequest(RequestData requestData, Channel channel) {
         int constructorId = requestData.constructorId;
-        log.info("request data: {}", requestData);
+        log.debug("request data: {}", requestData);
         TLObject tlObject = requestData.tlObject;
         HandlerMeta handlerMeta = handlerContainer.get(constructorId);
         if (handlerMeta == null) {
-            throw new WebsocketHandlerMappingException("current websocket request didn't config handler!");
+            log.error(Integer.toHexString(constructorId) + ":" + "方法未实现！");
+            return RpcResult.ok(requestData.authKeyId, null, requestData.sessionId, requestData.msgId, requestData.channelId);
+//            throw new WebsocketHandlerMappingException("current websocket request didn't config handler!");
         }
         Method method = handlerMeta.getMethod();
         Parameter[] parameters = method.getParameters();
@@ -86,15 +88,11 @@ public class DispatcherWebsocket implements ApplicationContextAware {
         TLObject response = null;
         try {
             response = (TLObject) method.invoke(handlerObject, invokeParam);
-        } catch (ClassCastException e) {
+        } catch (Exception e) {
+            if (e.getCause() instanceof RpcError rpcError) {
+                throw rpcError;
+            }
             e.printStackTrace();
-            log.error("ClassCastException");
-        }
-        if (response == null) {
-            log.error(handlerObject.getClass().getSimpleName()
-                    + ":" + handlerMeta.getMethod().getName()
-                    + "方法未实现！");
-            return RpcResult.ok(requestData.authKeyId, null, requestData.sessionId, requestData.msgId, requestData.channelId);
         }
 
         long authKeyId = requestData.authKeyId;

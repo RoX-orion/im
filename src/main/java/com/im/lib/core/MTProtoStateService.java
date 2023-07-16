@@ -6,7 +6,6 @@ import com.im.lib.crypto.AES;
 import com.im.lib.crypto.KDF;
 import com.im.lib.entity.AesKeyIv;
 import com.im.lib.entity.RequestData;
-import com.im.lib.entity.SessionInfo;
 import com.im.lib.exception.UnauthorizedException;
 import com.im.lib.net.BinaryReader;
 import com.im.lib.net.ErrorInfo;
@@ -59,8 +58,8 @@ public class MTProtoStateService {
             throw new UnauthorizedException(ErrorInfo.AUTH_KEY_UNREGISTERED.code, ErrorInfo.AUTH_KEY_UNREGISTERED.name());
         }
         // TODO
-        long seqNo = Long.parseLong((String) sessionManager.getSessionInfo(sessionIdKey, SessionInfo.SEQ_NO));
-        long serverSalt = Long.parseLong((String) sessionManager.getSessionInfo(sessionIdKey, SessionInfo.SERVER_SALT));
+        long seqNo = Long.parseLong((String) sessionManager.getSessionInfo(sessionIdKey, SessionManager.SEQ_NO));
+        long serverSalt = Long.parseLong((String) sessionManager.getSessionInfo(sessionIdKey, SessionManager.SERVER_SALT));
 
         byte[] authKeyBytes = Helpers.getByteArray(new BigInteger(authKey));
         byte[] msgLength = Helpers.readBytesFromInt(data.length);
@@ -73,7 +72,7 @@ public class MTProtoStateService {
         byte[] msgKeyLarge = Helpers.SHA256(Helpers.slice(authKeyBytes, 96, 96 + 32), data);
         byte[] msgKey = Helpers.slice(msgKeyLarge, 8, 24);
         AesKeyIv aesKeyIv = KDF.kdf(authKeyBytes, msgKey, false, false, false);
-        log.info("返回数据加密前数据:{}", Arrays.toString(data));
+        log.debug("返回数据加密前数据:{}", Arrays.toString(data));
 //        byte[] padding = Helpers.generateRandomBytes(Helpers.mod(-(data.length + 12), 16) + 12);
 //        byte[] msgKeyLarge = Helpers.SHA256(
 //                Helpers.concat(Arrays.copyOfRange(authKey, 96, 96 + 32), data, padding)
@@ -110,7 +109,7 @@ public class MTProtoStateService {
     public void readEncryptedDataHeader(BinaryReader br, RequestData requestData) {
         long salt = br.readInt64();
         long sessionId = br.readInt64();
-        log.info("sessionId: {}", sessionId);
+        log.debug("sessionId: {}", sessionId);
         long msgId = br.readInt64();
         int seqNo = br.readInt32();
 

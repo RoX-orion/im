@@ -76,7 +76,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocke
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         String address = ctx.channel().remoteAddress().toString();
-        log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 上线 " + " : " + channelManager.size());
+        log.debug(dateFormat.format(new Date()) + ":[用户] " + address + " 上线 " + " : " + channelManager.size());
     }
 
     /**
@@ -85,7 +85,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocke
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
         String address = ctx.channel().remoteAddress().toString();
-        log.info(dateFormat.format(new Date()) + ":[用户] " + address + " 下线 ");
+        log.debug(dateFormat.format(new Date()) + ":[用户] " + address + " 下线 ");
         ChannelId id = ctx.channel().id();
 //        chatService.offline(id);
     }
@@ -106,6 +106,6 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocke
      */
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
-        log.info("当前在线人数是:" + channelManager.size() + " | all:" + channelManager.size());
+        log.debug("当前在线人数是:" + channelManager.size() + " | all:" + channelManager.size());
     }
 }

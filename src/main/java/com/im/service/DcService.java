@@ -38,9 +38,10 @@ public class DcService {
     private final SystemConfigMapper systemConfigMapper;
 
     @Autowired
-    public DcService(final ObjectMapper mapper,
-                     final StringRedisTemplate stringRedisTemplate,
-                     final SystemConfigMapper systemConfigMapper) {
+    public DcService(
+            final ObjectMapper mapper,
+            final StringRedisTemplate stringRedisTemplate,
+            final SystemConfigMapper systemConfigMapper) {
         this.mapper = mapper;
         this.stringRedisTemplate = stringRedisTemplate;
         this.systemConfigMapper = systemConfigMapper;

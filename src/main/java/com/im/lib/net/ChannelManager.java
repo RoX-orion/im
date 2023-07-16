@@ -7,6 +7,9 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 /**
  * Copyright (c) 2023 Andre Lina. All rights reserved.
  *
@@ -29,7 +32,10 @@ public class ChannelManager {
         return channels.find(channelId);
     }
 
+    private final ConcurrentMap<String, Channel> channelMap = new ConcurrentHashMap<>();
+
     public void setChannel(Channel channel) {
+        channelMap.put(channel.id().asLongText(), channel);
         channels.add(channel);
     }
 
@@ -39,5 +45,13 @@ public class ChannelManager {
 
     public ChannelGroup getChannelGroup() {
         return channels;
+    }
+
+    public void removeChannel(String channelId) {
+        channelMap.remove(channelId);
+    }
+
+    public boolean hasChannle(String channelId) {
+        return channelMap.containsKey(channelId);
     }
 }
