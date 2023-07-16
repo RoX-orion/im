@@ -29,14 +29,17 @@ public class AuthController {
 //	}
 
 	@WebsocketHandlerMapping(value = 0x8d52a951, name = "SignIn")
-	public TLRPC.auth_Authorization signIn(TLRPC.TL_auth_signIn signIn) {
-		return authService.signIn(signIn);
+	public TLRPC.auth_Authorization signIn(TLRPC.TL_auth_signIn signIn,
+	                                       @WebsocketRequestParam("authKeyId") long authKeyId,
+	                                       @WebsocketRequestParam("sessionId") long sessionId) {
+		return authService.signIn(signIn, authKeyId, sessionId);
 	}
 
-//	@WebsocketHandlerMapping(value = 0x3e72ba19, name = "LogOut")
-//	public AuthApi.LoggedOut logOut(AuthApi.LogOut logOut) {
-//		return null;
-//	}
+	@WebsocketHandlerMapping(value = 0x3e72ba19, name = "LogOut")
+	public TLRPC.TL_auth_loggedOut logOut(TLRPC.TL_auth_logOut logOut,
+	                                      @WebsocketRequestParam("sessionId") long sessionId) {
+		return authService.logOut(logOut, sessionId);
+	}
 //
 //	@WebsocketHandlerMapping(value = 0x9fab0d1a, name = "ResetAuthorizations")
 //	public Boolean resetAuthorizations(AuthApi.ResetAuthorizations resetAuthorizations) {

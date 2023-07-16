@@ -444,6 +444,15 @@ public class Helpers {
         }
         return hash;
     }
+
+    public static String getRandomCode(int length) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            sb.append(getRandomInt(0, 9));
+        }
+
+        return sb.toString();
+    }
 //    public static String writeValueAsStringWithoutException(Object value) {
 //        mapper.writeValueAsString(value);
 //    }

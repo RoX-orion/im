@@ -7,6 +7,8 @@ import com.im.lib.exception.RpcError;
 import com.im.lib.net.Errors;
 import com.im.lib.tl.TLRPC;
 import com.im.mapper.UserMapper;
+import com.im.redis.AuthKeyManager;
+import com.im.redis.SessionManager;
 import com.im.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -32,17 +34,20 @@ public class AuthService {
 
     private final UserMapper userMapper;
 
+    private final AuthKeyManager authKeyManager;
+
     @Autowired
     public AuthService(
             final StringRedisTemplate stringRedisTemplate,
-            final UserMapper userMapper) {
+            final UserMapper userMapper,
+            final AuthKeyManager authKeyManager) {
         this.stringRedisTemplate = stringRedisTemplate;
         this.userMapper = userMapper;
+        this.authKeyManager = authKeyManager;
     }
 
     public TLRPC.TL_auth_loginToken exportLoginToken(TLRPC.TL_auth_exportLoginToken exportLoginToken) {
         TLRPC.TL_auth_loginToken authLoginToken = new TLRPC.TL_auth_loginToken();
-//        authLoginToken.token = ;
         authLoginToken.expires = (int) ((System.currentTimeMillis() / 1000) + 30);
         authLoginToken.token = Helpers.getRandomBytes(34);
 
@@ -65,7 +70,7 @@ public class AuthService {
         return sentCode;
     }
 
-    public TLRPC.auth_Authorization signIn(TLRPC.TL_auth_signIn signIn) {
+    public TLRPC.auth_Authorization signIn(TLRPC.TL_auth_signIn signIn, long authKeyId, long sessionId) {
         if (!StringUtils.hasText(signIn.phone_code)) {
 
         }
@@ -105,6 +110,10 @@ public class AuthService {
         tlUser.verified = true;
 
         authorization.user = tlUser;
+
+        stringRedisTemplate.opsForValue()
+                .getAndExpire(SessionManager.AUTH_KEY + authKeyId, -1, TimeUnit.SECONDS);
+        authKeyManager.setAuthKeyUserId(authKeyId, user.getId());
         /**
  *         public long access_hash;
  *         public UserProfilePhoto photo;
@@ -139,5 +148,9 @@ public class AuthService {
          */
 
         return authorization;
+    }
+
+    public TLRPC.TL_auth_loggedOut logOut(TLRPC.TL_auth_logOut logOut, long sessionId) {
+        return new TLRPC.TL_auth_loggedOut();
     }
 }
