@@ -1,19 +1,24 @@
 package com.im.controller;
 
 import com.im.lib.annotation.WebsocketHandler;
+import com.im.lib.annotation.WebsocketHandlerMapping;
+import com.im.lib.annotation.WebsocketRequestParam;
+import com.im.lib.tl.TLRPC;
 import com.im.service.UpdatesService;
-import jakarta.annotation.Resource;
 
 @WebsocketHandler
 public class UpdatesController {
 
-	@Resource
-	private UpdatesService updatesService;
+	private final UpdatesService updatesService;
 
-//	@WebsocketHandlerMapping(value = 0xedd4882a, name = "GetState")
-//	public UpdatesApi.State getState(UpdatesApi.GetState getState) {
-//		return updatesService.getState(getState);
-//	}
+	public UpdatesController(final UpdatesService updatesService) {
+		this.updatesService = updatesService;
+	}
+
+	@WebsocketHandlerMapping(value = 0xedd4882a, name = "GetState")
+	public TLRPC.TL_updates_state getState(@WebsocketRequestParam("authKeyId") long authKeyId) {
+		return updatesService.getState(authKeyId);
+	}
 //
 //	@WebsocketHandlerMapping(value = 0x25939651, name = "GetDifference")
 //	public UpdatesApi.Difference getDifference(UpdatesApi.GetDifference getDifference) {
