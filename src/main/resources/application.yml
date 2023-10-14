@@ -7,9 +7,9 @@ spring:
     name: im-server
 
   datasource:
-    username: root
+    username: postgres
     password: 123456
-    url: jdbc:postgresql:///im
+    url: jdbc:postgresql://127.0.0.1:54333/im
     driver-class-name: org.postgresql.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -82,12 +82,12 @@ spring:
           max-idle: 8     #连接池最大空闲连接
           min-idle: 0     #连接池最小空闲连接
         shutdown-timeout: 100   #关闭超时时间
-  kafka:
-    bootstrap-servers: 127.0.0.1:9092
-    producer:
-      acks: all
-    consumer:
-      enable-auto-commit: true
+#  kafka:
+#    bootstrap-servers: 198.211.49.104:9092
+#    producer:
+#      acks: all
+#    consumer:
+#      enable-auto-commit: true
   servlet:
     multipart:
       #单个文件最大值
@@ -113,6 +113,12 @@ spring:
           starttls:
             enable: true
             required: true
+  cache:
+    type: redis
+    redis:
+      time-to-live: 86400000 # 1d
+      use-key-prefix: true
+      cache-null-values: true
 mybatis-plus:
   mapper-locations: classpath*:/mappers/**/*.xml
   global-config:
@@ -140,3 +146,6 @@ scylla:
   port: 9042
   datacenter: datacenter1
   keyspace: im
+#logging:
+#  level:
+#    com.im: debug
