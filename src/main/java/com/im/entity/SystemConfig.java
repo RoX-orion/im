@@ -2,6 +2,7 @@ package com.im.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Date;
  */
 
 @Data
+@TableName("sys_config")
 public class SystemConfig {
 
     private Long id;

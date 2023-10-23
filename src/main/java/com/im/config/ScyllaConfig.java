@@ -1,13 +1,12 @@
 package com.im.config;
 
-import com.datastax.oss.driver.api.core.CqlSession;
-import com.datastax.oss.driver.internal.core.metadata.DefaultEndPoint;
+import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.Session;
+import jakarta.annotation.PostConstruct;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.net.InetSocketAddress;
 
 /**
  * Copyright (c) 2018-2023 Andre Lina. All rights reserved.
@@ -29,19 +28,22 @@ public class ScyllaConfig {
 
     private String keyspace;
 
-    private CqlSession cqlSession;
+    private Session session;
 
-    @Bean
-    public CqlSession buildCqlSession() {
-         cqlSession = CqlSession.builder()
-                .addContactEndPoint(new DefaultEndPoint(new InetSocketAddress(host, port)))
-                .withLocalDatacenter(datacenter)
+    private Cluster cluster;
+
+    @PostConstruct
+    public Cluster buildCluster() {
+        cluster = Cluster.builder()
+                .addContactPoint(host)
+                .withPort(port)
                 .build();
-        init();
-        return cqlSession;
+        return cluster;
     }
 
-    private void init() {
-        cqlSession.execute("use " + keyspace);
+    @Bean("session")
+    public Session buildCqlSession() {
+        session = cluster.connect(keyspace);
+        return session;
     }
 }
