@@ -1,8 +1,5 @@
-package com.im.lib.core;
+package org.gateway.net;
 
-import com.im.lib.net.ChannelManager;
-import com.im.lib.net.MTProto;
-import com.im.redis.SessionManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
@@ -24,15 +21,13 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
 
     private final ChannelManager channelManager;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private final MTProto mtproto;
     private final SessionManager sessionManager;
 
     @Autowired
-    public BinaryWebSocketFrameHandler(final ChannelManager channelManager,
-                                       final MTProto mtproto,
-                                       final SessionManager sessionManager) {
+    public BinaryWebSocketFrameHandler(
+            final ChannelManager channelManager,
+            final SessionManager sessionManager) {
         this.channelManager = channelManager;
-        this.mtproto = mtproto;
         this.sessionManager = sessionManager;
     }
 
@@ -49,7 +44,7 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
         System.out.println("接收到的字节数组: " + length + Arrays.toString(unsignedInt8Array));
 
         byteBuf.resetReaderIndex();
-        mtproto.processRequest(byteBuf, channel);
+//        mtproto.processRequest(byteBuf, channel);
     }
 
     /**
@@ -57,8 +52,7 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
      */
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) {
-        Channel channel = ctx.channel();
-        channelManager.setChannel(channel);
+
     }
 
     /**
@@ -66,8 +60,12 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
+        Channel channel = ctx.channel();
+        channelManager.setChannel(channel);
+//        sessionManager.setChannelIdUUID(channel.id());
+
         String address = ctx.channel().remoteAddress().toString();
-        log.debug(dateFormat.format(new Date()) + ":[用户] " + address + " 上线 " + " : " + channelManager.size());
+        log.debug(dateFormat.format(new Date()) + ":[用户] " + address + " 上线" + " : " + channelManager.size());
     }
 
     /**
@@ -76,10 +74,10 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
         String address = ctx.channel().remoteAddress().toString();
-        log.debug(dateFormat.format(new Date()) + ":[用户] " + address + " 下线 ");
+        log.debug(dateFormat.format(new Date()) + ":[用户] " + address + " 下线" + " : " + channelManager.size());
         String channelId = ctx.channel().id().asLongText();
         channelManager.removeChannel(channelId);
-        sessionManager.removeSessionInfo(channelId);
+//        sessionManager.removeSessionInfo(channelId);
         sessionManager.destroySessionInfo(channelId);
     }
 
@@ -100,6 +98,6 @@ public class BinaryWebSocketFrameHandler extends SimpleChannelInboundHandler<Bin
      */
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
-        log.debug("当前在线人数是:" + channelManager.size() + " | all:" + channelManager.size());
+
     }
 }

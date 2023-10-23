@@ -1,4 +1,4 @@
-package com.im.lib.core;
+package org.gateway.net;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;

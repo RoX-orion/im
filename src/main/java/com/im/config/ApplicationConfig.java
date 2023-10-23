@@ -1,10 +1,5 @@
 package com.im.config;
 
-import com.im.lib.crypto.RSA;
-import com.im.lib.net.ChannelManager;
-import com.im.redis.SessionManager;
-import io.netty.channel.group.ChannelGroup;
-import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Resource;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -21,16 +16,6 @@ public class ApplicationConfig implements ApplicationRunner {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
-
-    private final ChannelManager channelManager;
-
-    private final SessionManager sessionManager;
-
-    public ApplicationConfig(final ChannelManager channelManager,
-                             final SessionManager sessionManager) {
-        this.channelManager = channelManager;
-        this.sessionManager = sessionManager;
-    }
 
     @Bean
     public Executor asyncServiceExecutor() {
@@ -49,7 +34,7 @@ public class ApplicationConfig implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        RSA.computeRSAInfo();
+
 //        removeAllConnection();
 
 //        deleteAllSession();
@@ -65,12 +50,6 @@ public class ApplicationConfig implements ApplicationRunner {
     }
 
     private void deleteAllSession() {
-        redisTemplate.delete(SessionManager.SESSION + "*");
-    }
-
-    @PreDestroy
-    public void destroyAllConnection() {
-        ChannelGroup channelGroup = channelManager.getChannelGroup();
-        channelGroup.forEach((e -> sessionManager.destroySessionInfo(e.id().asLongText())));
+//        redisTemplate.delete(SessionManager.SESSION + "*");
     }
 }

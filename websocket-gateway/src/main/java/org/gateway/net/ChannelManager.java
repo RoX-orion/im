@@ -1,4 +1,4 @@
-package com.im.lib.net;
+package org.gateway.net;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;

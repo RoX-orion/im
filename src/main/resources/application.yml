@@ -1,6 +1,4 @@
 server:
-  netty:
-    port: 12344
   port: 8989
 spring:
   application:

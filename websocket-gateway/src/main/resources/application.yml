@@ -1,0 +1,53 @@
+server:
+  netty:
+    port: 12344
+
+spring:
+  application:
+    name: websocket-gateway
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  data:
+    redis:
+      host: 127.0.0.1           #redis服务器地址
+      port: 6379                #redis服务器端口
+      #    password:            #redis服务器密码，没有不用写
+      database: 1               #redis数据库(0-15),默认为0
+      lettuce:
+        pool:
+          max-active: 8   #连接池最大连接数(负值表示没有限制)
+          max-wait: 10000 #连接池最大等待时间，负值表示，没有限制
+          max-idle: 8     #连接池最大空闲连接
+          min-idle: 0     #连接池最小空闲连接
+        shutdown-timeout: 100   #关闭超时时间
+#  kafka:
+#    bootstrap-servers: 198.211.49.104:9092
+#    producer:
+#      acks: all
+#    consumer:
+#      enable-auto-commit: true
+  servlet:
+    multipart:
+      #单个文件最大值
+      max-request-size: 100GB
+      #总文件最大值
+      max-file-size: 100GB
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 86400000 # 1d
+      use-key-prefix: true
+      cache-null-values: true
+#mybatis-plus:
+#  mapper-locations: classpath*:/mappers/**/*.xml
+#  global-config:
+#    db-config:
+#      id-type: auto
+#      #全局逻辑删除规则
+#      logic-delete-value: 1
+#      logic-not-delete-value: 0
+#
+#  type-aliases-package: com.im.entity.*
