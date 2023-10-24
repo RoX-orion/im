@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Copyright (c) 2023 Andre Lina. All rights reserved.
@@ -63,5 +65,29 @@ public class TestBytes {
         buffer.readIntLE();
         System.out.println(buffer.readableBytes());
         System.out.println(buffer.capacity());
+    }
+
+    public static double calculateEntropy(byte[] data) {
+        // 统计每个字节的出现频率
+        Map<Byte, Integer> frequencyMap = new HashMap<>();
+        for (byte b : data) {
+            frequencyMap.put(b, frequencyMap.getOrDefault(b, 0) + 1);
+        }
+
+        // 计算香农熵
+        double entropy = 0.0;
+        int totalBytes = data.length;
+        for (int frequency : frequencyMap.values()) {
+            double probability = (double) frequency / totalBytes;
+            entropy -= probability * Math.log(probability) / Math.log(2);
+        }
+
+        return entropy;
+    }
+
+    public static void main(String[] args) {
+        byte[] data = {0, 23, 45, 122, 1, 67, 1, 4}; // 示例数据
+        double entropy = calculateEntropy(data);
+        System.out.println("Entropy: " + entropy);
     }
 }

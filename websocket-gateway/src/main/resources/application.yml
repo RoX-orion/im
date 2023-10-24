@@ -35,12 +35,12 @@ spring:
       #总文件最大值
       max-file-size: 100GB
 
-  cache:
-    type: redis
-    redis:
-      time-to-live: 86400000 # 1d
-      use-key-prefix: true
-      cache-null-values: true
+#  cache:
+#    type: redis
+#    redis:
+#      time-to-live: 86400000 # 1d
+#      use-key-prefix: true
+#      cache-null-values: true
 #mybatis-plus:
 #  mapper-locations: classpath*:/mappers/**/*.xml
 #  global-config:

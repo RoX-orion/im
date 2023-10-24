@@ -1,19 +1,30 @@
 package com.im.controller;
 
 import com.im.lib.annotation.WebsocketHandler;
+import com.im.lib.annotation.WebsocketHandlerMapping;
+import com.im.lib.tl.TLRPC;
+import com.im.service.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @WebsocketHandler
 public class MessagesController {
+
+	private final MessageService messageService;
+
+	@Autowired
+	public MessagesController(final MessageService messageService) {
+		this.messageService = messageService;
+	}
 
 //	@WebsocketHandlerMapping(value = 0x63c66506, name = "GetMessages")
 //	public TLRPC.Messages getMessages(TLRPC.GetMessages getMessages) {
 //		return null;
 //	}
 //
-//	@WebsocketHandlerMapping(value = 0xa0f4cb4f, name = "GetDialogs")
-//	public TLRPC.Dialogs getDialogs(TLRPC.GetDialogs getDialogs) {
-//		return null;
-//	}
+	@WebsocketHandlerMapping(value = 0xa0f4cb4f, name = "GetDialogs")
+	public TLRPC.TL_messages_dialogs getDialogs(TLRPC.TL_messages_getDialogs getDialogs) {
+		return messageService.getDialogs(getDialogs);
+	}
 //
 //	@WebsocketHandlerMapping(value = 0x4423e6c5, name = "GetHistory")
 //	public TLRPC.Messages getHistory(TLRPC.GetHistory getHistory) {
@@ -109,11 +120,12 @@ public class MessagesController {
 //	public TLRPC.Updates deleteChatUser(TLRPC.DeleteChatUser deleteChatUser) {
 //		return null;
 //	}
-//
-//	@WebsocketHandlerMapping(value = 0x9cb126e, name = "CreateChat")
-//	public TLRPC.Updates createChat(TLRPC.CreateChat createChat) {
-//		return null;
-//	}
+
+	// create group
+	@WebsocketHandlerMapping(value = 0x9cb126e, name = "CreateChat")
+	public TLRPC.Updates createChat(TLRPC.TL_messages_createChat createChat) {
+		return messageService.createChat(createChat);
+	}
 //
 //	@WebsocketHandlerMapping(value = 0x26cf8950, name = "GetDhConfig")
 //	public TLRPC.DhConfig getDhConfig(TLRPC.GetDhConfig getDhConfig) {

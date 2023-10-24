@@ -10,7 +10,6 @@ import org.junit.Test;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Date;
 
 public class TestApplication {
 
@@ -208,12 +207,8 @@ public class TestApplication {
     @Test
     public void testMsgId() {
         MTProtoStateService mtProtoStateService = new MTProtoStateService();
-        BigInteger mod = mtProtoStateService.getNewMsgId(true);
-        BigInteger divide = mod.divide(new BigInteger("4294967296"));
-//        Date date = new Date();
-//        System.out.println(date);
-        System.out.println(new Date(divide.longValue() * 1000));
-        System.out.println(new Date());
+        long msgId = mtProtoStateService.getNewMsgId(true);
+        System.out.println(msgId);
     }
 
     @Test

@@ -1,7 +1,15 @@
 package com.im.lib.tl;
 
+import com.im.TLParser;
+import com.im.lib.net.AbstractSerializedData;
 import com.im.lib.net.SerializedData;
+import org.springframework.util.StringUtils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -112,5 +120,56 @@ public class TLHelpers {
         SerializedData stream = new SerializedData();
         tlObject.serializeToStream(stream);
         return stream.toByteArray();
+    }
+
+    public static int checkVector(AbstractSerializedData stream) {
+        int magic = stream.readInt32();
+        if (magic != 0x1cb5c415) {
+            throw new RuntimeException(String.format("wrong Vector magic, got %x", magic));
+        }
+        return stream.readInt32();
+    }
+
+    public static void checkConstructor() {
+        List<String> typeList = new ArrayList<>();
+        Set<String> constructorSet = new HashSet<>();
+        readTLFile("api.tl", typeList);
+        readTLFile("schema.tl", typeList);
+        for (String type : typeList) {
+            int index = type.indexOf('#');
+            if (index == -1) continue;
+            String constructorId = type.substring(index + 1, index + 9);
+            constructorSet.add(constructorId);
+        }
+
+        for (Map.Entry<Integer, Class<?>> entry : TLClassStore.getAllClass().entrySet()) {
+            Field constructor;
+            try {
+                constructor = entry.getValue().getDeclaredField("constructor");
+                String constructorId = Integer.toHexString(constructor.getInt(null));
+                if (!constructorSet.contains(constructorId)) {
+                    System.out.println(entry.getValue().getSimpleName() + ":" + constructorId);
+                }
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private static void readTLFile(String fileName, List<String> typeList) {
+        File file = new File(Objects.requireNonNull(TLParser.class.getClassLoader().getResource("tl/" + fileName)).getFile());
+        BufferedReader bufferedReader;
+        try {
+            bufferedReader = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                if (StringUtils.hasText(line)) {
+                    typeList.add(line);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

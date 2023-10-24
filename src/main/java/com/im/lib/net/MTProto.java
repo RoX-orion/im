@@ -3,6 +3,7 @@ package com.im.lib.net;
 import com.im.lib.BinaryHelpers;
 import com.im.lib.Helpers;
 import com.im.lib.core.MTProtoStateService;
+import com.im.lib.entity.ConnectSession;
 import com.im.lib.entity.RequestData;
 import com.im.lib.entity.RpcResult;
 import com.im.lib.exception.BadRequestException;
@@ -11,7 +12,6 @@ import com.im.lib.exception.ServerException;
 import com.im.lib.exception.UnauthorizedException;
 import com.im.lib.tl.*;
 import com.im.redis.SessionManager;
-import com.im.utils.TimeUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.Channel;
@@ -35,13 +35,12 @@ public class MTProto {
     private final StringRedisTemplate stringRedisTemplate;
 
     @Autowired
-    public MTProto(
-            final MTProtoStateService mtprotoStateService,
-            final TcpAbridged tcpAbridged,
-            final SessionManager sessionManager,
-            final DispatcherWebsocket dispatcherWebsocket,
-            final ResultHandler resultHandler,
-            final StringRedisTemplate stringRedisTemplate) {
+    public MTProto(final MTProtoStateService mtprotoStateService,
+                   final TcpAbridged tcpAbridged,
+                   final SessionManager sessionManager,
+                   final DispatcherWebsocket dispatcherWebsocket,
+                   final ResultHandler resultHandler,
+                   final StringRedisTemplate stringRedisTemplate) {
         this.mtprotoStateService = mtprotoStateService;
         this.tcpAbridged = tcpAbridged;
         this.sessionManager = sessionManager;
@@ -257,14 +256,16 @@ public class MTProto {
         String key = String.valueOf(requestData.sessionId);
         if (!sessionManager.hasSession(key)) {
             String channelId = channel.id().asLongText();
+            ConnectSession connectSession = new ConnectSession();
+//            connectSession.set
             sessionManager.setSessionId(channelId, requestData.sessionId);
-            sessionManager.setSessionInfo(key, SessionManager.SERVER_SALT_EXPIRE, TimeUtil.getFeatureTimestamp(1800000)); // 30 min
-            sessionManager.setSessionInfo(key, SessionManager.CHANNEL_ID, channelId);
-            sessionManager.setSessionInfo(key, SessionManager.IS_LOGIN, Boolean.FALSE);
-            sessionManager.setSessionInfo(key, SessionManager.READY_LOGIN, Boolean.FALSE);
-            sessionManager.setSessionInfo(key, SessionManager.AUTH_KEY, sessionManager.getAuthKey(String.valueOf(requestData.authKeyId)));
-            sessionManager.setSessionInfo(key, SessionManager.SERVER_SALT, String.valueOf(requestData.serverSalt));
-            sessionManager.setSessionInfo(key, SessionManager.SEQ_NO, String.valueOf(requestData.seqNo));
+//            sessionManager.setSessionInfo(key, SessionManager.SERVER_SALT_EXPIRE, TimeUtil.getFeatureTimestamp(1800000)); // 30 min
+//            sessionManager.setSessionInfo(key, SessionManager.CHANNEL_ID, channelId);
+//            sessionManager.setSessionInfo(key, SessionManager.IS_LOGIN, Boolean.FALSE);
+//            sessionManager.setSessionInfo(key, SessionManager.READY_LOGIN, Boolean.FALSE);
+//            sessionManager.setSessionInfo(key, SessionManager.AUTH_KEY, sessionManager.getAuthKey(String.valueOf(requestData.authKeyId)));
+//            sessionManager.setSessionInfo(key, SessionManager.SERVER_SALT, String.valueOf(requestData.serverSalt));
+//            sessionManager.setSessionInfo(key, SessionManager.SEQ_NO, String.valueOf(requestData.seqNo));
 
             MTProtoApi.New_session_create newSessionCreate = new MTProtoApi.New_session_create();
             newSessionCreate.first_msg_id = requestData.msgId;
@@ -275,8 +276,7 @@ public class MTProto {
 //            messageQueue.sendResponseToKafka(rpcResult);
             sendData(rpcResult, channel);
         }
-        sessionManager.setSessionInfo(key, SessionManager.SEQ_NO, String.valueOf(requestData.seqNo));
-//        sessionManager.setSessionInfo(key, "authKey", gab.toString());
+//        sessionManager.setSessionInfo(key, SessionManager.SEQ_NO, String.valueOf(requestData.seqNo));
     }
 
     public void errorHandling(Exception exception, RpcResult rpcResult, Channel channel) {

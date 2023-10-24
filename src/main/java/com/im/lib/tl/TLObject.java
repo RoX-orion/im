@@ -1,5 +1,6 @@
 package com.im.lib.tl;
 
+import com.im.lib.entity.RequestData;
 import com.im.lib.net.AbstractSerializedData;
 import com.im.lib.net.NativeByteBuffer;
 
@@ -10,7 +11,7 @@ import com.im.lib.net.NativeByteBuffer;
  * @date: 2023-05-17
  */
 
-public class TLObject {
+public class TLObject extends RequestData {
 
     public int networkType;
 

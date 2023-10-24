@@ -8,15 +8,16 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Data
-@TableName("users")
+@TableName("\"user\"")
 public class User implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId
-    private String uuid;
+//    @TableId
+//    private String uuid;
 
+    @TableId("\"id\"")
     private Long id;
 
     private String email;

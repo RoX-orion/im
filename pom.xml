@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>websocket-gateway</module>
+        <module>common</module>
     </modules>
 
     <parent>

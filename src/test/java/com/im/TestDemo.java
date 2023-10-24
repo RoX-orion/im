@@ -18,6 +18,7 @@ import org.junit.Test;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.UUID;
 
 @Slf4j
 public class TestDemo {
@@ -534,5 +535,11 @@ public class TestDemo {
 
     public void print(@NonNull String str) {
         System.out.println(str);
+    }
+
+    @Test
+    public void uuid() {
+        String str = "{\"networkType\":0,\"disableFree\":false,\"ipv6\":false,\"media_only\":false,\"tcpo_only\":false,\"cdn\":false,\"isStatic\":false,\"id\":1,\"ip_address\":\"127.0.0.1\",\"port\":12345,\"objectSize\":28}";
+        System.out.println(UUID.randomUUID());
     }
 }

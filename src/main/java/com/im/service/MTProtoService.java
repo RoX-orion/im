@@ -211,7 +211,7 @@ public class MTProtoService {
         dhGenOk.new_nonce_hash1 = Arrays.copyOfRange(
                 Helpers.SHA1(newNonce, n, Helpers.toSignedLittleBuffer(auxHash, 8)), 4, 20
         );
-        sessionManager.setAuthKey(String.valueOf(authKeyId), gab.toString(), true);
+        sessionManager.setAuthKey(String.valueOf(authKeyId), gab.toString(), channel.id());
 
         return dhGenOk;
     }

@@ -28,6 +28,10 @@ public class TLClassStore {
     public static Class<?> getClass(int constructorId) {
         return classHashMap.get(constructorId);
     }
+
+    public static HashMap<Integer, Class<?>> getAllClass() {
+        return classHashMap;
+    }
 //    private SparseArray<Class> classStore;
 //
 //    public TLClassStore() {

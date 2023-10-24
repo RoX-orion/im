@@ -24,7 +24,10 @@ public class TimeUtil {
          return OffsetDateTime.now().getOffset();
     }
 
-    public static long getTimestampOfAfterHalfAnHour() {
-        return System.currentTimeMillis() + 1800000;
+    /**
+     * @return timestamp of second
+     */
+    public static long getFeatureTimestamp(long millisecond) {
+        return System.currentTimeMillis() + millisecond;
     }
 }

@@ -2,6 +2,8 @@ package com.im.utils;
 
 import org.junit.Test;
 
+import java.util.Date;
+
 /**
  * Copyright (c) 2023 Andre Lina. All rights reserved.
  *
@@ -24,5 +26,15 @@ public class TimeUtilTest {
     @Test
     public void getServerTime() {
         System.out.println((System.currentTimeMillis() / 1000));
+        System.out.println((int) (System.currentTimeMillis() / 1000));
+        System.out.println(1688907632);
+    }
+
+    @Test
+    public void getFeatureTimestamp() {
+        Date date = new Date();
+        System.out.println(date);
+        System.out.println(new Date(TimeUtil.getFeatureTimestamp(300 * 1000)));
+//        System.out.println(TimeUtil.getFeatureTimestamp(12));
     }
 }
