@@ -16,8 +16,8 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Data
-@Configuration
-@ConfigurationProperties(prefix = "scylla")
+//@Configuration
+//@ConfigurationProperties(prefix = "scylla")
 public class ScyllaConfig {
 
     private String host;
