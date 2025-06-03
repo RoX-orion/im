@@ -1,5 +1,7 @@
 server:
   port: 8989
+  netty:
+    port: 7777
 spring:
   application:
     name: im-server
@@ -7,7 +9,7 @@ spring:
   datasource:
     username: postgres
     password: 123456
-    url: jdbc:postgresql://127.0.0.1:54333/im
+    url: jdbc:postgresql://192.168.179.130:5432/postgres?currentSchema=im
     driver-class-name: org.postgresql.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -69,10 +71,10 @@ spring:
     time-zone: GMT+8
   data:
     redis:
-      host: 127.0.0.1           #redis服务器地址
+      host: 192.168.179.130     #redis服务器地址
       port: 6379                #redis服务器端口
-      #    password:            #redis服务器密码，没有不用写
-      database: 1               #redis数据库(0-15),默认为0
+      password: 123456           #redis服务器密码，没有不用写
+      database: 2               #redis数据库(0-15),默认为0
       lettuce:
         pool:
           max-active: 8   #连接池最大连接数(负值表示没有限制)
@@ -80,12 +82,12 @@ spring:
           max-idle: 8     #连接池最大空闲连接
           min-idle: 0     #连接池最小空闲连接
         shutdown-timeout: 100   #关闭超时时间
-#  kafka:
-#    bootstrap-servers: 198.211.49.104:9092
-#    producer:
-#      acks: all
-#    consumer:
-#      enable-auto-commit: true
+  #  kafka:
+  #    bootstrap-servers: 198.211.49.104:9092
+  #    producer:
+  #      acks: all
+  #    consumer:
+  #      enable-auto-commit: true
   servlet:
     multipart:
       #单个文件最大值
@@ -144,6 +146,7 @@ scylla:
   port: 9042
   datacenter: datacenter1
   keyspace: im
-#logging:
-#  level:
-#    com.im: debug
+logging:
+  level:
+    com.im: debug
+

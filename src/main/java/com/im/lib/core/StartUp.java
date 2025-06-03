@@ -25,6 +25,6 @@ public class StartUp implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        dcService.initDcOptions();
+//        dcService.initDcOptions();
     }
 }
